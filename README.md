@@ -68,7 +68,7 @@ I will use the MoSCoW prioritization technique for managing the requirements, M 
 
 .A member must be able to leave a group
 
-.A member must be able to leave reviews 
+.A user must be able to leave reviews 
 
 .A user must be able to access this application on the web or their phone
 
