@@ -30,4 +30,81 @@ Timely payment from individual participants is another significant issue plaguin
 
 Additional problems become evident when reviewing large syndicates like the Lotter. Participants often express concerns about ticket security. Once you pay, the syndicate owns the ticket, leaving room for potential denials of your rightful claim.
 
+## Requirements
+I will use the MoSCoW prioritization technique for managing the requirements, M - must have, S- Should have, C- Could have, W- Will not have.
 
+### Must have
+
+.A user must be able to log on
+
+
+.A user must be able to customise their own profile  
+
+.A user must be able to use the camera to take photos
+
+.A user must be able to create their own syndicate
+
+.A moderator must be able to make their syndicate private or public
+
+.A moderator  must be able to customise their syndicate
+
+.A moderator must be able to  invite members to their syndicate .
+
+.A user must be able to search for syndicates to join
+
+.A user must be able to request to join private syndicates
+
+.A user must be able to join public syndicates
+
+.A user must be able to communicate with other syndicate members
+
+.A member must be able to contribute towards a draw
+
+.A user must be able to join multiple syndicates
+
+.A member must contribute a limit set by the moderator
+
+.A member must be able to opt in or out of draws
+
+.A member must be able to leave a group
+
+.A member must be able to leave reviews 
+
+.A user must be able to access this application on the web or their phone
+
+.A user must be able to view any syndicate's reviews 
+
+### Should have
+.A moderator should be able to customise their syndicate’s rules
+
+.A user must be able to receive the percentage of what they contributed to the tickets from the rewards
+
+.A user should be able to vote whether to carry on holding the winnings to buy more tickets, or receive winnings
+
+.A moderator should be able to promote users to different positions within their syndicate
+
+.A user should have access, and be able to search for live lotto results
+
+.A member must only be able to review a group, after a week, and contributing to a draw
+
+### Could have
+.A syndicate will record their win loss history, and total profits
+
+.A user will be able to view their win/loss history and total profits
+
+.A member could be able to enter another chat, with anyone who bought tickets
+
+.A member could be able to live stream the lottery results within that chat
+
+.A user could have to produce identification in order to verify their login details
+
+.A member could receive a copy of the lotto tickets bought
+
+.A user could download the application on their phone
+
+.A user could be able to set up automatic payments to particular draws
+
+### Will not have
+.The system won’t have it’s own payment method, it will need to use stripe
+
+.The system won’t give out rewards for the groups with highest win rates
