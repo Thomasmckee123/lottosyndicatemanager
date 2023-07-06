@@ -1,19 +1,19 @@
 CREATE TABLE users(
-    id SERIAL PRIMARY KEY,
-    first_name VARCHAR(255),
-    last_name VARCHAR(255),
-    password VARCHAR(255),
-    email VARCHAR(255)
+    id SERIAL NOT NULL PRIMARY KEY,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE syndicate_roles(
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255)
+    id SERIAL NOT NULL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE syndicate_types(
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255)
+    id SERIAL NOT NULL constraint syndicate_types_pk PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE syndicates(
@@ -21,9 +21,9 @@ CREATE TABLE syndicates(
     name VARCHAR(255),
     description TEXT,
     avatar VARCHAR(255),
-    maximum_contribution FLOAT,
-    minimum_contribution FLOAT,
-    syndicate_type_id INTEGER REFERENCES syndicate_types(id)
+    maximum_contribution INT,
+    minimum_contribution INT,
+ CONSTRAINT FK_syndicate_type_syndicates  FOREIGN KEY syndicate_type_id REFERENCES syndicate_types(id)
 );
 
 CREATE TABLE user_syndicates(
@@ -32,8 +32,8 @@ CREATE TABLE user_syndicates(
     start_date TIMESTAMP,
     leave_date TIMESTAMP,
     syndicate_id INTEGER REFERENCES syndicates(id),
-    user_id INTEGER REFERENCES users(id),
-    syndicate_role_id INTEGER REFERENCES syndicate_roles(id)
+   CONSTRAINT fK_user_user_syndicate FOREIGN KEY user_id  REFERENCES users(id),
+   CONSTRAINT fk_sydicate_role_user_syndicates FOREIGN KEY syndicate_role_id REFERENCES syndicate_roles(id)
 );
 
 CREATE TABLE user_syndicate_reviews(
@@ -53,32 +53,32 @@ CREATE TABLE games(
 CREATE TABLE boards(
     id SERIAL PRIMARY KEY,
     board_title VARCHAR(255),
-    syndicate_id INTEGER REFERENCES syndicates(id)
+  CONSTRAINT FK_syndicate_boards FOREIGN KEY syndicate_id REFERENCES syndicates(id)
 );
 
 CREATE TABLE messages(
     id SERIAL PRIMARY KEY,
     message TEXT,
-    user_id INTEGER REFERENCES users(id)
+  constraint FK_messages_users  FOREIGN KEY user_id REFERENCES users(id)
 );
 
 CREATE TABLE draws(
     id SERIAL PRIMARY KEY,
     draw_date TIMESTAMP,
-    game_id INTEGER REFERENCES games(id),
-    board_id INTEGER REFERENCES boards(id)
+   CONSTRAINT FK_draws_game FOREIGN KEY  game_id REFERENCES games(id),
+    CONSTRAINT FK_draws_boardsFOREIGN KEY board_id REFERENCES boards(id)
 );
 
 CREATE TABLE tickets(
     id SERIAL PRIMARY KEY,
     ticket_code VARCHAR(255),
-    draw_id INTEGER REFERENCES draws(id),
-    syndicate_id INTEGER REFERENCES syndicates(id)
+   CONSTRAINT FK_tickets_draws FOREIGN KEY draw_id REFERENCES draws(id),
+   CONSTRAINT FK_syndicate_draws FOREIGN KEY syndicate_id REFERENCES syndicates(id)
 );
 
 CREATE TABLE outcomes(
     id SERIAL PRIMARY KEY,
     result VARCHAR(255),
     reward FLOAT,
-    draw_id INTEGER REFERENCES draws(id)
+  CONSTRAINT FK_draws_outcomes FOREIGN KEY draw_id REFERENCES draws(id)
 );
