@@ -8,8 +8,10 @@ CREATE TABLE IF NOT EXISTS users(
 
 CREATE TABLE IF NOT EXISTS syndicate_roles(
     id SERIAL NOT NULL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL
+    name VARCHAR(255) NOT NULL,
+    CONSTRAINT uc_syndicate_roles_name UNIQUE (name)
 );
+
 
 CREATE TABLE IF NOT EXISTS syndicate_types(
     id SERIAL NOT NULL constraint syndicate_types_pk PRIMARY KEY,

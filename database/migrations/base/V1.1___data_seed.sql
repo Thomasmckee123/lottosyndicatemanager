@@ -1,3 +1,4 @@
+DO $$
 INSERT INTO users(first_name, last_name, password, email) VALUES 
 ('Lucky', 'Lotto', 'luckyNumber777', 'lucky.lotto@example.com'),
 ('Bingo', 'Bonanza', 'bingoBlast2023', 'bingo.bonanza@example.com');
@@ -45,3 +46,5 @@ INSERT INTO tickets(ticket_code, draw_id, syndicate_id) VALUES
 INSERT INTO outcomes(result, reward, draw_id) VALUES 
 ('Loss', 0.0, 1),
 ('Win', 10000.0, 2);
+
+END $$
