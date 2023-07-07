@@ -1,50 +1,74 @@
-DO $$
-INSERT INTO users(first_name, last_name, password, email) VALUES 
-('Lucky', 'Lotto', 'luckyNumber777', 'lucky.lotto@example.com'),
-('Bingo', 'Bonanza', 'bingoBlast2023', 'bingo.bonanza@example.com');
 
-INSERT INTO syndicate_roles(name) VALUES 
-('Moderator'),
-('Member');
+-- Insert sample data into the users table
+INSERT INTO users (first_name, last_name, password, email)
+VALUES
+    ('John', 'Doe', 'password123', 'john@example.com'),
+    ('Jane', 'Smith', 'secret321', 'jane@example.com');
 
-INSERT INTO syndicate_types(name) VALUES 
-('Office Lottery Group'),
-('Online Lottery Club');
+-- Insert sample data into the user_syndicate_reviews table
+INSERT INTO user_syndicate_reviews (created_date, title, content)
+VALUES
+    (CURRENT_DATE, 'Great syndicate!', 'I highly recommend this syndicate.'),
+    (CURRENT_DATE, 'Excellent experience', 'I have had a wonderful time in this syndicate.');
 
-INSERT INTO syndicates(name, description, avatar, maximum_contribution, minimum_contribution, syndicate_type_id) VALUES 
-('Office Lottery Syndicate', 'Join our office syndicate for a chance to win big', 'officeAvatar', 100, 5, 1),
-('Internet Lottery Club', 'Online club for passionate lotto players', 'internetClubAvatar', 200, 10, 2);
+-- Insert sample data into the syndicate_types table
+INSERT INTO syndicate_types (name)
+VALUES
+    ('Type A'),
+    ('Type B');
 
-INSERT INTO user_syndicates(created_date, start_date, leave_date, syndicate_id, user_id, syndicate_role_id) VALUES 
-('2023-07-01 00:00:00', '2023-07-01 00:00:00', NULL, 1, 1, 1), 
-('2023-07-02 00:00:00', '2023-07-02 00:00:00', NULL, 2, 2, 1);
+-- Insert sample data into the syndicates table
+INSERT INTO syndicates (name, description, avatar, maximum_contribution, minimum_contribution, syndicate_types_id)
+VALUES
+    ('Syndicate 1', 'Description of syndicate 1', 'avatar1.png', 100, 10, 1),
+    ('Syndicate 2', 'Description of syndicate 2', 'avatar2.png', 200, 20, 2);
 
-INSERT INTO user_syndicate_reviews(created_date, title, content) VALUES 
-('2023-07-03', 'Loving the Odds', 'Office Lottery Syndicate has made playing the lottery so much more fun and social - Lucky'),
-('2023-07-04', 'Winning with Friends', 'Playing in the Internet Lottery Club is a great way to play the lotto with friends across the world - Bingo');
+-- Insert sample data into the messages table
+INSERT INTO messages (message, user_id)
+VALUES
+    ('Hello, how is everyone?', 1),
+    ('I have an announcement to make!', 2);
 
-INSERT INTO games(name, date, reward) VALUES 
-('powerball', '2023-07-09 00:00:00', 5000.0),
-('national Lottery', '2023-07-06 00:00:00', 10000.0);
+-- Insert sample data into the boards table
+INSERT INTO boards (name, syndicate_id, message_id)
+VALUES
+    ('Board 1', 1, 1),
+    ('Board 2', 2, 2);
 
-INSERT INTO boards(board_title, syndicate_id) VALUES 
-('Office Strategies', 1),
-('Online Lottery Tips', 2);
+-- Insert sample data into the games table
+INSERT INTO games (name, date, reward, boards_id)
+VALUES
+    ('Game 1', CURRENT_TIMESTAMP, 1000.00, 1),
+    ('Game 2', CURRENT_TIMESTAMP, 2000.00, 2);
 
-INSERT INTO messages(message, user_id) VALUES 
-('Remember, never spend more than you can afford to lose. Play responsibly!', 1),
-('The key to winning is persistence. Don’t lose heart if you don’t win at first!', 2);
+-- Insert sample data into the syndicate_roles table
+INSERT INTO syndicate_roles (name)
+VALUES
+    ('Role A'),
+    ('Role B');
 
-INSERT INTO draws(draw_date, game_id, board_id) VALUES 
-('2023-07-05 00:00:00', 1, 1),
-('2023-07-06 00:00:00', 2, 2);
+-- Insert sample data into the draws table
+INSERT INTO draws (draw_date, games_id, boards_id)
+VALUES
+    (CURRENT_TIMESTAMP, 1, 1),
+    (CURRENT_TIMESTAMP, 2, 2);
 
-INSERT INTO tickets(ticket_code, draw_id, syndicate_id) VALUES 
-('Ticket1', 1, 1),
-('Ticket2', 2, 2);
+-- Insert sample data into the outcomes table
+INSERT INTO outcomes (result, reward, draw_id)
+VALUES
+    ('Win', 500.00, 1),
+    ('Loss', 0.00, 2);
 
-INSERT INTO outcomes(result, reward, draw_id) VALUES 
-('Loss', 0.0, 1),
-('Win', 10000.0, 2);
+-- Insert sample data into the user_syndicates table
+INSERT INTO user_syndicates (created_date, start_date, leave_date, user_id, syndicate_id, user_syndicate_reviews_id, syndicate_roles_id)
+VALUES
+    (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, 1, 1, 1, 1),
+    (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, 2, 2, 2, 2);
 
-END $$
+-- Insert sample data into the tickets table
+INSERT INTO tickets (ticket_code, draw_id, syndicate_id)
+VALUES
+    ('ABC123', 1, 1),
+    ('XYZ456', 2, 2);
+
+

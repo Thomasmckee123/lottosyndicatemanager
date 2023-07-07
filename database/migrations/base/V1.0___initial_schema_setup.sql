@@ -1,86 +1,101 @@
 CREATE TABLE IF NOT EXISTS users(
-    id SERIAL NOT NULL PRIMARY KEY,
+    id SERIAL NOT NULL CONSTRAINT users_pk PRIMARY KEY,
     first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS syndicate_roles(
-    id SERIAL NOT NULL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    CONSTRAINT uc_syndicate_roles_name UNIQUE (name)
+CREATE TABLE IF NOT EXISTS user_syndicate_reviews(
+    id SERIAL NOT NULL CONSTRAINT user_syndicate_review_pk PRIMARY KEY,
+    created_date DATE,
+    title VARCHAR(255),
+    content TEXT
 );
-
-
 CREATE TABLE IF NOT EXISTS syndicate_types(
     id SERIAL NOT NULL constraint syndicate_types_pk PRIMARY KEY,
     name VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS syndicates(
-    id SERIAL PRIMARY KEY,
+    id SERIAL NOT NULL CONSTRAINT syndicate_pk PRIMARY KEY,
     name VARCHAR(255),
     description TEXT,
     avatar VARCHAR(255),
     maximum_contribution INT,
     minimum_contribution INT,
- CONSTRAINT FK_syndicate_type_syndicates  FOREIGN KEY syndicate_type_id REFERENCES syndicate_types(id)
+syndicate_types_id serial NOT NULL CONSTRAINT fk_syndicates_syndicate_types REFERENCES syndicate_types(id)
 );
-
-CREATE TABLE IF NOT EXISTS user_syndicates(
-    id SERIAL PRIMARY KEY,
-    created_date TIMESTAMP,
-    start_date TIMESTAMP,
-    leave_date TIMESTAMP,
-    syndicate_id INTEGER REFERENCES syndicates(id),
-   CONSTRAINT fK_user_user_syndicate FOREIGN KEY user_id  REFERENCES users(id),
-   CONSTRAINT fk_sydicate_role_user_syndicates FOREIGN KEY syndicate_role_id REFERENCES syndicate_roles(id)
+CREATE TABLE IF NOT EXISTS messages(
+    id SERIAL NOT NULL constraint messages_pk PRIMARY KEY,
+    message TEXT,
+    user_id serial NOT NULL CONSTRAINT fk_messages_user REFERENCES users(id)
+    
+ 
 );
-
-CREATE TABLE IF NOT EXISTS user_syndicate_reviews(
-    id SERIAL PRIMARY KEY,
-    created_date DATE,
-    title VARCHAR(255),
-    content TEXT
-);
-
-CREATE TABLE IF NOT EXISTS games(
-    id SERIAL PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS boards(
+    id SERIAL NOT NULL constraint board_pk PRIMARY KEY,
+    name VARCHAR(255),
+    syndicate_id SERIAL NOT NULL CONSTRAINT fk_syndicate_boards REFERENCES syndicates(id),
+    message_id SERIAL NOT NULL CONSTRAINT fk_board_messages REFERENCES messages(id)
+    );
+    CREATE TABLE IF NOT EXISTS games(
+    id SERIAL NOT NULL constraint games_pk PRIMARY KEY,
     name VARCHAR(255),
     date TIMESTAMP,
-    reward FLOAT
+    reward FLOAT,
+    boards_id SERIAL NOT NULL CONSTRAINT fk_games_board REFERENCES boards(id)
 );
-
-CREATE TABLE IF NOT EXISTS boards(
-    id SERIAL PRIMARY KEY,
-    board_title VARCHAR(255),
-  CONSTRAINT FK_syndicate_boards FOREIGN KEY syndicate_id REFERENCES syndicates(id)
+CREATE TABLE IF NOT EXISTS syndicate_roles(
+    id serial NOT NULL CONSTRAINT syndcate_role_pk PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+   
 );
-
-CREATE TABLE IF NOT EXISTS messages(
-    id SERIAL PRIMARY KEY,
-    message TEXT,
-  constraint FK_messages_users  FOREIGN KEY user_id REFERENCES users(id)
-);
-
 CREATE TABLE IF NOT EXISTS draws(
-    id SERIAL PRIMARY KEY,
+    id SERIAL NOT NULL CONSTRAINT draws_pk PRIMARY KEY,
     draw_date TIMESTAMP,
-   CONSTRAINT FK_draws_game FOREIGN KEY  game_id REFERENCES games(id),
-    CONSTRAINT FK_draws_boardsFOREIGN KEY board_id REFERENCES boards(id)
+    games_id SERIAL NOT NULL CONSTRAINT fk_draws_games REFERENCES games(id),
+    boards_id SERIAL NOT NULL CONSTRAINT fk_draws_board REFERENCES boards(id)
 );
-
-CREATE TABLE IF NOT EXISTS tickets(
-    id SERIAL PRIMARY KEY,
-    ticket_code VARCHAR(255),
-   CONSTRAINT FK_tickets_draws FOREIGN KEY draw_id REFERENCES draws(id),
-   CONSTRAINT FK_syndicate_draws FOREIGN KEY syndicate_id REFERENCES syndicates(id)
-);
-
 CREATE TABLE IF NOT EXISTS outcomes(
     id SERIAL PRIMARY KEY,
     result VARCHAR(255),
     reward FLOAT,
-  CONSTRAINT FK_draws_outcomes FOREIGN KEY draw_id REFERENCES draws(id)
+draw_id SERIAL NOT NULL CONSTRAINT fk_draws_outcomes REFERENCES draws(id)
 );
+CREATE TABLE IF NOT EXISTS user_syndicates (
+    id SERIAL PRIMARY KEY,
+    created_date TIMESTAMP,
+        start_date TIMESTAMP,
+    leave_date TIMESTAMP,
+   
+    user_id serial NOT NULL CONSTRAINT fk_user_syndicates_user REFERENCES users(id),
+    syndicate_id serial NOT NULL CONSTRAINT fk_syndicate_user_syndicates REFERENCES syndicates(id),
+    user_syndicate_reviews_id serial NOT NULL CONSTRAINT fk_syndicate_reviews_user_syndicates REFERENCES user_syndicate_reviews(id),
+    syndicate_roles_id serial NOT NULL CONSTRAINT fk_user_syndicates_syndicate_roles REFERENCES syndicate_roles(id)
+);
+
+
+CREATE TABLE IF NOT EXISTS tickets(
+    id SERIAL PRIMARY KEY,
+    ticket_code VARCHAR(255),
+    draw_id serial NOT NULL CONSTRAINT fk_tickets_draws REFERENCES draws(id),
+    syndicate_id serial NOT NULL CONSTRAINT fk_ticket_syndicate REFERENCES syndicates(id)
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
