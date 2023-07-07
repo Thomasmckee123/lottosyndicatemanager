@@ -6,18 +6,17 @@ services:
     ports:
       - 5432:5432
     environment:
-      POSTGRES_DB: postgres
-      POSTGRES_USER: user
+      POSTGRES_DB: lottoSyndicate
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
     volumes:
       - db:/var/lib/postgresql/data
   flyway:
     image: flyway/flyway
-    command: -url=jdbc:postgresql://db/postgres -schemas=public -user=user
-      -password=password -connectRetries=5 migrate
+    command: -url=jdbc:postgresql://db/lottoSyndicate -schemas=public -user=postgres -password=password -connectRetries=5 migrate
     volumes:
-      - ./database:/flyway/sql
+      - ./database/migrations:/flyway/sql
     depends_on:
       - db
 volumes:
-  db:
+  db: 

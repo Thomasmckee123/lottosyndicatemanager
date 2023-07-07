@@ -15,8 +15,8 @@ INSERT INTO syndicates(name, description, avatar, maximum_contribution, minimum_
 ('Internet Lottery Club', 'Online club for passionate lotto players', 'internetClubAvatar', 200, 10, 2);
 
 INSERT INTO user_syndicates(created_date, start_date, leave_date, syndicate_id, user_id, syndicate_role_id) VALUES 
-('2023-07-01 00:00:00', '2023-07-01 00:00:00', NULL, 1, 1, 1), -- Lucky Lotto is the Manager of Office Lottery Syndicate
-('2023-07-02 00:00:00', '2023-07-02 00:00:00', NULL, 2, 2, 1); -- Bingo Bonanza is the Manager of Internet Lottery Club
+('2023-07-01 00:00:00', '2023-07-01 00:00:00', NULL, 1, 1, 1), 
+('2023-07-02 00:00:00', '2023-07-02 00:00:00', NULL, 2, 2, 1);
 
 INSERT INTO user_syndicate_reviews(created_date, title, content) VALUES 
 ('2023-07-03', 'Loving the Odds', 'Office Lottery Syndicate has made playing the lottery so much more fun and social - Lucky'),
