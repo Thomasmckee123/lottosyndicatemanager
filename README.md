@@ -108,3 +108,332 @@ I will use the MoSCoW prioritization technique for managing the requirements, M 
 .The system won’t have it’s own payment method, it will need to use stripe
 
 .The system won’t give out rewards for the groups with highest win rates
+##  domain model diagram
+```mermaid
+erDiagram
+    Users }|--|{ Syndicate : places
+    Syndicate }|--|{ payment : requires
+    Syndicate ||--|{ draw : contains
+   Users ||--|{ payment : requires
+    Syndicate ||--|{ game : uses
+    game ||--|{ draw:contains
+    draw ||--|{ gameChat: uses
+    draw ||--|{ payment: requires
+    Syndicate ||--|{ Board: contains
+```
+
+## entity relationship diagram
+```mermaid
+erDiagram
+users ||--|{ user_syndicates : ""
+user_syndicates ||--|{syndicate_roles : ""
+user_syndicates ||--|{user_syndicate_reviews : ""
+user_syndicates ||--|{syndicates : ""
+syndicates ||--|{ syndicate_types : ""
+syndicates ||--|{ boards : ""
+boards ||--|{ messages : ""
+games ||--|{ draws : ""
+outcomes ||--|{draws: ""
+boards ||--|{games : ""
+draws ||--|{tickets: ""
+users ||--|{ messages: ""
+syndicates||--|{ tickets: ""
+users{
+    int id PK
+    string first_name
+    string last_name
+    string password
+    string email
+
+}
+
+user_syndicates{
+    int id PK
+    timestamp created_date
+    timestamp start_date
+    timestamp leave_date
+    int syndicate_id FK
+    int user_id FK
+    int syndicate_role_id FK
+}
+
+syndicate_roles{
+    int id PK
+    string name
+
+}
+
+syndicates{
+    int id PK
+    string name 
+    text description
+    string avatar
+    double maximum_contribution
+    double minimum_contribution
+   int syndicate_type_id FK
+}
+syndicate_types{
+    int id PK
+    string name
+}
+user_syndicate_reviews{
+    int id PK
+    date created_date
+    string title
+    string content
+    
+
+}
+
+
+
+games{
+    int id PK
+    string name 
+    timestamp date
+    double reward
+}
+boards{
+    int id PK
+    string board_title
+    int syndicate_id FK 
+    
+}
+tickets{
+    int id PK
+    
+    string ticket_code
+    int draw_id FK
+    int syndicate_id FK
+
+}
+messages{
+    int id PK
+    text message
+    int user_id FK
+}
+
+draws{
+    int id PK
+    timestamp draw_date
+    int game_id FK
+    int board_id FK
+}
+outcomes{
+    int id PK
+    string result 
+    double reward
+    int draw_id FK
+}
+```
+## API design
+
+GET /users/
+Response 200
+returns all users
+[
+  {
+    "id": 1,
+    "first_name": "Lorna",
+    "last_name": "McKinley",
+    "password": "password123"
+    "email": "john@example.com",
+  },
+  {
+    "id": 2,
+    first_name": "Jane",
+    "last_name": "smith",
+    "password": "secret321"
+    "email": "jane@example.com",
+    
+  }
+]
+
+GET /users/{user_id}/
+response 200 OK
+response 404 Not found
+returns a list of users of a specific user ID
+  {
+    "id": 1,
+    "first_name": "Lorna",
+    "last_name": "McKinley",
+    "password": "password123"
+    "email": "john@example.com",
+  },
+
+  POST /users/
+  creates users data
+  Request 
+  {
+ "first_name": "Thomas",
+    "last_name": "McKee",
+    "password": "password123"
+    "email": "Thomas@example.com",
+  }
+  201 Created
+400 Bad Request
+{
+    "id": 1,
+ "first_name": "Thomas",
+    "last_name": "McKee",
+    "password": "password123"
+    "email": "Thomas@example.com",
+  }
+PUT /users/{userId}/
+
+Updates user's details
+
+NOTE: Password is an optional field, if it is not supplied, it is not updated.
+
+Request:
+{
+  "id": 1,
+ "first_name": "Thomas",
+    "last_name": "McKee",
+    "password": "password123"
+    "email": "Thomas@example.com",
+}
+Responses:
+
+204 No Content
+400 Bad Request
+404 Not Found
+
+  DELETE /users/{userId}/
+
+deletes an account
+
+
+
+Response: 204 No Content
+## syndicates
+
+just assume other fields are filled in
+GET /users_syndicates/users/{userId}/
+response 200
+{
+    "id": 1,
+    "created_date": "02:10:2022",
+    "end_date": "03:11:2022",
+    "user_id": "1",
+    "syndicate_id": "1",
+    "syndicate_role_id": "1",
+
+}
+{
+    "id": 1,
+    "created_date"
+}
+
+#### setting up synicate
+-- this is what it is like to set up a syndicate
+GET /syndicate-type
+{
+    "id": "1",
+    "name": "private"
+}
+[
+    "id": "2",
+    "name": "public",
+]
+
+POST /syndicates/{syndicate-typeId}
+
+{
+    "name": "bestSyndicate",
+    "description": "A great syndicate",
+    "avatar": "cover photo",
+    "maximum_contribution": "2",
+    "syndicate_type_id": "1",
+
+}
+
+GET /syndicates
+[
+    {
+    "syndicate_id": "1",
+    "name": "bestSyndicate",
+    "description": "A great syndicate",
+    "avatar": "cover photo",
+    "maximum_contribution": "2",
+    "syndicate_type_id": "1",
+
+}
+]
+GET /sydicate-roles
+[
+{
+    "id": "1",
+    "name": "member",
+},[
+    "id": "2",
+    "name": "master",
+]
+
+]
+
+POST users/{user_id}/user-syndicates/{syndicateId}/{userId}/{syndicate-roleId}
+[
+    {
+    "created_date": "3/08/2022",
+    "start_date": "2/09/2023",
+    "leave_date": "1/10/2023",
+    "syndicate_id": "1",
+    "user_id": "2"
+    "syndicate_role": "2",
+    }
+]
+response 201 Created
+GET /users/{userId}/user-syndicates
+{
+    "id" : "1"
+     "created_date": "3/08/2022",
+    "start_date": "2/09/2023",
+    "leave_date": "1/10/2023",
+    "syndicate_id": "1",
+    "user_id" : "2",
+    "syndicate_role": "2",
+}
+-- The user syndicates are specific to individual users
+
+PUT /users/{userId}/user-syndicates/{syndicate_id}
+ Updating user syndicates
+{
+    
+    "syndicate_role": "2",
+}
+Response 200 - OK
+DELETE user_syndicates
+
+Response 204 NO content
+
+
+#### setting up a board and sending messages
+POST /syndicates/{syndicateId}/boards
+[
+{
+"board_title": "powerball thread",
+"syndicate_id": "1"
+}
+]
+
+GET syndicates/boards/{boardId}/messages
+[
+{
+"message":"lets play some powerball",
+"user_id": "1",     
+},
+{
+    "message": "yes ok",
+    "user_id": "2"
+}
+]
+POST users/{user_id}/boards/{boardId}/messages
+
+{
+    "message": "ok, in 10 minuites",
+    "user_id": "1",
+}
+
+
+
