@@ -77,9 +77,8 @@ CREATE TABLE IF NOT EXISTS user_syndicates (
 CREATE TABLE IF NOT EXISTS tickets(
     id SERIAL PRIMARY KEY,
     ticket_code VARCHAR(255),
-    draw_id serial NOT NULL CONSTRAINT fk_tickets_draws REFERENCES draws(id),
-    syndicate_id serial NOT NULL CONSTRAINT fk_ticket_syndicate REFERENCES syndicates(id)
-);
+    draw_id serial NOT NULL CONSTRAINT fk_tickets_draws REFERENCES draws(id)
+    );
 
 
 

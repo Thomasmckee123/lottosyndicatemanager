@@ -250,6 +250,13 @@ returns all users
   }
 ]
 ```
+Response 404 - not found
+```json
+{
+    "message": "not found",
+    "code": 404
+}
+```
 GET /users/{user_id}/
 response 200 OK
 response 404 Not found
@@ -333,7 +340,7 @@ response 200
 }
 {
     "id": 1,
-    "created_date": 01/10/2022
+    "created_date": "01/10/2022"
 }
 ```
 
@@ -483,31 +490,47 @@ PUT /syndicates/{syndicateId}/boards/{boardId}
     "name": new board
 }
 ```
+#### playing a game
 GET /games
-
+response 200 
 ```json
-[
+[{
+    "id": "1",
+    "name":"euromillions",
+    "reward": "2000000"
+},
     {
-    "id": "1"
+    "id": "2"
     "name": "powerball",
     "date": "01/04/2023 2.30PM",
     "reward": "2000"
 },{
-    "id": "1",
+    "id": "3",
     "name": "national lottery",
     "date": "02/05/2021 1.50",
     "reward": "49402",
 }
 ]
+GET /games/{gameid}
 ```
-Response 200
-
-GET /draws
+response 200
 ```json
+{
+    "id": "1",
+    "name": "euromillions",
+    "reward": "2000000"
+}
 ```
 
-
-
+GET /games/{game_id/draws
+Response 400
+```json
+{
+"draw_date": "09/10/2022",
+"games_id": "1"
+}
+```
+###### deleting the boards and messages
 
 DELETE /syndicates/{syndicateId}/boards/{boardId}/messages
  Response - 204 No content
@@ -541,3 +564,16 @@ Response - 404 Deleted
     "response": 404
 }
 ```
+##### tickets and outcomes
+
+request POST /games/{game_id}/draws{draw_id}/tickets/{ticket_id}
+response 204 - successful
+```json
+    {
+        "ticket_code":"£AYO11" ,
+        "draw_id": "1"
+    },
+```
+
+
+

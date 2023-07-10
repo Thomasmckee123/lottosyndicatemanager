@@ -66,9 +66,9 @@ VALUES
     (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, 2, 2, 2, 2);
 
 -- Insert sample data into the tickets table
-INSERT INTO tickets (ticket_code, draw_id, syndicate_id)
+INSERT INTO tickets (ticket_code, draw_id)
 VALUES
-    ('ABC123', 1, 1),
-    ('XYZ456', 2, 2);
+    ('ABC123', 1),
+    ('XYZ456', 2);
 
 
