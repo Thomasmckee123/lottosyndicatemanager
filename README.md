@@ -125,111 +125,103 @@ erDiagram
 ## entity relationship diagram
 ```mermaid
 erDiagram
+users ||--|{ user_syndicate_reviews : ""
 users ||--|{ user_syndicates : ""
-user_syndicates ||--|{syndicate_roles : ""
-user_syndicates ||--|{user_syndicate_reviews : ""
-user_syndicates ||--|{syndicates : ""
-syndicates ||--|{ syndicate_types : ""
-syndicates ||--|{ boards : ""
-boards ||--|{ messages : ""
-games ||--|{ draws : ""
-outcomes ||--|{draws: ""
-boards ||--|{games : ""
-draws ||--|{tickets: ""
-users ||--|{ messages: ""
-syndicates||--|{ tickets: ""
+users ||--|{ syndicates : ""
+syndicates ||--|{ user_syndicate_reviews : ""
+syndicates||--|{user_syndicates : ""
+syndicates ||--|{board : ""
+roles ||--|{ user_syndicates : ""
+games ||--|{ game_user_syndicates_ticket: ""
+user_syndicates ||--|{ game_user_syndicates_ticket: ""
+user_syndicates ||--|{ board_message: ""
+user_syndicates ||--|{ games: ""
+board ||--|{ board_message : "" 
+rewards ||--|{ winning_tickets :""
+board_message ||--|{ winning_tickets: ""
 users{
-    int id PK
-    string first_name
-    string last_name
-    string password
-    string email
+int id PK
+string first_name 
+string last_name
+string password
+string email
 
 }
 
+user_syndicate_reviews{
+    int id PK
+    date created_date 
+    string title 
+    string content
+    int user_id FK
+    int syndicate_id FK
+
+}
 user_syndicates{
     int id PK
-    timestamp created_date
-    timestamp start_date
-    timestamp leave_date
-    int syndicate_id FK
+    date start_date
     int user_id FK
-    int syndicate_role_id FK
+    int syndicate_id FK
+    int role_id FK
 }
 
-syndicate_roles{
+roles{
     int id PK
     string name
-
 }
 
 syndicates{
     int id PK
-    string name 
-    text description
-    string avatar
-    double maximum_contribution
-    double minimum_contribution
-   int syndicate_type_id FK
-}
-syndicate_types{
-    int id PK
-    string name
-}
-user_syndicate_reviews{
-    int id PK
     date created_date
-    string title
-    string content
-    
-
+    string name 
+    string description
+    string avatar
+    int owner_id
 }
-
-
-
 games{
     int id PK
     string name 
-    timestamp date
-    double reward
-}
-boards{
-    int id PK
-    string board_title
-    int syndicate_id FK 
+    date draw_date
+    float reward
+    string ticket_number
+    int user_syndicate_id
     
 }
-tickets{
+game_user_syndicates_ticket{
     int id PK
-    
-    string ticket_code
-    int draw_id FK
-    int syndicate_id FK
-
+    int ticket_code
+    int user_syndicate_id FK
+    int game_id FK
 }
-messages{
+board{
+    int id PK
+    string name 
+    int syndicate_id 
+}
+board_message{
     int id PK
     text message
-    int user_id FK
-}
-
-draws{
-    int id PK
-    timestamp draw_date
-    int game_id FK
+    date created_date
     int board_id FK
+    int user_syndicate_id FK
 }
-outcomes{
-    int id PK
-    string result 
-    double reward
-    int draw_id FK
+winning_tickets{
+    int winning_tickets_id PK
+    int game_user_syndicates_ticket_id FK
+    int  reward_id FK
+    int board_id
+}
+rewards{
+    int reward_id
+    string name
+    float total
+    
 }
 ```
 ## API design
 #### getting users
 GET /users
-Response 200
+Response : 200 - OK
 returns all users
 ```json
 [
@@ -250,17 +242,15 @@ returns all users
   }
 ]
 ```
-Response 404 - not found
-```json
-{
-    "message": "not found",
-    "code": 404
-}
-```
-GET /users/{user_id}/
-response 200 OK
-response 404 Not found
-returns a list of users of a specific user ID
+other Responses :
+404 - not found
+400 - bad request 
+
+
+
+GET /users/{user_id}
+
+response 200
 ```json
   {
     "id": 1,
@@ -270,9 +260,13 @@ returns a list of users of a specific user ID
     "email": "john@example.com",
   },
 ```
-  POST /users/
+other responses 
+404: not found
+400: bad request
+
+   POST /users
   creates users data
-  Request 
+  Request
   ```json
   {
  "first_name": "Thomas",
@@ -281,83 +275,102 @@ returns a list of users of a specific user ID
     "email": "Thomas@example.com",
   }
   ```
-  201 Created
-400 Bad Request
-```json
+  responses:
+   201 Created
+  ```json
 {
-    "id": 1,
- "first_name": "Thomas",
+    "id" : "3",
+   "first_name": "Thomas",
     "last_name": "McKee",
     "password": "password123"
     "email": "Thomas@example.com",
-  }
-  ```
-PUT /users/{userId}/
+}
+```
+400: Bad Request
+409: conflict
+
+PUT /users/{userId}
 
 Updates user's details
-
-NOTE: Password is an optional field, if it is not supplied, it is not updated.
+request
 ```json
-Request:
 {
-  "id": 1,
- "first_name": "Thomas",
+   "first_name": "john",
+    "last_name": "McKee",
+    "password": "password123"
+    "email": "Thomas@example.com",
+}
+```
+Responses: 200 OK
+```json
+{
+   "first_name": "john",
     "last_name": "McKee",
     "password": "password123",
     "email": "Thomas@example.com",
 }
 ```
 
-Responses:
 
 204 No Content
+
 400 Bad Request
+
 404 Not Found
 
   DELETE /users/{userId}/
-```json
-{
-    "userId": "1",
-    "message": "account deleted",
-    
-}
-```
-Response: 204 No Content
+  responses
+   : 200 OK
+  ```json
+  {
+  "message": "User successfully deleted."
+ }
+ 
+  ```
+
+204: No Content
+
 ## syndicates
 
 
-GET /users_syndicates/users/{userId}/
+GET /user_syndicates/users/{userId}/
+
 response 200
 ```json
 {
     "id": 1,
     "created_date": "02:10:2022",
-    "end_date": "03:11:2022",
+    "name": "syndicate",
     "user_id": "1",
     "syndicate_id": "1",
     "syndicate_role_id": "1",
 
 }
-{
-    "id": 1,
-    "created_date": "01/10/2022"
-}
 ```
+other responses 
+404: Not found
+400: Bad Request
 
 #### setting up synicate
 
-GET /syndicate-type
+GET /syndicates
+response 200:
 ```json
 {
     "id": "1",
-    "name": "private"
+    "name": "private-syndicate",
+    "description": "this syndicate is good",
+    "avatar": "image.png"
 }
-[
-    "id": "2",
-    "name": "public",
-]
+
+
 ```
+other responses :
+404: not found
+400: bad request
+
 POST /syndicates/{syndicate-typeId}
+request
 ```json
 {
     "name": "bestSyndicate",
@@ -368,35 +381,61 @@ POST /syndicates/{syndicate-typeId}
 
 }
 ```
-GET /syndicates
+response 200: OK
 ```json
-[
+{
+    "id": "2",
+  "name": "new syndicate",
+    "description": "A great syndicate",
+    "avatar": "cover photo",
+    "maximum_contribution": "2",
+    "syndicate_type_id": "1",
+}
+```
+Other responses : 
+204 No Content
+
+400 Bad Request
+
+404 Not Found
+
+
+POST /users/{user_id}/syndicates/{syndicate_id}/roles/{role_id}/user_syndicates
+response 200 : success
+```json
+
     {
     "syndicate_id": "1",
-    "name": "bestSyndicate",
-    "description": "A great syndicate",
-    "avatar": "cover photo",
-    "maximum_contribution": "2",
-    "syndicate_type_id": "1",
+    "name": "20/10/2021",
+    "user_id": "1",
+    "syndicate_id": "1",
+    "role_id": "1",
 
 }
-]
+
 ```
 
-GET /sydicate-roles
+response:
 ```json
-[
-{
-    "id": "1",
-    "name": "member",
-},[
-    "id": "2",
-    "name": "master",
-]
 
-]
+    {
+    "id": "1",
+    "syndicate_id": "1",
+    "name": "20/10/2021",
+    "user_id": "1",
+    "syndicate_id": "1",
+    "role_id": "1",
+}
+
 ```
+
+404 : not found
+400: bad request
+
+response 404 : not found
+
 POST users/{user_id}/user-syndicates/{syndicateId}/{userId}/{syndicate-roleId}
+request
 ```json
 [
     {
@@ -410,170 +449,161 @@ POST users/{user_id}/user-syndicates/{syndicateId}/{userId}/{syndicate-roleId}
 ]
 ```
 response 201 Created
-GET /users/{userId}/user-syndicates
 ```json
-{
-    "id" : "1"
-     "created_date": "3/08/2022",
+
+       {
+        "id":"1"
+    "created_date": "3/08/2022",
     "start_date": "2/09/2023",
     "leave_date": "1/10/2023",
     "syndicate_id": "1",
-    "user_id" : "2",
-    "syndicate_role": "2",
-}
-```
-
-
-PUT /users/{userId}/user-syndicates/{syndicate_id}
- Updating user syndicates
- ```json
-{
-    
-    "syndicate_role": "2",
-}
-```
-Response 200 - OK
-DELETE /user_syndicates
-```json
-{
-    "message": "account deleted",
-    "code": 404
-}
-```
-Response 204 NO content
-```json
-{
-    "message": "couldnt find account",
-    "code": 204
-}
-```
-
-#### setting up a board and sending messages
-POST /syndicates/{syndicateId}/boards
-```json
-[
-{
-"board_title": "powerball thread",
-"syndicate_id": "1"
-}
-]
-```
-response 201 Created
-GET syndicates/boards/{boardId}/messages
-```json
-
-[
-{
-"message":"lets play some powerball",
-"user_id": "1",     
-},
-{
-    "message": "yes ok",
     "user_id": "2"
-}
-]
-
+    "syndicate_role": "2",
+    }
 ```
 
-response 201 Created
-POST users/{user_id}/boards/{boardId}/messages
-```json
-{
-    "message": "ok, in 10 minuites",
-    "user_id": "1",
-}
-```
-PUT /syndicates/{syndicateId}/boards/{boardId}
-```json
 
-{
-    "name": new board
-}
-```
-#### playing a game
-GET /games
-response 200 
+response: 404 - not found
+response: 400- poor request
+
+GET /roles
 ```json
 [{
     "id": "1",
-    "name":"euromillions",
-    "reward": "2000000"
-},
-    {
-    "id": "2"
-    "name": "powerball",
-    "date": "01/04/2023 2.30PM",
-    "reward": "2000"
+    "name": "master"
 },{
-    "id": "3",
-    "name": "national lottery",
-    "date": "02/05/2021 1.50",
-    "reward": "49402",
+      "id": "2",
+    "name": "member"
 }
 ]
-GET /games/{gameid}
 ```
-response 200
+
+DELETE /user_syndicates
+Response 200 - OK
+```json
+{
+"message": "deleted"
+}
+```
+
+Response 204 NO content
+
+
+
+#### setting up a board and sending messages
+
+
+GET /user_syndicatessyndicates/games
+response 200: OK
+```json
+{
+"id": "1",
+
+"date": "10/09/2015",
+"title": "powerball"
+"reward": "2000",
+"number_of_tickets": "5",
+"user_syndicate_id": "1"
+}
+```
+
+POST /user_syndicates/{user_syndicate_id}/games
+```json
+request
+{
+
+"date": "10/10/2022",
+"title": "Euromillions",
+"reward": "9000",
+"number_of_tickets": "5",
+"user_syndicate_id": "1"
+}
+
+```
+request
+```json
+{
+
+"date": "10/10/2022",
+"title": "Euromillions",
+"reward": "9000",
+"number_of_tickets": "5",
+"user_syndicate_id": "1"
+}
+```
+response 200 OK
+```json
+{
+"id": "2",
+"date": "10/10/2022",
+"title": "Euromillions",
+"reward": "9000",
+"number_of_tickets": "5",
+"user_syndicate_id": "1"
+}
+```
+other responses 
+400 : bad request
+404 : no data
+
+POST user_syndicates/{user_syndicate_id}/boards/{boardId}/board_messages
+request
+```json
+{
+"message": "hi, whats up",
+"date": "20/10/2020",
+"board_id": "1",
+"user_syndicate_id": "1",
+}
+```
+response : 200
+```json
+{
+    "id": "1"
+"message": "hi, whats up",
+"date": "20/10/2020",
+"board_id": "1",
+"user_syndicate_id": "1",
+}
+```
+response 201 Created
+GET /users/{user_id}/boards/{boardId}/messages
 ```json
 {
     "id": "1",
-    "name": "euromillions",
-    "reward": "2000000"
+"message": "hi, whats up",
+"date": "20/10/2020",
+"board_id": "1",
+"user_syndicate_id": "1",
 }
-```
 
-GET /games/{game_id/draws
-Response 400
-```json
-{
-"draw_date": "09/10/2022",
-"games_id": "1"
-}
 ```
-###### deleting the boards and messages
+respones 
+400: bad request
+404: no data
 
-DELETE /syndicates/{syndicateId}/boards/{boardId}/messages
- Response - 204 No content
-```json
-{
-    "message":"not found",
-    "response": "204"
-}
-```
-DELETE /syndicates/{syndicateId}/boards/{boardId}/messages
 
-Response 404 - deleted
-```json
-{
-    "message": "deleted",
-    "response": 404,
-}
-```
- DELETE /syndicates/{syndicateId}/boards/{boardId}
- Response -204 No content
-```json
-{"message":"no messages",
-"response" :204
-}
-```
- DELETE /syndicates/{syndicateId}/boards/{boardId}
-Response - 404 Deleted
-```json
-{
-    "message": "deleted",
-    "response": 404
-}
-```
 ##### tickets and outcomes
 
-request POST /games/{game_id}/draws{draw_id}/tickets/{ticket_id}
-response 204 - successful
+POST /rewards/{reward_id}/boards/{board_id}/game_user_syndicates_ticket_id/{id}/winning_tickets
+request 
 ```json
-    {
-        "ticket_code":"£AYO11" ,
-        "draw_id": "1"
-    },
+{
+"game_user_syndicates_ticket_id": "1",
+"reward_id":"1",
+"board_id": "1",
+}
 ```
-
-
+response 200: OK
+```json
+{
+"id":"1",
+"game_user_syndicates_ticket_id": "1",
+"reward_id":"1",
+"board_id": "1",
+}
+```
+other response 
+400 
+404
 
