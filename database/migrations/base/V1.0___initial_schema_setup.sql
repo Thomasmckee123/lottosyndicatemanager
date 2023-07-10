@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS user_syndicate_reviews(
     created_date DATE,
     title VARCHAR(255),
     content TEXT
+
 );
 CREATE TABLE IF NOT EXISTS syndicate_types(
     id SERIAL NOT NULL constraint syndicate_types_pk PRIMARY KEY,
@@ -22,27 +23,25 @@ CREATE TABLE IF NOT EXISTS syndicates(
     name VARCHAR(255),
     description TEXT,
     avatar VARCHAR(255),
-    maximum_contribution INT,
-    minimum_contribution INT,
 syndicate_types_id serial NOT NULL CONSTRAINT fk_syndicates_syndicate_types REFERENCES syndicate_types(id)
-);
-CREATE TABLE IF NOT EXISTS messages(
-    id SERIAL NOT NULL constraint messages_pk PRIMARY KEY,
-    message TEXT,
-    user_id serial NOT NULL CONSTRAINT fk_messages_user REFERENCES users(id)
-    
- 
 );
 CREATE TABLE IF NOT EXISTS boards(
     id SERIAL NOT NULL constraint board_pk PRIMARY KEY,
+     maximum_contribution INT,
+    minimum_contribution INT,
     name VARCHAR(255),
-    syndicate_id SERIAL NOT NULL CONSTRAINT fk_syndicate_boards REFERENCES syndicates(id),
-    message_id SERIAL NOT NULL CONSTRAINT fk_board_messages REFERENCES messages(id)
+    syndicate_id SERIAL NOT NULL CONSTRAINT fk_syndicate_boards REFERENCES syndicates(id)
     );
+CREATE TABLE IF NOT EXISTS messages(
+    id SERIAL NOT NULL constraint messages_pk PRIMARY KEY,
+    message TEXT,
+    board_id SERIAL NOT NULL CONSTRAINT fk_messages_board REFERENCES boards(id),
+    user_id serial NOT NULL CONSTRAINT fk_messages_user REFERENCES users(id)
+);
+
     CREATE TABLE IF NOT EXISTS games(
     id SERIAL NOT NULL constraint games_pk PRIMARY KEY,
     name VARCHAR(255),
-    date TIMESTAMP,
     reward FLOAT,
     boards_id SERIAL NOT NULL CONSTRAINT fk_games_board REFERENCES boards(id)
 );
@@ -54,8 +53,7 @@ CREATE TABLE IF NOT EXISTS syndicate_roles(
 CREATE TABLE IF NOT EXISTS draws(
     id SERIAL NOT NULL CONSTRAINT draws_pk PRIMARY KEY,
     draw_date TIMESTAMP,
-    games_id SERIAL NOT NULL CONSTRAINT fk_draws_games REFERENCES games(id),
-    boards_id SERIAL NOT NULL CONSTRAINT fk_draws_board REFERENCES boards(id)
+    games_id SERIAL NOT NULL CONSTRAINT fk_draws_games REFERENCES games(id)
 );
 CREATE TABLE IF NOT EXISTS outcomes(
     id SERIAL PRIMARY KEY,

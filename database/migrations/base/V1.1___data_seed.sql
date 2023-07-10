@@ -18,29 +18,29 @@ VALUES
     ('Type B');
 
 -- Insert sample data into the syndicates table
-INSERT INTO syndicates (name, description, avatar, maximum_contribution, minimum_contribution, syndicate_types_id)
+INSERT INTO syndicates (name, description, avatar, syndicate_types_id)
 VALUES
-    ('Syndicate 1', 'Description of syndicate 1', 'avatar1.png', 100, 10, 1),
-    ('Syndicate 2', 'Description of syndicate 2', 'avatar2.png', 200, 20, 2);
+    ('Syndicate 1', 'Description of syndicate 1', 'avatar1.png', 1),
+    ('Syndicate 2', 'Description of syndicate 2', 'avatar2.png',  2);
 
--- Insert sample data into the messages table
-INSERT INTO messages (message, user_id)
-VALUES
-    ('Hello, how is everyone?', 1),
-    ('I have an announcement to make!', 2);
+
 
 -- Insert sample data into the boards table
-INSERT INTO boards (name, syndicate_id, message_id)
+INSERT INTO boards (name, syndicate_id)
 VALUES
-    ('Board 1', 1, 1),
-    ('Board 2', 2, 2);
+    ('Board 1', 1),
+    ('Board 2', 2);
 
 -- Insert sample data into the games table
-INSERT INTO games (name, date, reward, boards_id)
+INSERT INTO games (name, reward)
 VALUES
-    ('Game 1', CURRENT_TIMESTAMP, 1000.00, 1),
-    ('Game 2', CURRENT_TIMESTAMP, 2000.00, 2);
-
+    ('Game 1', 1000.00),
+    ('Game 2', 2000.00);
+-- Insert sample data into the messages table
+INSERT INTO messages (message, user_id, board_id)
+VALUES
+    ('Hello, how is everyone?', 1, 1),
+    ('I have an announcement to make!', 2, 2);
 -- Insert sample data into the syndicate_roles table
 INSERT INTO syndicate_roles (name)
 VALUES
@@ -48,10 +48,10 @@ VALUES
     ('Role B');
 
 -- Insert sample data into the draws table
-INSERT INTO draws (draw_date, games_id, boards_id)
+INSERT INTO draws (draw_date, games_id)
 VALUES
-    (CURRENT_TIMESTAMP, 1, 1),
-    (CURRENT_TIMESTAMP, 2, 2);
+    (CURRENT_TIMESTAMP, 1),
+    (CURRENT_TIMESTAMP, 2);
 
 -- Insert sample data into the outcomes table
 INSERT INTO outcomes (result, reward, draw_id)

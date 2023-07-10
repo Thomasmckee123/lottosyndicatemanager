@@ -227,10 +227,11 @@ outcomes{
 }
 ```
 ## API design
-
-GET /users/
+#### getting users
+GET /users
 Response 200
 returns all users
+```json
 [
   {
     "id": 1,
@@ -248,11 +249,12 @@ returns all users
     
   }
 ]
-
+```
 GET /users/{user_id}/
 response 200 OK
 response 404 Not found
 returns a list of users of a specific user ID
+```json
   {
     "id": 1,
     "first_name": "Lorna",
@@ -260,18 +262,21 @@ returns a list of users of a specific user ID
     "password": "password123"
     "email": "john@example.com",
   },
-
+```
   POST /users/
   creates users data
   Request 
+  ```json
   {
  "first_name": "Thomas",
     "last_name": "McKee",
     "password": "password123"
     "email": "Thomas@example.com",
   }
+  ```
   201 Created
 400 Bad Request
+```json
 {
     "id": 1,
  "first_name": "Thomas",
@@ -279,12 +284,13 @@ returns a list of users of a specific user ID
     "password": "password123"
     "email": "Thomas@example.com",
   }
+  ```
 PUT /users/{userId}/
 
 Updates user's details
 
 NOTE: Password is an optional field, if it is not supplied, it is not updated.
-
+```json
 Request:
 {
   "id": 1,
@@ -293,6 +299,8 @@ Request:
     "password": "password123"
     "email": "Thomas@example.com",
 }
+```
+```json
 Responses:
 
 204 No Content
@@ -410,13 +418,14 @@ Response 204 NO content
 
 #### setting up a board and sending messages
 POST /syndicates/{syndicateId}/boards
+
 [
 {
 "board_title": "powerball thread",
 "syndicate_id": "1"
 }
 ]
-
+response 201 Created
 GET syndicates/boards/{boardId}/messages
 [
 {
@@ -428,12 +437,49 @@ GET syndicates/boards/{boardId}/messages
     "user_id": "2"
 }
 ]
+
+
+
+response 201 Created
+-- sending a message
 POST users/{user_id}/boards/{boardId}/messages
 
 {
     "message": "ok, in 10 minuites",
     "user_id": "1",
 }
+PUT /syndicates/{syndicateId}/boards/{boardId}
+{
+    "name": new board
+}
+
+GET /games
+-- games
+[
+    {
+    "id": "1"
+    "name": "powerball",
+    "date": "01/04/2023 2.30PM",
+    "reward": "2000"
+},{
+    "id": "1",
+    "name": "national lottery",
+    "date"" "02/05/2021 1.50",
+    "reward": "49402",
+}
+Response 200
+
+GET /draws/
+
+
+]
+response 200 - OK
+
+DELETE /syndicates/{syndicateId}/boards/{boardId}/messages
+ Response - 204 No content
+
+ DELETE /syndicates/{syndicateId}/boards/{boardId}
+ Response -204 No content
 
 
 
