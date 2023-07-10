@@ -1,74 +1,54 @@
+INSERT INTO users (first_name, last_name, password, email) VALUES 
+('John', 'Doe', 'h4x0r123', 'JohnDoe@GPTmail.com'),
+('Jane', 'Smith', 'al0ha123', 'JaneSmith@GPTmail.com'),
+('Charlie', 'Brown', 'peanut123', 'CharlieBrown@GPTmail.com');
 
--- Insert sample data into the users table
-INSERT INTO users (first_name, last_name, password, email)
-VALUES
-    ('John', 'Doe', 'password123', 'john@example.com'),
-    ('Jane', 'Smith', 'secret321', 'jane@example.com');
+INSERT INTO syndicates (created_date, name, description, avatar, owner_id) VALUES 
+('2023-07-10', 'The Thunderbolts', 'For those who strike like lightning!', 'thunderbolts.jpg', 1),
+('2023-07-11', 'The Silent Shadows', 'We move in silence, we win in shadows.', 'silent_shadows.jpg', 2),
+('2023-07-12', 'Code Warriors', 'Battling bugs, one line of code at a time.', 'code_warriors.jpg', 3);
 
--- Insert sample data into the user_syndicate_reviews table
-INSERT INTO user_syndicate_reviews (created_date, title, content)
-VALUES
-    (CURRENT_DATE, 'Great syndicate!', 'I highly recommend this syndicate.'),
-    (CURRENT_DATE, 'Excellent experience', 'I have had a wonderful time in this syndicate.');
+INSERT INTO roles (name) VALUES 
+('Leader'),
+('Member'),
+('Moderator');
 
--- Insert sample data into the syndicate_types table
-INSERT INTO syndicate_types (name)
-VALUES
-    ('Type A'),
-    ('Type B');
+INSERT INTO user_syndicates (start_date, user_id, syndicate_id, role_id) VALUES 
+('2023-07-13', 1, 1, 1),
+('2023-07-14', 2, 2, 1),
+('2023-07-15', 3, 3, 1);
 
--- Insert sample data into the syndicates table
-INSERT INTO syndicates (name, description, avatar, syndicate_types_id)
-VALUES
-    ('Syndicate 1', 'Description of syndicate 1', 'avatar1.png', 1),
-    ('Syndicate 2', 'Description of syndicate 2', 'avatar2.png',  2);
+INSERT INTO games (name, draw_date, reward, ticket_number, user_syndicate_id) VALUES 
+('Fortune Flood', '2023-07-16', 50000.0, 'FF-123456', 1),
+('Lucky Labyrinth', '2023-07-17', 75000.0, 'LL-123456', 2),
+('Money Maze', '2023-07-18', 100000.0, 'MM-123456', 3);
 
-
-
--- Insert sample data into the boards table
-INSERT INTO boards (name, syndicate_id)
-VALUES
-    ('Board 1', 1),
-    ('Board 2', 2);
-
--- Insert sample data into the games table
-INSERT INTO games (name, reward)
-VALUES
-    ('Game 1', 1000.00),
-    ('Game 2', 2000.00);
--- Insert sample data into the messages table
-INSERT INTO messages (message, user_id, board_id)
-VALUES
-    ('Hello, how is everyone?', 1, 1),
-    ('I have an announcement to make!', 2, 2);
--- Insert sample data into the syndicate_roles table
-INSERT INTO syndicate_roles (name)
-VALUES
-    ('Role A'),
-    ('Role B');
-
--- Insert sample data into the draws table
-INSERT INTO draws (draw_date, games_id)
-VALUES
-    (CURRENT_TIMESTAMP, 1),
-    (CURRENT_TIMESTAMP, 2);
-
--- Insert sample data into the outcomes table
-INSERT INTO outcomes (result, reward, draw_id)
-VALUES
-    ('Win', 500.00, 1),
-    ('Loss', 0.00, 2);
-
--- Insert sample data into the user_syndicates table
-INSERT INTO user_syndicates (created_date, start_date, leave_date, user_id, syndicate_id, user_syndicate_reviews_id, syndicate_roles_id)
-VALUES
-    (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, 1, 1, 1, 1),
-    (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, NULL, 2, 2, 2, 2);
-
--- Insert sample data into the tickets table
-INSERT INTO tickets (ticket_code, draw_id)
-VALUES
-    ('ABC123', 1),
-    ('XYZ456', 2);
+INSERT INTO rewards (name, total) VALUES 
+('Golden Treasure', 1000000.0),
+('Silver Stash', 500000.0),
+('Bronze Bounty', 250000.0);
+INSERT INTO user_syndicate_reviews (created_date, title, content, user_id, syndicate_id) VALUES
+  ('2023-07-19', 'Great team!', 'The Thunderbolts really know what they''re doing!', 1, 1),
+  ('2023-07-20', 'Sneaky but Effective', 'The Silent Shadows have a unique approach, but it pays off!', 2, 2),
+  ('2023-07-21', 'Warriors Indeed!', 'Code Warriors live up to their name!', 3, 3);
 
 
+INSERT INTO game_user_syndicates_ticket (ticket_code, user_syndicate_id, game_id) VALUES
+(123456, 1, 1),
+(234567, 2, 2),
+(345678, 3, 3);
+
+INSERT INTO boards (name, syndicate_id) VALUES
+('Thunderbolts Talk', 1),
+('Shadows Speak', 2),
+('Warriors Word', 3);
+
+INSERT INTO board_message (message, created_date, board_id, user_syndicate_id) VALUES
+('Lets win this, Thunderbolts!', '2023-07-22', 1, 1),
+('We move silently, we win always.', '2023-07-23', 2, 2),
+('No bug can stop us!', '2023-07-24', 3, 3);
+
+INSERT INTO winning_tickets (game_user_syndicates_ticket_id, reward_id, board_id) VALUES
+(1, 1, 1),
+(2, 2, 2),
+(3, 3, 3);

@@ -1,46 +1,54 @@
--- DO $$
--- INSERT INTO users(first_name, last_name, password, email) VALUES 
--- ('Thomas', 'Mckee', 'qwerty12', 'thomasMckee.lotto@example.com');
+INSERT INTO users (first_name, last_name, password, email) VALUES 
+('John', 'Doe', 'h4x0r123', 'JohnDoe@GPTmail.com'),
+('Jane', 'Smith', 'al0ha123', 'JaneSmith@GPTmail.com'),
+('Charlie', 'Brown', 'peanut123', 'CharlieBrown@GPTmail.com');
+
+INSERT INTO syndicates (created_date, name, description, avatar, owner_id) VALUES 
+('2023-07-10', 'The Thunderbolts', 'For those who strike like lightning!', 'thunderbolts.jpg', 1),
+('2023-07-11', 'The Silent Shadows', 'We move in silence, we win in shadows.', 'silent_shadows.jpg', 2),
+('2023-07-12', 'Code Warriors', 'Battling bugs, one line of code at a time.', 'code_warriors.jpg', 3);
+
+INSERT INTO roles (name) VALUES 
+('Leader'),
+('Member'),
+('Moderator');
+
+INSERT INTO user_syndicates (start_date, user_id, syndicate_id, role_id) VALUES 
+('2023-07-13', 1, 1, 1),
+('2023-07-14', 2, 2, 1),
+('2023-07-15', 3, 3, 1);
+
+INSERT INTO games (name, draw_date, reward, ticket_number, user_syndicate_id) VALUES 
+('Fortune Flood', '2023-07-16', 50000.0, 'FF-123456', 1),
+('Lucky Labyrinth', '2023-07-17', 75000.0, 'LL-123456', 2),
+('Money Maze', '2023-07-18', 100000.0, 'MM-123456', 3);
+
+INSERT INTO rewards (name, total) VALUES 
+('Golden Treasure', 1000000.0),
+('Silver Stash', 500000.0),
+('Bronze Bounty', 250000.0);
+INSERT INTO user_syndicate_reviews (created_date, title, content, user_id, syndicate_id) VALUES
+  ('2023-07-19', 'Great team!', 'The Thunderbolts really know what they''re doing!', 1, 1),
+  ('2023-07-20', 'Sneaky but Effective', 'The Silent Shadows have a unique approach, but it pays off!', 2, 2),
+  ('2023-07-21', 'Warriors Indeed!', 'Code Warriors live up to their name!', 3, 3);
 
 
--- INSERT INTO syndicate_roles(name) VALUES 
--- ('leader');
+INSERT INTO game_user_syndicates_ticket (ticket_code, user_syndicate_id, game_id) VALUES
+(123456, 1, 1),
+(234567, 2, 2),
+(345678, 3, 3);
 
--- INSERT INTO syndicate_types(name) VALUES 
--- ('public'),
--- ('private');
+INSERT INTO boards (name, syndicate_id) VALUES
+('Thunderbolts Talk', 1),
+('Shadows Speak', 2),
+('Warriors Word', 3);
 
--- INSERT INTO syndicates(name, description, avatar, maximum_contribution, minimum_contribution, syndicate_type_id) VALUES 
--- (' Lottery Syndicate2', 'Join our office syndicate for a chance to win big', 'officeAvatar', 100, 5, 1),
+INSERT INTO board_message (message, created_date, board_id, user_syndicate_id) VALUES
+('Lets win this, Thunderbolts!', '2023-07-22', 1, 1),
+('We move silently, we win always.', '2023-07-23', 2, 2),
+('No bug can stop us!', '2023-07-24', 3, 3);
 
--- INSERT INTO user_syndicates(created_date, start_date, leave_date, syndicate_id, user_id, syndicate_role_id) VALUES 
--- ('2023-07-01 00:00:00', '2023-07-01 00:00:00', NULL, 1, 1, 1), 
--- ('2023-07-02 00:00:00', '2023-07-02 00:00:00', NULL, 2, 2, 1);
-
--- INSERT INTO user_syndicate_reviews(created_date, title, content) VALUES 
--- ('2023-07-03', 'good  Odds', 'Office Lottery Syndicate has made playing the lottery so much more fun and social - Lucky'),
--- ('2023-07-04', 'Winning with Friends', 'Playing in the Internet Lottery Club is a great way to play the lotto with friends across the world - Bingo');
-
-
-
--- INSERT INTO boards(board_title, syndicate_id) VALUES 
--- ('powerballchat', 1),
--- ;
-
--- INSERT INTO messages(message, user_id) VALUES 
--- ('Remember, never spend more than you can afford to lose. Play responsibly!', 1),
--- ('The key to winning is persistence. Don’t lose heart if you don’t win at first!', 2);
-
--- INSERT INTO draws(draw_date, game_id, board_id) VALUES 
--- ('2023-07-05 00:00:00', 1, 1),
--- ('2023-07-06 00:00:00', 2, 2);
-
--- INSERT INTO tickets(ticket_code, draw_id, syndicate_id) VALUES 
--- ('Ticket1', 1, 1),
--- ('Ticket2', 2, 2);
-
--- INSERT INTO outcomes(result, reward, draw_id) VALUES 
--- ('Loss', 0.0, 1),
--- ('Win', 10000.0, 2);
-
--- END $$
+INSERT INTO winning_tickets (game_user_syndicates_ticket_id, reward_id, board_id) VALUES
+(1, 1, 1),
+(2, 2, 2),
+(3, 3, 3);
