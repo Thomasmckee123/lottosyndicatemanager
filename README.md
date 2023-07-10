@@ -451,9 +451,11 @@ POST /syndicates/{syndicateId}/boards
 "syndicate_id": "1"
 }
 ]
-```json
+```
 response 201 Created
 GET syndicates/boards/{boardId}/messages
+```json
+
 [
 {
 "message":"lets play some powerball",
@@ -468,7 +470,6 @@ GET syndicates/boards/{boardId}/messages
 ```
 
 response 201 Created
--- sending a message
 POST users/{user_id}/boards/{boardId}/messages
 ```json
 {
@@ -517,8 +518,9 @@ DELETE /syndicates/{syndicateId}/boards/{boardId}/messages
 }
 ```
 DELETE /syndicates/{syndicateId}/boards/{boardId}/messages
-```json
+
 Response 404 - deleted
+```json
 {
     "message": "deleted",
     "response": 404,
