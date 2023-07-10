@@ -391,7 +391,6 @@ GET /sydicate-roles
 ```
 POST users/{user_id}/user-syndicates/{syndicateId}/{userId}/{syndicate-roleId}
 ```json
-//adding to the syndicate user table
 [
     {
     "created_date": "3/08/2022",
@@ -477,8 +476,9 @@ POST users/{user_id}/boards/{boardId}/messages
     "user_id": "1",
 }
 ```
-```json
 PUT /syndicates/{syndicateId}/boards/{boardId}
+```json
+
 {
     "name": new board
 }
@@ -495,7 +495,7 @@ GET /games
 },{
     "id": "1",
     "name": "national lottery",
-    "date"" "02/05/2021 1.50",
+    "date": "02/05/2021 1.50",
     "reward": "49402",
 }
 ]
