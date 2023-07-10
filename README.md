@@ -296,11 +296,11 @@ Request:
   "id": 1,
  "first_name": "Thomas",
     "last_name": "McKee",
-    "password": "password123"
+    "password": "password123",
     "email": "Thomas@example.com",
 }
 ```
-```json
+
 Responses:
 
 204 No Content
@@ -308,17 +308,20 @@ Responses:
 404 Not Found
 
   DELETE /users/{userId}/
-
-deletes an account
-
-
-
+```json
+{
+    "userId": "1",
+    "message": "account deleted",
+    
+}
+```
 Response: 204 No Content
 ## syndicates
 
-just assume other fields are filled in
+
 GET /users_syndicates/users/{userId}/
 response 200
+```json
 {
     "id": 1,
     "created_date": "02:10:2022",
@@ -330,12 +333,14 @@ response 200
 }
 {
     "id": 1,
-    "created_date"
+    "created_date": 01/10/2022
 }
+```
 
 #### setting up synicate
--- this is what it is like to set up a syndicate
+
 GET /syndicate-type
+```json
 {
     "id": "1",
     "name": "private"
@@ -344,9 +349,9 @@ GET /syndicate-type
     "id": "2",
     "name": "public",
 ]
-
+```
 POST /syndicates/{syndicate-typeId}
-
+```json
 {
     "name": "bestSyndicate",
     "description": "A great syndicate",
@@ -355,8 +360,9 @@ POST /syndicates/{syndicate-typeId}
     "syndicate_type_id": "1",
 
 }
-
+```
 GET /syndicates
+```json
 [
     {
     "syndicate_id": "1",
@@ -368,7 +374,10 @@ GET /syndicates
 
 }
 ]
+```
+
 GET /sydicate-roles
+```json
 [
 {
     "id": "1",
@@ -379,8 +388,10 @@ GET /sydicate-roles
 ]
 
 ]
-
+```
 POST users/{user_id}/user-syndicates/{syndicateId}/{userId}/{syndicate-roleId}
+```json
+//adding to the syndicate user table
 [
     {
     "created_date": "3/08/2022",
@@ -391,8 +402,10 @@ POST users/{user_id}/user-syndicates/{syndicateId}/{userId}/{syndicate-roleId}
     "syndicate_role": "2",
     }
 ]
+```
 response 201 Created
 GET /users/{userId}/user-syndicates
+```json
 {
     "id" : "1"
      "created_date": "3/08/2022",
@@ -402,29 +415,43 @@ GET /users/{userId}/user-syndicates
     "user_id" : "2",
     "syndicate_role": "2",
 }
--- The user syndicates are specific to individual users
+```
+
 
 PUT /users/{userId}/user-syndicates/{syndicate_id}
  Updating user syndicates
+ ```json
 {
     
     "syndicate_role": "2",
 }
+```
 Response 200 - OK
-DELETE user_syndicates
-
+DELETE /user_syndicates
+```json
+{
+    "message": "account deleted",
+    "code": 404
+}
+```
 Response 204 NO content
-
+```json
+{
+    "message": "couldnt find account",
+    "code": 204
+}
+```
 
 #### setting up a board and sending messages
 POST /syndicates/{syndicateId}/boards
-
+```json
 [
 {
 "board_title": "powerball thread",
 "syndicate_id": "1"
 }
 ]
+```json
 response 201 Created
 GET syndicates/boards/{boardId}/messages
 [
@@ -438,23 +465,26 @@ GET syndicates/boards/{boardId}/messages
 }
 ]
 
-
+```
 
 response 201 Created
 -- sending a message
 POST users/{user_id}/boards/{boardId}/messages
-
+```json
 {
     "message": "ok, in 10 minuites",
     "user_id": "1",
 }
+```
+```json
 PUT /syndicates/{syndicateId}/boards/{boardId}
 {
     "name": new board
 }
-
+```
 GET /games
--- games
+
+```json
 [
     {
     "id": "1"
@@ -467,19 +497,45 @@ GET /games
     "date"" "02/05/2021 1.50",
     "reward": "49402",
 }
+]
+```
 Response 200
 
-GET /draws/
+GET /draws
+```json
+```
 
 
-]
-response 200 - OK
+
 
 DELETE /syndicates/{syndicateId}/boards/{boardId}/messages
  Response - 204 No content
-
+```json
+{
+    "message":"not found",
+    "response": "204"
+}
+```
+DELETE /syndicates/{syndicateId}/boards/{boardId}/messages
+```json
+Response 404 - deleted
+{
+    "message": "deleted",
+    "response": 404,
+}
+```
  DELETE /syndicates/{syndicateId}/boards/{boardId}
  Response -204 No content
-
-
-
+```json
+{"message":"no messages",
+"response" :204
+}
+```
+ DELETE /syndicates/{syndicateId}/boards/{boardId}
+Response - 404 Deleted
+```json
+{
+    "message": "deleted",
+    "response": 404
+}
+```
