@@ -23,20 +23,21 @@ INSERT INTO games (name, draw_date, reward, ticket_number, user_syndicate_id) VA
 ('Lucky Labyrinth', '2023-07-17', 75000.0, 'LL-123456', 2),
 ('Money Maze', '2023-07-18', 100000.0, 'MM-123456', 3);
 
-INSERT INTO rewards (name, total) VALUES 
-('Golden Treasure', 1000000.0),
-('Silver Stash', 500000.0),
-('Bronze Bounty', 250000.0);
+
 INSERT INTO user_syndicate_reviews (created_date, title, content, user_id, syndicate_id) VALUES
   ('2023-07-19', 'Great team!', 'The Thunderbolts really know what they''re doing!', 1, 1),
   ('2023-07-20', 'Sneaky but Effective', 'The Silent Shadows have a unique approach, but it pays off!', 2, 2),
   ('2023-07-21', 'Warriors Indeed!', 'Code Warriors live up to their name!', 3, 3);
 
+INSERT INTO ticket_types (name) VALUES
+('win'),
+('loss'),
+('pending');
 
-INSERT INTO game_user_syndicates_ticket (ticket_code, user_syndicate_id, game_id) VALUES
-(123456, 1, 1),
-(234567, 2, 2),
-(345678, 3, 3);
+INSERT INTO game_user_syndicates_ticket (ticket_code, reward, ticket_type_id, user_syndicate_id, game_id) VALUES
+(123456, 0, 3, 1, 1),
+(234567, 0, 3, 2, 2),
+(345678, 0, 3, 3, 3);
 
 INSERT INTO boards (name, syndicate_id) VALUES
 ('Thunderbolts Talk', 1),
@@ -48,7 +49,3 @@ INSERT INTO board_message (message, created_date, board_id, user_syndicate_id) V
 ('We move silently, we win always.', '2023-07-23', 2, 2),
 ('No bug can stop us!', '2023-07-24', 3, 3);
 
-INSERT INTO winning_tickets (game_user_syndicates_ticket_id, reward_id, board_id) VALUES
-(1, 1, 1),
-(2, 2, 2),
-(3, 3, 3);
