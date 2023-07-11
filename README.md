@@ -111,34 +111,22 @@ I will use the MoSCoW prioritization technique for managing the requirements, M 
 ##  domain model diagram
 ```mermaid
 erDiagram
-    Users }|--|{ Syndicate : places
-    Syndicate }|--|{ payment : requires
-    Syndicate ||--|{ draw : contains
-   Users ||--|{ payment : requires
-    Syndicate ||--|{ game : uses
-    game ||--|{ draw:contains
-    draw ||--|{ gameChat: uses
-    draw ||--|{ payment: requires
-    Syndicate ||--|{ Board: contains
-```
-
-## entity relationship diagram
-```mermaid
-erDiagram
 users ||--|{ user_syndicate_reviews : ""
 users ||--|{ user_syndicates : ""
 users ||--|{ syndicates : ""
 syndicates ||--|{ user_syndicate_reviews : ""
 syndicates||--|{user_syndicates : ""
-syndicates ||--|{board : ""
+syndicates ||--|{boards : ""
 roles ||--|{ user_syndicates : ""
 games ||--|{ game_user_syndicates_ticket: ""
 user_syndicates ||--|{ game_user_syndicates_ticket: ""
+game_user_syndicates_ticket||--|{ ticket_types: ""
 user_syndicates ||--|{ board_message: ""
 user_syndicates ||--|{ games: ""
-board ||--|{ board_message : "" 
-rewards ||--|{ winning_tickets :""
-board_message ||--|{ winning_tickets: ""
+boards ||--|{ board_message : "" 
+
+
+
 users{
 int id PK
 string first_name 
@@ -190,10 +178,12 @@ games{
 game_user_syndicates_ticket{
     int id PK
     int ticket_code
+    float reward
+    int ticket_type_id FK
     int user_syndicate_id FK
     int game_id FK
 }
-board{
+boards{
     int id PK
     string name 
     int syndicate_id 
@@ -205,17 +195,10 @@ board_message{
     int board_id FK
     int user_syndicate_id FK
 }
-winning_tickets{
-    int winning_tickets_id PK
-    int game_user_syndicates_ticket_id FK
-    int  reward_id FK
-    int board_id
-}
-rewards{
-    int reward_id
-    string name
-    float total
-    
+
+ticket_types{
+    int id PK
+    string name 
 }
 ```
 ## API design
