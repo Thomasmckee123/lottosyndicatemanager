@@ -219,7 +219,7 @@ rewards{
 }
 ```
 ## API design
-#### getting users
+#### users
 GET /users
 Response : 200 - OK
 returns all users
@@ -310,7 +310,7 @@ Responses: 200 OK
     "email": "Thomas@example.com",
 }
 ```
-
+other responses
 
 204 No Content
 
@@ -318,22 +318,71 @@ Responses: 200 OK
 
 404 Not Found
 
-  DELETE /users/{userId}/
-  responses
-   : 200 OK
-  ```json
-  {
-  "message": "User successfully deleted."
- }
- 
-  ```
+  DELETE /users/{userId}
 
+200 : OK
 204: No Content
+400 Bad Request
 
-## syndicates
+404 Not Found
+#### syndicates
+GET /syndicates
+response
+200: OK
+```json
+{
+    "id": "1",
+    "created_date": "24/09/2020",
+    "name": "top syndicate",
+    "description": "good syndicate",
+    "avatar": "image.png",
+    "owner_id": "1",
+}
+
+```
+creating a syndicate
+POST /syndicates/{userId}
 
 
-GET /user_syndicates/users/{userId}/
+request
+```json
+{
+    "date": "01/10/2022",
+    "name": "bestSyndicate",
+    "description": "A great syndicate",
+    "avatar": "cover photo",
+    "owner_id": "1",
+
+}
+```
+response 200: OK
+```json
+{
+    "id": "2",
+    "date": "01/10/2022",
+    "name": "bestSyndicate",
+    "description": "A great syndicate",
+    "avatar": "cover photo",
+    "owner_id": "1",
+}
+```
+Other responses : 
+204 No Content
+
+400 Bad Request
+
+404 Not Found
+
+DELETE /syndicates/{userId}
+```json
+{
+    "id": "2",
+    "message": "succesfully deleted"
+}
+```
+
+#### user syndicates
+GET /users/{userId}/user_syndicates
 
 response 200
 ```json
@@ -350,55 +399,6 @@ response 200
 other responses 
 404: Not found
 400: Bad Request
-
-#### setting up synicate
-
-GET /syndicates
-response 200:
-```json
-{
-    "id": "1",
-    "name": "private-syndicate",
-    "description": "this syndicate is good",
-    "avatar": "image.png"
-}
-
-
-```
-other responses :
-404: not found
-400: bad request
-
-POST /syndicates/{syndicate-typeId}
-request
-```json
-{
-    "name": "bestSyndicate",
-    "description": "A great syndicate",
-    "avatar": "cover photo",
-    "maximum_contribution": "2",
-    "syndicate_type_id": "1",
-
-}
-```
-response 200: OK
-```json
-{
-    "id": "2",
-  "name": "new syndicate",
-    "description": "A great syndicate",
-    "avatar": "cover photo",
-    "maximum_contribution": "2",
-    "syndicate_type_id": "1",
-}
-```
-Other responses : 
-204 No Content
-
-400 Bad Request
-
-404 Not Found
-
 
 POST /users/{user_id}/syndicates/{syndicate_id}/roles/{role_id}/user_syndicates
 response 200 : success
@@ -433,6 +433,11 @@ response:
 400: bad request
 
 response 404 : not found
+DELETE /users
+#### user_syndicates
+
+
+
 
 POST users/{user_id}/user-syndicates/{syndicateId}/{userId}/{syndicate-roleId}
 request
@@ -452,7 +457,7 @@ response 201 Created
 ```json
 
        {
-        "id":"1"
+        "id":"1",
     "created_date": "3/08/2022",
     "start_date": "2/09/2023",
     "leave_date": "1/10/2023",
