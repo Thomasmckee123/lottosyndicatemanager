@@ -222,7 +222,11 @@ rewards{
 ### users
 getting all the info on all the users
 GET /users
+
+
 Response : 200 - OK
+
+
 #### returns all users
 ```json
 [
