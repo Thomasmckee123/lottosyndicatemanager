@@ -229,7 +229,6 @@ GET /users
 Response : 200 - OK
 
 
-#### returns all users
 ```json
 [
   {
@@ -259,11 +258,10 @@ other Responses :
 
 
 
-GET /users/{user_id}
-
-
 #### returns one user
 
+
+GET /users/{user_id}
 
 response 200
 
@@ -287,10 +285,12 @@ other responses
 
 
 
-   POST /users
+   
 
 
   #### allows a user to add an account
+
+POST /users
 
 
   Request
@@ -320,9 +320,13 @@ other responses
 
 409: conflict
 
-PUT /users/{userId}
+
 
 #### Updates user's details
+
+
+PUT /users/{userId}
+
 
 request
 
@@ -357,7 +361,13 @@ other responses
 404 Not Found
 
 #### deleting an account 
+
+
   DELETE /users/{userId}
+
+
+response
+
 
 200 : OK
 
@@ -378,10 +388,12 @@ other responses
 ### syndicates
 
 
+#### this gets a list of all the syndicates
+
 GET /syndicates
 
 
-#### this gets a list of all the syndicates
+
 
 
 response 200: OK
@@ -397,11 +409,16 @@ response 200: OK
     "owner_id": "1",
 }
 
+
 ```
+
+
+#### this lets you make a syndicate
+
 
 POST /syndicates/{userId}
 
-#### this lets you make a syndicate
+
 
 request
 
@@ -482,6 +499,9 @@ Other responses :
 
 404 Not Found
 
+#### delete syndicates 
+
+
 DELETE /syndicates/{userId}
 
 
@@ -494,7 +514,7 @@ DELETE /syndicates/{userId}
 
 ### user syndicates
 
-this gets the syndicates a user is a part of
+#### this gets the syndicates a user is a part of
 
 
 GET /users/{userId}/user_syndicates
@@ -823,7 +843,7 @@ other responses
 404 : no data
 
 
-create a board
+#### create a board
 
 
 POST syndicates/{syndicate_id}/boards
@@ -1081,6 +1101,6 @@ other responses
 
  400: bad request
 
- 
+
 404: no data
 
