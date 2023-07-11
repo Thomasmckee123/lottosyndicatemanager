@@ -387,13 +387,19 @@ GET /users/{userId}/user_syndicates
 response 200
 ```json
 {
-    "id": 1,
+    "id": "1",
     "created_date": "02:10:2022",
     "name": "syndicate",
     "user_id": "1",
     "syndicate_id": "1",
-    "syndicate_role_id": "1",
+    "role_id": "1",
 
+},{
+    "id": "2",
+    "created_date": "09:02:2023",
+     "user_id": "2",
+      "syndicate_id": "3",
+      "role_id": "2"
 }
 ```
 other responses 
@@ -405,7 +411,7 @@ response 200 : success
 ```json
 
     {
-    "syndicate_id": "1",
+    "syndicate_id": "3",
     "name": "20/10/2021",
     "user_id": "1",
     "syndicate_id": "1",
@@ -419,7 +425,7 @@ response:
 ```json
 
     {
-    "id": "1",
+    "id": "3",
     "syndicate_id": "1",
     "name": "20/10/2021",
     "user_id": "1",
@@ -433,11 +439,14 @@ response:
 400: bad request
 
 response 404 : not found
-DELETE /users
+DELETE /user_syndicates/{user_syndicate_id}
+```json
+{
+    "id": "3",
+    "message": "successfully deleted"
+}
+```
 #### user_syndicates
-
-
-
 
 POST users/{user_id}/user-syndicates/{syndicateId}/{userId}/{syndicate-roleId}
 request
@@ -448,7 +457,7 @@ request
     "start_date": "2/09/2023",
     "leave_date": "1/10/2023",
     "syndicate_id": "1",
-    "user_id": "2"
+    "user_id": "2",
     "syndicate_role": "2",
     }
 ]
@@ -466,12 +475,12 @@ response 201 Created
     "syndicate_role": "2",
     }
 ```
-
-
 response: 404 - not found
 response: 400- poor request
+Response 204 NO content
 
-GET /roles
+GET user-syndicates/roles
+
 ```json
 [{
     "id": "1",
@@ -482,30 +491,24 @@ GET /roles
 }
 ]
 ```
-
-DELETE /user_syndicates
-Response 200 - OK
-```json
-{
-"message": "deleted"
-}
-```
-
+other responses
+response: 404 - not found
+response: 400- poor request
 Response 204 NO content
 
 
 
-#### setting up a board and sending messages
+
+#### games
 
 
-GET /user_syndicatessyndicates/games
+GET /games
 response 200: OK
 ```json
 {
 "id": "1",
-
 "date": "10/09/2015",
-"title": "powerball"
+"title": "powerball",
 "reward": "2000",
 "number_of_tickets": "5",
 "user_syndicate_id": "1"
@@ -516,7 +519,6 @@ POST /user_syndicates/{user_syndicate_id}/games
 ```json
 request
 {
-
 "date": "10/10/2022",
 "title": "Euromillions",
 "reward": "9000",
@@ -551,6 +553,103 @@ other responses
 400 : bad request
 404 : no data
 
+PUT /user_syndicates/{user_syndicate_id}/games
+request
+```json
+{
+"date": "10/10/2022",
+"name": "national Lottery",
+"number_of_tickets": "7",
+"user_syndicate_id": "1"
+}
+```
+response :
+200 OK
+```json
+{
+"id": "3",
+"date": "10/10/2022",
+"name": "national Lottery",
+"number_of_tickets": "7",
+"user_syndicate_id": "1"
+}
+```
+other responses 
+400 : bad request
+404 : no data
+
+#### message board
+GET /boards
+response
+```json
+
+[{
+{
+    "id": "1",
+"name": "example board name",
+"syndicate_id": "1"
+},
+{
+    "id": "2",
+    "name":"other board",
+    "syndicate_id":"2",
+}
+}]
+```
+other responses 
+other responses 
+400 : bad request
+404 : no data
+- returns a syndicate's boards
+GET /syndicates/{syndicate_id}/boards
+response
+```json
+
+[{
+{
+    "id": "1",
+"name": "example board name",
+"syndicate_id": "1"
+},
+{
+    "id": "3",
+    "name":"syndicates board",
+    "syndicate_id":"1",
+}
+}]
+```
+other responses 
+other responses 
+400 : bad request
+404 : no data
+create a board
+POST syndicates/{syndicate_id}/boards
+request
+```json
+{
+"name": "powerball message board",
+"syndicate_id": "1"
+}
+```
+response:
+ 200: OK
+ ```json
+ {
+"id":"1",
+"name": "powerball message board",
+"syndicate_id": "1"
+}
+```
+#### messages
+
+GET /boards/{board_id}/board_messages
+```json
+{
+    "id":"5",
+    "message": "hi, how is everyone",
+    ""
+}
+```
 POST user_syndicates/{user_syndicate_id}/boards/{boardId}/board_messages
 request
 ```json
@@ -561,6 +660,7 @@ request
 "user_syndicate_id": "1",
 }
 ```
+
 response : 200
 ```json
 {
@@ -590,25 +690,138 @@ respones
 
 ##### tickets and outcomes
 
-POST /rewards/{reward_id}/boards/{board_id}/game_user_syndicates_ticket_id/{id}/winning_tickets
+
+getting the tickets by game
+
+GET games/{game_id}/game_user_syndicates_ticket
+
+response
+```json
+[{
+    "id": "1",
+    "ticket_code": "PG0341O",
+    "reward": "0",
+    "ticket_type_id": "3",
+    "user_syndicate_id": "2",
+    "game_id": "1"
+
+},
+{
+    "id": "2",
+   "ticket_code": "PGq34w4",
+    "reward": "0",
+    "ticket_type_id": "3",
+    "user_syndicate_id": "1",
+    "game_id": "1"
+},
+{
+    "id": "3",
+    "ticket_code": "P840193",
+    "reward": "0",
+    "ticket_type_id": "3",
+    "user_syndicate_id": "3",
+    "game_id": "1"
+}]
+
+```
+other responses: 
+
+400: bad request
+404: no data
+
+adding a ticket
+POST /user_syndicates/{user_syndicates_id}/ticket_types/{ticket_types_id}/games/{game_id}/game_user_syndicates_ticket
+request : 
+```json
+{
+"ticket_code": "PA34129",
+"reward": "0",
+"ticket_type_id": "3",
+    "user_syndicate_id": "3",
+    "game_id": "1"
+
+}
+```
+response : 200 OK
+```json
+{
+"id": "4",
+"ticket_code": "PA34129",
+"reward": "0",
+"ticket_type_id": "3",
+    "user_syndicate_id": "3",
+    "game_id": "1"
+
+}
+```
+other responses: 
+
+400: bad request
+404: no data
+
+updating tickets if user wins
+
+PUT /user_syndicates/{user_syndicates_id}/ticket_types/{ticket_types_id}/games/{game_id}/game_user_syndicates_ticket
 request 
 ```json
 {
-"game_user_syndicates_ticket_id": "1",
-"reward_id":"1",
-"board_id": "1",
+"ticket_code": "PA34129",
+"reward": "100",
+"ticket_type_id": "1",
+    "user_syndicate_id": "3",
+    "game_id": "1"
+
+}
+```json
+response
+{
+"id": "4",
+"ticket_code": "PA34129",
+"reward": "100",
+"ticket_type_id": "1",
+    "user_syndicate_id": "3",
+    "game_id": "1"
+
 }
 ```
-response 200: OK
+deleting a ticket
+
+DELETE /game_user_syndicates_ticket/{game_user_syndicates_ticket_id}
+response
 ```json
 {
-"id":"1",
-"game_user_syndicates_ticket_id": "1",
-"reward_id":"1",
-"board_id": "1",
+    "id": "4",
+    "message": "successfully deleted"
 }
 ```
-other response 
-400 
-404
+other responses
+400: bad request
+404: no data
+
+
+#### other functions
+ 
+ getting a syndicate's reviews
+ GET syndicates/{syndicate_id}/user_syndicate_reviews
+
+ ```json
+ [{
+    "id": "1",
+    "title": "disappointing",
+    "content":"very disappointed with this syndicate, they stole my money",
+    "user_id": "1",
+    "syndicate_id": "1",
+ },
+ {
+    "id": "2",
+        "title": "great",
+    "content":"they worked very well with me",
+    "user_id": "2",
+    "syndicate_id": "1",
+ }
+ ]
+ ```
+ other responses 
+ 400: bad request
+404: no data
 
