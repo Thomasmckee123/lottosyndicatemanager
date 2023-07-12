@@ -56,7 +56,7 @@ CREATE TABLE game_user_syndicates_ticket(
     id SERIAL NOT NULL constraint game_user_syndicates_ticket_pk PRIMARY KEY,
     ticket_code INT NOT NULL,
     total_reward_value FLOAT NOT NULL,
-    ticket_type_id SERIAL NOT NULL CONSTRAINT fk_ticket_type_game_user_syndicates REFERENCES ticket_types(id),
+    ticket_status_id SERIAL NOT NULL CONSTRAINT fk_ticket_type_game_user_syndicates REFERENCES ticket_status(id),
    user_syndicate_id SERIAL NOT NULL CONSTRAINT FK_user_syndicate_game_user_syndicates_ticket REFERENCES user_syndicates(id),
     game_id SERIAL NOT NULL CONSTRAINT FK_game_game_user_syndicates_ticket REFERENCES games(id)
 );

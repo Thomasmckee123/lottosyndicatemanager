@@ -34,7 +34,7 @@ INSERT INTO ticket_status (name) VALUES
 ('loss'),
 ('pending');
 
-INSERT INTO game_user_syndicates_ticket (ticket_code, total_reward_value, ticket_type_id, user_syndicate_id, game_id) VALUES
+INSERT INTO game_user_syndicates_ticket (ticket_code, total_reward_value, ticket_status_id, user_syndicate_id, game_id) VALUES
 (123456, 0, 3, 1, 1),
 (234567, 0, 3, 2, 2),
 (345678, 0, 3, 3, 3);
