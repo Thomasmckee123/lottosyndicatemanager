@@ -237,7 +237,6 @@ other Responses :
 404 - not found
 
 
-400 - bad request 
 
 
 
@@ -254,14 +253,13 @@ response 200
     "id": 1,
     "first_name": "Lorna",
     "last_name": "McKinley",
-    "password": "password123"
+    "password": "password123",
     "email": "john@example.com",
   },
 ```
 other responses 
 
 
-404: not found
 
 
 400: bad request
@@ -288,20 +286,23 @@ POST/users
   }
   ```
   responses:
+
+
    201 Created
+
+
   ```json
 {
     "id" : "3",
    "first_name": "Thomas",
     "last_name": "McKee",
-    "password": "password123"
+    "password": "password123",
     "email": "Thomas@example.com",
 }
 ```
 400: Bad Request
 
 
-409: conflict
 
 
 
@@ -651,7 +652,13 @@ response 200: OK
 "title": "powerball",
 "reward": "2000",
 "number_of_tickets": "5",
-"user_syndicate_id": "1"
+"user_syndicate_id": {
+    "id":"1",
+    "user_id":{
+        "id": "3",
+        "name":"Thomas"
+    }
+}
 }
 ```
 
@@ -776,7 +783,10 @@ response
 {
     "id": "1",
 "name": "example board name",
-"syndicate_id": "1"
+ "syndicate_id":{
+        "id": "3",
+        "name": "Thomas's 2nd syndicate",
+    },
 },
 {
     "id": "3",
@@ -786,7 +796,7 @@ response
         "name": "Thomas's syndicate",
     },
 }
-}]
+}],
 ```
 other responses 
 
@@ -829,7 +839,6 @@ GET /boards/{id}/messages
 [{
     "id":"5",
     "message": "hi, how is everyone",
-    ""
 }]
 ```
 #### creating a message
