@@ -244,7 +244,7 @@ other Responses :
 #### returns one user
 
 
-GET /users/{user_id}
+GET /users/{id}
 
 response 200
 
@@ -273,7 +273,7 @@ other responses
 
   #### allows a user to add an account
 
-POST /users
+POST/users
 
 
   Request
@@ -308,7 +308,7 @@ POST /users
 #### Updates user's details
 
 
-PUT /users/{userId}
+PUT /users/{id}
 
 
 request
@@ -337,16 +337,14 @@ Responses: 200 OK
 ```
 other responses
 
-204 No Content
 
 400 Bad Request
 
-404 Not Found
 
 #### deleting an account 
 
 
-  DELETE /users/{userId}
+  DELETE /users/{id}
 
 
 response
@@ -361,11 +359,9 @@ response
     "message": "successfully deleted"
 }
 ```
-204: No Content
 
 400 Bad Request
 
-404 Not Found
 
 
 ### syndicates
@@ -399,7 +395,7 @@ response 200: OK
 #### this lets you make a syndicate
 
 
-POST /syndicates/{userId}
+POST /syndicates/{id}
 
 
 
@@ -412,7 +408,11 @@ request
     "name": "bestSyndicate",
     "description": "A great syndicate",
     "avatar": "cover photo",
-    "owner_id": "1",
+    "owner_id": { 
+        "user_id": "3",
+        "name": "Thomas",
+       
+    },
 
 }
 ```
@@ -428,22 +428,23 @@ response 200: OK
     "name": "bestSyndicate",
     "description": "A great syndicate",
     "avatar": "cover photo",
-    "owner_id": "1",
+      "owner_id": {"
+      user_id": "3",
+        "name": "Thomas",
+        
+    },
 }
 ```
 Other responses : 
 
 
-204 No Content
-
 400 Bad Request
 
-404 Not Found
 
 #### this allows users to update their syndicate
 
 
-PUT /syndicates/{userId}
+PUT /syndicates/{id}
  
 
 request
@@ -455,7 +456,11 @@ request
     "name": "new name for syndicate",
     "description": "A great syndicate",
     "avatar": "cover photo",
-    "owner_id": "1",
+      "owner_id": {
+        "user_id": "3",
+        "name": "Thomas",
+        
+    },
 
 }
 ```
@@ -470,22 +475,25 @@ response 200: OK
     "name": "new syndicate name",
     "description": "A great syndicate",
     "avatar": "cover photo",
-    "owner_id": "1",
+     "owner_id": {
+        "name": "Thomas",
+        "user_id": "3"
+    },
 }
 ```
 Other responses : 
 
 
-204 No Content
+
 
 400 Bad Request
 
-404 Not Found
+
 
 #### delete syndicates 
 
 
-DELETE /syndicates/{userId}
+DELETE /syndicates/{id}
 
 
 ```json
@@ -500,7 +508,7 @@ DELETE /syndicates/{userId}
 #### this gets the syndicates a user is a part of
 
 
-GET /users/{userId}/user_syndicates
+GET /users/{id}/syndicates/{id}
 
 response 200
 
@@ -511,29 +519,31 @@ response 200
     "created_date": "02:10:2022",
     "name": "syndicate",
     "user_id": "1",
-    "syndicate_id": "1",
+    "syndicate_id": {
+        "syndicate_id": "1",
+        "syndicate_name": "new syndicate",
+    },
     "role_id": "1",
 
 },{
     "id": "2",
     "created_date": "09:02:2023",
      "user_id": "2",
-      "syndicate_id": "3",
+      "syndicate_id": {
+        "syndicate_id": "3",
+        "syndicate_name": "second syndicate"
+      },
       "role_id": "2"
 }
 ```
 other responses 
-
-
-404: Not found
-
 
 400: Bad Request
 
 
 #### creates user syndicate
 
-POST /users/{user_id}/syndicates/{syndicate_id}/roles/{role_id}/user_syndicates
+POST users/{id}/syndicates/{id}
 
 
 
@@ -569,18 +579,17 @@ response: 200 - OK
 
 ```
 
-404 : not found
 
 
 400: bad request
 
-response 404 : not found
+
 
 
 #### deletes a user syndicate
 
 
-DELETE /user_syndicates/{user_syndicate_id}
+DELETE /users/{id}/syndicate/{id}
 
 
 ```json
@@ -595,7 +604,7 @@ DELETE /user_syndicates/{user_syndicate_id}
 #### getting user syndicates
 
 
-GET users/{user_id}/user_syndicates
+GET users/{id}/syndicates
 
 
 response 200 OK
@@ -608,48 +617,19 @@ response 200 OK
     "created_date": "3/08/2022",
     "start_date": "2/09/2023",
     "leave_date": "1/10/2023",
-    "syndicate_id": "1",
-    "user_id": "2",
+    "syndicate_id": {
+        "id": "1",
+        "name": "first syndicate"
+    },
+    "user_id": {
+        "id": "2",
+        "name":"Thomas"
+    },
     "syndicate_role": "2",
     }
 
 ```
 response: 404 - not found
-
-
-response: 400- poor request
-
-
-Response 204 no content
-
-
-GET user-syndicates/roles
-
-#### showing the different roles
-
-
-
-```json
-[{
-    "id": "1",
-    "name": "master"
-},{
-      "id": "2",
-    "name": "member"
-}
-]
-```
-other responses
-
-
-response: 404 - not found
-
-
-response: 400- poor request
-
-
-Response 204 no content
-
 
 
 
@@ -679,8 +659,7 @@ response 200: OK
 
 
 
-
-POST /user_syndicates/{user_syndicate_id}/games
+POST /syndicates/{id}/games
 
 request
 
@@ -718,14 +697,10 @@ other responses
 
 400 : bad request
 
-
-404 : no data
-
-
 #### updating a game
 
 
-PUT /user_syndicates/{user_syndicate_id}/games
+PUT /syndicates/{id}/games
 
 
 request
@@ -757,16 +732,12 @@ other responses
 400 : bad request
 
 
-404 : no data
-
 ### message board
 
 #### getting a message board
 GET /boards
 
-
 response
-
 
 ```json
 
@@ -790,13 +761,10 @@ other responses
 400 : bad request
 
 
-404 : no data
-
-
 #### returns a syndicate's boards
 
 
-GET /syndicates/{syndicate_id}/boards
+GET /syndicates/{id}/boards
 
 
 response
@@ -813,7 +781,10 @@ response
 {
     "id": "3",
     "name":"syndicates board",
-    "syndicate_id":"1",
+    "syndicate_id":{
+        "id": "2",
+        "name": "Thomas's syndicate",
+    },
 }
 }]
 ```
@@ -823,13 +794,10 @@ other responses
 400 : bad request
 
 
-404 : no data
-
-
 #### create a board
 
 
-POST syndicates/{syndicate_id}/boards
+POST syndicates/{id}/boards
 
 
 request
@@ -856,52 +824,64 @@ response:
 
 ### messages
 
-GET /boards/{board_id}/board_messages
+GET /boards/{id}/messages
 ```json
-{
+[{
     "id":"5",
     "message": "hi, how is everyone",
     ""
-}
+}]
 ```
 #### creating a message
-POST user_syndicates/{user_syndicate_id}/boards/{boardId}/board_messages
+POST /boards/{id}/messages
 
 
 request
 ```json
-{
+[{
 "message": "hi, whats up",
 "date": "20/10/2020",
 "board_id": "1",
 "user_syndicate_id": "1",
-}
+}]
 ```
 
 response : 200
 ```json
-{
-    "id": "1"
-"message": "hi, whats up",
-"date": "20/10/2020",
-"board_id": "1",
-"user_syndicate_id": "1",
-}
-```
-response 201 Created
-
-#### getting all messages
-
-
-GET /users/{user_id}/boards/{boardId}/messages
-```json
-{
+[{
     "id": "1",
 "message": "hi, whats up",
 "date": "20/10/2020",
 "board_id": "1",
 "user_syndicate_id": "1",
+}]
+```
+
+#### getting all messages
+
+
+GET syndicates/{id}/boards/{id}/messages
+```json
+{
+    "id": "1",
+    "message": "hi, whats up",
+    "date": "20/10/2020",
+    "board_id": {
+        "id": "1",
+        "name":"fun board"
+    },
+    "user_syndicate_id": {
+        "user_id": {
+            "id": "3",
+            "name": "Thomas"
+        },
+        "syndicate_id": {
+            "id": "3",
+            "name": "new syndicate"
+        }
+    }
 }
+
 
 ```
 respones 
@@ -910,7 +890,6 @@ respones
 400: bad request
 
 
-404: no data
 
 
 
@@ -920,7 +899,7 @@ respones
 
 #### getting the tickets by game
 
-GET games/{game_id}/game_user_syndicates_ticket
+GET games/{id}/tickets
 
 response
 ```json
@@ -929,7 +908,15 @@ response
     "ticket_code": "PG0341O",
     "reward": "0",
     "ticket_type_id": "3",
-    "user_syndicate_id": "2",
+     "user_syndicate_id": {
+        "user_id": {
+            "id": "3",
+            "name": "Thomas"
+        },
+        "syndicate_id": {
+            "id": "3",
+            "name": "new syndicate"
+        },
     "game_id": "1"
 
 },
@@ -938,7 +925,15 @@ response
    "ticket_code": "PGq34w4",
     "reward": "0",
     "ticket_type_id": "3",
-    "user_syndicate_id": "1",
+    "user_syndicate_id": {
+        "user_id": {
+            "id": "3",
+            "name": "Thomas"
+        },
+        "syndicate_id": {
+            "id": "3",
+            "name": "new syndicate"
+        },
     "game_id": "1"
 },
 {
@@ -946,7 +941,15 @@ response
     "ticket_code": "P840193",
     "reward": "0",
     "ticket_type_id": "3",
-    "user_syndicate_id": "3",
+    "user_syndicate_id": {
+        "user_id": {
+            "id": "3",
+            "name": "Thomas"
+        },
+        "syndicate_id": {
+            "id": "3",
+            "name": "new syndicate"
+        },
     "game_id": "1"
 }]
 
@@ -956,10 +959,9 @@ other responses:
 400: bad request
 
 
-404: no data
 
 #### adding a ticket
-POST /user_syndicates/{user_syndicates_id}/ticket_types/{ticket_types_id}/games/{game_id}/game_user_syndicates_ticket
+POST /syndicates/{id}/games/{id}/tickets
 
 
 request : 
@@ -999,7 +1001,7 @@ other responses:
 
 #### updating tickets if user wins
 
-PUT /user_syndicates/{user_syndicates_id}/ticket_types/{ticket_types_id}/games/{game_id}/game_user_syndicates_ticket
+PUT /syndicates/{id}/games/{id}/tickets
 
 
 request 
@@ -1034,7 +1036,7 @@ response : 200 - OK
 
 #### deleting a ticket
 
-DELETE /game_user_syndicates_ticket/{game_user_syndicates_ticket_id}
+DELETE /tickets/{id}
 
 
 response
@@ -1052,7 +1054,7 @@ other responses
 400: bad request
 
 
-404: no data
+
 
 
 ### other functions
@@ -1060,21 +1062,27 @@ other responses
  #### getting a syndicate's reviews
 
 
- GET syndicates/{syndicate_id}/user_syndicate_reviews
+ GET syndicates/{id}/reviews
 
  ```json
  [{
     "id": "1",
     "title": "disappointing",
     "content":"very disappointed with this syndicate, they stole my money",
-    "user_id": "1",
+    "user_id": {
+        "id": "3",
+        "name": "Thomas"
+    },
     "syndicate_id": "1",
  },
  {
     "id": "2",
         "title": "great",
     "content":"they worked very well with me",
-    "user_id": "2",
+      "user_id": {
+        "id": "2",
+        "name": "phil"
+    },
     "syndicate_id": "1",
  }
  ]
@@ -1085,5 +1093,5 @@ other responses
  400: bad request
 
 
-404: no data
+
 

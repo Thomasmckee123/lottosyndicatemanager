@@ -45,17 +45,17 @@ CREATE TABLE games(
     name VARCHAR(255) NOT NULL,
     draw_date DATE NOT NULL,
     reward FLOAT NOT NULL,
-    ticket_number VARCHAR(255) NOT NULL,
+    required_ticket_number VARCHAR(255) NOT NULL,
     user_syndicate_id SERIAL NOT NULL CONSTRAINT fk_games_user_syndicate_id REFERENCES user_syndicates(id)
 );
-CREATE TABLE ticket_types(
+CREATE TABLE ticket_status(
     id SERIAL NOT NULL constraint ticket_type_pk PRIMARY KEY,
     name VARCHAR(255) NOT NULL
 ) ;
 CREATE TABLE game_user_syndicates_ticket(
     id SERIAL NOT NULL constraint game_user_syndicates_ticket_pk PRIMARY KEY,
     ticket_code INT NOT NULL,
-    reward FLOAT NOT NULL,
+    total_reward_value FLOAT NOT NULL,
     ticket_type_id SERIAL NOT NULL CONSTRAINT fk_ticket_type_game_user_syndicates REFERENCES ticket_types(id),
    user_syndicate_id SERIAL NOT NULL CONSTRAINT FK_user_syndicate_game_user_syndicates_ticket REFERENCES user_syndicates(id),
     game_id SERIAL NOT NULL CONSTRAINT FK_game_game_user_syndicates_ticket REFERENCES games(id)
