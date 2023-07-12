@@ -281,7 +281,7 @@ POST/users
   {
  "first_name": "Thomas",
     "last_name": "McKee",
-    "password": "password123"
+    "password": "password123",
     "email": "Thomas@example.com",
   }
   ```
@@ -351,15 +351,10 @@ other responses
 response
 
 
-200 : OK
+204 : not found
 
 
-```json
-{
-    "id": "1",
-    "message": "successfully deleted"
-}
-```
+
 
 400 Bad Request
 
@@ -380,6 +375,7 @@ response 200: OK
 
 
 ```json
+[
 {
     "id": "1",
     "created_date": "24/09/2020",
@@ -389,7 +385,7 @@ response 200: OK
     "owner_id": "1",
 }
 
-
+]
 ```
 
 
@@ -405,11 +401,11 @@ request
 
 ```json
 {
-    "date": "01/10/2022",
+    "created_date": "01/10/2022",
     "name": "bestSyndicate",
     "description": "A great syndicate",
     "avatar": "cover photo",
-    "owner_id": { 
+    "owner": { 
         "user_id": "3",
         "name": "Thomas",
        
@@ -425,11 +421,11 @@ response 200: OK
 ```json
 {
     "id": "2",
-    "date": "01/10/2022",
+    "created_date": "01/10/2022",
     "name": "bestSyndicate",
     "description": "A great syndicate",
     "avatar": "cover photo",
-      "owner_id": {"
+      "owner": {"
       user_id": "3",
         "name": "Thomas",
         
@@ -453,15 +449,11 @@ request
 
 ```json
 {
-    "date": "01/10/2022",
+   
     "name": "new name for syndicate",
     "description": "A great syndicate",
     "avatar": "cover photo",
-      "owner_id": {
-        "user_id": "3",
-        "name": "Thomas",
-        
-    },
+
 
 }
 ```
@@ -476,7 +468,7 @@ response 200: OK
     "name": "new syndicate name",
     "description": "A great syndicate",
     "avatar": "cover photo",
-     "owner_id": {
+     "owner": {
         "name": "Thomas",
         "user_id": "3"
     },
@@ -497,12 +489,8 @@ Other responses :
 DELETE /syndicates/{id}
 
 
-```json
-{
-    "id": "2",
-    "message": "succesfully deleted"
-}
-```
+204: not found
+
 
 ### user syndicates
 
@@ -520,17 +508,18 @@ response 200
     "created_date": "02:10:2022",
     "name": "syndicate",
     "user_id": "1",
-    "syndicate_id": {
+    "syndicate": {
         "syndicate_id": "1",
         "syndicate_name": "new syndicate",
     },
     "role_id": "1",
 
-},{
+},
+{
     "id": "2",
     "created_date": "09:02:2023",
      "user_id": "2",
-      "syndicate_id": {
+      "syndicate": {
         "syndicate_id": "3",
         "syndicate_name": "second syndicate"
       },
@@ -593,12 +582,8 @@ response: 200 - OK
 DELETE /users/{id}/syndicate/{id}
 
 
-```json
-{
-    "id": "3",
-    "message": "successfully deleted"
-}
-```
+response : 204 no data
+
 ### user_syndicates
 
 
@@ -618,11 +603,11 @@ response 200 OK
     "created_date": "3/08/2022",
     "start_date": "2/09/2023",
     "leave_date": "1/10/2023",
-    "syndicate_id": {
+    "syndicate": {
         "id": "1",
         "name": "first syndicate"
     },
-    "user_id": {
+    "user": {
         "id": "2",
         "name":"Thomas"
     },
@@ -652,7 +637,7 @@ response 200: OK
 "title": "powerball",
 "reward": "2000",
 "number_of_tickets": "5",
-"user_syndicate_id": {
+"user_syndicate": {
     "id":"1",
     "user_id":{
         "id": "3",
@@ -715,7 +700,7 @@ request
 
 ```json
 {
-"date": "10/10/2022",
+
 "name": "national Lottery",
 "number_of_tickets": "7",
 "user_syndicate_id": "1"
@@ -752,12 +737,16 @@ response
 {
     "id": "1",
 "name": "example board name",
-"syndicate_id": "1"
+"syndicate": {
+    "id": "1",
+    "name": "Thomas's syndicate"
+}
 },
 {
     "id": "2",
     "name":"other board",
-    "syndicate_id":"2",
+    "syndicate":{"id":"1",
+    "name":"Thomas's second syndicate"},
 }
 }]
 ```
@@ -771,7 +760,7 @@ other responses
 #### returns a syndicate's boards
 
 
-GET /syndicates/{id}/boards
+GET /boards
 
 
 response
@@ -783,7 +772,7 @@ response
 {
     "id": "1",
 "name": "example board name",
- "syndicate_id":{
+ "syndicate":{
         "id": "3",
         "name": "Thomas's 2nd syndicate",
     },
@@ -791,7 +780,7 @@ response
 {
     "id": "3",
     "name":"syndicates board",
-    "syndicate_id":{
+    "syndicate":{
         "id": "2",
         "name": "Thomas's syndicate",
     },
@@ -807,7 +796,10 @@ other responses
 #### create a board
 
 
-POST syndicates/{id}/boards
+
+
+
+POST /boards
 
 
 request
@@ -865,26 +857,50 @@ response : 200
 "user_syndicate_id": "1",
 }]
 ```
-
+##### getting messages within a board
+GET /Boards
+```json
+{
+    "id": "1",
+    "name": "test message board",
+    "messages":[{
+        "date": "10/12/2020"
+        "id": "1",
+        "users":{
+"id": "1",
+"name": "Thomas"
+        },
+        "body":"hi whats up"
+    },{
+     "id": "2",
+     "date":"10/12/2020"
+        "body":"im great whats up with you"   ,
+            "users":{
+"id": "1",
+"name": "Thomas"
+        },
+    }]
+}
+```
 #### getting all messages
 
 
-GET syndicates/{id}/boards/{id}/messages
+GET /boards/{id}/messages
 ```json
 {
     "id": "1",
     "message": "hi, whats up",
     "date": "20/10/2020",
-    "board_id": {
+    "board": {
         "id": "1",
         "name":"fun board"
     },
-    "user_syndicate_id": {
+    "user_syndicate": {
         "user_id": {
             "id": "3",
             "name": "Thomas"
         },
-        "syndicate_id": {
+        "syndicate": {
             "id": "3",
             "name": "new syndicate"
         }
@@ -916,40 +932,49 @@ response
     "id": "1",
     "ticket_code": "PG0341O",
     "reward": "0",
-    "ticket_type_id": "3",
-     "user_syndicate_id": {
-        "user_id": {
+    "ticket_status":{
+        "id": "3",
+        "name": "pending"
+    },
+     "user_syndicate": {
+        "user": {
             "id": "3",
             "name": "Thomas"
         },
-        "syndicate_id": {
+        "syndicate": {
             "id": "3",
             "name": "new syndicate"
         },
-    "game_id": "1"
+    
 
 },
 {
     "id": "2",
    "ticket_code": "PGq34w4",
     "reward": "0",
-    "ticket_type_id": "3",
-    "user_syndicate_id": {
-        "user_id": {
+      "ticket_status":{
+        "id": "3",
+        "name": "pending"
+    },
+    "user_syndicate": {
+        "users": {
             "id": "3",
             "name": "Thomas"
         },
-        "syndicate_id": {
+        "syndicates": {
             "id": "3",
             "name": "new syndicate"
         },
-    "game_id": "1"
+  
 },
 {
     "id": "3",
     "ticket_code": "P840193",
     "reward": "0",
-    "ticket_type_id": "3",
+      "ticket_status":{
+        "id": "3",
+        "name": "pending"
+    },
     "user_syndicate_id": {
         "user_id": {
             "id": "3",
@@ -980,7 +1005,7 @@ request :
 {
 "ticket_code": "PA34129",
 "reward": "0",
-"ticket_type_id": "3",
+"ticket_status_id": "3",
     "user_syndicate_id": "3",
     "game_id": "1"
 
@@ -994,7 +1019,7 @@ response : 200 OK
 "id": "4",
 "ticket_code": "PA34129",
 "reward": "0",
-"ticket_type_id": "3",
+"ticket_status_id": "3",
     "user_syndicate_id": "3",
     "game_id": "1"
 
@@ -1010,7 +1035,7 @@ other responses:
 
 #### updating tickets if user wins
 
-PUT /syndicates/{id}/games/{id}/tickets
+PUT /games/{id}/tickets
 
 
 request 
@@ -1018,11 +1043,9 @@ request
 
 ```json
 {
-"ticket_code": "PA34129",
+
 "reward": "100",
-"ticket_type_id": "1",
-    "user_syndicate_id": "3",
-    "game_id": "1"
+
 
 }
 ```
@@ -1032,11 +1055,8 @@ response : 200 - OK
 
 {
 "id": "4",
-"ticket_code": "PA34129",
 "reward": "100",
-"ticket_type_id": "1",
-    "user_syndicate_id": "3",
-    "game_id": "1"
+
 
 }
 
@@ -1050,13 +1070,7 @@ DELETE /tickets/{id}
 
 response
 
-
-```json
-{
-    "id": "4",
-    "message": "successfully deleted"
-}
-```
+204 - no data
 other responses
 
 
@@ -1078,21 +1092,27 @@ other responses
     "id": "1",
     "title": "disappointing",
     "content":"very disappointed with this syndicate, they stole my money",
-    "user_id": {
+    "users": {
         "id": "3",
         "name": "Thomas"
     },
-    "syndicate_id": "1",
+      "syndicate":{
+        "id":"1",
+        "name":"thomas's syndicate",
+    }
  },
  {
     "id": "2",
         "title": "great",
     "content":"they worked very well with me",
-      "user_id": {
+      "users": {
         "id": "2",
         "name": "phil"
     },
-    "syndicate_id": "1",
+    "syndicate":{
+        "id":"1",
+        "name":"thomas's syndicate",
+    }
  }
  ]
  ```
