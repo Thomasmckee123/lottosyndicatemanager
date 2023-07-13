@@ -1,7 +1,7 @@
 INSERT INTO users (first_name, last_name, password, email) VALUES 
-('John', 'Doe', 'h4x0r123', 'JohnDoe@GPTmail.com'),
-('Jane', 'Smith', 'al0ha123', 'JaneSmith@GPTmail.com'),
-('Charlie', 'Brown', 'peanut123', 'CharlieBrown@GPTmail.com');
+('John', 'Doe', 'h4x0r123', 'JohnDoe@Gmail.com'),
+('Jane', 'Smith', 'al0ha123', 'JaneSmith@Gmail.com'),
+('Charlie', 'Brown', 'peanut123', 'CharlieBrown@Gmail.com');
 
 INSERT INTO syndicates (created_date, name, description, avatar, owner_id) VALUES 
 ('2023-07-10', 'The Thunderbolts', 'For those who strike like lightning!', 'thunderbolts.jpg', 1),
@@ -19,9 +19,9 @@ INSERT INTO user_syndicates (start_date, user_id, syndicate_id, role_id) VALUES
 ('2023-07-15', 3, 3, 1);
 
 INSERT INTO games (name, draw_date, reward, required_ticket_number , user_syndicate_id) VALUES 
-('Fortune Flood', '2023-07-16', 50000.0, 'FF-123456', 1),
-('Lucky Labyrinth', '2023-07-17', 75000.0, 'LL-123456', 2),
-('Money Maze', '2023-07-18', 100000.0, 'MM-123456', 3);
+('Fortune Flood', '2023-07-16', 50000.0, 5, 1),
+('Lucky Labyrinth', '2023-07-17', 75000.0, 3, 2),
+('Money Maze', '2023-07-18', 100000.0, 7, 3);
 
 
 INSERT INTO user_syndicate_reviews (created_date, title, content, user_id, syndicate_id) VALUES

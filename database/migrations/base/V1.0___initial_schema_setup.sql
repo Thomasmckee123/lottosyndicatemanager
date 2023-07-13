@@ -45,7 +45,7 @@ CREATE TABLE games(
     name VARCHAR(255) NOT NULL,
     draw_date DATE NOT NULL,
     reward FLOAT NOT NULL,
-    required_ticket_number VARCHAR(255) NOT NULL,
+    required_ticket_number INT NOT NULL,
     user_syndicate_id SERIAL NOT NULL CONSTRAINT fk_games_user_syndicate_id REFERENCES user_syndicates(id)
 );
 CREATE TABLE ticket_status(
