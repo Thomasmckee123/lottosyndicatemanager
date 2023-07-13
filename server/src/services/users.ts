@@ -9,5 +9,19 @@ const getAll = async () => {
       },
     });
   };
-  const UserService = {getAll};
+  
+  const getUserById = async (userId: number) => {
+    return await prisma.users.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+  };
+
+
+
+
+  const UserService = {getAll,getUserById};
   export {UserService};
+
+  

@@ -18,5 +18,21 @@ const getAll = async () => {
       },
     });
 };
-  const SyndicateService = {getAll};
+async function getSyndicatesByUserId(userId: number) {
+    let syndicatesByUserId;
+
+    try {
+      syndicatesByUserId = await prisma.user_syndicates.findMany({
+        where: { user_id: userId },
+        include: { users: true, syndicates: true },
+      });
+    } catch (error) {
+
+      throw Error("Cannot get client by user id", error);
+    }
+
+    return syndicatesByUserId;
+  }
+
+  const SyndicateService = {getAll, getSyndicatesByUserId};
   export {SyndicateService};
