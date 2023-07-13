@@ -232,14 +232,12 @@ Response : 200 - OK
     "id": 1,
     "first_name": "Lorna",
     "last_name": "McKinley",
-    "password": "password123",
     "email": "john@example.com",
   },
   {
     "id": 2,
     "first_name": "Jane",
     "last_name": "smith",
-    "password": "secret321",
     "email": "jane@example.com",
     
   }
@@ -396,7 +394,11 @@ response 200: OK
     "name": "top syndicate",
     "description": "good syndicate",
     "avatar": "image.png",
-    "owner_id": "1",
+       "owner": { 
+        "user_id": "3",
+        "name": "Thomas",
+       
+    },
 }
 
 ]
@@ -419,11 +421,7 @@ request
     "name": "bestSyndicate",
     "description": "A great syndicate",
     "avatar": "cover photo",
-    "owner": { 
-        "user_id": "3",
-        "name": "Thomas",
-       
-    },
+    "owner_id": "1"
 
 }
 ```
@@ -439,11 +437,7 @@ response 200: OK
     "name": "bestSyndicate",
     "description": "A great syndicate",
     "avatar": "cover photo",
-      "owner": {"
-      user_id": "3",
-        "name": "Thomas",
-        
-    },
+    "owner_id": "2",
 }
 ```
 Other responses : 
@@ -482,10 +476,7 @@ response 200: OK
     "name": "new syndicate name",
     "description": "A great syndicate",
     "avatar": "cover photo",
-     "owner": {
-        "name": "Thomas",
-        "user_id": "3"
-    },
+
 }
 ```
 Other responses : 
@@ -511,7 +502,7 @@ DELETE /syndicates/{id}
 #### this gets the syndicates a user is a part of
 
 
-GET /users/{id}/syndicates/{id}
+GET /users/{id}/syndicates
 
 response 200
 
@@ -557,31 +548,17 @@ response 200 : success
 ```json
 
     {
-    "syndicate_id": "3",
-    "name": "20/10/2021",
-    "user_id": "1",
-    "syndicate_id": "1",
-    "role_id": "1",
+  
+    "created_": "20/10/2021",
 
 }
 
 ```
 
-response: 200 - OK
+response: 201 - OK
 
 
-```json
 
-    {
-    "id": "3",
-    "syndicate_id": "1",
-    "name": "20/10/2021",
-    "user_id": "1",
-    "syndicate_id": "1",
-    "role_id": "1",
-}
-
-```
 
 
 
@@ -613,10 +590,8 @@ response 200 OK
 ```json
 
     {
-    "user_id": "3",
+    "id": "3",
     "created_date": "3/08/2022",
-    "start_date": "2/09/2023",
-    "leave_date": "1/10/2023",
     "syndicate": {
         "id": "1",
         "name": "first syndicate"
@@ -625,7 +600,9 @@ response 200 OK
         "id": "2",
         "name":"Thomas"
     },
-    "syndicate_role": "2",
+    "role": {
+        "id": "1",
+        "name": "master"    },
     }
 
 ```
@@ -741,28 +718,32 @@ other responses
 ### message board
 
 #### getting a message board
-GET /boards
+GET syndicate/{id}/boards
 
 response
 
 ```json
-
-[{
 {
     "id": "1",
-"name": "example board name",
-"syndicate": {
+    "name": "test message board",
+    "messages":[{
+    "date": "10/12/2020",
     "id": "1",
-    "name": "Thomas's syndicate"
+    "users":{
+    "id": "1",
+     "name": "Thomas"
+    },
+"body":"hi whats up"
+    },{
+     "id": "2",
+     "date":"10/12/2020",
+        "body":"im great whats up with you"   ,
+            "users":{
+          "id": "1",
+     "name": "Thomas"
+        },
+    }]
 }
-},
-{
-    "id": "2",
-    "name":"other board",
-    "syndicate":{"id":"1",
-    "name":"Thomas's second syndicate"},
-}
-}]
 ```
 
 other responses 
@@ -774,7 +755,7 @@ other responses
 #### returns a syndicate's boards
 
 
-GET /boards
+GET syndicates{id}/boards
 
 
 response
@@ -838,15 +819,7 @@ response:
 ```
 
 
-### messages
 
-GET /boards/{id}/messages
-```json
-[{
-    "id":"5",
-    "message": "hi, how is everyone",
-}]
-```
 #### creating a message
 POST /boards/{id}/messages
 
@@ -871,31 +844,7 @@ response : 200
 "user_syndicate_id": "1",
 }]
 ```
-##### getting messages within a board
-GET /Boards
-```json
-{
-    "id": "1",
-    "name": "test message board",
-    "messages":[{
-        "date": "10/12/2020"
-        "id": "1",
-        "users":{
-"id": "1",
-"name": "Thomas"
-        },
-        "body":"hi whats up"
-    },{
-     "id": "2",
-     "date":"10/12/2020"
-        "body":"im great whats up with you"   ,
-            "users":{
-"id": "1",
-"name": "Thomas"
-        },
-    }]
-}
-```
+
 #### getting all messages
 
 
@@ -1049,7 +998,7 @@ other responses:
 
 #### updating tickets if user wins
 
-PUT /games/{id}/tickets
+PUT /tickets{id}
 
 
 request 
