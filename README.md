@@ -109,6 +109,20 @@ I will use the MoSCoW prioritization technique for managing the requirements, M 
 
 .The system won’t give out rewards for the groups with highest win rates
 ##  domain model diagram
+erDiagram
+    Users }|--|{ Syndicate : places
+    Syndicate }|--|{ payment : requires
+    Syndicate ||--|{ draw : contains
+   Users ||--|{ payment : requires
+    Syndicate ||--|{ game : uses
+    game ||--|{ draw:contains
+    draw ||--|{ gameChat: uses
+    draw ||--|{ payment: requires
+    Syndicate ||--|{ Board: contains
+
+
+
+## ER diagram
 ```mermaid
 erDiagram
 users ||--|{ user_syndicate_reviews : ""
@@ -120,7 +134,7 @@ syndicates ||--|{boards : ""
 roles ||--|{ user_syndicates : ""
 games ||--|{ game_user_syndicates_ticket: ""
 user_syndicates ||--|{ game_user_syndicates_ticket: ""
-game_user_syndicates_ticket||--|{ ticket_types: ""
+game_user_syndicates_ticket||--|{ ticket_status: ""
 user_syndicates ||--|{ board_message: ""
 user_syndicates ||--|{ games: ""
 boards ||--|{ board_message : "" 
@@ -171,15 +185,15 @@ games{
     string name 
     date draw_date
     float reward
-    string ticket_number
+    string required_ticket_number
     int user_syndicate_id
     
 }
 game_user_syndicates_ticket{
     int id PK
     int ticket_code
-    float reward
-    int ticket_type_id FK
+    float total_reward_value
+    int ticket_status_id FK
     int user_syndicate_id FK
     int game_id FK
 }
@@ -196,7 +210,7 @@ board_message{
     int user_syndicate_id FK
 }
 
-ticket_types{
+ticket_status{
     int id PK
     string name 
 }
