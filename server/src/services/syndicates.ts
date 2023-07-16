@@ -1,4 +1,6 @@
 import {prisma} from "../utils/prisma"
+import bcrypt from "bcrypt"
+
 const getAll = async () => {
     return await prisma.syndicates.findMany({
       select: {
@@ -18,6 +20,7 @@ const getAll = async () => {
       },
     });
 };
+//getting the syndicates by user id
 async function getSyndicatesByUserId(userId: number) {
     let syndicatesByUserId;
 
@@ -33,6 +36,66 @@ async function getSyndicatesByUserId(userId: number) {
 
     return syndicatesByUserId;
   }
+  
+//creating a new syndicate
+async function createSyndicate(syndicate: any) {
+  try {
 
-  const SyndicateService = {getAll, getSyndicatesByUserId};
+  const newSyndicate = await prisma.syndicates.create({
+    data: {
+      created_date: new Date(),
+      name: syndicate.name,
+      description:syndicate.description,
+      avatar:syndicate.avatar,
+      owner_id: syndicate.owner_id
+  
+    },
+  });
+    return newSyndicate.created_date;
+  } catch(error) {
+    console.log(error);
+    throw Error("Cannot create user");
+  }
+} 
+//update syndicate details
+async function updateSyndicateDetails(syndicate: any) {
+  let updateSyndicate;
+  try {
+    updateSyndicate= await prisma.syndicates.update({
+      where: {
+        id: syndicate.id,
+      },
+      data: {
+      name: syndicate.name,
+      description: syndicate.description,
+      avatar:syndicate.avatar
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+  return updateSyndicate;
+}
+
+//deleting syndicate details
+  async function deleteSyndicateById(syndicateId: number) {
+    let deletedSyndicate;
+    try {
+      deletedSyndicate= await prisma.syndicates.update({
+        where: {
+          id: syndicateId,
+        },
+        data: {
+          created_date: new Date(),
+          name:"DELETED",
+          description: "DELETEDUSERPASS",
+          avatar: "DELETED",
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    return deletedSyndicate;
+  }
+  const SyndicateService = {deleteSyndicateById, getAll, getSyndicatesByUserId,createSyndicate,updateSyndicateDetails};
   export {SyndicateService};

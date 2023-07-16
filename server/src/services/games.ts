@@ -33,6 +33,49 @@ const getAll = async () => {
     });
   };
   
+//create a game using the syndicate id
 
-  const GameService = {getAll};
+async function createGameInSyndicate(game: any) {
+  try {
+
+  const newGame = await prisma.games.create({
+    data: {
+  name: game.name,
+  draw_date: new Date(game.draw_date),
+  reward: Number(game.reward),
+  required_ticket_number: game.required_ticket_number as string,
+  user_syndicate_id: game.user_syndicate_id
+  
+    },
+  });
+    return newGame.draw_date;
+  } catch(error) {
+    console.log(error);
+    throw Error("Cannot create game");
+  }
+} 
+
+async function updateGames(game: any) {
+  let updateGame;
+  try {
+    updateGame= await prisma.games.update({
+      where: {
+        id: game.id
+      },
+      data: {
+      name: game.name,
+      draw_date: game.draw_date,
+      reward: game.reward,
+      required_ticket_number: game.required_ticket_number,
+      user_syndicate_id: game.user_syndicate_id
+
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+  return updateGame;
+}
+
+  const GameService = {getAll,createGameInSyndicate,updateGames};
   export {GameService};
