@@ -1,8 +1,10 @@
+import { ISyndicate } from "../interfaces/index";
+import { IUserSyndicate } from "../interfaces/syndicates";
 import {prisma} from "../utils/prisma"
 import bcrypt from "bcrypt"
 
 const getAll = async () => {
-    return await prisma.syndicates.findMany({
+   const allSyndicates : ISyndicate[]=  await prisma.syndicates.findMany({
       select: {
         id: true,
         created_date: true,
@@ -19,22 +21,52 @@ const getAll = async () => {
         },
       },
     });
+    const filteredUsers = allSyndicates?.filter((syndicate) => syndicate.name !== "DELETED")
+    return filteredUsers;
 };
 //getting the syndicates by user id
 async function getSyndicatesByUserId(userId: number) {
-    let syndicatesByUserId;
+    let syndicatesByUserId : IUserSyndicate[] | null;
 
     try {
       syndicatesByUserId = await prisma.user_syndicates.findMany({
         where: { user_id: userId },
-        include: { users: true, syndicates: true },
-      });
+          select:{
+            start_date: true,
+            users:{select:{
+id: true,
+first_name: true,
+last_name: true,
+email: true
+
+            },
+          },syndicates: {
+select:{
+created_date: true,
+name: true,
+description: true,
+avatar: true,
+
+
+}, },
+roles:{
+  select:{
+ name: true
+  }
+}
+          }
+
+          }
+      
+      );
     } catch (error) {
 
-      throw Error("Cannot get client by user id", error);
+      throw Error("Cannot get syndicateby user id", error);
     }
+    const filteredUsers = syndicatesByUserId?.filter((syndicate) => syndicate.users.first_name!== "DELETEDUSER" || syndicate.syndicates.name !== "DELETED")
 
-    return syndicatesByUserId;
+    return filteredUsers;
+
   }
   
 //creating a new syndicate

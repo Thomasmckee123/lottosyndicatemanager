@@ -31,7 +31,17 @@ async function getMessagesByBoardsId(req: Request, res: Response) {
       res.status(500).json("Could not create user.");
     }
   }
-
-  
-const MessagesController = {createNewMessageInBoard,getAllMessages,getMessagesByBoardsId};
+//deleting messages
+  async function deleteMessageById(req: Request, res: Response)    {
+    const  deleteData =  Number(req.params.messageId);
+      
+    
+    console.log(deleteData);
+    const deletedMessage = await MessageService.deleteMessageById(deleteData);
+    if (!deletedMessage)  {
+      return res.status(500).json("Cannot delete Message");
+    }
+    return res.status(200).json(deletedMessage);
+  }
+const MessagesController = {createNewMessageInBoard,getAllMessages,getMessagesByBoardsId, deleteMessageById};
 export {MessagesController};

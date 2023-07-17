@@ -1,7 +1,9 @@
 import {prisma} from "../utils/prisma"
+import { ITicket } from "../interfaces";
+
 //getting all tickets
 const getAll = async () => {
-    return await prisma.game_user_syndicates_ticket.findMany({
+    const allTickets: ITicket[] | null = await prisma.game_user_syndicates_ticket.findMany({
     select:{
         id: true,
         ticket_code: true,
@@ -28,20 +30,48 @@ const getAll = async () => {
 
 
     }
-    
-    });
+  
+    }); 
+    const filteredTickets = allTickets?.filter((ticket) => ticket.user_syndicates.users.first_name !== "DELETEDUSER");
+
+     return filteredTickets;
   };
 
   //geting tickets of a particular game Id
 
   async function ticketsByGameId(gameId: number) {
-    let ticketsByGameId;
+    let ticketsByGameId : ITicket[]| null;
   
     try {
       ticketsByGameId = await prisma.game_user_syndicates_ticket.findMany({
         where: {
           game_id: gameId,
-        },
+        },    select:{
+          id: true,
+          ticket_code: true,
+          total_reward_value: true,
+          ticket_status:{
+              select:{
+                  id: true,
+                  name: true,
+              },
+          },user_syndicates:{
+              select:{
+                  id: true, 
+                  users:{
+                      select:{
+                          id: true,
+                          first_name: true,
+                          last_name: true,
+                      },
+                  },
+       
+              },  
+          },
+          game_id: true
+  
+  
+      }
       });
     } catch (error) {
       throw Error("Cannot get messages by game id", error);
@@ -89,7 +119,7 @@ const getAll = async () => {
     }
     return updateTicket;
   }
-
+//deleting tickets
   async function deleteTicketsById(ticketId) {
     try {
      

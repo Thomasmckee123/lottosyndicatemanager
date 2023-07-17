@@ -1,8 +1,10 @@
+import { IBoards } from "../interfaces";
 import {prisma} from "../utils/prisma"
 
 const getAll = async () => {
-    return await prisma.boards.findMany({
+    const getAllBoards: IBoards[] =  await prisma.boards.findMany({
       select: {
+        id: true,
         name: true,
         syndicates: {
           select: {
@@ -21,6 +23,7 @@ const getAll = async () => {
         },
       },
     });
+    return getAllBoards
   };
   //getting boards by syndicate Id
   async function getBoardsBySyndicateId(syndicateId: number) {

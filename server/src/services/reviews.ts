@@ -1,17 +1,18 @@
 
 import {prisma} from "../utils/prisma"
 import bcrypt from "bcrypt"
-
+import { IReviews } from "../interfaces";
 //getting reviews by syndicate ID
 
 async function getreviewsBySyndicateId(syndicateId: number) {
-    let reviewsBySyndicateId;
+    let reviewsBySyndicateId : IReviews[];
   
     try {
       reviewsBySyndicateId = await prisma.user_syndicate_reviews.findMany({
         where: {
           syndicate_id: syndicateId,
         },select:{
+            id:true,
             created_date: true,
             title: true,
             content: true,
@@ -30,7 +31,7 @@ last_name: true
     } catch (error) {
       throw Error("Cannot get messages by game id", error);
     }
-  
+    console.log(reviewsBySyndicateId);
     return reviewsBySyndicateId;
   }
 

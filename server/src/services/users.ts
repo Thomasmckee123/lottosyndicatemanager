@@ -1,22 +1,54 @@
+import { IUser } from "../interfaces";
 import {prisma} from "../utils/prisma"
 import bcrypt from "bcrypt"
+
 const getAll = async () => {
-    return await prisma.users.findMany({
-      select: {
+  let allUsers = await prisma.users.findMany({
+    select: {
+      id: true,
+      first_name: true,
+      last_name: true,
+      email: true,
+    },
+  });
+
+  let getAllUsers: IUser[] = allUsers.map((x) => ({
+    userId: x.id,
+    firstName: x.first_name,
+    lastName: x.last_name, 
+    email: x.email,
+  }));
+
+  let filteredUsers = getAllUsers.filter((user) => user.firstName !== "DELETEDUSER");
+
+  return filteredUsers;
+};
+  
+  const getUserById = async (userId: number) => {
+   
+  
+   const usersById  = await prisma.users.findUnique({
+      where: {
+        id: userId,
+      }, select: {
         id: true,
         first_name: true,
         last_name: true,
         email: true,
       },
     });
-  };
+     if (!usersById) {
+      return null;
+    }
+    let getAllUsers:  IUser = {
+      userId: usersById.id,
+      firstName: usersById.first_name,
+      lastName: usersById.last_name, 
+      email: usersById.email,
+    };
   
-  const getUserById = async (userId: number) => {
-    return await prisma.users.findUnique({
-      where: {
-        id: userId,
-      },
-    });
+  
+    return getAllUsers;
   };
 //creating a new user
   async function createUser(user: any) {
@@ -100,6 +132,7 @@ async function createUserSyndicate(userSyndicate: any) {
     return deletedUser;
   }
   
+
   const UserService = {deleteUserById,getAll,getUserById, createUser, updateUserDetails,createUserSyndicate};
   export {UserService};
 

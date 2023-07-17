@@ -1,7 +1,9 @@
 import {prisma} from "../utils/prisma"
+import { IGames } from "../interfaces";
+
 const getAll = async () => {
 
-    return await prisma.games.findMany({
+    const allGames: IGames[] | null =  await prisma.games.findMany({
       select:{
         name: true,
         draw_date: true,
@@ -31,6 +33,7 @@ const getAll = async () => {
         }
       }
     });
+    return allGames;
   };
   
 //create a game using the syndicate id
@@ -76,6 +79,30 @@ async function updateGames(game: any) {
   }
   return updateGame;
 }
+//delete game
 
-  const GameService = {getAll,createGameInSyndicate,updateGames};
+async function deleteGameById(gameId) {
+  try {
+    // First, delete all messages that reference the board
+    await prisma.game_user_syndicates_ticket.deleteMany({
+      where: {
+        game_id: gameId
+      },
+    });
+    
+    // Then, delete the board
+    const deletedGame = await prisma.games.delete({
+      where: {
+        id: gameId
+      },
+    });
+    
+    return deletedGame;
+    
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+  const GameService = {getAll,createGameInSyndicate,updateGames,deleteGameById};
   export {GameService};

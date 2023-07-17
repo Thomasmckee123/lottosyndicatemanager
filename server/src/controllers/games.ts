@@ -45,5 +45,16 @@ async function UpdateGame(req: Request, res: Response) {
     res.status(500).json("Could not update user.");
   }
 }
-const GameController = {getAllGames, createGames, UpdateGame};
+//deleting a game by id
+async function deleteGameById(req: Request, res: Response) {
+  const gameId = Number(req.params.gameId);
+
+  const deletedGame = await GameService.deleteGameById(gameId);
+  if (!deletedGame) {
+    return res.status(500).json("Cannot delete game");
+  }
+  return res.status(200).json(deletedGame);
+}
+
+const GameController = {getAllGames, createGames, UpdateGame, deleteGameById};
 export {GameController};

@@ -7,4 +7,5 @@ BoardsRouter.get("/", BoardsController.getAllBoards);
 BoardsRouter.get("/syndicate/:syndicateId",BoardsController.getBoardsBySyndicateId);
 BoardsRouter.post("/create",BoardsController.createBoard);
 BoardsRouter.delete("/delete/:boardId",BoardsController.deleteBoardById);
+BoardsRouter.put("/update/:boardId", BoardsController.UpdateBoards);
 export { BoardsRouter }; 
