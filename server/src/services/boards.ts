@@ -57,6 +57,27 @@ async function createBoards(board: any) {
       throw Error("Cannot create user");
     }
   } 
+//update boards
+
+async function updateBoards(board: any) {
+  let updateBoards;
+  try {
+    updateBoards= await prisma.boards.update({
+      where: {
+        id: board.id,
+      },
+      data: {
+      name: board.name,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+  return updateBoards;
+}
+
+
+
 
   async function deleteBoardsById(boardId) {
     try {
@@ -82,5 +103,5 @@ async function createBoards(board: any) {
     }
   }
   
-  const BoardsService = {deleteBoardsById, getAll, getBoardsBySyndicateId, createBoards};
+  const BoardsService = {deleteBoardsById, getAll, getBoardsBySyndicateId, createBoards, updateBoards};
   export {BoardsService};

@@ -36,5 +36,18 @@ async function getBoardsBySyndicateId(req: Request, res: Response) {
     }
     return res.status(200).json(deletedBoards);
   }
-const BoardsController = {getAllBoards, getBoardsBySyndicateId,createBoard, deleteBoardById};
+
+
+  async function UpdateBoards(req: Request, res: Response) {
+    try {
+      const { boardId } =  req.params; 
+      let boardDetails = req.body;
+      boardDetails["id"] = Number(boardId);
+      const updatedBoard= await BoardsService.updateBoards(boardDetails);
+      return res.status(200).json(updatedBoard);
+    } catch (error) {
+      res.status(500).json("Could not update Board.");
+    }
+  }
+const BoardsController = {getAllBoards, getBoardsBySyndicateId,createBoard, deleteBoardById, UpdateBoards};
 export {BoardsController};
