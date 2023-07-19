@@ -73,6 +73,7 @@ const getAll = async () => {
   
       }
       });
+ 
     } catch (error) {
       throw Error("Cannot get messages by game id", error);
     }

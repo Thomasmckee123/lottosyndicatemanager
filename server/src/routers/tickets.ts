@@ -3,9 +3,182 @@ import { TicketController } from "../controllers/tickets";
 //setting up routers
 const TicketRouter = express.Router();
 
-TicketRouter.get("/", TicketController.getAlltickets);
-TicketRouter.get("/games/:gameId",TicketController.getTicketsByGameId);
-TicketRouter.post("/syndicates/:syndicateId/games/:gameId",TicketController.createTickets)
-TicketRouter.put("/update/:id",TicketController.updateTicketStatus);
-TicketRouter.put("/delete/:ticketId",TicketController.deleteTicketById);
+TicketRouter.get("/"/**
+* @swagger
+* /api/tickets:
+*   get:
+*     summary: Retrieve all tickets.
+*     description: Retrieves a tickets object array.
+*     tags:
+*      - tickets
+*     responses:
+*       200:
+*         description: A valid array of tickets object.
+*         content:
+*           application/json:
+*             schema:
+*               type: array
+*              
+*/, TicketController.getAlltickets);
+TicketRouter.get(
+/**
+* @swagger
+* /api/tickets/games/{id}:
+*   get:
+*     summary: Retrieve all tickets by gameId.
+*     description: Retrieves a user object based on its id.
+*     tags:
+*      - gameTickets
+*     parameters:
+*       - in: path
+*         name: id
+*         required: true
+*         description: Numeric ID of the user to retrieve.
+*         schema:
+*           type: integer
+*     responses:
+*       200:
+*         description: A valid ticket object.
+*         content:
+*           application/json:
+*             schema:
+*               type: array
+*               
+*/"/games/:gameId",TicketController.getTicketsByGameId);
+TicketRouter.post(/**
+* @swagger
+* /api/tickets/syndicates/{syndicateId}/games/{gameId}:
+*   post:
+*     summary: Create a new ticket.
+*     description: Creates a new ticket object.
+*     tags:
+*      - syndicates
+*      - games
+*     parameters:
+*       - in: path
+*         name: syndicateId
+*         description: ID of the syndicate to create a ticket for.
+*         required: true
+*         schema:
+*           type: integer
+*       - in: path
+*         name: gameId
+*         required: true
+*         schema:
+*           type: integer
+*         description: ID of the game to create a ticket for.
+*       - in: body
+*         name: ticketDetails
+*         required: true
+*         content:
+*           schema:
+*             type: object
+*           properties:
+*               ticket_code:
+*                 type: string
+*                 description: ticket_code
+*                 example: "John Graham"
+*               total_reward_value:
+*                 type: number
+*                 description: total_reward_value
+*                 example: 23453  
+*               ticket_status_id:
+*                 type: number
+*                 description: ticket status id  
+*     responses:
+*       201:
+*         description: Created a new ticket.
+*         content:
+*           application/json:
+*             schema:
+*               type: object
+*               properties:
+*                 id:
+*                   type: number
+*                 ticket_code:
+*                   type: string
+*                 total_reward_value:
+*                   type: number
+*                 ticket_status_id:
+*                   type: number
+*                 syndicateId:
+*                   type: number
+*                 gameId:
+*                   type: number
+*/
+
+"/api/syndicates/:syndicateId/games/:gameId", TicketController.createTickets);
+TicketRouter.put( /**
+* @swagger
+* /api/tickets/update/{ticketId}:
+*   put:
+*     tags: 
+*       - tickets 
+*     summary: Updates an existing ticket
+*     parameters:
+*       - in: path 
+*         name: ticketId
+*         schema:
+*           type: integer
+*         description: The id of the requested user.
+*       - in: body
+*         name: updateTickets
+*         description: "ticket details to update"
+*         schema:
+*           type: object
+*           properties:
+*            total_reward_value:
+*             type: string
+*             required: false
+*             description: update total reward
+*            ticket_status_id:
+*             type: integer
+*             required: false
+*             description: update the status
+*             example: 1
+*           
+*     responses:
+*       400:
+*         description: Bad Request - required values are missing.
+*       200:
+*         description: User Updated
+*/
+"/update/:id",TicketController.updateTicketStatus);
+
+TicketRouter.put( /**
+* @swagger
+* /api/tickets/update/{ticketId}:
+*   put:
+*     tags: 
+*       - tickets 
+*     summary: Updates an existing ticket
+*     parameters:
+*       - in: path 
+*         name: ticketId
+*         schema:
+*           type: integer
+*         description: The id of the requested user.
+*       - in: body
+*         name: updateTickets
+*         description: "ticket details to update"
+*         schema:
+*           type: object
+*           properties:
+*            ticket_code:
+*             type: string
+*             required: false
+*             description: update total reward
+*             example: "DELETED"
+*            ticket_status_id:
+*             type: integer
+*             required: false
+*             description: update the status
+*             example: 1
+*           
+*     responses:
+*       400:
+*         description: Bad Request - required values are missing.
+*       200:
+*         description: User Updated
+*/"/delete/:ticketId",TicketController.deleteTicketById);
 export { TicketRouter }; 

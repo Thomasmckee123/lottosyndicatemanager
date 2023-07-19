@@ -11,17 +11,15 @@ const getAll = async () => {
       email: true,
     },
   });
-
-  let getAllUsers: IUser[] = allUsers.map((x) => ({
-    userId: x.id,
-    firstName: x.first_name,
-    lastName: x.last_name, 
-    email: x.email,
-  }));
-
-  let filteredUsers = getAllUsers.filter((user) => user.firstName !== "DELETEDUSER");
-
-  return filteredUsers;
+  let getAllUsers: IUser[] = allUsers
+    .filter((user) => user.first_name !== "DELETEDUSER")
+    .map((x) => ({
+      userId: x.id,
+      firstName: x.first_name,
+      lastName: x.last_name,
+      email: x.email,
+    }));
+  return getAllUsers;
 };
   
   const getUserById = async (userId: number) => {
