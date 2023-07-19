@@ -44,7 +44,7 @@ SyndicatesRouter.get(/**
 *             schema:
 *               type: array
 *               
-*/"/user/:userId",SyndicateController.getSyndicatesByUserId);
+*/"/user/:userId(\\d+)",SyndicateController.getSyndicatesByUserId);
 SyndicatesRouter.post(/**
 * @swagger
 * /api/syndicates/create/users/{userId}:
@@ -94,7 +94,7 @@ SyndicatesRouter.post(/**
 *               type: array
 *               
 */
-"/create/users/:userId", SyndicateController.createSyndicate);
+"/create/users/:userId(\\d+)", SyndicateController.createSyndicate);
 SyndicatesRouter.put(/**
 * @swagger
 * /api/syndicates/update/{syndicateId}:
@@ -133,7 +133,7 @@ SyndicatesRouter.put(/**
 *         description: Bad Request - required values are missing.
 *       200:
 *         description: User Updated
-*/"/update/:syndicateId", SyndicateController.UpdateSyndicateDetails);
+*/"/update/:syndicateId(\\d+)", SyndicateController.UpdateSyndicateDetails);
 SyndicatesRouter.put(/**
 * @swagger
 * /api/tickets/delete/{syndicateId}:
@@ -169,5 +169,5 @@ SyndicatesRouter.put(/**
 *         description: Bad Request - required values are missing.
 *       200:
 *         description: User Updated
-*/"/delete/:syndicateId",SyndicateController.deleteSyndicateById);
+*/"/delete/:syndicateId(\\d+)",SyndicateController.deleteSyndicateById);
 export { SyndicatesRouter }; 

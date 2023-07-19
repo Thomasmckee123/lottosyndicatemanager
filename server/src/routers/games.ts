@@ -1,5 +1,7 @@
 import express from "express";
 import { GameController } from "../controllers/games";
+import { body } from "express-validator";
+import { resolver } from "../middleware/_resolver";
 
 const GamesRouter = express.Router();
 
@@ -60,7 +62,12 @@ GamesRouter.post(/**
 *             schema:
 *               type: array
 */
-"/create/syndicates/:id",GameController.createGames);
+"/create/syndicates/:id(\\d+)", [
+    body("name").isString(),
+    body("draw_date").isDate().isLength({ min: 3 }).trim(),
+    body("reward").isNumeric().trim(),
+    body("required_ticket_number").isNumeric().isLength({ min:1} ).trim(),
+  ], resolver,GameController.createGames);
 GamesRouter.put( /**
 * @swagger
 * /api/games/update/{id}:
@@ -103,24 +110,30 @@ GamesRouter.put( /**
 *         description: Bad Request - required values are missing.
 *       200:
 *         description: User Updated
-*/"/update/:id",GameController.UpdateGame);
+*/"/update/:id(\\d+)", [
+    body("name").isString(),
+    body("draw_date").isDate().isLength({ min: 3 }).trim(),
+    body("reward").isNumeric().trim(),
+    body("required_ticket_number").isNumeric().isLength({ min:1} ).trim(),
+  ], resolver, GameController.UpdateGame);
 GamesRouter.delete(/**
 * @swagger
-* /api/games/delete/{gameId}:
+* /api/boards/delete/{boardId}:
 *   delete:
 *     tags: 
-*       -games
 *     summary: Deletes an existing game
+*     description: deletes a game object.
+*       -games
 *     parameters:
 *       - in: path
-*         name: gameId
+*         name: boardId
 *         type: integer
-*         description: The ID of the game.
+*         description: The ID of the board.
 *     responses:
 *       400:
 *         description: Bad Request - required values are missing.
 *       204:
-*         description: game Deleted
+*         description:board Deleted
 */
-"/delete/:gameId",GameController.deleteGameById);
+"/delete/:gameId(\\d+)",GameController.deleteGameById);
 export { GamesRouter }; 

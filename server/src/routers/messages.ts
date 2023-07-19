@@ -1,5 +1,7 @@
 import express from "express";
 import { MessagesController } from "../controllers/messages";
+import { resolver } from "../middleware/_resolver";
+import { body } from "express-validator";
 
 const MessagesRouter = express.Router();
 MessagesRouter.get("/"/**
@@ -43,7 +45,7 @@ MessagesRouter.get(/**
 *             schema:
 *               type: array
 *               
-*/"/board/:boardId", MessagesController.getMessagesByBoardsId);
+*/"/board/:boardId(\\d+)", MessagesController.getMessagesByBoardsId);
 
 MessagesRouter.post(/**
 * @swagger
@@ -104,6 +106,9 @@ MessagesRouter.post(/**
 *                   type: number
 *                 syndicateId:
 *                   type: number
-*/"/syndicates/:syndicateId/boards/:boardId", MessagesController.createNewMessageInBoard);
+*/"/syndicates/:syndicateId/boards/:boardId(\\d+)",[
+    body("message").isString().isLength({min:3, max: 2000}),
+    body("created_date").isDate(),
+  ], resolver, MessagesController.createNewMessageInBoard);
 MessagesRouter.put("/delete/:messageId", MessagesController.deleteMessageById);
 export { MessagesRouter }; 

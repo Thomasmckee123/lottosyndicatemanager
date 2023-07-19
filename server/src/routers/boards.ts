@@ -1,5 +1,7 @@
 import express from "express";
 import { BoardsController } from "../controllers/boards";
+import { resolver } from "../middleware/_resolver";
+import { body } from "express-validator";
 
 const BoardsRouter = express.Router();
 
@@ -43,7 +45,7 @@ BoardsRouter.get(/**
 *             schema:
 *               type: array
 *               
-*/"/syndicate/:syndicateId",BoardsController.getBoardsBySyndicateId);
+*/"/syndicate/:syndicateId(\\d+)",BoardsController.getBoardsBySyndicateId);
 BoardsRouter.post(/**
 * @swagger
 * api/boards/create:
@@ -78,14 +80,18 @@ BoardsRouter.post(/**
 *             schema:
 *               type: array
 *               
-*/"/create",BoardsController.createBoard);
+*/"/create", [
+    body("name").isString().isLength( {min:3} ),
+  ], resolver,
+  BoardsController.createBoard);
 BoardsRouter.delete(/**
 * @swagger
 * /api/boards/delete/{boardId}:
 *   delete:
 *     tags: 
-*       -boards
 *     summary: Deletes an existing board
+*     description: deletes a board object.
+*       -boards
 *     parameters:
 *       - in: path
 *         name: boardId
@@ -97,7 +103,7 @@ BoardsRouter.delete(/**
 *       204:
 *         description:board Deleted
 */
-"/delete/:boardId",BoardsController.deleteBoardById);
+"/delete/:boardId(\\d+)",BoardsController.deleteBoardById);
 BoardsRouter.put(/**
 * @swagger
 * /api/boards/update/{id}:
@@ -127,5 +133,5 @@ BoardsRouter.put(/**
 *         description: Bad Request - required values are missing.
 *       200:
 *         description: User Updated
-*/"/update/:boardId", BoardsController.UpdateBoards);
+*/"/update/:boardId(\\d+)", BoardsController.UpdateBoards);
 export { BoardsRouter }; 

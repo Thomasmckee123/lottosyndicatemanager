@@ -44,7 +44,7 @@ TicketRouter.get(
 *             schema:
 *               type: array
 *               
-*/"/games/:gameId",TicketController.getTicketsByGameId);
+*/"/games/:gameId(\\d+)",TicketController.getTicketsByGameId);
 TicketRouter.post(/**
 * @swagger
 * /api/tickets/syndicates/{syndicateId}/games/{gameId}:
@@ -107,7 +107,7 @@ TicketRouter.post(/**
 *                   type: number
 */
 
-"/api/syndicates/:syndicateId/games/:gameId", TicketController.createTickets);
+"/api/syndicates/:syndicateId/games/:gameId(\\d+)", TicketController.createTickets);
 TicketRouter.put( /**
 * @swagger
 * /api/tickets/update/{ticketId}:
@@ -143,11 +143,11 @@ TicketRouter.put( /**
 *       200:
 *         description: User Updated
 */
-"/update/:id",TicketController.updateTicketStatus);
+"/update/:id(\\d+)",TicketController.updateTicketStatus);
 
 TicketRouter.put( /**
 * @swagger
-* /api/tickets/update/{ticketId}:
+* /api/tickets/delete/{ticketId}:
 *   put:
 *     tags: 
 *       - tickets 
@@ -180,5 +180,5 @@ TicketRouter.put( /**
 *         description: Bad Request - required values are missing.
 *       200:
 *         description: User Updated
-*/"/delete/:ticketId",TicketController.deleteTicketById);
+*/"/delete/:ticketId(\\d+)",TicketController.deleteTicketById);
 export { TicketRouter }; 

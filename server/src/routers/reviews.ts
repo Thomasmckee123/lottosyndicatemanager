@@ -1,5 +1,7 @@
 import express from "express";
 import { ReviewsController } from "../controllers/reviews";
+import { resolver } from "../middleware/_resolver";
+import { body } from "express-validator";
 
 const ReviewsRouter = express.Router();
 ReviewsRouter.get(/**
@@ -26,7 +28,7 @@ ReviewsRouter.get(/**
 *             schema:
 *               type: array
 *               
-*/"/syndicates/:syndicateId",ReviewsController.getReviewsBySyndicateId)
+*/"/syndicates/:syndicateId(\\d+)",ReviewsController.getReviewsBySyndicateId)
 ReviewsRouter.post(/**
 * @swagger
 * /api/reviews/create/syndicates/{syndicateId}/users/{userId}:
@@ -89,15 +91,21 @@ ReviewsRouter.post(/**
 *                 syndicateId:
 *                   type: number
 */
- "/create/syndicates/:syndicateId/users/:userId", ReviewsController.createNewReviewOnSyndicate);
+ "/create/syndicates/:syndicateId/users/:userId(\\d+)",[
+    body("created_date").isDate(),
+    body("title").isString().isLength({ min: 3 }).trim(),
+    body("content").isString().isLength({min: 3, max:200}).trim(),
+  ], resolver, ReviewsController.createNewReviewOnSyndicate);
 
 ReviewsRouter.delete(/**
 * @swagger
 * /api/reviews/delete/{reviewId}:
 *   delete:
 *     tags: 
-*       -reviews
 *     summary: Deletes an existing review
+*     description: Creates a new review object.
+*       -reviews
+*     
 *     parameters:
 *       - in: path
 *         name: reviewId
@@ -109,5 +117,5 @@ ReviewsRouter.delete(/**
 *       204:
 *         description: Review Deleted
 */
-"/delete/:reviewId",ReviewsController.deleteReviewById);
+"/delete/:reviewId(\\d+)",ReviewsController.deleteReviewById);
 export { ReviewsRouter }; 

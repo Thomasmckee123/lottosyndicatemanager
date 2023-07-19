@@ -1,7 +1,8 @@
 import express from "express";
 import { UserController } from "../controllers/users";
-
-
+import { validate } from '../utils/validation'
+import { resolver } from "./../middleware/_resolver";
+import { body } from "express-validator";
 const UserRouter = express.Router();
 
 UserRouter.get("/", 
@@ -48,7 +49,7 @@ UserRouter.get(/**
 *             schema:
 *               type: array
 *               
-*/"/:userId", UserController.getUserById); 
+*/"/:userId(\\d+)", UserController.getUserById); 
 UserRouter.post( /**
 * @swagger
 * api/users/create/{id}:
@@ -85,7 +86,21 @@ UserRouter.post( /**
 *             schema:
 *               type: array
 *               
-*/"/create", UserController.createUser);
+*/"/create",[
+    body("email").isString().isLength({ min: 3 }).isEmail().normalizeEmail(),
+    body("first_name").isString().isLength({ min: 2 }).trim(),
+    body("last_name").isString().isLength({min: 2}).trim(),
+    body("password")
+      .isString()
+      .isLength({ min: 8, max: 15 })
+      .withMessage("your password should have min and max length between 8-15")
+      .matches(/\d/)
+      .withMessage("your password should have at least one number")
+      .matches(/[!@#$%^&*(),.?“:{}|<>]/)
+      .withMessage("your password should have at least one special character"),
+  ],
+  resolver, 
+  UserController.createUser);
 UserRouter.put(/**
 * @swagger
 * /api/users/update/{userId}:
@@ -130,7 +145,19 @@ UserRouter.put(/**
 *       200:
 *         description: User Updated
 */
- "/update/:userId", UserController.updateUserDetails);
+ "/update/:userId(\\d+)",[
+   body("email").isString().isLength({ min: 3 }).isEmail().normalizeEmail(),
+   body("first_name").isString().isLength({ min: 2 }).trim(),
+   body("last_name").isString().isLength({min: 2}).trim(),
+   body("password")
+     .isString()
+     .isLength({ min: 8, max: 15 })
+     .withMessage("your password should have min and max length between 8-15")
+     .matches(/\d/)
+     .withMessage("your password should have at least one number")
+     .matches(/[!@#$%^&*(),.?“:{}|<>]/)
+     .withMessage("your password should have at least one special character"),
+ ],resolver, UserController.updateUserDetails);
 UserRouter.post(/**
 * @swagger
 * /api/users/{userId}/syndicates/{syndicateId}:
@@ -189,10 +216,13 @@ UserRouter.post(/**
 *                   type: number
 *                 syndicateId:
 *                   type: number
-*/"/:userId/syndicates/:syndicateId",UserController.createUserSyndicate)
+*/"/:userId/syndicates/:syndicateId(\\d+)",[
+    body("start_date").isDate(),
+    body("role_id").isNumeric().trim(),
+  ],resolver, UserController.createUserSyndicate)
 UserRouter.put(/**
 * @swagger
-* /api/tickets/update/{ticketId}:
+* /api/users/delete/{userId}:
 *   put:
 *     tags: 
 *       - tickets 
@@ -220,6 +250,6 @@ UserRouter.put(/**
 *         description: Bad Request - required values are missing.
 *       200:
 *         description: User Updated
-*/"/delete/:userId",UserController.deleteUserById);
+*/"/delete/:userId(\\d+)",UserController.deleteUserById);
 export { UserRouter }; 
 
