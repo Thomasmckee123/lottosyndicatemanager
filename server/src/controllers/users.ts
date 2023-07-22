@@ -2,8 +2,12 @@ import { Request, Response } from "express";
 import { UserService } from "./../services/users";
 
 const getAllUsers = async (req: Request, res: Response) => {
+  try{
   const users = await UserService.getAll();
   return !users ? res.sendStatus(404) : res.status(200).json(users);
+}catch
+{ 
+ return res.sendStatus(500)}
 };
 const getUserById = async (req: Request, res: Response) => {
   const { userId } = req.params;
@@ -30,15 +34,6 @@ const newUserSyndicate = {...req.body,
   }
 }
 
-async function createUser(req: Request, res: Response) {
-  try {
-    const newUser = req.body;
-    const createdUser = await UserService.createUser(newUser);
-    return res.status(200).json(createdUser);
-  } catch (error) {
-    res.status(500).json("Could not create user.");
-  }
-}
 
 async function updateUserDetails(req: Request, res: Response) {
   try {
@@ -66,5 +61,5 @@ async function deleteUserById(req: Request, res: Response)    {
   return res.status(200).json(deletedUser);
 }
 
-const UserController = {deleteUserById, getAllUsers, getUserById, createUser,updateUserDetails, createUserSyndicate};
+const UserController = {deleteUserById, getAllUsers, getUserById,updateUserDetails, createUserSyndicate};
 export {UserController};

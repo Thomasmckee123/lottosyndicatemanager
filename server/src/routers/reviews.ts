@@ -94,7 +94,7 @@ ReviewsRouter.post(/**
  "/create/syndicates/:syndicateId/users/:userId(\\d+)",[
     body("created_date").isDate(),
     body("title").isString().isLength({ min: 3 }).trim(),
-    body("content").isString().isLength({min: 3, max:200}).trim(),
+    body("content").isString().isLength({min: 3, max:2000}).trim(),
   ], resolver, ReviewsController.createNewReviewOnSyndicate);
 
 ReviewsRouter.delete(/**

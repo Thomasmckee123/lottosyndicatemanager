@@ -112,7 +112,7 @@ GamesRouter.put( /**
 *         description: User Updated
 */"/update/:id(\\d+)", [
     body("name").isString(),
-    body("draw_date").isDate().isLength({ min: 3 }).trim(),
+    body("draw_date").isDate(),
     body("reward").isNumeric().trim(),
     body("required_ticket_number").isNumeric().isLength({ min:1} ).trim(),
   ], resolver, GameController.UpdateGame);

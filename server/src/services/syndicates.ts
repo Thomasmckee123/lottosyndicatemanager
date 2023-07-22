@@ -86,7 +86,7 @@ async function createSyndicate(syndicate: any) {
     return newSyndicate.created_date;
   } catch(error) {
     console.log(error);
-    throw Error("Cannot create user");
+    throw Error("Cannot create syndicate");
   }
 } 
 //update syndicate details

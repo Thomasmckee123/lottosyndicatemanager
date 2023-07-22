@@ -1,5 +1,7 @@
 import express from "express";
 import { TicketController } from "../controllers/tickets";
+import { resolver } from "../middleware/_resolver";
+import { body } from "express-validator";
 //setting up routers
 const TicketRouter = express.Router();
 
@@ -107,7 +109,12 @@ TicketRouter.post(/**
 *                   type: number
 */
 
-"/api/syndicates/:syndicateId/games/:gameId(\\d+)", TicketController.createTickets);
+"/api/syndicates/:syndicateId/games/:gameId(\\d+)",[
+    body("ticket_code").isString().isLength({ min: 3 }),
+    body("total_reward_value").isNumeric().isLength({ min: 3 }).trim(),
+    body("ticket_status_id").isNumeric().isLength({min: 1}).trim(),
+    body("required_ticket_number").isNumeric().isLength({min:1})
+  ],resolver, TicketController.createTickets);
 TicketRouter.put( /**
 * @swagger
 * /api/tickets/update/{ticketId}:
@@ -143,7 +150,12 @@ TicketRouter.put( /**
 *       200:
 *         description: User Updated
 */
-"/update/:id(\\d+)",TicketController.updateTicketStatus);
+"/update/:id(\\d+)",[
+    body("ticket_code").isString().isLength({ min: 3 }),
+    body("total_reward_value").isNumeric().isLength({ min: 3 }).trim(),
+    body("ticket_status_id").isNumeric().isLength({min: 1}).trim(),
+    body("required_ticket_number").isNumeric().isLength({min:1})
+  ],resolver, TicketController.updateTicketStatus);
 
 TicketRouter.put( /**
 * @swagger

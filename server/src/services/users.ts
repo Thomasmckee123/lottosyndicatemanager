@@ -35,18 +35,13 @@ const getAll = async () => {
         email: true,
       },
     });
+    
      if (!usersById) {
       return null;
     }
-    let getAllUsers:  IUser = {
-      userId: usersById.id,
-      firstName: usersById.first_name,
-      lastName: usersById.last_name, 
-      email: usersById.email,
-    };
+
   
-  
-    return getAllUsers;
+    return usersById;
   };
 //creating a new user
   async function createUser(user: any) {
@@ -109,7 +104,24 @@ async function createUserSyndicate(userSyndicate: any) {
     return updateUser;
   }
 
-
+  const getByEmail = async (email: string) => {
+    return await prisma.users.findMany({
+      where: {
+        AND: [
+          {
+            email: email,
+          },
+          {
+            first_name: { not: "DELETEDUSER" },
+          },
+        ],
+      },
+      select: {
+        id: true,
+        password: true,
+      },
+    });
+  };
   async function deleteUserById(userId: number) {
     let deletedUser;
     try {
@@ -131,7 +143,7 @@ async function createUserSyndicate(userSyndicate: any) {
   }
   
 
-  const UserService = {deleteUserById,getAll,getUserById, createUser, updateUserDetails,createUserSyndicate};
+  const UserService = {getByEmail, deleteUserById,getAll,getUserById, createUser, updateUserDetails,createUserSyndicate};
   export {UserService};
 
   

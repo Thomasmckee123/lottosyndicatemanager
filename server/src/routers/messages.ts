@@ -106,9 +106,9 @@ MessagesRouter.post(/**
 *                   type: number
 *                 syndicateId:
 *                   type: number
-*/"/syndicates/:syndicateId/boards/:boardId(\\d+)",[
+*/"/syndicates/:syndicateId(\\d+)/boards/:boardId(\\d+)",[
     body("message").isString().isLength({min:3, max: 2000}),
     body("created_date").isDate(),
-  ], resolver, MessagesController.createNewMessageInBoard);
-MessagesRouter.put("/delete/:messageId", MessagesController.deleteMessageById);
+  ],resolver, MessagesController.createNewMessageInBoard);
+MessagesRouter.put("/delete/:messageId(\\d+)", MessagesController.deleteMessageById);
 export { MessagesRouter }; 
