@@ -1,5 +1,4 @@
 
-
 //interface for messages
 interface IBoardMessage {
   id: number;
@@ -20,4 +19,3 @@ interface IBoards {
 }
 
 export { IBoards };
-

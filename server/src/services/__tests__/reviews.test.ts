@@ -44,8 +44,8 @@ last_name: "McKee",
  /**
      * getting reviews by syndicate id
      */
-  describe("/GET/SyndicateById", () => {
-    it("should return a syndicate with their id", async () => {
+  describe("/GET/ReviewsBySyndicateById", () => {
+    it("should return a Review with their syndicate id", async () => {
       prismaAsAny.user_syndicate_reviews = {
         findMany: jest.fn().mockReturnValueOnce(reviewsBySyndicateId),
       };
