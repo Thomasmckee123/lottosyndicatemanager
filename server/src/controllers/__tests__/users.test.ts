@@ -6,6 +6,7 @@ import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { when } from "jest-when";
 import { UserController } from '../users';
+import { error } from 'console';
 
 
 
@@ -143,24 +144,65 @@ describe("GET /users", () => {
 
       expect(response._getStatusCode()).toEqual(StatusCodes.OK);
     });
+ 
+  });
+
+  describe("updateUserDetails", () => {
+    const updateBody = {
+      id: 1,
+      first_name: "John",
+      last_name: "Smith",
+      email: "JohnSmith@example.com",
+ 
+    };
+    //invalid update body
+    const invalidUpdateBody = {
+      id: 1,
+  first_name : "",
+  last_name: "",
+  email : ""
+    };
+    it("returns status code `200` if user is successfully created", async () => {
+      const request = httpMocks.createRequest({
+        method: "PUT",
+        url: "/api/users",
+        body: updateBody,
+      });
+      const response: MockResponse<Response> = createResponse();
+      const returnValue = {
+        userId: 1,
+        first_name : "Thoams",
+        last_name: "mckee",
+        email: "JohnSmith@example.com",
+        
+      };
+      when(UserService.updateUserDetails)
+        .calledWith(updateBody)
+        .mockReturnValueOnce(Promise.resolve(returnValue));
+
+      await UserController.updateUserDetails(request, response);
+
+      expect(response._getStatusCode()).toEqual(StatusCodes.OK);
+    });
     it("returns status code `400` if an error occurs", async () => {
       const request = httpMocks.createRequest({
-        method: "POST",
-        url: "/1/syndicates/",
-        body: invalidCreateBody,
+        method: "PUT",
+        url: "/api/update/users",
+        body: invalidUpdateBody,
       });
       const response: MockResponse<Response> = createResponse();
 
-      when(UserService.createUserSyndicate)
-    .calledWith(invalidCreateBody)
-    .mockImplementationOnce(() => {
-      throw Error("Error getting user by id");
-    });
+      when(UserService.updateUserDetails)
+        .calledWith(invalidUpdateBody)
+        .mockImplementationOnce(() => {
+          throw Error("Error getting user by id");
+        });
 
-      await UserController.createUserSyndicate(request, response);
+      await UserController.updateUserDetails(request, response);
 
       expect(response._getStatusCode()).toEqual(
         StatusCodes.INTERNAL_SERVER_ERROR
       );
     });
   });
+  
