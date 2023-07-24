@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">29.03% </span>
+                <span class="strong">54.83% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>9/31</span>
+                <span class='fraction'>17/31</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20% </span>
+                <span class="strong">60% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/5</span>
+                <span class='fraction'>3/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20% </span>
+                <span class="strong">60% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/5</span>
+                <span class='fraction'>3/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">29.03% </span>
+                <span class="strong">54.83% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>9/31</span>
+                <span class='fraction'>17/31</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -139,25 +139,25 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -202,16 +202,16 @@ const getAllUsers = async (req: Request, res: Response) =&gt; {
 { 
  return res.sendStatus(500)}
 };
-const getUserById = <span class="fstat-no" title="function not covered" >async </span>(req: Request, res: Response) =&gt; {
-  const { userId } = <span class="cstat-no" title="statement not covered" >req.params;</span>
+const getUserById = async (req: Request, res: Response) =&gt; {
+  const { userId } = req.params;
 &nbsp;
-  const user = <span class="cstat-no" title="statement not covered" >await UserService.getUserById(Number(userId));</span>
-<span class="cstat-no" title="statement not covered" >  return !user ? res.sendStatus(404) : res.status(200).json(user);</span>
+  const user = await UserService.getUserById(Number(userId));
+  return !user ? res.sendStatus(404) : res.status(200).json(user);
 };
-async function <span class="fstat-no" title="function not covered" >createUserSyndicate(</span>req: Request, res: Response) {
-<span class="cstat-no" title="statement not covered" >  try {</span>
-<span class="cstat-no" title="statement not covered" >console.log(req.body)</span>
-const newUserSyndicate = <span class="cstat-no" title="statement not covered" >{...req.body,</span>
+async function createUserSyndicate(req: Request, res: Response) {
+  try {
+console.log(req.body)
+const newUserSyndicate = {...req.body,
   start_date: new Date(req.body.start_date),
   
   user_id: Number(req.params.user_id),
@@ -220,8 +220,8 @@ const newUserSyndicate = <span class="cstat-no" title="statement not covered" >{
 }
 &nbsp;
   
-    const createNewSyndicate = <span class="cstat-no" title="statement not covered" >await UserService.createUserSyndicate(newUserSyndicate);</span>
-<span class="cstat-no" title="statement not covered" >    return res.status(200).json(createNewSyndicate);</span>
+    const createNewSyndicate = await UserService.createUserSyndicate(newUserSyndicate);
+    return res.status(200).json(createNewSyndicate);
   } catch (error) {
 <span class="cstat-no" title="statement not covered" >    res.status(500).json("Could not create game.");</span>
   }
@@ -262,7 +262,7 @@ export {UserController};</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-07-23T09:13:19.894Z
+                at 2023-07-23T12:18:16.039Z
             </div>
         <script src="../prettify.js"></script>
         <script>
