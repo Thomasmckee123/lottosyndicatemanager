@@ -12,8 +12,12 @@ async function getTicketsByGameId(req: Request, res: Response) {
        console.log(gameId)
       const tickets = await TicketService.ticketsByGameId(gameId);
      
-     
+      if (isNaN(gameId)) {
+        return res.status(400).json({ error: "Invalid gameId" });
+      }
       return res.status(200).json(tickets);
+
+ 
     } catch (error) {
  
       res.status(500).json({ "Cannot access database": error });

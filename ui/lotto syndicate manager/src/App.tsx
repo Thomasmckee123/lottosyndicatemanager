@@ -5,9 +5,17 @@ import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
-  useEffect(() => {
+  const [countRoundTwo, setCountRoundTwo] = useState(10)
+  const [text, setText] = useState("");
 
-	}, []);
+  useEffect(() => {
+    console.log(`test${countRoundTwo}`);
+  }, [countRoundTwo, count]);
+
+  const handleInputChange = (event) => {
+    setText(event.target.value);
+  }
+
   return (
     <>
       <div>
@@ -23,10 +31,15 @@ function App() {
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
+        <button onClick={() => setCountRoundTwo((countRoundTwo) => countRoundTwo + 20)}>
+          round two count is {countRoundTwo}
+        </button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
       </div>
+      <input type="text" value={text} onChange={handleInputChange} />
+      <p>{text}</p>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
@@ -34,5 +47,5 @@ function App() {
   )
 }
 
-export default App
 
+export default App
