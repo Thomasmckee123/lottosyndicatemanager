@@ -1,17 +1,14 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Home from './Home.css'
 
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './Home.css';
+import Header from './Header';
 const ActualHomePage = () => {
     return (
         <>
-        <div>
- <h1 className="display-4 top" >Lotto syndicate manager</h1>
-          <p className="lead">Manage your lotto syndicate with ease and efficiency.</p>
-        <hr className="my-4" />
-        </div>
+      
+            
+        
+        <Header />
+
         <div className="container">
             <div className="row">
                 <div className="col-md-12">
@@ -22,6 +19,7 @@ const ActualHomePage = () => {
                 </div>
             </div>
         </div>
+  
         </>
     );
 }

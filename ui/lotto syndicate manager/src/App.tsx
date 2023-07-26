@@ -1,23 +1,24 @@
 import { useEffect, useState } from 'react'
 import { Routes, Route, Navigate, Link  } from 'react-router-dom';
-import './App.css'
 
 import About from './pages/About';
 import Contact from './pages/contact';
 import Home from './pages/Home';
-import ActualHomePage from './pages/ActualHomePage';
+import ActualHomePage from './pages/HomePage/ActualHomePage';
+
+import Header from './pages/HomePage/Header';
+import { NavigationRoutes } from './constants';
+import { Navigation } from './components/navigation';
 
 function App() {
   const [text, setText] = useState("");
 
   return (
     <> 
-	<div>
-		<Link to={"/About"}> About| </Link>
-		<Link to={"/Contact"}> Contact| </Link>
-		<Link to={"/ActualHomePage"}> ActualHomePage |</Link>
-        <Link to={"/"}>Home</Link>
-	 </div>
+	
+		
+
+<Navigation />
 	 <Routes>
 	 <Route path = "/" element = { <Home />}/>
  		<Route path = "/About" element = { <About />}/>
@@ -25,7 +26,7 @@ function App() {
 		<Route path="*"  element={<Navigate to="/" />} />
 		<Route path="/ActualHomePage" element = {<ActualHomePage />}/>
 	 </Routes>
-
+	 
 	</>
      
   );
