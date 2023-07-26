@@ -47,7 +47,6 @@ async function updateUserDetails(req: Request, res: Response) {
   }
 }
 
-//USER DETAILS TO BE OBFUSCATED RATHER THAN DELETED
 
 async function deleteUserById(req: Request, res: Response)    {
   const  deleteData =  Number(req.params.userId);

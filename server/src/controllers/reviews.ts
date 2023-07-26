@@ -6,6 +6,9 @@ async function getReviewsBySyndicateId(req: Request, res: Response) {
       const syndicateId = Number(req.params["syndicateId"]);
       const reviews = await ReviewsService.getreviewsBySyndicateId(syndicateId);
       console.log(reviews)
+      if(isNaN(syndicateId)){
+        return res.status(400)
+      }
       return res.status(200).json(reviews);
     } catch (error) {
  

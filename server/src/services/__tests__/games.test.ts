@@ -62,7 +62,7 @@ describe("GET /games", () => {
 
   });
 /**
- * create message
+ * create game
  */
   describe("/POST /createGames", () => {
  
@@ -80,9 +80,11 @@ describe("GET /games", () => {
   
   
   });
+/**
+ * updating games
+ */
 
-
-  describe("PUT /syndicates/:id", () => {
+  describe("PUT /games/:id", () => {
     it("should get update syndicate by id", async () => {
       prismaAsAny.games = {
         update: jest.fn().mockReturnValueOnce(updateGames),

@@ -10,6 +10,7 @@ import { error } from 'console';
 import { TicketService } from '../../services/tickets';
 import { TicketController } from '../tickets';
 import { ITicket } from '../../interfaces';
+import { body } from 'express-validator';
 
 jest.mock("@prisma/client");  
 jest.mock("../../services/tickets");
@@ -195,6 +196,7 @@ describe("GET /tickets", () => {
             ticket_status_id: 2
      
         };
+        
         //invalid update body
         const invalidUpdateBody = {
             id: 1,
@@ -225,4 +227,5 @@ describe("GET /tickets", () => {
         });
         
       });
-      
+     
+    

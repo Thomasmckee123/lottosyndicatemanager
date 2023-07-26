@@ -7,7 +7,11 @@ const getAllMessages = async (req: Request, res: Response) => {
 };
 async function getMessagesByBoardsId(req: Request, res: Response) {
     try {
+      
       const boardsId= Number(req.params["boardId"]);
+      if(isNaN(boardsId)){
+        return res.status(400)
+      }
       const messages= await MessageService.getMessagesByBoardsId(boardsId);
       
       return res.status(200).json(messages);

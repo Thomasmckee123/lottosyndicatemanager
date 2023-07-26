@@ -71,5 +71,6 @@ async function getTicketsByGameId(req: Request, res: Response) {
     }
     return res.status(200).json(deletedBoards);
   }
+  //create tickets
 const TicketController = {deleteTicketById,updateTicketStatus, getAlltickets, getTicketsByGameId,createTickets};
 export {TicketController};
