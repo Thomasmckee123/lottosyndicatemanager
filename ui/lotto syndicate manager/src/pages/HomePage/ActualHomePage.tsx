@@ -1,13 +1,25 @@
 import React from 'react';
+import Title from './title';
+import ExampleComponent from './drawerAppBar';
+import ImageList from '@mui/material/ImageList';
+import { ImageListItem } from '@mui/material';
+import syndicateCard from './SyndicateCard';
+import ButtonAppBar from './componentHeader';
 
-import Header from './Header';
+
 const ActualHomePage = () => {
     return (
         <>
       
-            
+     <div>
+
+     <Title /> 
         
-        <Header />
+        
+        </div>       
+        
+
+    
 
         <div className="container">
             <div className="row">
@@ -19,7 +31,9 @@ const ActualHomePage = () => {
                 </div>
             </div>
         </div>
-  
+      <div className='component'>
+<ExampleComponent />
+</div>
         </>
     );
 }

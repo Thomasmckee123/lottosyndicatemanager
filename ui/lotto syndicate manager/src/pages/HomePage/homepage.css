@@ -1,0 +1,51 @@
+/* homepage.css */
+.welcomeContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  
+  }
+  
+  .welcomeMessage {
+    margin-bottom: 20px;
+  }
+  
+  .buttonContainer {
+    display: inline-flex;
+    align-items: center;
+   
+  }
+  
+  /* This class is applied to the SVG icon to adjust its size */
+  .plusIcon {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px; /* Adjust the spacing between the icon and the button */
+  }
+  .drawerAppDrawerSize{
+    position: absolute;
+    left: 5%;
+    width: 90vw;
+    height: 60vw;
+    background-color: gainsboro;
+     display: flex;
+   align-items: center;
+   justify-content: center;
+  }
+  .boxContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: 50%;
+    width: 90%;
+    background-color: gray;
+  }
+  .drawerAppDrawerSize {
+    position: relative;
+    width: 80%; /* or any other size */
+    height: 80vh; /* or any other size */
+    margin: auto; /* to center the div on the page */
+  }
+ 
