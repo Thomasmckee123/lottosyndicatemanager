@@ -41,7 +41,7 @@ SignupRouter.post( /**
 *             schema:
 *               type: array
 *               
-*/"/create",[
+*/"/",[
     body("email").isString().isLength({ min: 3 }).isEmail().normalizeEmail(),
     body("first_name").isString().isLength({ min: 2 }).trim(),
     body("last_name").isString().isLength({min: 2}).trim(),

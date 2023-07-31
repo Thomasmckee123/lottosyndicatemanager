@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import SyndicateCard from "./SyndicateCard";
-import ButtonAppBar from "./componentHeader";
+import ButtonAppBar from "./Header";
 
 function Item(props: { children: React.ReactNode }) {
   return (

@@ -8,7 +8,9 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { deepPurple } from "@mui/material/colors";
-import { Button } from "@mui/material";
+import { Button, Link } from "@mui/material";
+import { NavigationRoutes } from "../../../constants";
+import { Link as RouterLink } from "react-router-dom";
 
 function Media() {
   return (
@@ -33,7 +35,15 @@ function Media() {
         <Typography variant="body2" color="text.secondary">
           Draw result: 15, 27, 34, 38, 49 - Lucky Stars: 2, 10.
         </Typography>
-        <Button variant="contained">Play</Button>
+        <Button variant="contained" sx={{ backgroundColor: "darkred" }}>
+          <Link
+            component={RouterLink}
+            to={NavigationRoutes.BOARDCHAT}
+            style={{ color: "inherit", textDecoration: "none" }}
+          >
+            Play
+          </Link>
+        </Button>
       </CardContent>
     </Card>
   );

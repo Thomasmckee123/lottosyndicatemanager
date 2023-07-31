@@ -27,6 +27,7 @@ app.use('/api/authenticate', AuthenticationRouter);
 
 app.use('/api/swagger', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.all('*', verifyToken);
+
 app.use('/api/users', UserRouter);
 app.use('/api/syndicates',SyndicatesRouter);
 app.use('/api/games',GamesRouter);

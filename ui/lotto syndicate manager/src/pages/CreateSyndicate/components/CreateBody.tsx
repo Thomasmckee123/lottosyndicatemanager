@@ -7,7 +7,7 @@ function NameInput() {
   return (
     <Box
       sx={{
-        width: 500,
+        width: "100%",
         maxWidth: "100%",
         backgroundColor: "white",
       }}

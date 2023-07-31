@@ -7,7 +7,16 @@ import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
 import Avatar from "@mui/material/Avatar";
-import { TextField, Button, Grid } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Grid,
+  Card,
+  CardContent,
+  Divider,
+  Typography,
+} from "@mui/material";
+import { Height } from "@mui/icons-material";
 
 function refreshMessages(): MessageExample[] {
   const getRandomInt = (max: number) =>
@@ -20,46 +29,50 @@ function refreshMessages(): MessageExample[] {
 
 function ReviewMessages() {
   const [value, setValue] = React.useState(0);
-  const ref = React.useRef<HTMLDivElement>(null);
   const [messages, setMessages] = React.useState(() => refreshMessages());
 
   React.useEffect(() => {
-    (ref.current as HTMLDivElement).ownerDocument.body.scrollTop = 0;
     setMessages(refreshMessages());
-  }, [value, setMessages]);
+  }, [value]);
 
   return (
-    <Box sx={{ pb: 7 }} ref={ref}>
+    <Box sx={{ pb: 7 }}>
       <CssBaseline />
-      <List>
-        {messages.map(({ primary, secondary, person }, index) => (
-          <ListItem button key={index + person}>
-            <ListItemAvatar>
-              <Avatar alt="Profile Picture" src={person} />
-            </ListItemAvatar>
-            <ListItemText primary={primary} secondary={secondary} />
-          </ListItem>
-        ))}
-      </List>
-      <Paper
-        sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
-        elevation={3}
-      >
-        <Grid container>
-          <Grid item xs={10}>
-            <TextField fullWidth label="Enter Message" id="enter-message" />
+      <Card sx={{ my: 3, mx: "auto", maxWidth: 800 }}>
+        <CardContent>
+          <Typography variant="h5" color="text.secondary" gutterBottom>
+            Treasury: $50,000
+          </Typography>
+          <Divider />
+          <Box sx={{ maxHeight: "60vh", overflowY: "auto", mt: 2 }}>
+            <List>
+              {messages.map(({ primary, secondary, person }, index) => (
+                <ListItem button key={index + person}>
+                  <ListItemAvatar>
+                    <Avatar alt="Profile Picture" src={person} />
+                  </ListItemAvatar>
+                  <ListItemText primary={primary} secondary={secondary} />
+                </ListItem>
+              ))}
+            </List>
+          </Box>
+          <Divider />
+          <Grid container spacing={2} sx={{ mt: 2 }}>
+            <Grid item xs={10}>
+              <TextField fullWidth label="Enter Message" id="enter-message" />
+            </Grid>
+            <Grid item xs={2}>
+              <Button
+                variant="contained"
+                color="error"
+                sx={{ height: "100%", width: "100%" }}
+              >
+                Send
+              </Button>
+            </Grid>
           </Grid>
-          <Grid item xs={2}>
-            <Button
-              variant="contained"
-              color="error"
-              sx={{ height: "100%", width: "100%" }}
-            >
-              Send
-            </Button>
-          </Grid>
-        </Grid>
-      </Paper>
+        </CardContent>
+      </Card>
     </Box>
   );
 }

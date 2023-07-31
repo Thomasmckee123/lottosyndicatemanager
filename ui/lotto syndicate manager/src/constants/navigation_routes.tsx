@@ -5,7 +5,7 @@ const NavigationRoutes = {
   HOMEPAGE: "/ActualHomePage",
   VIEWSYDICATES: "/viewSyndicates",
   INSIDESYNDICATE: "/InsideSyndicate",
-  CREATESYNDICATE: "/Create",
+  CREATESYNDICATE: "/CreateSyndicate",
   REVIEW: "/reviewPage",
   JOINGAME: "/joinGame",
   CREATEGAME: "/CreateGame",

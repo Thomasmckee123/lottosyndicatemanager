@@ -21,22 +21,18 @@ const pages = [
   { title: "About", path: NavigationRoutes.ABOUT },
   { title: "Contact", path: NavigationRoutes.CONTRACT },
   { title: "View Syndicates", path: NavigationRoutes.VIEWSYDICATES },
+];
+const NonTopBarPages = [
   { title: "Create Syndicate", path: NavigationRoutes.CREATESYNDICATE },
-  {
-    title: "Syndicate Reviews",
-    path: NavigationRoutes.REVIEW,
-  },
-  {
-    title: "Join a game",
-    path: NavigationRoutes.JOINGAME,
-  },
+  { title: "Syndicate Reviews", path: NavigationRoutes.REVIEW },
+  { title: "Join a game", path: NavigationRoutes.JOINGAME },
   { title: "create a game", path: NavigationRoutes.CREATEGAME },
+  { title: "message board", path: NavigationRoutes.BOARDCHAT },
   {
-    title: "message board",
-    path: NavigationRoutes.BOARDCHAT,
+    title: "Inside Synidcate",
+    path: NavigationRoutes.INSIDESYNDICATE,
   },
 ];
-
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const Navigation = () => {
@@ -62,8 +58,32 @@ const Navigation = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  const currentPage = pages.find((page) => page.path === location.pathname);
-  const title = currentPage ? currentPage.title : "unknown page";
+  console.log("Pages: ", pages);
+  console.log("NonTopBarPages: ", NonTopBarPages);
+
+  const allPages = new Map(
+    [...pages, ...NonTopBarPages].map((i) => [i.path, i.title])
+  );
+  console.log("All pages: ", allPages);
+  console.log("Current path: ", location.pathname);
+
+  let currentPage: { title: string; path: string } | undefined;
+  allPages.forEach((title, path) => {
+    // <- Here path and title are separated
+    console.log(`Comparing ${path} with ${location.pathname}`);
+    if (path === location.pathname) {
+      currentPage = { path, title }; // <- currentPage is reassigned here
+      console.log("Matched page: ", currentPage);
+    }
+  });
+
+  let title;
+  if (currentPage) {
+    title = currentPage.title;
+  } else {
+    title = "unknown page";
+  }
+  console.log("Final title: ", title);
 
   return (
     <AppBar position="static" sx={{ backgroundColor: "darkred" }}>
