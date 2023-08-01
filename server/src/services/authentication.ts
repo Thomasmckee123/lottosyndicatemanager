@@ -33,7 +33,7 @@ const generateTokens = (user) => {
         { sub: user.id},
         authConst.ACCESS_TOKEN_SECRET,
         {
-          expiresIn: 1200,
+          expiresIn: 1200000000000,
         }
       );
 

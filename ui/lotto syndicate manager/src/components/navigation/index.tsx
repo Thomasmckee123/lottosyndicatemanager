@@ -29,6 +29,10 @@ const NonTopBarPages = [
   { title: "create a game", path: NavigationRoutes.CREATEGAME },
   { title: "message board", path: NavigationRoutes.BOARDCHAT },
   {
+    title: "log in",
+    path: NavigationRoutes.LOGIN,
+  },
+  {
     title: "Inside Synidcate",
     path: NavigationRoutes.INSIDESYNDICATE,
   },

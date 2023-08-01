@@ -14,8 +14,9 @@ import { verifyToken } from './middleware/authentication';
 import { AuthenticationRouter } from './routers/authentication';
 
 import { SignupRouter } from './routers/signup';
+import cors from 'cors';
 const app = express();
-
+app.use(cors());
 const port = 3000;
 
 app.use(express.json());
@@ -26,7 +27,7 @@ app.use('/api/signup',SignupRouter);
 app.use('/api/authenticate', AuthenticationRouter);
 
 app.use('/api/swagger', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-app.all('*', verifyToken);
+//app.all('*', verifyToken);
 
 app.use('/api/users', UserRouter);
 app.use('/api/syndicates',SyndicatesRouter);

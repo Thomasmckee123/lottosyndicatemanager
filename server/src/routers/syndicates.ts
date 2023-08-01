@@ -23,6 +23,7 @@ SyndicatesRouter.get("/"/**
 *              
 */
 , SyndicateController.getAllSyndicates);
+SyndicatesRouter.get("/:syndicateId(\\d+)", SyndicateController.getSyndicatesById); 
 SyndicatesRouter.get(/**
 * @swagger
 * /api/syndicates/user/{id}:

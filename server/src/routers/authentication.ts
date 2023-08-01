@@ -4,7 +4,34 @@ import { validate } from '../utils/validation';
 import { AuthController } from '../controllers/authentication';
 
 const AuthenticationRouter = express.Router();
-
+/**
+ * @swagger
+ * /authenticate:
+ *   post:
+ *     tags: [
+ *       authenticate
+ *     ]
+ *     summary: Authenticates a user
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email_address:
+ *                 type: string
+ *                 required: true
+ *                 description: The email address for the user
+ *               password:
+ *                 type: string
+ *                 required: true
+ *                 description: The password of the user
+ *     responses:
+ *       400:
+ *         description: Bad Request - required values are missing.
+ *       201:
+ *         description: User Authenticated
+ */
 AuthenticationRouter.route('/').post(
   [
     body('email_address').isString().isLength({ min: 3 }).isEmail(),

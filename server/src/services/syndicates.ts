@@ -24,6 +24,36 @@ const getAll = async () => {
     const filteredUsers = allSyndicates?.filter((syndicate) => syndicate.name !== "DELETED")
     return filteredUsers;
 };
+const getSyndicateById = async (syndicateId: number) => {
+   
+  
+  const syndicatesById  = await prisma.syndicates.findUnique({
+     where: {
+       id: syndicateId,
+     }, select:{
+      id: true,
+      created_date: true,
+      name: true,
+      description: true,
+      avatar: true,
+      owner_id: true,
+      users: {
+        select: {
+          id: true,
+          first_name: true,
+          last_name: true,
+        },
+      },
+    },
+   });
+   
+    if (!syndicatesById) {
+     return null;
+   }
+
+ 
+   return syndicatesById;
+ };
 //getting the syndicates by user id
 async function getSyndicatesByUserId(userId: number) {
     let syndicatesByUserId : IUserSyndicate[] | null;
@@ -129,5 +159,5 @@ async function updateSyndicateDetails(syndicate: any) {
     }
     return deletedSyndicate;
   }
-  const SyndicateService = {deleteSyndicateById, getAll, getSyndicatesByUserId,createSyndicate,updateSyndicateDetails};
+  const SyndicateService = {getSyndicateById, deleteSyndicateById, getAll, getSyndicatesByUserId,createSyndicate,updateSyndicateDetails};
   export {SyndicateService};

@@ -5,6 +5,12 @@ const getAllSyndicates = async (req: Request, res: Response) => {
   const syndicates = await SyndicateService.getAll();
   return !syndicates ? res.sendStatus(404) : res.status(200).json(syndicates);
 };
+const getSyndicatesById = async (req: Request, res: Response) => {
+  const { syndicateId } = req.params;
+
+  const user = await SyndicateService.getSyndicateById(Number(syndicateId));
+  return !user ? res.sendStatus(404) : res.status(200).json(user);
+};
 async function getSyndicatesByUserId(req: Request, res: Response) {
     try {
       const userId = Number(req.params["userId"]);
@@ -58,5 +64,5 @@ async function deleteSyndicateById(req: Request, res: Response)    {
   }
   return res.status(200).json(deletedSyndicate);
 }
-const SyndicateController = {getAllSyndicates, getSyndicatesByUserId, createSyndicate, UpdateSyndicateDetails,deleteSyndicateById};
+const SyndicateController = {getSyndicatesById, getAllSyndicates, getSyndicatesByUserId, createSyndicate, UpdateSyndicateDetails,deleteSyndicateById};
 export {SyndicateController};

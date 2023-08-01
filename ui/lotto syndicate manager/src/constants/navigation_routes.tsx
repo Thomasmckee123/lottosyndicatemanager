@@ -4,13 +4,13 @@ const NavigationRoutes = {
   CONTRACT: "/contact",
   HOMEPAGE: "/ActualHomePage",
   VIEWSYDICATES: "/viewSyndicates",
-  INSIDESYNDICATE: "/InsideSyndicate",
+  INSIDESYNDICATE: "/InsideSyndicate/:syndicateId",
   CREATESYNDICATE: "/CreateSyndicate",
   REVIEW: "/reviewPage",
   JOINGAME: "/joinGame",
   CREATEGAME: "/CreateGame",
   BOARDCHAT: "/BoardChat",
-  //   LOGON: "/Logon",
+  LOGIN: "/Login",
   //   SIGNUP: "/SignUp",
 };
 export { NavigationRoutes };

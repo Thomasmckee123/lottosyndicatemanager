@@ -1,21 +1,37 @@
+import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import SearchInput from "./searchBar";
 import MediaCard from "./card";
-import { sampleData } from "./card"; // please replace with your actual file path
+import fetchData from "./fetchData";
+const ViewSyndicates: React.FC = () => {
+  const [data, setData] = useState<any[]>([]);
 
-function ViewSyndicates() {
+  useEffect(() => {
+    fetchData()
+      .then((response) => {
+        setData(response[0]);
+        if (Array.isArray(response)) {
+          setData(response);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
+  console.log(data);
+
   return (
     <>
       <SearchInput />
       <Grid container spacing={2}>
-        {sampleData.map((item) => (
+        {data.map((item) => (
           <Grid item xs={4} key={item.id}>
-            <MediaCard id={item.id} data={item.data} />
+            <MediaCard id={item.index} data={item} />
           </Grid>
         ))}
       </Grid>
     </>
   );
-}
+};
 
 export default ViewSyndicates;
