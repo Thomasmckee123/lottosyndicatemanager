@@ -11,6 +11,7 @@ const testGames: IGames[] = [{
         name: "string",
         draw_date: new Date(),
         reward: 22222,
+        image: "png.png",
         required_ticket_number: "2",
         user_syndicates: {
           start_date: new Date(),

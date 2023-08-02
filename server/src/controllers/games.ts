@@ -14,6 +14,7 @@ const newGames = {
   name: req.body.name,
   draw_date: new Date(req.body.draw_date),
   reward: Number(req.body.reward),
+  imgae: req.body.image,
   required_ticket_number: req.body.required_ticket_number as string,
   user_syndicate_id:Number(req.params.id)
   
@@ -35,6 +36,7 @@ async function UpdateGame(req: Request, res: Response) {
       id: Number(req.params.id),
       draw_date : new Date(req.body.draw_date),
       reward: Number(req.body.reward),
+      image: req.body.image,
       required_ticket_number: req.body.required_ticket_number
 
     }

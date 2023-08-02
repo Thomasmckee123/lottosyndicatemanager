@@ -4,6 +4,7 @@ interface IGames {
     name: string;
     draw_date: Date;
     reward: number;
+    image: string;
     required_ticket_number: string;
     user_syndicates: {
       start_date: Date;

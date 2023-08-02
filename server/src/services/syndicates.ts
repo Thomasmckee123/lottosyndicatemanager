@@ -72,6 +72,7 @@ email: true
             },
           },syndicates: {
 select:{
+  id:true,
 created_date: true,
 name: true,
 description: true,

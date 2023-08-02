@@ -105,7 +105,7 @@ async function createUserSyndicate(userSyndicate: any) {
   }
 
   const getByEmail = async (email: string) => {
-    return await prisma.users.findMany({
+    const users = await prisma.users.findMany({
       where: {
         AND: [
           {
@@ -118,9 +118,13 @@ async function createUserSyndicate(userSyndicate: any) {
       },
       select: {
         id: true,
+        first_name: true,
+        last_name: true,
+        email: true,
         password: true,
       },
     });
+    return users && users.length>0 && users[0];
   };
   async function deleteUserById(userId: number) {
     let deletedUser;

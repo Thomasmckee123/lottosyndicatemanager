@@ -42,7 +42,7 @@ model flyway_schema_history {
 
 model game_user_syndicates_ticket {
   id                 Int             @id(map: "game_user_syndicates_ticket_pk") @default(autoincrement())
-  ticket_code        String
+  ticket_code        String          @db.VarChar(255)
   total_reward_value Float
   ticket_status_id   Int             @default(autoincrement())
   user_syndicate_id  Int             @default(autoincrement())
@@ -57,6 +57,7 @@ model games {
   name                        String                        @db.VarChar(255)
   draw_date                   DateTime                      @db.Date
   reward                      Float
+  image                       String                        @db.VarChar(255)
   required_ticket_number      String                        @db.VarChar(255)
   user_syndicate_id           Int                           @default(autoincrement())
   game_user_syndicates_ticket game_user_syndicates_ticket[]

@@ -3,11 +3,12 @@ import { IGames } from "../interfaces";
 
 const getAll = async () => {
 
-    const allGames: IGames[] | null =  await prisma.games.findMany({
+    const allGames: any[] | null =  await prisma.games.findMany({
       select:{
         name: true,
         draw_date: true,
         reward: true,
+        image: true,
         required_ticket_number: true,
         user_syndicates:{
           select:{
@@ -45,6 +46,7 @@ async function createGameInSyndicate(game: any) {
     data: {
   name: game.name,
   draw_date: new Date(game.draw_date),
+  image: game.image,
   reward: Number(game.reward),
   required_ticket_number: game.required_ticket_number as string,
   user_syndicate_id: game.user_syndicate_id
@@ -69,6 +71,7 @@ async function updateGames(game: any) {
       name: game.name,
       draw_date: game.draw_date,
       reward: game.reward,
+      image: game.image,
       required_ticket_number: game.required_ticket_number,
       user_syndicate_id: game.user_syndicate_id
 

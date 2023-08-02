@@ -6,9 +6,9 @@ import { authConst } from '../constants/auth';
 
 const authenticate = async (email: string, password: string) => {
   const user = await UserService.getByEmail(email);
-  if (user.length==1) {
-    const passwordCorrect = await bcrypt.compare(password, user[0].password);
-    const passwordCorrectNoEncrypt = password === user[0].password;
+  if (user) {
+    const passwordCorrect = await bcrypt.compare(password, user.password);
+    const passwordCorrectNoEncrypt = password === user.password;
     if (passwordCorrect || passwordCorrectNoEncrypt) {
       return await generateTokens(user);
     }
@@ -29,8 +29,9 @@ const refresh = async (userId: number) => {
 const generateTokens = (user) => {
   return new Promise((response, reject) => {
     try {
+    
       const accessToken = jwt.sign(
-        { sub: user.id},
+        { sub: user.id, claims:{userId: user.id, email: user.email, first_name: user.first_name}},
         authConst.ACCESS_TOKEN_SECRET,
         {
           expiresIn: 1200000000000,
