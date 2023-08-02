@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import ImageList from "@mui/material/ImageList";
 import { ImageListItem } from "@mui/material";
@@ -7,7 +7,7 @@ import SimpleContainer from "./components/drawerAppBar";
 
 const ActualHomePage = () => {
   return (
-    <>
+    <React.Fragment>
       <div>
         <Title />
       </div>
@@ -22,7 +22,7 @@ const ActualHomePage = () => {
       <div className="component">
         <SimpleContainer />
       </div>
-    </>
+    </React.Fragment>
   );
 };
 

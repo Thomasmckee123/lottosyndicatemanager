@@ -16,6 +16,7 @@ import { useFormik } from "formik";
 import { AuthContext } from "../../contexts";
 import { NavigationRoutes } from "../../constants";
 import AuthService from "../../services/auth";
+import { fetchUserData } from "../HomePage/userDetails";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -40,6 +41,7 @@ const Login = () => {
       };
 
       localStorage.setItem("user", JSON.stringify(authDetails));
+      localStorage.setItem("userEmail", JSON.stringify(email_address));
 
       dispatch({
         type: "authentication",
