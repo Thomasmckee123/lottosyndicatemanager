@@ -24,8 +24,8 @@ async function getMessagesByBoardsId(req: Request, res: Response) {
     try {
       const newBoard = {...req.body,
       created_date: new Date(),
-      user_syndicate_id: Number(req.params.syndicateId),
-      role_id: Number(req.body.role_id)
+      user_syndicate_id: Number(req.params.user_syndicate_id),
+      board_id: Number(req.params.boardId)
       
       
       };

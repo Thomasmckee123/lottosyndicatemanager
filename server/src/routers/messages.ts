@@ -106,7 +106,7 @@ MessagesRouter.post(/**
 *                   type: number
 *                 syndicateId:
 *                   type: number
-*/"/syndicates/:syndicateId(\\d+)/boards/:boardId(\\d+)",[
+*/"/syndicates/:user_syndicate_id(\\d+)/boards/:boardId(\\d+)",[
     body("message").isString().isLength({min:3, max: 2000}),
     body("created_date").isDate(),
   ],resolver, MessagesController.createNewMessageInBoard);

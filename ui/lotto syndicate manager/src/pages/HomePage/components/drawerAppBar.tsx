@@ -5,6 +5,9 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import SyndicateCard from "./SyndicateCard";
 import ButtonAppBar from "./Header";
+import { useEffect, useState } from "react";
+import { fetchHomePageSyndicateData } from "../../../utils/syndicates";
+import TokenUtils from "../../../integrations/token";
 
 function Item(props: { children: React.ReactNode }) {
   return (
@@ -15,6 +18,22 @@ function Item(props: { children: React.ReactNode }) {
 }
 
 function SimpleContainer() {
+  const [data, setData] = useState<any[]>([]);
+  const jwt = TokenUtils.getJWT();
+  const userId = jwt.claims.userId;
+  useEffect(() => {
+    fetchHomePageSyndicateData(userId)
+      .then((response) => {
+        setData(response[0]);
+        if (Array.isArray(response)) {
+          setData(response);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
+  console.log(data);
   return (
     <React.Fragment>
       <CssBaseline />
@@ -37,24 +56,11 @@ function SimpleContainer() {
             }}
           >
             <Grid container spacing={2}>
-              <Grid item xs={6} md={4}>
-                <SyndicateCard />
-              </Grid>
-              <Grid item xs={6} md={4}>
-                <SyndicateCard />
-              </Grid>
-              <Grid item xs={6} md={4}>
-                <SyndicateCard />
-              </Grid>
-              <Grid item xs={6} md={4}>
-                <SyndicateCard />
-              </Grid>
-              <Grid item xs={6} md={4}>
-                <SyndicateCard />
-              </Grid>
-              <Grid item xs={6} md={4}>
-                <SyndicateCard />
-              </Grid>
+              {data.map((item) => (
+                <Grid item xs={6} md={4}>
+                  <SyndicateCard data={item} />
+                </Grid>
+              ))}
             </Grid>
           </Box>
         </Box>

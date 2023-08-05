@@ -1,76 +1,82 @@
 import { Box, Grid, Typography } from "@mui/material";
-import ProposeGameOptions from "./ProposeGames";
+
+import { useEffect, useState } from "react";
+import fetchGamesBySyndicateId from "../../../utils/games";
+import { useParams } from "react-router-dom";
+import ProposeGames from "./ProposeGames";
 import CreatePersonalisedGame from "./createPersonalisedGame";
 
-function GameOptions() {
+function JoinGame() {
+  const { syndicateId } = useParams<{ syndicateId: string }>();
+  const [data, setData] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetchGamesBySyndicateId(Number(syndicateId))
+      .then((response) => {
+        setData(response[0]);
+        if (Array.isArray(response)) {
+          setData(response);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
+
   return (
-    <>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 4, // space between elements
+      }}
+    >
       <Box
         sx={{
-          width: "100%",
-          height: "100vh",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center", // Center children horizontally
+          width: "70vw",
+          height: "70vh",
+          backgroundColor: "darkgray",
+          overflow: "auto",
+          marginBottom: 2, // space below this box
         }}
       >
-        <Box
-          sx={{
-            width: "70vw",
-            height: "10vh",
-            backgroundColor: "darkred",
-            borderRadius: "10%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            margin: 5,
-          }}
-        >
-          <Typography variant="h3">Pick an option</Typography>
-        </Box>
-        <Box
-          sx={{
-            width: "70vw",
-            height: "70vh",
-            backgroundColor: "darkgray",
-            overflow: "auto",
-            position: "relative", // Change to relative positioning
-          }}
-        >
-          <Grid container spacing={2}>
-            <Grid item xs={6} md={4}>
-              <ProposeGameOptions />
+        <Grid container spacing={2}>
+          {data.map((item, index) => (
+            <Grid item xs={6} md={4} key={index}>
+              <ProposeGames data={item} />
             </Grid>
-            <Grid item xs={6} md={4}>
-              <ProposeGameOptions />
-            </Grid>
-            <Grid item xs={6} md={4}>
-              <ProposeGameOptions />
-            </Grid>
-            <Grid item xs={6} md={4}>
-              <ProposeGameOptions />
-            </Grid>
-          </Grid>
-        </Box>{" "}
-        <Box
-          sx={{
-            width: "70vw",
-            height: "10vh",
-            backgroundColor: "darkred",
-            borderRadius: "10%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            margin: 5,
-          }}
-        >
-          <Typography variant="h3">Customise your own game</Typography>
-        </Box>
+          ))}
+        </Grid>
+      </Box>
+      <Box
+        sx={{
+          width: "70vw",
+          height: "10vh",
+          backgroundColor: "darkred",
+          borderRadius: "10%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          margin: 5,
+        }}
+      >
+        <Typography variant="h3">Customise your own game</Typography>
+      </Box>
+      <Box
+        sx={{
+          width: "70vw",
+          height: "50vh",
+          padding: 2,
+          backgroundColor: "lightgray", // to differentiate this box from the previous one
+          borderRadius: "10px", // rounded corners
+        }}
+      >
         <CreatePersonalisedGame />
       </Box>
-    </>
+    </Box>
   );
 }
 
-export default GameOptions;
+export default JoinGame;

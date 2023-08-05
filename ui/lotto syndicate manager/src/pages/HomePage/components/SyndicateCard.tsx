@@ -13,7 +13,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Link } from "react-router-dom";
 import { NavigationRoutes } from "../../../constants";
 
-function SyndicateCard() {
+function SyndicateCard({ data }: { data: any }) {
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader
@@ -27,14 +27,12 @@ function SyndicateCard() {
             <MoreVertIcon />
           </IconButton>
         }
-        title="Lucky Seven Lottery Syndicate"
-        subheader="Active since April 2022"
+        title={data.syndicates.name}
+        subheader={data.syndicates.created_date}
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          Join our Lucky Seven Lottery Syndicate and increase your chances to
-          win! We pool our resources to buy more tickets and share the winnings.
-          Join us now!
+          {data.syndicates.description}
         </Typography>
       </CardContent>
       <CardActions>
@@ -47,7 +45,10 @@ function SyndicateCard() {
           }}
         >
           <Link
-            to={NavigationRoutes.JOINGAME}
+            to={NavigationRoutes.SYNDICATEBOARDS.replace(
+              ":syndicateId",
+              `${data.syndicates.id}`
+            ).replace(":user_syndicate_id", `${data.id}`)}
             style={{ color: "inherit", textDecoration: "none" }}
           >
             {" "}

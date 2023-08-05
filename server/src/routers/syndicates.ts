@@ -97,11 +97,10 @@ SyndicatesRouter.post(/**
 *               type: array
 *               
 */
-"/create/users/:userId(\\d+)",[
-    body("ticket_code").isString().isLength({ min: 3 }),
-    body("total_reward_value").isNumeric().isLength({ min: 3 }).trim(),
-    body("ticket_status_id").isNumeric().isLength({min: 1}).trim(),
-    body("required_ticket_number").isNumeric().isLength({min:1})
+"/create/users/:ownerId(\\d+)",[
+    body("name").isString().isLength({ min: 3 }),
+    body("description").isString().isLength({ min: 3 }).trim(),
+    
   ],resolver, SyndicateController.createSyndicate);
 SyndicatesRouter.put(/**
 * @swagger

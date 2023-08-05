@@ -21,6 +21,8 @@ GamesRouter.get("/"/**
 *             schema:
 *               type: array
 */, GameController.getAllGames);
+
+GamesRouter.get("/syndicate/:syndicateId", GameController.getGamesBySyndicateId);
 GamesRouter.post(/**
 * @swagger
 * api/games/create/syndicates/{id}:

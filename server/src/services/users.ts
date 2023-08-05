@@ -43,6 +43,47 @@ const getAll = async () => {
   
     return usersById;
   };
+  const getUserSyndicateById = async (syndicateId: number) => {
+   
+  
+    const usersSyndicatesById : any = await prisma.user_syndicates.findMany({
+       where: {
+         id: syndicateId,
+       }, 
+       select: {
+         id: true,
+         start_date: true,
+         users:{select:{
+          id: true,
+          first_name: true,
+          last_name: true,
+          email: true
+          } 
+        },
+         syndicates:
+         {select:{
+          id: true
+         }
+
+         },
+         roles:{
+          select:{
+          name: true
+         }
+
+         }
+       },
+     });
+     
+      if (!usersSyndicatesById) {
+       return null;
+     }
+ 
+   
+     return usersSyndicatesById;
+   };
+ 
+  
 //creating a new user
   async function createUser(user: any) {
     try {
@@ -64,6 +105,8 @@ const getAll = async () => {
       throw Error("Cannot create user");
     }
   } 
+
+  
 //creating a userSyndicate
 
 async function createUserSyndicate(userSyndicate: any) {
@@ -147,7 +190,7 @@ async function createUserSyndicate(userSyndicate: any) {
   }
   
 
-  const UserService = {getByEmail, deleteUserById,getAll,getUserById, createUser, updateUserDetails,createUserSyndicate};
+  const UserService = {getUserSyndicateById, getByEmail, deleteUserById,getAll,getUserById, createUser, updateUserDetails,createUserSyndicate};
   export {UserService};
 
   

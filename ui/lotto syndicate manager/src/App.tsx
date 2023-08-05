@@ -25,6 +25,7 @@ import BoardChat from "./pages/chat/Index";
 import Layout from "./pages/CreateSyndicate/components/layout";
 import { AuthContext } from "./contexts";
 import Login from "./pages/Login/login";
+import MessageBoardsPage from "./pages/syndicateBoards";
 
 function App() {
   const [text, setText] = useState("");
@@ -52,11 +53,15 @@ function App() {
           path="/InsideSyndicate/:syndicateId"
           element={<InsideSyndicate />}
         />
-        <Route path="/CreateSyndicate" element={<CreateSyndicate />} />
+        <Route path="/CreateSyndicate/:ownerId" element={<CreateSyndicate />} />
         <Route path="/reviewPage" element={<ReviewPage />} />
-        <Route path="/joinGame" element={<JoinGame />} />
-        <Route path="/CreateGame" element={<GameOptions />} />
-        <Route path="/BoardChat" element={<BoardChat />} />
+        <Route path="/joinGame/:syndicateId" element={<JoinGame />} />
+        <Route path="/CreateGame/:syndicateId" element={<GameOptions />} />
+        <Route path={NavigationRoutes.BOARDCHAT} element={<BoardChat />} />
+        <Route
+          path="/MessageBoardsPage/:syndicateId/userSyndicate/:user_syndicate_id"
+          element={<MessageBoardsPage />}
+        ></Route>
       </>
     );
   };

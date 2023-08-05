@@ -27,6 +27,22 @@ const newGames = {
     res.status(500).json("Could not create game.");
   }
 }
+async function getGamesBySyndicateId(req: Request, res: Response) {
+  try {
+    const syndicateId = Number(req.params["syndicateId"]);
+    const games = await GameService.getGamesBySyndicateId(syndicateId);
+    console.log(games)
+    if(isNaN(syndicateId)){
+      return res.status(400);
+    }
+    
+      return res.status(200).json(games);
+    
+  } catch (error) {
+
+    res.status(500).json({ "Cannot access database": error });
+  }
+}
 //update syndicate details
 async function UpdateGame(req: Request, res: Response) {
   try {
@@ -58,5 +74,5 @@ async function deleteGameById(req: Request, res: Response) {
   return res.status(200).json(deletedGame);
 }
 
-const GameController = {getAllGames, createGames, UpdateGame, deleteGameById};
+const GameController = {getGamesBySyndicateId, getAllGames, createGames, UpdateGame, deleteGameById};
 export {GameController};

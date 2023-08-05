@@ -61,7 +61,9 @@ async function getSyndicatesByUserId(userId: number) {
     try {
       syndicatesByUserId = await prisma.user_syndicates.findMany({
         where: { user_id: userId },
+
           select:{
+            id: true,
             start_date: true,
             users:{select:{
 id: true,
@@ -103,7 +105,6 @@ roles:{
 //creating a new syndicate
 async function createSyndicate(syndicate: any) {
   try {
-
   const newSyndicate = await prisma.syndicates.create({
     data: {
       created_date: new Date(),
@@ -119,7 +120,8 @@ async function createSyndicate(syndicate: any) {
     console.log(error);
     throw Error("Cannot create syndicate");
   }
-} 
+}
+
 //update syndicate details
 async function updateSyndicateDetails(syndicate: any) {
   let updateSyndicate;
@@ -139,6 +141,7 @@ async function updateSyndicateDetails(syndicate: any) {
   }
   return updateSyndicate;
 }
+
 
 //deleting syndicate details
   async function deleteSyndicateById(syndicateId: number) {

@@ -82,13 +82,15 @@ async function createMessageInBoard(message: any) {
     data: {
    message: message.message,
    created_date: message.created_date,
-
+   board_id: message.board_id,
+   user_syndicate_id: message.user_syndicate_id,
+ 
     },
   });
     return newMesages.created_date;
   } catch(error) {
     console.log(error);
-    throw Error("Cannot create user");
+    throw Error("Cannot create message");
   }
 } 
 //delete message

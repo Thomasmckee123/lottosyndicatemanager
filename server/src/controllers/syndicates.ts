@@ -32,12 +32,12 @@ async function getSyndicatesByUserId(req: Request, res: Response) {
     try {
       const newSyndicate = {
         ...req.body,
-        user_id: req.query.user_id as string,  // Get user_id from query parameters
+       owner_id: Number(req.params.ownerId),  // Get user_id from query parameters
       };
       const createdSyndicate = await SyndicateService.createSyndicate(newSyndicate);
       return res.status(200).json(createdSyndicate);
     } catch (error) {
-      res.status(500).json("Could not create user.");
+      res.status(500).json("Could not create syndicate.");
     }
   }
 //update syndicate details

@@ -5,6 +5,7 @@ const getAll = async () => {
 
     const allGames: any[] | null =  await prisma.games.findMany({
       select:{
+        id:true,
         name: true,
         draw_date: true,
         reward: true,
@@ -36,7 +37,58 @@ const getAll = async () => {
     });
     return allGames;
   };
-  
+  //getting the syndicates by user id
+async function getGamesBySyndicateId(syndicateId: number) {
+  let gamesBySyndicateId: IGames[] | null;
+
+  try {
+    gamesBySyndicateId = await prisma.games.findMany({
+      where: {
+        user_syndicates: {
+          syndicate_id: syndicateId
+        }
+      },
+      select:{
+        id:true,
+        name: true,
+        draw_date: true,
+        reward: true,
+        image: true,
+        required_ticket_number: true,
+        user_syndicates:{
+          select:{
+            start_date: true,
+            users:{
+              select:{
+                id: true,
+                first_name: true,
+                last_name: true,
+                email: true,  
+              }
+            },
+            syndicates:{
+              select:{
+                id:true,
+                created_date:true,
+                name: true,
+                description:true,
+                avatar: true,
+              }
+            }
+          }
+        }
+      }
+    }
+    );
+  } catch (error) {
+
+    throw Error("Cannot get game by syndicate Id", error);
+  }
+
+  return gamesBySyndicateId;
+
+}
+
 //create a game using the syndicate id
 
 async function createGameInSyndicate(game: any) {
@@ -107,5 +159,5 @@ async function deleteGameById(gameId) {
     throw error;
   }
 }
-  const GameService = {getAll,createGameInSyndicate,updateGames,deleteGameById};
+  const GameService = {getGamesBySyndicateId, getAll,createGameInSyndicate,updateGames,deleteGameById};
   export {GameService};

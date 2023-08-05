@@ -20,6 +20,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src", "utils/games.ts", "utils/syndicates.ts", "utils/fetchHomePageByUserId.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

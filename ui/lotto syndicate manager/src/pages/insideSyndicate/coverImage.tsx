@@ -4,18 +4,16 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions } from "@mui/material";
-import fetchData from "./fetchInsideSyndicateData"; // Import the fetchData function
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import fetchInsideUserSyndicateData from "../../utils/syndicates";
 
 function CoverImage() {
   const [data, setData] = useState<any>(null); // Use useState to manage the data state
   const { syndicateId } = useParams<{ syndicateId: string }>();
-  console.log(syndicateId);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchData(Number(syndicateId))
+    fetchInsideUserSyndicateData(Number(syndicateId))
       .then((response) => {
         console.log(response);
         setData(response);

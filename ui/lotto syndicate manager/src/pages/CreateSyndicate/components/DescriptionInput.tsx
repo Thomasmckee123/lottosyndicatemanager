@@ -1,8 +1,12 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+interface Props {
+  value: string;
+  setValue: (value: string) => void;
+}
 
-function DescriptionInput() {
+const DescriptionInput: React.FC<Props> = ({ value, setValue }) => {
   return (
     <Box
       component="form"
@@ -18,10 +22,12 @@ function DescriptionInput() {
           id="outlined-multiline-static"
           multiline
           rows={4}
-          defaultValue="Description"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
         />
       </div>
     </Box>
   );
-}
+};
+
 export default DescriptionInput;

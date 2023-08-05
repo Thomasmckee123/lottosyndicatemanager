@@ -3,6 +3,7 @@ import { UserController } from "../controllers/users";
 import { validate } from '../utils/validation'
 import { resolver } from "./../middleware/_resolver";
 import { body } from "express-validator";
+import { userInfo } from "os";
 const UserRouter = express.Router();
 
 UserRouter.get("/", 
@@ -203,3 +204,4 @@ UserRouter.put(/**
 */"/delete/:userId(\\d+)",UserController.deleteUserById);
 export { UserRouter }; 
 
+UserRouter.get('/userSyndicate/:syndicateId', UserController.getUserSyndicateById)

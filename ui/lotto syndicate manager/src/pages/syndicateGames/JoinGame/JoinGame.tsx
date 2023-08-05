@@ -1,7 +1,25 @@
 import { Box, Grid } from "@mui/material";
 import Games from "./differentGames";
+import { useEffect, useState } from "react";
+import fetchGamesBySyndicateId from "../../../utils/games";
+import { useParams } from "react-router-dom";
 
 function JoinGame() {
+  const { syndicateId } = useParams<{ syndicateId: string }>();
+  const [data, setData] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetchGamesBySyndicateId(Number(syndicateId))
+      .then((response) => {
+        setData(response[0]);
+        if (Array.isArray(response)) {
+          setData(response);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
   return (
     <Box
       sx={{
@@ -16,18 +34,11 @@ function JoinGame() {
       }}
     >
       <Grid container spacing={2}>
-        <Grid item xs={6} md={4}>
-          <Games />
-        </Grid>
-        <Grid item xs={6} md={4}>
-          <Games />
-        </Grid>
-        <Grid item xs={6} md={4}>
-          <Games />
-        </Grid>
-        <Grid item xs={6} md={4}>
-          <Games />
-        </Grid>
+        {data.map((item) => (
+          <Grid item xs={6} md={4}>
+            <Games data={item} />
+          </Grid>
+        ))}
       </Grid>
     </Box>
   );

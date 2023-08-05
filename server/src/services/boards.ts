@@ -32,7 +32,34 @@ const getAll = async () => {
     try {
       boardsBySyndicateId = await prisma.boards.findMany({
         where: { syndicate_id: syndicateId },
-        include: {syndicates: true },
+        select: {
+          id: true,
+          name: true,
+          syndicates: {
+            select: {
+              id: true,
+              name: true,
+            }
+          }, 
+          board_message: {
+            select: {
+              id: true,
+              message: true,
+              created_date: true,
+              board_id: true,
+              user_syndicates:{
+                select:{
+                users:{
+                  select:{
+                  first_name:true,
+                  last_name: true
+                }
+              }
+              }
+              }
+            },
+          },
+        },
       });
     } catch (error) {
 

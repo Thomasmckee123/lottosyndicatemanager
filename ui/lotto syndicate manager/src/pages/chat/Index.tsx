@@ -15,26 +15,62 @@ import {
   CardContent,
   Divider,
   Typography,
+  IconButton,
 } from "@mui/material";
-import { Height } from "@mui/icons-material";
-
-function refreshMessages(): MessageExample[] {
-  const getRandomInt = (max: number) =>
-    Math.floor(Math.random() * Math.floor(max));
-
-  return Array.from(new Array(50)).map(
-    () => messageExamples[getRandomInt(messageExamples.length)]
-  );
-}
+import { useEffect, useState } from "react";
+import TokenUtils from "../../integrations/token";
+import {
+  createMessage,
+  fetchBoardsAndMessagesFromSyndicates,
+} from "../../utils/messages";
+import { Link, useParams } from "react-router-dom";
+import AddIcon from "@mui/icons-material/Add";
+import Tooltip from "@mui/material/Tooltip";
+import { NavigationRoutes } from "../../constants";
+import { date } from "yup";
 
 function ReviewMessages() {
   const [value, setValue] = React.useState(0);
-  const [messages, setMessages] = React.useState(() => refreshMessages());
+  const [data, setData] = useState<any[]>([]);
+  const jwt = TokenUtils.getJWT();
+  const { syndicateId, user_syndicate_id } = useParams<{
+    syndicateId: string;
+    user_syndicate_id: string;
+  }>();
+  const { boardId } = useParams<{ boardId: string }>();
+  const [message, setMessage] = useState("");
+  useEffect(() => {
+    fetchBoardsAndMessagesFromSyndicates(Number(syndicateId))
+      .then((response) => {
+        setData(response[0]);
+        if (Array.isArray(response)) {
+          setData(response);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, [syndicateId]);
 
-  React.useEffect(() => {
-    setMessages(refreshMessages());
-  }, [value]);
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault(); // Prevent the default form submit action
+    try {
+      if (user_syndicate_id && boardId) {
+        await createMessage(
+          message,
+          Number(user_syndicate_id),
+          Number(boardId)
+        );
+        setMessage(""); // reset the message field after a successful submit
+      } else {
+        console.error("Syndicate ID or Board ID is undefined!");
+      }
+    } catch (error) {
+      console.error("Error creating message:", error);
+    }
+  };
 
+  //In your return JSX
   return (
     <Box sx={{ pb: 7 }}>
       <CssBaseline />
@@ -46,86 +82,74 @@ function ReviewMessages() {
           <Divider />
           <Box sx={{ maxHeight: "60vh", overflowY: "auto", mt: 2 }}>
             <List>
-              {messages.map(({ primary, secondary, person }, index) => (
-                <ListItem button key={index + person}>
-                  <ListItemAvatar>
-                    <Avatar alt="Profile Picture" src={person} />
-                  </ListItemAvatar>
-                  <ListItemText primary={primary} secondary={secondary} />
-                </ListItem>
-              ))}
+              {data.map((item, index) =>
+                item.board_message.map((message: any, messageIndex: any) => (
+                  <ListItem
+                    button
+                    key={`${index}-${messageIndex}-${message.user_syndicates.users.first_name}`}
+                  >
+                    <ListItemAvatar>
+                      <Avatar alt="Profile Picture" />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={`${new Date(
+                        message.created_date
+                      ).toLocaleString()} - ${
+                        message.user_syndicates.users.first_name
+                      } ${message.user_syndicates.users.last_name}`}
+                      secondary={message.message}
+                    />
+                  </ListItem>
+                ))
+              )}
             </List>
           </Box>
           <Divider />
-          <Grid container spacing={2} sx={{ mt: 2 }}>
-            <Grid item xs={10}>
-              <TextField fullWidth label="Enter Message" id="enter-message" />
+          <form onSubmit={handleSubmit}>
+            <Grid container spacing={2} sx={{ mt: 2 }}>
+              <Grid item xs={8}>
+                <TextField
+                  fullWidth
+                  label="Enter Message"
+                  id="enter-message"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={2}>
+                <Tooltip title="create games">
+                  <IconButton
+                    color="primary"
+                    aria-label="Create Game"
+                    component="span"
+                  >
+                    <Link
+                      to={NavigationRoutes.CREATEGAME.replace(
+                        ":syndicateId",
+                        `${syndicateId}`
+                      )}
+                    >
+                      <AddIcon />
+                    </Link>
+                  </IconButton>
+                </Tooltip>
+              </Grid>
+              <Grid item xs={2}>
+                <Button
+                  variant="contained"
+                  color="error"
+                  sx={{ height: "100%", width: "100%" }}
+                  type="submit"
+                >
+                  Send
+                </Button>
+              </Grid>
             </Grid>
-            <Grid item xs={2}>
-              <Button
-                variant="contained"
-                color="error"
-                sx={{ height: "100%", width: "100%" }}
-              >
-                Send
-              </Button>
-            </Grid>
-          </Grid>
+          </form>
         </CardContent>
       </Card>
     </Box>
   );
 }
-
-interface MessageExample {
-  primary: string;
-  secondary: string;
-  person: string;
-}
-
-const messageExamples: readonly MessageExample[] = [
-  {
-    primary: "Brunch this week?",
-    secondary:
-      "I'll be in the neighbourhood this week. Let's grab a bite to eat",
-    person: "/static/images/avatar/5.jpg",
-  },
-  {
-    primary: "Birthday Gift",
-    secondary: `Do you have a suggestion for a good present for John on his work
-      anniversary. I am really confused & would love your thoughts on it.`,
-    person: "/static/images/avatar/1.jpg",
-  },
-  {
-    primary: "Recipe to try",
-    secondary:
-      "I am try out this new BBQ recipe, I think this might be amazing",
-    person: "/static/images/avatar/2.jpg",
-  },
-  {
-    primary: "Yes!",
-    secondary: "I have the tickets to the ReactConf for this year.",
-    person: "/static/images/avatar/3.jpg",
-  },
-  {
-    primary: "Doctor's Appointment",
-    secondary:
-      "My appointment for the doctor was rescheduled for next Saturday.",
-    person: "/static/images/avatar/4.jpg",
-  },
-  {
-    primary: "Discussion",
-    secondary: `Menus that are generated by the bottom app bar (such as a bottom
-      navigation drawer or overflow menu) open as bottom sheets at a higher elevation
-      than the bar.`,
-    person: "/static/images/avatar/5.jpg",
-  },
-  {
-    primary: "Summer BBQ",
-    secondary: `Who wants to have a cookout this weekend? I just got some furniture
-      for my backyard and would love to fire up the grill.`,
-    person: "/static/images/avatar/1.jpg",
-  },
-];
 
 export default ReviewMessages;

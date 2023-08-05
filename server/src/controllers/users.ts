@@ -15,6 +15,13 @@ const getUserById = async (req: Request, res: Response) => {
   const user = await UserService.getUserById(Number(userId));
   return !user ? res.sendStatus(404) : res.status(200).json(user);
 };
+const getUserSyndicateById = async (req: Request, res: Response) => {
+  const { syndicateId } = req.params;
+
+  const user = await UserService.getUserSyndicateById(Number(syndicateId));
+  return !user ? res.sendStatus(404) : res.status(200).json(user);
+};
+
 async function createUserSyndicate(req: Request, res: Response) {
   try {
 console.log(req.body)
@@ -60,5 +67,5 @@ async function deleteUserById(req: Request, res: Response)    {
   return res.status(200).json(deletedUser);
 }
 
-const UserController = {deleteUserById, getAllUsers, getUserById,updateUserDetails, createUserSyndicate};
+const UserController = {getUserSyndicateById,deleteUserById, getAllUsers, getUserById,updateUserDetails, createUserSyndicate};
 export {UserController};

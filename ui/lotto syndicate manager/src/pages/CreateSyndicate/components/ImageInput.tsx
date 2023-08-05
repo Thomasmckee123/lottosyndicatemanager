@@ -1,7 +1,12 @@
 import * as React from "react";
 import { TextField } from "@mui/material";
 
-function ImageInput() {
+interface Props {
+  value: File | null;
+  setValue: (value: File | null) => void;
+}
+
+const ImageInput: React.FC<Props> = ({ value, setValue }) => {
   return (
     <TextField
       variant="outlined"
@@ -9,8 +14,14 @@ function ImageInput() {
       InputLabelProps={{
         shrink: true,
       }}
+      onChange={(e) => {
+        const target = e.target as HTMLInputElement;
+        if (target.files) {
+          setValue(target.files[0]);
+        }
+      }}
     />
   );
-}
+};
 
 export default ImageInput;
