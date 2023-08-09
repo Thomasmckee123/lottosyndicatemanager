@@ -1,3 +1,1 @@
-
-export {default as Homepage} from './homepage';
-export * from './navigation';
+export * from "./navigation";

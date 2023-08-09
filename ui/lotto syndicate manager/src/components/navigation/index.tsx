@@ -14,8 +14,8 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { NavigationRoutes } from "../../constants";
 import { Link, useLocation } from "react-router-dom";
-import ViewSyndicates from "../../pages/viewSyndicates/viewPage";
-import insideSyndicate from "../../pages/insideSyndicate/InsideSyndicate";
+import ViewSyndicates from "../../pages/ViewAllSyndicatesPage";
+import insideSyndicate from "../../pages/insideSyndicatePage/Index";
 const pages = [
   { title: "Home", path: NavigationRoutes.HOME },
   { title: "About", path: NavigationRoutes.ABOUT },

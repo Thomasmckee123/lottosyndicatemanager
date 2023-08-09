@@ -1,13 +1,9 @@
-import React, { useEffect } from "react";
-
-import ImageList from "@mui/material/ImageList";
-import { ImageListItem } from "@mui/material";
+import SyndicateContainer from "./components/SyndicateContainer";
 import Title from "./components/title";
-import SimpleContainer from "./components/drawerAppBar";
 
-const ActualHomePage = () => {
+const HomePage = () => {
   return (
-    <React.Fragment>
+    <>
       <div>
         <Title />
       </div>
@@ -20,10 +16,10 @@ const ActualHomePage = () => {
         </div>
       </div>
       <div className="component">
-        <SimpleContainer />
+        <SyndicateContainer />
       </div>
-    </React.Fragment>
+    </>
   );
 };
 
-export default ActualHomePage;
+export default HomePage;

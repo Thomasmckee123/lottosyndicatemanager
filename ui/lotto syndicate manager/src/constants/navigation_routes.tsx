@@ -8,12 +8,13 @@ const NavigationRoutes = {
   CREATESYNDICATE: "/CreateSyndicate/:ownerId",
   REVIEW: "/reviewPage",
   JOINGAME: "/joinGame/:syndicateId",
-  CREATEGAME: "/CreateGame/:syndicateId",
+  CREATEGAME: "/CreateGame/:syndicateId/user_syndicate/:user_syndicate_id",
   BOARDCHAT:
     "/BoardChat/:syndicateId/boards/:boardId/user_syndicate/:user_syndicate_id",
   LOGIN: "/Login",
   SYNDICATEBOARDS:
     "/MessageBoardsPage/:syndicateId/userSyndicate/:user_syndicate_id",
-  //   SIGNUP: "/SignUp",
+  GAMEPAGE: "/game/:gameId/syndicates/:syndicateId",
+  SIGNUP: "/SignUp",
 };
 export { NavigationRoutes };

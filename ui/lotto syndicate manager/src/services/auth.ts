@@ -1,4 +1,4 @@
-import instance from "../integrations/auth";
+import instance from "../integrations/instance";
 
 const authenticate = async (email_address: string, password: string) => {
     return await instance

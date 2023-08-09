@@ -1,41 +1,32 @@
-import { useEffect, useState } from "react";
 import { Routes, Route, Navigate, Link } from "react-router-dom";
 
 import About from "./pages/About";
 import Contact from "./pages/contact";
-import Home from "./pages/Home";
-import ActualHomePage from "./pages/HomePage";
+
+import HomePage from "./pages/HomePage";
 
 import { NavigationRoutes } from "./constants";
 import { Navigation } from "./components/navigation";
-import { Homepage } from "./components";
-import ViewSyndicates from "./pages/viewSyndicates/viewPage";
-import InsideSyndicate from "./pages/insideSyndicate/InsideSyndicate";
-import CreateSyndicate from "./pages/CreateSyndicate";
-import { Create, Reviews } from "@mui/icons-material";
-import ReviewPage from "./pages/Reviews/ReviewPage";
-import JoinGame from "./pages/syndicateGames/JoinGame/JoinGame";
-import GameOptions from "./pages/syndicateGames/CreateGame/GameOptions";
-import BoardChat from "./pages/chat/Index";
+import ViewSyndicates from "./pages/ViewAllSyndicatesPage";
+import InsideSyndicate from "./pages/insideSyndicatePage/Index";
+import CreateSyndicate from "./pages/CreateSyndicatePage";
 
-// import SignUp from "./pages/logon/signUp";
-//import Login from "./pages/logon/Logon";
-//import { useAuthState } from "./stores/useAuthState";
-//import useTokens from "./hooks/useTokens";
-import Layout from "./pages/CreateSyndicate/components/layout";
+import ReviewPage from "./pages/ReviewsPage";
+
+import GameOptions from "./pages/CreateGamesPage";
+import BoardChat from "./pages/messageBoardPage/Index";
+
 import { AuthContext } from "./contexts";
-import Login from "./pages/Login/login";
-import MessageBoardsPage from "./pages/syndicateBoards";
+import Login from "./pages/LoginPage/components/login";
+import MessageBoardsPage from "./pages/BoardsInSyndicatePage";
+import GamePage from "./pages/gamePage";
+import CreateGame from "./pages/CreateGamesPage";
 
 function App() {
-  const [text, setText] = useState("");
-  //const { isAuthorized } = useAuthState();
-  //const { checkLocalStorageTokens } = useTokens();
-
   const unAuthorisedRoutes = () => {
     return (
       <>
-        <Route path="/login" element={<Login />} />
+        <Route path={NavigationRoutes.LOGIN} element={<Login />} />
         <Route path="*" element={<Navigate to={NavigationRoutes.LOGIN} />} />
       </>
     );
@@ -44,24 +35,33 @@ function App() {
   const authorisedRoutes = () => {
     return (
       <>
-        <Route path="/" element={<ActualHomePage />} />
-        <Route path="/About" element={<About />} />
-        <Route path="/Contact" element={<Contact />} />
-        <Route path="/ActualHomePage" element={<ActualHomePage />} />
-        <Route path="/viewSyndicates" element={<ViewSyndicates />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path={NavigationRoutes.ABOUT} element={<About />} />
+        <Route path={NavigationRoutes.CONTRACT} element={<Contact />} />
+        <Route path={NavigationRoutes.HOMEPAGE} element={<HomePage />} />
         <Route
-          path="/InsideSyndicate/:syndicateId"
+          path={NavigationRoutes.VIEWSYDICATES}
+          element={<ViewSyndicates />}
+        />
+        <Route
+          path={NavigationRoutes.INSIDESYNDICATE}
           element={<InsideSyndicate />}
         />
-        <Route path="/CreateSyndicate/:ownerId" element={<CreateSyndicate />} />
-        <Route path="/reviewPage" element={<ReviewPage />} />
-        <Route path="/joinGame/:syndicateId" element={<JoinGame />} />
-        <Route path="/CreateGame/:syndicateId" element={<GameOptions />} />
+        <Route
+          path={NavigationRoutes.CREATESYNDICATE}
+          element={<CreateSyndicate />}
+        />
+        <Route path={NavigationRoutes.REVIEW} element={<ReviewPage />} />
+        <Route path={NavigationRoutes.JOINGAME} element={<CreateGame />} />
+        <Route path={NavigationRoutes.CREATEGAME} element={<GameOptions />} />
         <Route path={NavigationRoutes.BOARDCHAT} element={<BoardChat />} />
         <Route
-          path="/MessageBoardsPage/:syndicateId/userSyndicate/:user_syndicate_id"
+          path={NavigationRoutes.SYNDICATEBOARDS}
           element={<MessageBoardsPage />}
-        ></Route>
+        />
+
+        <Route path={NavigationRoutes.GAMEPAGE} element={<GamePage />} />
+        <Route path="*" element={<Navigate to={"/"} />} />
       </>
     );
   };

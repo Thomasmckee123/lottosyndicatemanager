@@ -1,14 +1,13 @@
 import Button from "@mui/material/Button";
-import "./homepage.css";
 import createSvgIcon from "@mui/material/utils/createSvgIcon";
 import Box from "@mui/material/Box";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { useEffect, useState } from "react";
-import { Email } from "@mui/icons-material";
-import TokenUtils from "../../../integrations/token";
+
 import { NavigationRoutes } from "../../../constants";
-let usersData;
+import TokenUtils from "../../../integrations/token";
+
 const PlusIcon = createSvgIcon(
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -33,49 +32,7 @@ function Title() {
   useEffect(() => {
     const jwt = TokenUtils.getJWT();
     setData(jwt);
-    // fetchUserData()
-    //   .then((response) => {
-    //     console.log("fetchUserData response", response);
-    //     let userEmail = localStorage.getItem("userEmail");
-    //     console.log("localStorage.emailAddress", userEmail);
-    //     let filteredData: any = [];
-
-    //     if (userEmail) {
-    //       // check if userEmail is not null
-    //       // remove the quotation marks if they exist
-    //       userEmail = userEmail.replace(/"/g, "");
-    //       console.log("localStorage.emailAddress cleaned", userEmail);
-
-    //       response.forEach((user: any) => {
-    //         console.log("Current user in loop", user);
-    //         if (userEmail) {
-    //           console.log(
-    //             "user.email.trim().toLowerCase():",
-    //             user.email.trim().toLowerCase()
-    //           );
-    //           console.log(
-    //             "userEmail.trim().toLowerCase():",
-    //             userEmail.trim().toLowerCase()
-    //           );
-    //           if (
-    //             user.email.trim().toLowerCase() ===
-    //             userEmail.trim().toLowerCase()
-    //           ) {
-    //             console.log("Match found", user); // This should log if a match is found
-    //             filteredData.push(user);
-    //           }
-    //         }
-    //       });
-    //     }
-
-    // setData(filteredData);
-    //     })
-    //     .catch((error) => {
-    //       console.error("Error fetching data:", error);
-    //     });
   }, []);
-
-  // console.log(data);
 
   return (
     <>
