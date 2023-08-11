@@ -11,7 +11,6 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useNavigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import { useFormik } from "formik";
 
 import { AuthContext } from "../../../contexts";
 import { NavigationRoutes } from "../../../constants";
@@ -32,8 +31,8 @@ const LogonPage = () => {
 
   const navigate = useNavigate();
 
-  const Login = async (email_address: string, password: string) => {
-    const response = await AuthService.authenticate(email_address, password);
+  const Login = async (emailAddress: string, password: string) => {
+    const response = await AuthService.authenticate(emailAddress, password);
     if (response.status === 200) {
       const authDetails = {
         accessToken: response.data.accessToken,
@@ -41,7 +40,8 @@ const LogonPage = () => {
       };
 
       localStorage.setItem("user", JSON.stringify(authDetails));
-      localStorage.setItem("userEmail", JSON.stringify(email_address));
+
+      localStorage.setItem("userEmail", JSON.stringify(emailAddress));
 
       dispatch({
         type: "authentication",

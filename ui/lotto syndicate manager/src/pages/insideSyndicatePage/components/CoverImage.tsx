@@ -1,35 +1,78 @@
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
-import { Button, CardActionArea, CardActions } from "@mui/material";
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import {
+  Card,
+  CardActionArea,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Typography,
+  Button,
+} from "@mui/material";
 import { useParams } from "react-router-dom";
-import { fetchInsideUserSyndicateData } from "../../../services/syndicates";
+import {
+  createUserSyndicate,
+  fetchAllSyndicateData,
+  fetchHomePageSyndicateData,
+  fetchInsideUserSyndicateData,
+} from "../../../services/syndicates";
+import TokenUtils from "../../../integrations/token";
 
 function CoverImage() {
+  const roleId = 2;
+  const jwt = TokenUtils.getJWT();
+  const userId = jwt.claims.userId;
+
   const [data, setData] = useState<any>(null);
+  const [joinedMessage, setJoinedMessage] = useState("");
   const { syndicateId } = useParams<{ syndicateId: string }>();
 
+  const userSyndicateCheck = async () => {
+    try {
+      const firstresponse = await fetchHomePageSyndicateData(Number(userId));
+      console.log("FIRST RESPONSE: ", firstresponse);
+
+      const targetSyndicate = firstresponse.find(
+        (synd: any) =>
+          synd.syndicates.id == syndicateId && synd.users.id == userId
+      );
+      console.log("TARGET SYNDICATE:", targetSyndicate);
+      if (targetSyndicate) {
+        return true;
+      }
+    } catch (error) {
+      console.error("Error checking user syndicate:", error);
+      return false;
+    }
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const isUserMember = await userSyndicateCheck();
+      if (!isUserMember) {
+        await createUserSyndicate(
+          new Date(),
+          Number(userId),
+          Number(syndicateId),
+          Number(roleId)
+        );
+        setJoinedMessage("Successfully joined!");
+      } else {
+        setJoinedMessage("You have already joined");
+      }
+    } catch (error) {
+      console.error("Error handling submit:", error);
+      setJoinedMessage("Error joining the syndicate. Please try again later.");
+    }
+  };
+  useEffect(() => {
+    fetchAllSyndicateData();
+  });
   useEffect(() => {
     fetchInsideUserSyndicateData(Number(syndicateId))
-      .then((response) => {
-        console.log(response);
-        setData(response);
+      .then((response) => setData(response))
+      .catch((error) => console.error("Error fetching syndicate data:", error));
+  }, [syndicateId]);
 
-        console.log(response);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }, []);
-  console.log(data);
-  // Check if data is still null after fetching
-  if (!data) {
-    return <div>Data not available.</div>;
-  }
-  console.log(data.name);
-  console.log(data.description);
   return (
     <Card
       sx={{ maxWidth: "100vw", backgroundColor: "#696969", color: "white" }}
@@ -38,24 +81,27 @@ function CoverImage() {
         <CardMedia
           component="img"
           height="140"
-          image={data.avatar}
-          alt={data.name}
+          image={data?.avatar}
+          alt={data?.name}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div" color={"white"}>
-            {data.name}
+            {data?.name}
           </Typography>
           <Typography variant="body2" color="white">
-            {data.description}
+            {data?.description}
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
-          request to join
+        <Button size="small" color="primary" onClick={handleSubmit}>
+          Request to Join
         </Button>
+        <Typography variant="body2" color="red">
+          {joinedMessage}
+        </Typography>
         <Button size="small" color="primary">
-          reviews
+          Reviews
         </Button>
       </CardActions>
     </Card>

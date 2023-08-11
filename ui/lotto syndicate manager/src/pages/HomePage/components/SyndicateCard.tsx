@@ -26,7 +26,7 @@ function SyndicateCard({ data }: { data: any }) {
           </IconButton>
         }
         title={data.syndicates.name}
-        subheader={data.syndicates.created_date}
+        subheader={data.syndicates.createdDate}
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
@@ -46,7 +46,7 @@ function SyndicateCard({ data }: { data: any }) {
             to={NavigationRoutes.SYNDICATEBOARDS.replace(
               ":syndicateId",
               `${data.syndicates.id}`
-            ).replace(":user_syndicate_id", `${data.id}`)}
+            ).replace(":userSyndicateId", `${data.id}`)}
             style={{ color: "inherit", textDecoration: "none" }}
           >
             {" "}

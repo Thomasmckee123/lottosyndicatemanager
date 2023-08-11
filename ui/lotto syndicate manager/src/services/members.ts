@@ -3,7 +3,7 @@ import axios from "../integrations/instance";
 const fetchUserBySyndicateId = async (syndicateId: Number) => {
   try {
     
-    const response = await axios.get(`users/userSyndicate/${syndicateId}`);
+    const response = await axios.get(`userSyndicates/syndicates/${syndicateId}`);
    
     return response.data;
 
@@ -13,19 +13,22 @@ const fetchUserBySyndicateId = async (syndicateId: Number) => {
   }}
 
 
-  const joinSyndicate = async (start_date: Date, user_id: number, syndicate_id: number, role_id: number) =>{
+  const joinSyndicate = async (startDate: Date, userId: number, syndicateId: number, roleId: number) =>{
     const createUserSyndicate = {
-      start_date: start_date,
-      user_id: Number(user_id),
-      syndicate_id: Number(syndicate_id),
-      role_id: Number(role_id)
+      startDate: startDate,
+      userId: Number(userId),
+      syndicateId: Number(syndicateId),
+      roleId: Number(roleId)
   
     }
-    const response = await axios.post(`users/${user_id}/syndicates/${syndicate_id}/roles/${role_id}`,createUserSyndicate)
+    const response = await axios.post(`userSyndicates/${userId}/syndicates/${syndicateId}/roles/${roleId}`,createUserSyndicate)
     return response.data
   }
+  const deleteUserSyndicate = async(userSyndicateId: number)=>{
+    const response = axios.delete(`userSyndicates/delete/${userSyndicateId}`)
+    return response;
+  }
   
-  
-  export {fetchUserBySyndicateId, joinSyndicate}
+  export {fetchUserBySyndicateId, joinSyndicate, deleteUserSyndicate}
 
 

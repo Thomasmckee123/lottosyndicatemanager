@@ -17,7 +17,7 @@ function SyndicateMembers() {
   useEffect(() => {
     const jwt = TokenUtils.getJWT();
     setData(jwt);
-    // let userId = Number(data?.claims?.userId);
+    console.log(syndicateId);
 
     fetchUserBySyndicateId(Number(syndicateId))
       .then((response) => {
@@ -31,21 +31,7 @@ function SyndicateMembers() {
         console.error("Error fetching data:", error);
       });
   }, []);
-  //   let roleId = 1;
 
-  //   console.log(userId);
-  //   console.log(syndicateId);
-  //   console.log(roleId);
-  //   try {
-  //     await createUserSyndicate(
-  //       new Date(),
-  //       Number(userId),
-  //       Number(syndicateId),
-  //       Number(roleId)
-  //     );
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
   return (
     <>
       <Typography variant="h2" gutterBottom>
@@ -53,11 +39,12 @@ function SyndicateMembers() {
       </Typography>
       <Box display="flex" justifyContent="center">
         <Grid container spacing={10} justifyContent="center">
-          {data.map((item) => (
-            <Grid item xs={4}>
-              <Members data={item} />
-            </Grid>
-          ))}
+          {Array.isArray(data) &&
+            data.map((item) => (
+              <Grid item xs={4}>
+                <Members data={item} />
+              </Grid>
+            ))}
         </Grid>
       </Box>
     </>

@@ -25,19 +25,19 @@ const fetchGamesById = async(gameId: number) => {
   }
 }
 
-const createGame = async (name: any, draw_date: Date, reward: number, image: any, required_ticket_number: number, user_syndicate_id: number) => {
+const createGame = async (name: any, drawDate: Date, reward: number, image: any, requiredTicketNumber: number, userSyndicateId: number) => {
 
   const gameData = {
     name: name,
-    draw_date: draw_date,
+    drawDate: drawDate,
     reward: reward,
     image: image, // Assuming this is already in a suitable format
-    required_ticket_number: required_ticket_number,
-    user_syndicate_id: user_syndicate_id,
+    requiredTicketNumber: Number(requiredTicketNumber),
+    userSyndicateId: userSyndicateId,
   };
 
     
-    const response = await axios.post(`/games/create/syndicates/${user_syndicate_id}`, gameData);
+    const response = await axios.post(`/games/create/syndicates/${userSyndicateId}`, gameData);
     return response.data;
 
 };

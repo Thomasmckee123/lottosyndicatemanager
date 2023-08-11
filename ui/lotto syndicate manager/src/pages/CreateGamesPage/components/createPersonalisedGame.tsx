@@ -4,9 +4,9 @@ import { createGame } from "../../../services/games";
 import { Box, Grid, InputAdornment, TextField, Button } from "@mui/material";
 
 function CreatePersonalisedGame() {
-  const { syndicateId, user_syndicate_id } = useParams<{
+  const { syndicateId, userSyndicateId } = useParams<{
     syndicateId: string;
-    user_syndicate_id: string;
+    userSyndicateId: string;
   }>();
 
   const [name, setName] = useState("");
@@ -14,21 +14,21 @@ function CreatePersonalisedGame() {
   const [total_reward, setTotalReward] = useState(0);
   const [draw_date, setDrawDate] = useState("2023-01-01T00:00");
   const [reward, setReward] = useState(0);
-  const [required_ticket_number, setRequiredTicketNumber] = useState(0);
+  const [requiredTicketNumber, setRequiredTicketNumber] = useState(0);
 
   // Placeholder for the image - you'll need to handle file upload
   const [image, setImage] = useState("");
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (user_syndicate_id) {
+    if (userSyndicateId) {
       await createGame(
         name,
         new Date(draw_date),
         reward,
         image,
-        required_ticket_number,
-        Number(user_syndicate_id)
+        requiredTicketNumber,
+        Number(userSyndicateId)
       );
 
       setName("");
@@ -133,7 +133,7 @@ function CreatePersonalisedGame() {
               id="required-ticket-number"
               label="Required Ticket Number"
               type="number"
-              value={required_ticket_number}
+              value={requiredTicketNumber}
               onChange={(e) => setRequiredTicketNumber(Number(e.target.value))}
               variant="filled"
               fullWidth

@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 import { fetchGamesBySyndicateId } from "../../../services/games";
 
 function Media({ data }: { data: any }) {
+  const displayDate = new Date(Date.parse(data.drawDate)).toLocaleDateString();
+
   return (
     <Grid container wrap="wrap" sx={{ width: "100vw" }}>
       <Box sx={{ width: 210, marginRight: 0.5, my: 5 }}>
@@ -20,13 +22,13 @@ function Media({ data }: { data: any }) {
 
         <Box sx={{ pr: 2 }}>
           <Typography gutterBottom variant="body2">
-            {data?.first_name} {data?.last_name}
+            {data?.firstName} {data?.lastName}
           </Typography>
           <Typography display="block" variant="caption" color="text.secondary">
             {data?.name}
           </Typography>
           <Typography variant="caption" color="text.secondary">
-            {`${data?.required_ticket_number} • ${data?.draw_date}`}
+            {`${data?.requiredTicketNumber} • ${displayDate}`}
           </Typography>
         </Box>
 

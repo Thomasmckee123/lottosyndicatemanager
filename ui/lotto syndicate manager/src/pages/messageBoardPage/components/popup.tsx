@@ -56,7 +56,7 @@ const GamePopup: React.FC<GamePopupProps> = ({
                 primary={item.name}
                 secondary={
                   "required Ticket Number " +
-                  item.required_ticket_number.toString()
+                  item.requiredTicketNumber.toString()
                 }
               />
             </ListItem>

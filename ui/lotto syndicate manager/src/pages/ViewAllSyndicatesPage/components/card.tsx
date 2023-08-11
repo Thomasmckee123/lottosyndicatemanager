@@ -1,4 +1,3 @@
-import * as React from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -23,7 +22,7 @@ function MediaCard({ data }: { data: any }) {
       />
       <CardContent>
         <Typography variant="body2" color="text.tiertary">
-          date: {data.created_date}
+          date: {data.createdDate}
         </Typography>
         <Typography gutterBottom variant="h5" component="div">
           {data.name}

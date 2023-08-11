@@ -8,12 +8,12 @@ const NavigationRoutes = {
   CREATESYNDICATE: "/CreateSyndicate/:ownerId",
   REVIEW: "/reviewPage",
   JOINGAME: "/joinGame/:syndicateId",
-  CREATEGAME: "/CreateGame/:syndicateId/user_syndicate/:user_syndicate_id",
+  CREATEGAME: "/CreateGame/:syndicateId/user_syndicate/:userSyndicateId",
   BOARDCHAT:
-    "/BoardChat/:syndicateId/boards/:boardId/user_syndicate/:user_syndicate_id",
+    "/BoardChat/:syndicateId/boards/:boardId/userSyndicate/:userSyndicateId",
   LOGIN: "/Login",
   SYNDICATEBOARDS:
-    "/MessageBoardsPage/:syndicateId/userSyndicate/:user_syndicate_id",
+    "/MessageBoardsPage/:syndicateId/userSyndicate/:userSyndicateId",
   GAMEPAGE: "/game/:gameId/syndicates/:syndicateId",
   SIGNUP: "/SignUp",
 };

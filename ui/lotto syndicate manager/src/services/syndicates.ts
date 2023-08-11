@@ -1,6 +1,4 @@
-import { start } from "repl";
 import axios from "../integrations/instance";
-import TokenUtils from "../integrations/token";
 //getting all the user syndicate data
 const fetchInsideUserSyndicateData = async (syndicateId: Number) => {
   try {
@@ -34,7 +32,7 @@ const fetchAllSyndicateData = async () => {
 
 const fetchHomePageSyndicateData = async (userId: number) => {
   try {
-    const response = await axios.get(`syndicates/user/${userId}` );
+    const response = await axios.get(`userSyndicates/user/${userId}` );
     return response.data;
   } catch (error) {
     console.error("There was an error!", error);
@@ -45,31 +43,31 @@ const fetchHomePageSyndicateData = async (userId: number) => {
 
 
 // Update createSyndicate function to handle file
-const createSyndicate = async (name: any, description: any, file:any, owner_id:number) => {
+const createSyndicate = async (name: any, description: any, file:any, ownerId:number) => {
 
   const createData ={
     createdDate: new Date().toDateString(),
     name: name,
     description: description,
     avatar: file.toString(),
-    owner_id: Number(owner_id)
+    ownerId: Number(ownerId)
 
   }
   
     
-    const response = await axios.post(`/syndicates/create/users/${owner_id}`, createData);
+    const response = await axios.post(`/syndicates/create/users/${ownerId}`, createData);
     return response.data;
 
 };
-const createUserSyndicate = async (start_date: Date, user_id: number, syndicate_id: number, role_id: number) =>{
+const createUserSyndicate = async (startDate: Date, userId: number, syndicateId: number, roleId: number) =>{
   const createUserSyndicate = {
-    start_date: start_date,
-    user_id: Number(user_id),
-    syndicate_id: Number(syndicate_id),
-    role_id: Number(role_id)
+    startDate: startDate,
+    userId: Number(userId),
+    syndicateId: Number(syndicateId),
+    roleId: Number(roleId)
 
   }
-  const response = await axios.post(`users/${user_id}/syndicates/${syndicate_id}/roles/${role_id}`,createUserSyndicate)
+  const response = await axios.post(`usersSyndicates/${userId}/syndicates/${syndicateId}/roles/${roleId}`,createUserSyndicate)
   return response.data
 }
 

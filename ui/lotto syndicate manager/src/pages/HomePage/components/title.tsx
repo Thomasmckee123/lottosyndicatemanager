@@ -38,7 +38,7 @@ function Title() {
     <>
       <div className="welcomeContainer">
         <h1 className="welcomeMessage">
-          Welcome {data ? `${data.claims.first_name}` : "..."}
+          Welcome {data ? `${data.claims.firstName}` : "..."}
         </h1>
         <div className="buttonContainer">
           <Box>

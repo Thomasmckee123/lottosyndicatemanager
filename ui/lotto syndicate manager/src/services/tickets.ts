@@ -1,15 +1,11 @@
 import axios from "../integrations/instance";
-import TokenUtils from "../integrations/token";
-const createTicket = async (ticket_code: string, syndicateId:number, gameId:number) => {
-    const formData = new FormData();
-    formData.append("ticket code", ticket_code);
-    formData.append('total_reward_value', "0");
-    formData.append('ticket_status_id', "1")
+const createTicket = async (ticketCode: string, syndicateId:number, gameId:number) => {
+  
   
   const gameData = {
-   ticket_code: ticket_code,
-    total_reward_value: 0,
-    ticket_status_id: 1,
+   ticketCode: ticketCode,
+    totalRewardValue: 0,
+    ticketStatusId: 1,
    syndicateId: syndicateId,
    gameId: gameId
   };

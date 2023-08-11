@@ -45,7 +45,7 @@ const GamePage = () => {
 
   const countDownDate = () => {
     const now = new Date();
-    const drawDate = new Date(data?.draw_date);
+    const drawDate = new Date(data?.drawDate);
     const difference = drawDate.getTime() - now.getTime();
 
     if (difference <= 0) {
@@ -88,7 +88,7 @@ const GamePage = () => {
             Reward: ${data?.reward}
           </Typography>
           <Typography variant="body1" gutterBottom>
-            Required Ticket Number: {data?.required_ticket_number}
+            Required Ticket Number: {data?.requiredTicketNumber}
           </Typography>
 
           <Typography variant="h6" gutterBottom>

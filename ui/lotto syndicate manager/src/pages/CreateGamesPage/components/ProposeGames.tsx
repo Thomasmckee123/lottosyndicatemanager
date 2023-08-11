@@ -32,11 +32,11 @@ function ProposeGames({ data }: { data: any }) {
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          Draw date: {data.draw_date}
+          Draw date: {data.drawDate}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          proposed by: {data.user_syndicates.users.first_name}{" "}
-          {data.user_syndicates.users.last_name}
+          proposed by: {data.userSyndicates.users.firstName}{" "}
+          {data.userSyndicates.users.lastName}
         </Typography>
         <Button variant="contained" sx={{ backgroundColor: "darkred" }}>
           <Link

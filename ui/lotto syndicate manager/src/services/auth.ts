@@ -1,8 +1,8 @@
 import instance from "../integrations/instance";
 
-const authenticate = async (email_address: string, password: string) => {
+const authenticate = async (emailAddress: string, password: string) => {
     return await instance
-      .post("/authenticate", { email_address, password })
+      .post("/authenticate", { emailAddress, password })
       .then((response) => {
         return response;
       });

@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate, Link } from "react-router-dom";
 
-import About from "./pages/About";
-import Contact from "./pages/contact";
+import About from "./pages/informationPages/About";
+import Contact from "./pages/informationPages/contact";
 
 import HomePage from "./pages/HomePage";
 

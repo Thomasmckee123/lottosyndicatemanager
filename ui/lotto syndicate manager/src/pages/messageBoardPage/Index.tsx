@@ -26,15 +26,20 @@ import AddIcon from "@mui/icons-material/Add";
 import Tooltip from "@mui/material/Tooltip";
 
 import GamePopup from "./components/popup";
+import { NavigationRoutes } from "../../constants";
 
 function ReviewMessages() {
   const [data, setData] = useState<any[]>([]);
-
+  const { boardId, syndicateId, userSyndicateId } = useParams<{
+    syndicateId: string;
+    userSyndicateId: string;
+    boardId: string;
+  }>();
   // States
   const [selectedGame, setSelectedGame] = useState<any | null>(null); // Move this to the top level of the function
   const handleGameSelect = (game: any) => {
     setSelectedGame(game);
-    let gameMessage = `Play Game - ${game.name} required ticket number : ${game.required_ticket_number} [gameId:${game.id}]`;
+    let gameMessage = `Play Game - ${game.name} required ticket number : ${game.requiredTicketNumber} [gameId:${game.id}]`;
 
     setMessage((prevMessage) => `${prevMessage} ${gameMessage}`);
   };
@@ -47,22 +52,17 @@ function ReviewMessages() {
     const match = message.match(/\[gameId:(\d+)\]/);
     return match ? match[1] : null;
   }
-  const { boardId, syndicateId, user_syndicate_id } = useParams<{
-    syndicateId: string;
-    user_syndicate_id: string;
-    boardId: string;
-  }>();
 
   let [message, setMessage] = useState("");
   const [isGamePopupOpen, setIsGamePopupOpen] = useState(false);
-  // Handle selected game
 
   const getMessages = () => {
-    fetchBoardsAndMessagesFromSyndicates(Number(syndicateId))
+    fetchBoardsAndMessagesFromSyndicates(Number(boardId))
       .then((response) => {
-        setData(response[0]);
         if (Array.isArray(response)) {
           setData(response);
+        } else {
+          console.error("API response is not an array:", response);
         }
       })
       .catch((error) => {
@@ -77,12 +77,8 @@ function ReviewMessages() {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault(); // Prevent the default form submit action
     try {
-      if (user_syndicate_id && boardId) {
-        await createMessage(
-          message,
-          Number(user_syndicate_id),
-          Number(boardId)
-        );
+      if (userSyndicateId && boardId) {
+        await createMessage(message, Number(userSyndicateId), Number(boardId));
         getMessages();
         setMessage(""); // reset the message field after a successful submit
       } else {
@@ -93,7 +89,6 @@ function ReviewMessages() {
     }
   };
 
-  //In your return JSX
   return (
     <Box sx={{ pb: 7 }}>
       <CssBaseline />
@@ -106,63 +101,60 @@ function ReviewMessages() {
 
           <Box sx={{ maxHeight: "60vh", overflowY: "auto", mt: 2 }}>
             <List>
-              {data.map((item, index) =>
-                item.board_message.map((message: any, messageIndex: any) => {
-                  const gameId = extractGameId(message.message);
-
-                  return (
-                    <ListItem
-                      button
-                      key={`${index}-${messageIndex}-${message.user_syndicates.users.first_name}`}
-                      style={gameId ? { backgroundColor: "darkgrey" } : {}}
-                    >
-                      <ListItemAvatar>
-                        <Avatar alt="Profile Picture" />
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary={`${new Date(
-                          message.created_date
-                        ).toLocaleString()} - ${
-                          message.user_syndicates.users.first_name
-                        } ${message.user_syndicates.users.last_name}`}
-                        secondary={
-                          gameId ? (
-                            <div
-                              style={{ display: "flex", alignItems: "center" }}
+              {data.map((item, index) => {
+                const gameId = extractGameId(item.message);
+                return (
+                  <ListItem
+                    button
+                    key={`${index}-${item.userSyndicates.users.firstName}`}
+                    style={gameId ? { backgroundColor: "darkgrey" } : {}}
+                  >
+                    <ListItemAvatar>
+                      <Avatar alt="Profile Picture" />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={`${new Date(
+                        item.createdDate
+                      ).toLocaleString()} - ${
+                        item.userSyndicates.users.firstName
+                      } ${item.userSyndicates.users.lastName}`}
+                      secondary={
+                        gameId ? (
+                          <div
+                            style={{ display: "flex", alignItems: "center" }}
+                          >
+                            <Button
+                              variant="contained" // filled button
+                              color="primary" // default primary color
+                              size="small" // adjust size as per your needs
+                              sx={{
+                                marginRight: "1rem", // spacing between button and the message
+                                backgroundColor: "darkred", // make it red
+                                "&:hover": {
+                                  backgroundColor: "darkred", // darker shade on hover
+                                },
+                              }}
                             >
-                              <Button
-                                variant="contained" // filled button
-                                color="primary" // default primary color
-                                size="small" // adjust size as per your needs
-                                sx={{
-                                  marginRight: "1rem", // spacing between button and the message
-                                  backgroundColor: "darkred", // make it red
-                                  "&:hover": {
-                                    backgroundColor: "darkred", // darker shade on hover
-                                  },
+                              <Link
+                                to={`/game/${gameId}/syndicates/${syndicateId}`}
+                                style={{
+                                  textDecoration: "none", // remove underline from link
+                                  color: "inherit", // use inherited color (from Button)
                                 }}
                               >
-                                <Link
-                                  to={`/game/${gameId}/syndicates/${syndicateId}`}
-                                  style={{
-                                    textDecoration: "none", // remove underline from link
-                                    color: "inherit", // use inherited color (from Button)
-                                  }}
-                                >
-                                  Play Game
-                                </Link>
-                              </Button>
-                              {message.message}
-                            </div>
-                          ) : (
-                            message.message
-                          )
-                        }
-                      />
-                    </ListItem>
-                  );
-                })
-              )}
+                                Play Game
+                              </Link>
+                            </Button>
+                            {item.message}
+                          </div>
+                        ) : (
+                          item.message
+                        )
+                      }
+                    />
+                  </ListItem>
+                );
+              })}
             </List>
           </Box>
           <Divider />
@@ -182,7 +174,7 @@ function ReviewMessages() {
                   <Tooltip title="select games">
                     <IconButton
                       color="primary"
-                      aria-label="Create Game"
+                      aria-label="propose a game"
                       component="span"
                       onClick={() => setIsGamePopupOpen(true)}
                     >
@@ -195,6 +187,21 @@ function ReviewMessages() {
                     handleGameSelect={handleGameSelect} // pass the handleGameSelect function
                   />
                 </Box>
+              </Grid>
+              <Grid item xs={2}>
+                <Tooltip title="create a game">
+                  <IconButton
+                    sx={{ color: "darkRed" }}
+                    aria-label="create a game"
+                    component={Link}
+                    to={NavigationRoutes.CREATEGAME.replace(
+                      ":syndicateId",
+                      `${syndicateId}`
+                    ).replace(":userSyndicateId", `${userSyndicateId}`)}
+                  >
+                    <AddIcon />
+                  </IconButton>
+                </Tooltip>
               </Grid>
               <Grid item xs={2}>
                 <Button

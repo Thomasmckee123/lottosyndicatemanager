@@ -15,6 +15,10 @@ const getJWT = (): any => jwtDecode(getAccessToken());
 const setUser = (user: any) => {
   localStorage.setItem("user", JSON.stringify(user));
 };
+const getUser = () => {
+    const user = localStorage.getItem("user");
+    return user ? JSON.parse(user) : null;
+  };
 console.log(getJWT)
 const removeUser = () => {
   localStorage.removeItem("user");
@@ -27,6 +31,7 @@ const isTokenExpired = (token: any) => {
 };
 
 const TokenUtils = {
+    getUser,
   getAccessToken,
   getRefreshToken,
   getJWT,
