@@ -67,7 +67,7 @@ GamesRouter.post(/**
 "/create/syndicates/:id(\\d+)", [
     body("name").isString(),
     body("reward").isNumeric().trim(),
-    body("required_ticket_number").isNumeric().isLength({ min:1} ).trim(),
+    body("requiredTicketNumber").isNumeric().isLength({ min:1} ).trim(),
   ], resolver,GameController.createGames);
 GamesRouter.put( /**
 * @swagger
@@ -113,9 +113,9 @@ GamesRouter.put( /**
 *         description: User Updated
 */"/update/:id(\\d+)", [
     body("name").isString(),
-    body("draw_date").isDate(),
+    body("drawDate").isDate(),
     body("reward").isNumeric().trim(),
-    body("required_ticket_number").isNumeric().trim(),
+    body("requiredTicketNumber").isNumeric().trim(),
   ], resolver, GameController.UpdateGame);
 
   GamesRouter.get('/:gameId', GameController.getGamesById)

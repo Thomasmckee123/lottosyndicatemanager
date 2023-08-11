@@ -17,12 +17,8 @@ async function createGames(req: Request, res: Response) {
   try {
 console.log(req.body)
 const newGames = {
-  name: req.body.name,
-  draw_date: new Date(req.body.drawDate),
-  reward: Number(req.body.reward),
-  image: req.body.image,
-  requiredTicketNumber: req.body.requiredTicketNumber as string,
-  user_syndicate_id:Number(req.params.id)
+ ...req.body,
+  userSyndicateId:Number(req.params.id)
   
 }
 console.log(newGames)

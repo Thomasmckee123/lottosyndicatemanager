@@ -13,7 +13,10 @@ import {
 } from "@mui/material";
 import { fetchGamesById } from "../../services/games";
 import { createTicket } from "../../services/tickets";
+import dayjs from "dayjs";
+import duration from "dayjs/plugin/duration";
 
+// Use the plugin
 const GamePage = () => {
   const { gameId, syndicateId } = useParams<{
     gameId: string;
@@ -40,24 +43,22 @@ const GamePage = () => {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, []);
+  }, [gameId]);
   console.log(data);
 
   const countDownDate = () => {
-    const now = new Date();
-    const drawDate = new Date(data?.drawDate);
-    const difference = drawDate.getTime() - now.getTime();
+    const now = dayjs();
+    console.log(data?.drawDate);
+    const drawDate = dayjs(data?.drawDate);
+    const difference = drawDate.diff(now);
 
     if (difference <= 0) {
       return "The draw has ended!";
     }
 
-    const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
-    const minutes = Math.floor((difference / (1000 * 60)) % 60);
-    const seconds = Math.floor((difference / 1000) % 60);
+    const d = dayjs.duration(difference); // use the duration function to break down the difference
 
-    return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    return `${d.hours()}h ${d.minutes()}m ${d.seconds()}s until draw.`;
   };
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);

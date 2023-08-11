@@ -26,14 +26,14 @@ const fetchGamesById = async(gameId: number) => {
 }
 
 const createGame = async (name: any, drawDate: Date, reward: number, image: any, requiredTicketNumber: number, userSyndicateId: number) => {
-
+console.log(requiredTicketNumber)
   const gameData = {
     name: name,
-    drawDate: drawDate,
+    drawDate: new Date(drawDate),
     reward: reward,
-    image: image, // Assuming this is already in a suitable format
+    image: image, 
     requiredTicketNumber: Number(requiredTicketNumber),
-    userSyndicateId: userSyndicateId,
+    //userSyndicateId: Number(userSyndicateId),
   };
 
     

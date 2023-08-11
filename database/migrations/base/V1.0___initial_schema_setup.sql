@@ -35,8 +35,8 @@ CREATE TABLE user_syndicates(
     id SERIAL NOT NULL constraint user_syndicate_pk PRIMARY KEY,
     start_date DATE NOT NULL,
    
-    user_id SERIAL NOT NULL CONSTRAINT FK_user_user_syndicates REFERENCES users(id),
-    syndicate_id SERIAL NOT NULL CONSTRAINT FK_user_syndicates_syndicates REFERENCES syndicates(id),
+    user_id INTEGER NOT NULL CONSTRAINT FK_user_user_syndicates REFERENCES users(id),
+    syndicate_id INTEGER NOT NULL CONSTRAINT FK_user_syndicates_syndicates REFERENCES syndicates(id),
     role_id INTEGER NOT NULL CONSTRAINT FK_role_user_syndicates REFERENCES roles(id)
 );
 

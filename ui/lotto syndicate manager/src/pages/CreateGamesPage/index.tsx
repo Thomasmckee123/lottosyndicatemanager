@@ -39,7 +39,7 @@ function CreateGame() {
           height: "70vh",
           backgroundColor: "darkgray",
           overflow: "auto",
-          marginBottom: 2, // space below this box
+          marginBottom: 2,
         }}
       >
         <Grid container spacing={2}>
@@ -69,8 +69,8 @@ function CreateGame() {
           width: "70vw",
           height: "50vh",
           padding: 2,
-          backgroundColor: "lightgray", // to differentiate this box from the previous one
-          borderRadius: "10px", // rounded corners
+          backgroundColor: "lightgray",
+          borderRadius: "10px",
         }}
       >
         <CreatePersonalisedGame />

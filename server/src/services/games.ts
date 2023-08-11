@@ -211,10 +211,9 @@ async function createGameInSyndicate(game: any) {
     data: {
   name: game.name,
   draw_date: game.drawDate,
-
   image: game.image,
   reward: Number(game.reward),
-  required_ticket_number: game.requiredTicketNumber as string,
+  required_ticket_number: game.requiredTicketNumber,
   user_syndicate_id: game.userSyndicateId
   
     },

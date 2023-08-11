@@ -67,7 +67,7 @@ const createUserSyndicate = async (startDate: Date, userId: number, syndicateId:
     roleId: Number(roleId)
 
   }
-  const response = await axios.post(`usersSyndicates/${userId}/syndicates/${syndicateId}/roles/${roleId}`,createUserSyndicate)
+  const response = await axios.post(`userSyndicates/${userId}/syndicates/${syndicateId}/roles/${roleId}`,createUserSyndicate)
   return response.data
 }
 
