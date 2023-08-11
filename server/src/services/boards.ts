@@ -2,7 +2,7 @@ import { IBoards } from "../interfaces";
 import {prisma} from "../utils/prisma"
 
 const getAll = async () => {
-    const getAllBoards: IBoards[] =  await prisma.boards.findMany({
+    const getAllBoards=  await prisma.boards.findMany({
       select: {
         id: true,
         name: true,
@@ -23,6 +23,7 @@ const getAll = async () => {
         },
       },
     });
+      
     return getAllBoards
   };
   //getting boards by syndicate Id
@@ -77,7 +78,7 @@ async function createBoards(board: any) {
     const newBoards = await prisma.boards.create({
       data: {
      name: board.name,
-     syndicate_id: board.syndicate_id,
+     syndicate_id: board.syndicateId,
 
       },
     });

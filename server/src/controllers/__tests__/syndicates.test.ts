@@ -192,13 +192,13 @@ describe("GET /syndicates", () => {
         });
         const response: MockResponse<Response> = createResponse();
         const returnValue = {
-          start_date: new Date(),
+          id: 1,
   
           role_id: 9999
         };
         when(SyndicateService.createSyndicate)
           .calledWith(validCreateBody)
-          .mockReturnValueOnce(Promise.resolve(new Date()));
+          .mockReturnValueOnce(Promise.resolve(1));
   
         await SyndicateController.createSyndicate(request, response);
   

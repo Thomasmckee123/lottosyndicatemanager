@@ -109,11 +109,10 @@ TicketRouter.post(/**
 *                   type: number
 */
 
-"/api/syndicates/:syndicateId/games/:gameId(\\d+)",[
-    body("ticket_code").isString().isLength({ min: 3 }),
-    body("total_reward_value").isNumeric().isLength({ min: 3 }).trim(),
+"/syndicates/:syndicateId/games/:gameId(\\d+)",[
+    
+    body("total_reward_value").isNumeric().isLength({ min: 0 }).trim(),
     body("ticket_status_id").isNumeric().isLength({min: 1}).trim(),
-    body("required_ticket_number").isNumeric().isLength({min:1})
   ],resolver, TicketController.createTickets);
 TicketRouter.put( /**
 * @swagger

@@ -19,9 +19,9 @@ async function getReviewsBySyndicateId(req: Request, res: Response) {
   async function createNewReviewOnSyndicate(req: Request, res: Response) {
     try {
       const newReview = {...req.body,
-      created_date: new Date(),
+      createdDate: new Date(),
       userId: Number(req.params.userId),
-      syndicate_id: Number(req.params.syndicateId)
+      syndicateId: Number(req.params.syndicateId)
       
       
       

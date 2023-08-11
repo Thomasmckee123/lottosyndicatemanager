@@ -7,19 +7,25 @@ const getAllGames = async (req: Request, res: Response) => {
   return !games ? res.sendStatus(404) : res.status(200).json(games);
 };
 
+const getGamesById = async (req: Request, res: Response)=>{
+  const { gameId } = req.params;
+
+  const game= await GameService.getGamesByGameId(Number(gameId));
+  return !game ? res.sendStatus(404) : res.status(200).json(game);
+}
 async function createGames(req: Request, res: Response) {
   try {
 console.log(req.body)
 const newGames = {
   name: req.body.name,
-  draw_date: new Date(req.body.draw_date),
+  draw_date: new Date(req.body.drawDate),
   reward: Number(req.body.reward),
-  imgae: req.body.image,
-  required_ticket_number: req.body.required_ticket_number as string,
+  image: req.body.image,
+  requiredTicketNumber: req.body.requiredTicketNumber as string,
   user_syndicate_id:Number(req.params.id)
   
 }
-
+console.log(newGames)
   
     const createdGame = await GameService.createGameInSyndicate(newGames);
     return res.status(200).json(createdGame);
@@ -43,6 +49,7 @@ async function getGamesBySyndicateId(req: Request, res: Response) {
     res.status(500).json({ "Cannot access database": error });
   }
 }
+
 //update syndicate details
 async function UpdateGame(req: Request, res: Response) {
   try {
@@ -50,10 +57,10 @@ async function UpdateGame(req: Request, res: Response) {
     let gameDetails={
       ...req.body,
       id: Number(req.params.id),
-      draw_date : new Date(req.body.draw_date),
+      drawDate : new Date(req.body.drawDate),
       reward: Number(req.body.reward),
       image: req.body.image,
-      required_ticket_number: req.body.required_ticket_number
+      requiredTicketNumber: req.body.requiredTicketNumber
 
     }
   
@@ -74,5 +81,5 @@ async function deleteGameById(req: Request, res: Response) {
   return res.status(200).json(deletedGame);
 }
 
-const GameController = {getGamesBySyndicateId, getAllGames, createGames, UpdateGame, deleteGameById};
+const GameController = {getGamesById, getGamesBySyndicateId, getAllGames, createGames, UpdateGame, deleteGameById};
 export {GameController};

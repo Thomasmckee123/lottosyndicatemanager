@@ -80,7 +80,7 @@ BoardsRouter.post(/**
 *             schema:
 *               type: array
 *               
-*/"/create", [
+*/"/create/syndicates/:syndicateId", [
     body("name").isString().isLength( {min:3} ),
   ], resolver,
   BoardsController.createBoard);

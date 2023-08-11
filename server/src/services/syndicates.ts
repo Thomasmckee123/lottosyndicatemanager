@@ -1,10 +1,9 @@
 import { ISyndicate } from "../interfaces/index";
-import { IUserSyndicate } from "../interfaces/syndicates";
 import {prisma} from "../utils/prisma"
 import bcrypt from "bcrypt"
 
 const getAll = async () => {
-   const allSyndicates : ISyndicate[]=  await prisma.syndicates.findMany({
+   const allSyndicates =  await prisma.syndicates.findMany({
       select: {
         id: true,
         created_date: true,
@@ -21,8 +20,36 @@ const getAll = async () => {
         },
       },
     });
-    const filteredUsers = allSyndicates?.filter((syndicate) => syndicate.name !== "DELETED")
-    return filteredUsers;
+    const modifiedSyndicate: ISyndicate[] = allSyndicates.map(
+      (x: {
+        id: number;
+        created_date: Date;
+        name: string;
+        description: string | null;
+        avatar: string | null;
+        owner_id: number;
+        users: {
+          id: number;
+          first_name: string;
+          last_name: string;
+        };
+      }) => ({
+        id: x.id,
+        createdDate: x.created_date,
+        name: x.name,
+        description: x.description,
+        avatar: x.avatar,
+        ownerId: x.owner_id,
+        users: {
+          id: x.users.id,
+          firstName: x.users.first_name,
+          lastName: x.users.last_name,
+}})
+    );
+  
+    const filteredSyndicates = modifiedSyndicate?.filter((syndicate) => syndicate.name !== "DELETED")
+    return filteredSyndicates;
+
 };
 const getSyndicateById = async (syndicateId: number) => {
    
@@ -51,57 +78,22 @@ const getSyndicateById = async (syndicateId: number) => {
      return null;
    }
 
- 
-   return syndicatesById;
+   const returnedValue: ISyndicate = {
+    id: Number(syndicatesById?.id),
+   createdDate: syndicatesById?.created_date ?? "",
+   name: syndicatesById?.name??"",
+   description: syndicatesById?.description??"",
+   avatar:syndicatesById?.avatar??"",
+   ownerId: syndicatesById?.owner_id,
+   users:{
+    id: Number(syndicatesById?.users.id),
+    firstName: syndicatesById?.users.first_name??"",
+    lastName: syndicatesById?.users.last_name??""
+   }
+   };
+   return returnedValue;
  };
-//getting the syndicates by user id
-async function getSyndicatesByUserId(userId: number) {
-    let syndicatesByUserId : IUserSyndicate[] | null;
 
-    try {
-      syndicatesByUserId = await prisma.user_syndicates.findMany({
-        where: { user_id: userId },
-
-          select:{
-            id: true,
-            start_date: true,
-            users:{select:{
-id: true,
-first_name: true,
-last_name: true,
-email: true
-
-            },
-          },syndicates: {
-select:{
-  id:true,
-created_date: true,
-name: true,
-description: true,
-avatar: true,
-
-
-}, },
-roles:{
-  select:{
- name: true
-  }
-}
-          }
-
-          }
-      
-      );
-    } catch (error) {
-
-      throw Error("Cannot get syndicateby user id", error);
-    }
-    const filteredUsers = syndicatesByUserId?.filter((syndicate) => syndicate.users.first_name!== "DELETEDUSER" || syndicate.syndicates.name !== "DELETED")
-
-    return filteredUsers;
-
-  }
-  
 //creating a new syndicate
 async function createSyndicate(syndicate: any) {
   try {
@@ -111,16 +103,17 @@ async function createSyndicate(syndicate: any) {
       name: syndicate.name,
       description:syndicate.description,
       avatar:syndicate.avatar,
-      owner_id: syndicate.owner_id
+      owner_id: syndicate.ownerId
   
     },
   });
-    return newSyndicate.created_date;
+    return newSyndicate.id;
   } catch(error) {
     console.log(error);
     throw Error("Cannot create syndicate");
   }
 }
+
 
 //update syndicate details
 async function updateSyndicateDetails(syndicate: any) {
@@ -163,5 +156,5 @@ async function updateSyndicateDetails(syndicate: any) {
     }
     return deletedSyndicate;
   }
-  const SyndicateService = {getSyndicateById, deleteSyndicateById, getAll, getSyndicatesByUserId,createSyndicate,updateSyndicateDetails};
+  const SyndicateService = {getSyndicateById, deleteSyndicateById, getAll, createSyndicate,updateSyndicateDetails};
   export {SyndicateService};

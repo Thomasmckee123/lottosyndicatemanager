@@ -1,22 +1,23 @@
 
 //interface for messages
 interface IGames {
+  id: number;
     name: string;
-    draw_date: Date;
+    drawDate: Date;
     reward: number;
     image: string;
-    required_ticket_number: string;
-    user_syndicates: {
-      start_date: Date;
+    requiredTicketNumber: string;
+    userSyndicates: {
+      startDate: Date;
       users: {
         id: number;
-        first_name: string;
-        last_name: string;
+        firstName: string;
+        lastName: string;
         email: string;
       };
       syndicates: {
         id: number;
-        created_date: Date;
+        createdDate: Date;
         name: string;
         description: string|null;
         avatar: string|null;

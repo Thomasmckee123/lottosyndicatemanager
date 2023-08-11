@@ -24,30 +24,9 @@ SyndicatesRouter.get("/"/**
 */
 , SyndicateController.getAllSyndicates);
 SyndicatesRouter.get("/:syndicateId(\\d+)", SyndicateController.getSyndicatesById); 
-SyndicatesRouter.get(/**
-* @swagger
-* /api/syndicates/user/{id}:
-*   get:
-*     summary: Retrieve all syndicates by syndicateId.
-*     description: Retrieves a syndicate object based on its id.
-*     tags:
-*      - syndicates
-*     parameters:
-*       - in: path
-*         name: id
-*         required: true
-*         description: Numeric ID of the user to retrieve.
-*         schema:
-*           type: integer
-*     responses:
-*       200:
-*         description: A valid ticket object.
-*         content:
-*           application/json:
-*             schema:
-*               type: array
-*               
-*/"/user/:userId(\\d+)",SyndicateController.getSyndicatesByUserId);
+
+
+
 SyndicatesRouter.post(/**
 * @swagger
 * /api/syndicates/create/users/{userId}:
@@ -102,6 +81,7 @@ SyndicatesRouter.post(/**
     body("description").isString().isLength({ min: 3 }).trim(),
     
   ],resolver, SyndicateController.createSyndicate);
+
 SyndicatesRouter.put(/**
 * @swagger
 * /api/syndicates/update/{syndicateId}:

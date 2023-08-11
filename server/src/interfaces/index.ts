@@ -7,3 +7,4 @@ export type {IReviews} from "./reviews";
 export type {IMessages} from "./messages";
 export type {IGames} from "./games";
 export type {IBoards} from "./boards";
+export type {IUserSyndicate} from "./userSyndicates";

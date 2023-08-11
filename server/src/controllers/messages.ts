@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { MessageService } from "../services/messages";
+import { GameService } from "../services/games";
 
 const getAllMessages = async (req: Request, res: Response) => {
   const messages = await MessageService.getAll();
@@ -23,18 +24,46 @@ async function getMessagesByBoardsId(req: Request, res: Response) {
   async function createNewMessageInBoard(req: Request, res: Response) {
     try {
       const newBoard = {...req.body,
-      created_date: new Date(),
-      user_syndicate_id: Number(req.params.user_syndicate_id),
-      board_id: Number(req.params.boardId)
+        
+      createdDate: new Date(),
+      userSyndicateId: Number(req.params.userSyndicateId),
+      boardId: Number(req.params.boardId)
       
       
       };
       const createdBoard = await MessageService.createMessageInBoard(newBoard);
       return res.status(200).json(createdBoard);
     } catch (error) {
-      res.status(500).json("Could not create user.");
+      res.status(500).json("Could not create message");
     }
   }
+  async function createNewGameMessageInBoard(req: Request, res: Response) {
+    try {
+        const gameId = Number(req.params["gameId"]);
+
+        if (isNaN(gameId)) {
+            return res.status(400).json({ error: "Invalid game ID." });
+        }
+
+        const GameMessage = await MessageService.getGameMessage(gameId);
+console.log(GameMessage)
+        const newGameMessage = {
+            message: GameMessage,
+            createdDate: new Date(),
+            userSyndicateId: Number(req.params.userSyndicateId),
+            boardId: Number(req.params.boardId)
+        };
+
+        const createdGameMessage = await MessageService.createGameMessage(newGameMessage, gameId);
+
+        return res.status(200).json(createdGameMessage);
+    } catch (error) {
+        console.error(error); // It's good to log the error for debugging.
+        return res.status(500).json("Could not create game message.");
+    }
+}
+
+
 //deleting messages
   async function deleteMessageById(req: Request, res: Response)    {
     const  deleteData =  Number(req.params.messageId);
@@ -47,5 +76,5 @@ async function getMessagesByBoardsId(req: Request, res: Response) {
     }
     return res.status(200).json(deletedMessage);
   }
-const MessagesController = {createNewMessageInBoard,getAllMessages,getMessagesByBoardsId, deleteMessageById};
+const MessagesController = {createNewGameMessageInBoard, createNewMessageInBoard,getAllMessages,getMessagesByBoardsId, deleteMessageById};
 export {MessagesController};

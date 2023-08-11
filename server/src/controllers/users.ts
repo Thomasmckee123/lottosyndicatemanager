@@ -15,31 +15,7 @@ const getUserById = async (req: Request, res: Response) => {
   const user = await UserService.getUserById(Number(userId));
   return !user ? res.sendStatus(404) : res.status(200).json(user);
 };
-const getUserSyndicateById = async (req: Request, res: Response) => {
-  const { syndicateId } = req.params;
 
-  const user = await UserService.getUserSyndicateById(Number(syndicateId));
-  return !user ? res.sendStatus(404) : res.status(200).json(user);
-};
-
-async function createUserSyndicate(req: Request, res: Response) {
-  try {
-console.log(req.body)
-const newUserSyndicate = {...req.body,
-  start_date: new Date(req.body.start_date),
-  
-  user_id: Number(req.params.user_id),
- user_syndicate_id: Number(req.params.syndicateId),
- role_id: Number(req.body.role_id)
-}
-
-  
-    const createNewSyndicate = await UserService.createUserSyndicate(newUserSyndicate);
-    return res.status(200).json(createNewSyndicate);
-  } catch (error) {
-    res.status(500).json("Could not create game.");
-  }
-}
 
 
 async function updateUserDetails(req: Request, res: Response) {
@@ -67,5 +43,5 @@ async function deleteUserById(req: Request, res: Response)    {
   return res.status(200).json(deletedUser);
 }
 
-const UserController = {getUserSyndicateById,deleteUserById, getAllUsers, getUserById,updateUserDetails, createUserSyndicate};
+const UserController = {deleteUserById, getAllUsers, getUserById,updateUserDetails, };
 export {UserController};

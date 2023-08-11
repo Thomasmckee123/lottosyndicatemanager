@@ -1,9 +1,9 @@
 //interface for users
 interface IUser{
-    userId: number,
+    id: number,
     firstName: string,
     lastName: string,
     email: string,
-}
+} 
 
 export{IUser };

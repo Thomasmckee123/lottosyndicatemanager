@@ -5,7 +5,7 @@ import { IReviews } from "../interfaces";
 //getting reviews by syndicate ID
 
 async function getreviewsBySyndicateId(syndicateId: number) {
-    let reviewsBySyndicateId : IReviews[];
+    let reviewsBySyndicateId;
   
     try {
       reviewsBySyndicateId = await prisma.user_syndicate_reviews.findMany({
@@ -28,11 +28,39 @@ last_name: true
             }
         }
       });
+
     } catch (error) {
       throw Error("Cannot get messages by game id", error);
     }
+    const modifiedReviews: IReviews[] = reviewsBySyndicateId.map(
+      (x: {
+        id: number,
+        created_date: Date,
+        title: string,
+        content: string,
+        users:{ 
+    first_name: string,
+    last_name: string,
+        },
+        syndicates:{
+            name: string,
+        }
+      }) => ({
+        id: x.id,
+        createdDate: x.created_date,
+        title: x.title,
+        content: x.content,
+        users:{ 
+    firstName: x.users.first_name,
+    lastName: x.users.last_name,
+        },
+        syndicates:{
+            name: x.syndicates.name
+        }
+}))
+
     console.log(reviewsBySyndicateId);
-    return reviewsBySyndicateId;
+    return modifiedReviews;
   }
 
 async function createReviewInSyndicate(review: any) {
@@ -41,9 +69,11 @@ async function createReviewInSyndicate(review: any) {
 
   const newReviews = await prisma.user_syndicate_reviews.create({
     data: {
-   created_date: review.created_date,
+   created_date: review.createdDate,
    title: review.title,
    content: review.content,
+   user_id: review.userId,
+   syndicate_id: review.syndicateId
 
 
 

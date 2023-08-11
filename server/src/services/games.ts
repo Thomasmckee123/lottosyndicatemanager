@@ -3,7 +3,7 @@ import { IGames } from "../interfaces";
 
 const getAll = async () => {
 
-    const allGames: any[] | null =  await prisma.games.findMany({
+    const allGames =  await prisma.games.findMany({
       select:{
         id:true,
         name: true,
@@ -35,11 +35,77 @@ const getAll = async () => {
         }
       }
     });
-    return allGames;
-  };
+
+    const modifiedGames: IGames[] = allGames.map(
+      (x: {
+        id: number;
+        name: string;
+        draw_date: Date;
+        reward: number;
+        image: string;
+        required_ticket_number: string;
+        user_syndicates: {
+          start_date: Date;
+          users: {
+            id: number;
+            first_name: string;
+            last_name: string;
+            email: string;
+          };
+          syndicates: {
+            id: number;
+            created_date: Date;
+            name: string;
+            description: string|null;
+            avatar: string|null;
+          };
+        }
+      }) => ({
+        id: x.id,
+        name: x.name,
+        drawDate: x.draw_date,
+        reward: x.reward,
+        image: x.image,
+        requiredTicketNumber: x.required_ticket_number,
+        userSyndicates: {
+          startDate:x.user_syndicates.start_date,
+          users: {
+            id: x.user_syndicates.users.id,
+            firstName: x.user_syndicates.users.first_name,
+            lastName: x.user_syndicates.users.last_name,
+            email: x.user_syndicates.users.email,
+          },
+          syndicates: {
+            id: x.user_syndicates.syndicates.id,
+            createdDate: x.user_syndicates.syndicates.created_date,
+            name: x.user_syndicates.syndicates.name,
+            description: x.user_syndicates.syndicates.description,
+            avatar: x.user_syndicates.syndicates.avatar,
+          }
+        }
+}))
+
+    return modifiedGames;
+  }
+ 
+
+  async function getGamesByGameId(gameId :number) {
+    let gamesById;
+    try{
+   gamesById =  await prisma.games.findUnique({
+      where: {
+        id: gameId
+      }
+    })
+  }catch(error){
+    console.log(error)
+    throw error("couldnt get game")
+  }
+    return gamesById
+  }
   //getting the syndicates by user id
 async function getGamesBySyndicateId(syndicateId: number) {
-  let gamesBySyndicateId: IGames[] | null;
+  let gamesBySyndicateId;
 
   try {
     gamesBySyndicateId = await prisma.games.findMany({
@@ -84,8 +150,55 @@ async function getGamesBySyndicateId(syndicateId: number) {
 
     throw Error("Cannot get game by syndicate Id", error);
   }
-
-  return gamesBySyndicateId;
+  const modifiedGames: IGames[] = gamesBySyndicateId.map(
+    (x: {
+      id: number;
+      name: string;
+      draw_date: Date;
+      reward: number;
+      image: string;
+      required_ticket_number: string;
+      user_syndicates: {
+        start_date: Date;
+        users: {
+          id: number;
+          first_name: string;
+          last_name: string;
+          email: string;
+        };
+        syndicates: {
+          id: number;
+          created_date: Date;
+          name: string;
+          description: string|null;
+          avatar: string|null;
+        };
+      }
+    }) => ({
+      id: x.id,
+      name: x.name,
+      drawDate: x.draw_date,
+      reward: x.reward,
+      image: x.image,
+      requiredTicketNumber: x.required_ticket_number,
+      userSyndicates: {
+        startDate:x.user_syndicates.start_date,
+        users: {
+          id: x.user_syndicates.users.id,
+          firstName: x.user_syndicates.users.first_name,
+          lastName: x.user_syndicates.users.last_name,
+          email: x.user_syndicates.users.email,
+        },
+        syndicates: {
+          id: x.user_syndicates.syndicates.id,
+          createdDate: x.user_syndicates.syndicates.created_date,
+          name: x.user_syndicates.syndicates.name,
+          description: x.user_syndicates.syndicates.description,
+          avatar: x.user_syndicates.syndicates.avatar,
+        }
+      }
+}))
+  return modifiedGames;
 
 }
 
@@ -97,14 +210,16 @@ async function createGameInSyndicate(game: any) {
   const newGame = await prisma.games.create({
     data: {
   name: game.name,
-  draw_date: new Date(game.draw_date),
+  draw_date: game.drawDate,
+
   image: game.image,
   reward: Number(game.reward),
-  required_ticket_number: game.required_ticket_number as string,
-  user_syndicate_id: game.user_syndicate_id
+  required_ticket_number: game.requiredTicketNumber as string,
+  user_syndicate_id: game.userSyndicateId
   
     },
   });
+  console.log(newGame.draw_date)
     return newGame.draw_date;
   } catch(error) {
     console.log(error);
@@ -121,11 +236,11 @@ async function updateGames(game: any) {
       },
       data: {
       name: game.name,
-      draw_date: game.draw_date,
+      draw_date: game.drawDate,
       reward: game.reward,
       image: game.image,
-      required_ticket_number: game.required_ticket_number,
-      user_syndicate_id: game.user_syndicate_id
+      required_ticket_number: game.requiredTicketNumber,
+      user_syndicate_id: game.userSyndicateId
 
       },
     });
@@ -159,5 +274,5 @@ async function deleteGameById(gameId) {
     throw error;
   }
 }
-  const GameService = {getGamesBySyndicateId, getAll,createGameInSyndicate,updateGames,deleteGameById};
+  const GameService = {getGamesByGameId, getGamesBySyndicateId, getAll,createGameInSyndicate,updateGames,deleteGameById};
   export {GameService};

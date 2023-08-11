@@ -60,7 +60,7 @@ describe("GET /users", () => {
       });
 
   const exampleUpdateUsers: IUser = {
-    userId: 1,
+    id: 1,
     firstName: "John ",
     lastName: "Smyth",
     
@@ -133,7 +133,7 @@ describe("getUserByEmail", () => {
    * delete user
    */
   const exampleDeleteUsers: IUser = {
-    userId: 1,
+    id: 1,
     firstName: "DELETED USER ",
     lastName: "DELETED",
     

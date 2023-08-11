@@ -18,7 +18,11 @@ async function getBoardsBySyndicateId(req: Request, res: Response) {
   }
   async function createBoard(req: Request, res: Response) {
     try {
-      const newBoard = req.body;
+      let newBoard={
+        ...req.body,
+  userId : Number(req.params.userId)
+  
+      }
       const createdBoard = await BoardsService.createBoards(newBoard);
       return res.status(200).json(createdBoard);
     } catch (error) {

@@ -29,10 +29,10 @@ async function getTicketsByGameId(req: Request, res: Response) {
     try {
   console.log(req.body)
   const newTickets = {...req.body,
-    total_reward_value: Number(req.body.total_reward_value),
-    ticket_status_id: Number(req.body.ticket_status_id),
-   user_syndicate_id: Number(req.params.syndicateId),
-   game_id: Number(req.params.gameId)
+    totalRewardValue: Number(req.body.total_reward_value),
+    ticketStatusId: Number(req.body.ticket_status_id),
+   userSyndicateId: Number(req.params.syndicateId),
+   gameId: Number(req.params.gameId)
   }
   
     
@@ -51,8 +51,8 @@ async function getTicketsByGameId(req: Request, res: Response) {
 
       let ticketDetails ={ ...req.body,
         id: Number(req.params.id),
-        total_reward_value : Number(req.body.total_reward_value),
-        ticket_status_id: Number(req.body.ticket_status_id)
+        totalRewardValue : Number(req.body.totalRewardValue),
+        ticketStatusId: Number(req.body.ticketStatusId)
       
       
       }

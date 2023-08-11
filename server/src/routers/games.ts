@@ -66,7 +66,6 @@ GamesRouter.post(/**
 */
 "/create/syndicates/:id(\\d+)", [
     body("name").isString(),
-    body("draw_date").isDate().isLength({ min: 3 }).trim(),
     body("reward").isNumeric().trim(),
     body("required_ticket_number").isNumeric().isLength({ min:1} ).trim(),
   ], resolver,GameController.createGames);
@@ -116,8 +115,10 @@ GamesRouter.put( /**
     body("name").isString(),
     body("draw_date").isDate(),
     body("reward").isNumeric().trim(),
-    body("required_ticket_number").isNumeric().isLength({ min:1} ).trim(),
+    body("required_ticket_number").isNumeric().trim(),
   ], resolver, GameController.UpdateGame);
+
+  GamesRouter.get('/:gameId', GameController.getGamesById)
 GamesRouter.delete(/**
 * @swagger
 * /api/boards/delete/{boardId}:
@@ -138,4 +139,5 @@ GamesRouter.delete(/**
 *         description:board Deleted
 */
 "/delete/:gameId(\\d+)",GameController.deleteGameById);
+
 export { GamesRouter }; 

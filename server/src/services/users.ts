@@ -14,7 +14,7 @@ const getAll = async () => {
   let getAllUsers: IUser[] = allUsers
     .filter((user) => user.first_name !== "DELETEDUSER")
     .map((x) => ({
-      userId: x.id,
+      id: x.id,
       firstName: x.first_name,
       lastName: x.last_name,
       email: x.email,
@@ -22,6 +22,8 @@ const getAll = async () => {
   return getAllUsers;
 };
   
+
+
   const getUserById = async (userId: number) => {
    
   
@@ -35,54 +37,21 @@ const getAll = async () => {
         email: true,
       },
     });
-    
-     if (!usersById) {
+    const returnedValue: IUser = {
+     id: Number(usersById?.id),
+    firstName: usersById?.first_name ?? "",
+    lastName: usersById?.last_name??"",
+    email: usersById?.email??"",
+    };
+    if(!returnedValue){
       return null;
     }
 
   
-    return usersById;
+    return returnedValue;
   };
-  const getUserSyndicateById = async (syndicateId: number) => {
-   
+
   
-    const usersSyndicatesById : any = await prisma.user_syndicates.findMany({
-       where: {
-         id: syndicateId,
-       }, 
-       select: {
-         id: true,
-         start_date: true,
-         users:{select:{
-          id: true,
-          first_name: true,
-          last_name: true,
-          email: true
-          } 
-        },
-         syndicates:
-         {select:{
-          id: true
-         }
-
-         },
-         roles:{
-          select:{
-          name: true
-         }
-
-         }
-       },
-     });
-     
-      if (!usersSyndicatesById) {
-       return null;
-     }
- 
-   
-     return usersSyndicatesById;
-   };
- 
   
 //creating a new user
   async function createUser(user: any) {
@@ -93,8 +62,8 @@ const getAll = async () => {
   
     const newUser = await prisma.users.create({
       data: {
-        first_name: user.first_name,
-        last_name: user.last_name,
+        first_name: user.firstName,
+        last_name: user.lastName,
         email: user.email,
         password: hashedPassword
       },
@@ -107,25 +76,6 @@ const getAll = async () => {
   } 
 
   
-//creating a userSyndicate
-
-async function createUserSyndicate(userSyndicate: any) {
-  try {
-  const salt = await bcrypt.genSalt();
-
-
-  const newUserSyndicate = await prisma.user_syndicates.create({
-    data: {
-     start_date: userSyndicate.start_date,
-     role_id: userSyndicate.role_id,
-    },
-  });
-    return newUserSyndicate.start_date;
-  } catch(error) {
-    console.log(error);
-    throw Error("Cannot create user");
-  }
-} 
 
 //update user details
   async function updateUserDetails(user: any) {
@@ -136,8 +86,8 @@ async function createUserSyndicate(userSyndicate: any) {
           id: user.id,
         },
         data: {
-          first_name: user.first_name,
-          last_name: user.last_name,
+          first_name: user.firstName,
+          last_name: user.lastName,
           email: user.email,
         },
       });
@@ -147,6 +97,7 @@ async function createUserSyndicate(userSyndicate: any) {
     return updateUser;
   }
 
+  
   const getByEmail = async (email: string) => {
     const users = await prisma.users.findMany({
       where: {
@@ -166,8 +117,17 @@ async function createUserSyndicate(userSyndicate: any) {
         email: true,
         password: true,
       },
+      
     });
-    return users && users.length>0 && users[0];
+    let getAllUsers: IUser[] = users
+    .filter((user) => user.first_name !== "DELETEDUSER")
+    .map((x) => ({
+      id: x.id,
+      firstName: x.first_name,
+      lastName: x.last_name,
+      email: x.email,
+    }));  
+    return getAllUsers && getAllUsers.length>0 && users[0];
   };
   async function deleteUserById(userId: number) {
     let deletedUser;
@@ -190,7 +150,7 @@ async function createUserSyndicate(userSyndicate: any) {
   }
   
 
-  const UserService = {getUserSyndicateById, getByEmail, deleteUserById,getAll,getUserById, createUser, updateUserDetails,createUserSyndicate};
+  const UserService = { getByEmail, deleteUserById,getAll,getUserById, createUser, updateUserDetails};
   export {UserService};
 
   

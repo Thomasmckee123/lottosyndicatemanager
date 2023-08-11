@@ -1,7 +1,7 @@
 import {prisma} from "../utils/prisma"
 import { IMessages } from "../interfaces";
 const getAll = async () => {
-  const allMessages: IMessages[] = await prisma.board_message.findMany({
+  const allMessages = await prisma.board_message.findMany({
     select: {
       id: true,
       message: true,
@@ -26,7 +26,43 @@ const getAll = async () => {
       }
     }
   });
-  const filteredMessages = allMessages?.filter((message) => message.message !== "deleted");
+  const modifiedMessages: IMessages[] = allMessages.map(
+    (x: {       
+       id: number;
+      message: string;
+      created_date: Date;
+      boards:{
+              id: number; 
+              name: string;
+          },
+      user_syndicates:{
+          id: number;
+          users:{
+          id: number;
+          first_name: string;
+          last_name:string;
+          },
+      },
+    }) => ({
+      id: x.id,
+      message: x.message,
+      createdDate:x.created_date,
+      boards:{
+        
+              id: x.boards.id, 
+              name: x.boards.name,
+
+          },
+      userSyndicates:{
+          id: x.user_syndicates.id,
+          users:{
+          id: x.user_syndicates.users.id,
+          firstName: x.user_syndicates.users.first_name,
+          lastName:x.user_syndicates.users.last_name,
+          }}}))
+
+
+  const filteredMessages = modifiedMessages?.filter((message) => message.message !== "deleted");
 
   return filteredMessages;
 };
@@ -34,7 +70,7 @@ const getAll = async () => {
 
   
   async function getMessagesByBoardsId(boardsId: number) {
-    let messagesByBoardsId : IMessages[];
+    let messagesByBoardsId;
   
     try {
       messagesByBoardsId = await prisma.board_message.findMany({
@@ -63,10 +99,45 @@ const getAll = async () => {
             }
           }}
       });
+      
+
     } catch (error) {
       throw Error("Cannot get messages by board id", error);
-    }
-    const filteredMessages = messagesByBoardsId?.filter((message) => message.message !== "DELETED");
+    }const modifiedMessages: IMessages[] = messagesByBoardsId.map(
+    (x: {       
+       id: number;
+      message: string;
+      created_date: Date;
+      boards:{
+              id: number; 
+              name: string;
+          },
+      user_syndicates:{
+          id: number;
+          users:{
+          id: number;
+          first_name: string;
+          last_name:string;
+          },
+      },
+    }) => ({
+      id: x.id,
+      message: x.message,
+      createdDate:x.created_date,
+      boards:{
+        
+              id: x.boards.id, 
+              name: x.boards.name,
+
+          },
+      userSyndicates:{
+          id: x.user_syndicates.id,
+          users:{
+          id: x.user_syndicates.users.id,
+          firstName: x.user_syndicates.users.first_name,
+          lastName:x.user_syndicates.users.last_name,
+          }}}))
+    const filteredMessages = modifiedMessages?.filter((message) => message.message !== "DELETED");
 
     return filteredMessages;
   }
@@ -81,9 +152,9 @@ async function createMessageInBoard(message: any) {
   const newMesages = await prisma.board_message.create({
     data: {
    message: message.message,
-   created_date: message.created_date,
-   board_id: message.board_id,
-   user_syndicate_id: message.user_syndicate_id,
+   created_date: message.createdDate,
+   board_id: message.boardId,
+   user_syndicate_id: message.userSyndicateId,
  
     },
   });
@@ -93,6 +164,41 @@ async function createMessageInBoard(message: any) {
     throw Error("Cannot create message");
   }
 } 
+async function getGameMessage(gameId: number){
+  try{
+const game = await prisma.games.findUnique({
+      where: { id: gameId },
+    });  
+    return game;
+  }catch(error){
+    console.log(error)
+    throw Error("cannot get game");
+  }
+  }
+  async function createGameMessage(message: any, gameId: number) {
+    try {
+        // Get game data from the game ID
+        const game = await getGameMessage(gameId); 
+        const gameMessage = JSON.stringify(game);
+        console.log(gameMessage);
+        // Create the new message
+        const newGameMessage = await prisma.board_message.create({
+            data: {
+              message: message.message,
+              created_date: message.createdDate,
+                board_id: message.boardId,
+                user_syndicate_id: message.userSyndicateId,
+            },
+        });
+
+        return newGameMessage;
+    } catch(error) {
+        console.log(error);
+        throw Error("Cannot post game");
+    }
+}
+
+
 //delete message
 
 async function deleteMessageById(messageId: number) {
@@ -114,7 +220,7 @@ async function deleteMessageById(messageId: number) {
   return deletedMessage;
 }
 
-  const MessageService = {getAll, getMessagesByBoardsId, createMessageInBoard,deleteMessageById};
+  const MessageService = {getGameMessage, createGameMessage, getAll, getMessagesByBoardsId, createMessageInBoard,deleteMessageById};
   export {MessageService};
 
 

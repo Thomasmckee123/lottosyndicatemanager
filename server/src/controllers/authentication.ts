@@ -4,9 +4,9 @@ import { StatusCodes } from 'http-status-codes';
 
 const authenticate = async (req: Request, res: Response) => {
   try {
-    const { email_address, password } = req.body;
+    const { emailAddress, password } = req.body;
     const authenticationTokens = await AuthService.authenticate(
-      email_address,
+      emailAddress,
       password
     );
     res.status(200).json(authenticationTokens);

@@ -109,68 +109,7 @@ UserRouter.put(/**
      .matches(/[!@#$%^&*(),.?“:{}|<>]/)
      .withMessage("your password should have at least one special character"),
  ],resolver, UserController.updateUserDetails);
-UserRouter.post(/**
-* @swagger
-* /api/users/{userId}/syndicates/{syndicateId}:
-*   post:
-*     summary: Create a new user syndicate.
-*     description: Creates a new review object.
-*     tags:
-*       - syndicates
-*       - users
-*     parameters: 
-*      -  in: path
-*         name: userId
-*         description: ID of user.
-*         required: true
-*         schema:
-*           type: integer
-*      -  in: path
-*         name: syndicateId
-*         required: true
-*         schema:
-*           type: integer
-*         description: ID of snyndicate
-*      - in: body
-*        name: userSyndicateDetails
-*        required: true
-*        description: syndicate details
-*        schema: 
-*           type: object
-*        properties:  
-*                start_date:
-*                 type: date
-*                 description: start date
-*                 example: 2022/10/2
-*                role_id:
-*                 type: integer
-*                 description: role
-*                 example: 2
-*     responses:
-*       201:
-*         description: Created a new user syndicate
-*         content:
-*           application/json:
-*             schema:
-*               type: object
-*               properties:
-*                 id:
-*                   type: number
-*                 created_date:
-*                   type: string
-*                 format: date-time
-*                 title:
-*                   type: string
-*                 content:
-*                   type: string
-*                 userId:
-*                   type: number
-*                 syndicateId:
-*                   type: number
-*/"/:userId/syndicates/:syndicateId(\\d+)",[
-    body("start_date").isDate(),
-    body("role_id").isNumeric().trim(),
-  ],resolver, UserController.createUserSyndicate)
+
 UserRouter.put(/**
 * @swagger
 * /api/users/delete/{userId}:
@@ -204,4 +143,3 @@ UserRouter.put(/**
 */"/delete/:userId(\\d+)",UserController.deleteUserById);
 export { UserRouter }; 
 
-UserRouter.get('/userSyndicate/:syndicateId', UserController.getUserSyndicateById)

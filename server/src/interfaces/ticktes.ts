@@ -1,21 +1,21 @@
 //interface for tickets
 interface ITicket {
     id: number,
-    ticket_code: string,
-    total_reward_value: number,
-    ticket_status: {
+    ticketCode: string,
+    totalRewardValue: number,
+    ticketStatus: {
       id: number,
       name: string,
     },
-    user_syndicates: {
+    userSyndicates: {
       id: number,
       users: {
         id: number,
-        first_name: string,
-        last_name: string,
+        firstName: string,
+        lastName: string,
       },
     },
-    game_id: number,
+    gameId: number,
   }
   
 

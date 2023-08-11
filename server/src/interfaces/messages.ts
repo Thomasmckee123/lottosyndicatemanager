@@ -3,19 +3,19 @@
 interface IMessages{
         id: number,
         message: string,
-        created_date: Date,
+        createdDate: Date,
         boards:{
           
                 id: number, 
                 name: string
 
             },
-        user_syndicates:{
+        userSyndicates:{
             id: number,
             users:{
             id: number,
-            first_name: string,
-            last_name:string,
+            firstName: string,
+            lastName:string,
             },
         },
 }

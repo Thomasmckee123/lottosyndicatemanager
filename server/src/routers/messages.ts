@@ -45,7 +45,7 @@ MessagesRouter.get(/**
 *             schema:
 *               type: array
 *               
-*/"/board/:boardId(\\d+)", MessagesController.getMessagesByBoardsId);
+*/"/boards/:boardId(\\d+)", MessagesController.getMessagesByBoardsId);
 
 MessagesRouter.post(/**
 * @swagger
@@ -106,9 +106,10 @@ MessagesRouter.post(/**
 *                   type: number
 *                 syndicateId:
 *                   type: number
-*/"/syndicates/:user_syndicate_id(\\d+)/boards/:boardId(\\d+)",[
+*/"/syndicates/:userSyndicateId(\\d+)/boards/:boardId",[
     body("message").isString().isLength({min:3, max: 2000}),
-    body("created_date").isDate(),
   ],resolver, MessagesController.createNewMessageInBoard);
 MessagesRouter.put("/delete/:messageId(\\d+)", MessagesController.deleteMessageById);
+
+MessagesRouter.post("/userGame/userSyndicate/:userSyndicateId(\\d+)/boards/:boardId(\\d+)/games/:gameId(\\d+)", MessagesController.createNewGameMessageInBoard);
 export { MessagesRouter }; 

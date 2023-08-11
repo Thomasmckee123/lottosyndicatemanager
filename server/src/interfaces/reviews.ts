@@ -1,12 +1,12 @@
 //interface for reviews
 interface IReviews{
     id: number,
-    created_date: Date,
+    createdDate: Date,
     title: string,
     content: string,
     users:{ 
-first_name: string,
-last_name: string,
+firstName: string,
+lastName: string,
     },
     syndicates:{
         name: string,

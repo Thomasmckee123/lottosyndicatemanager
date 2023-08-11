@@ -80,7 +80,7 @@ describe("GET /syndicates", () => {
       prismaAsAny.user_syndicates = {
         findMany: jest.fn().mockReturnValueOnce(testSyndicateById),
       };
-      const result = await SyndicateService.getSyndicatesByUserId(1);
+      const result = await SyndicateService.getSyndicatesByUserId(1 );
    
      
       expect(prisma.user_syndicates.findMany).toHaveBeenCalledTimes(1);
