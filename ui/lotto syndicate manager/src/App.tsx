@@ -21,6 +21,8 @@ import Login from "./pages/LoginPage/components/login";
 import MessageBoardsPage from "./pages/BoardsInSyndicatePage";
 import GamePage from "./pages/gamePage";
 import CreateGame from "./pages/CreateGamesPage";
+import DepositMoney from "./pages/CreateGamesPage/components/ProposeGames";
+import AccountPage from "./pages/Account";
 
 function App() {
   const unAuthorisedRoutes = () => {
@@ -61,6 +63,7 @@ function App() {
         />
 
         <Route path={NavigationRoutes.GAMEPAGE} element={<GamePage />} />
+        <Route path={NavigationRoutes.ACCOUNT} element={<AccountPage />} />
         <Route path="*" element={<Navigate to={"/"} />} />
       </>
     );

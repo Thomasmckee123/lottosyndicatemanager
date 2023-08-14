@@ -15,13 +15,13 @@ const getGamesById = async (req: Request, res: Response)=>{
 }
 async function createGames(req: Request, res: Response) {
   try {
-console.log(req.body)
+  
 const newGames = {
  ...req.body,
-  userSyndicateId:Number(req.params.id)
+  userSyndicateId:Number(req.params.syndicateId),
+  gameTypeId:Number(req.params.gameTypesId)
   
 }
-console.log(newGames)
   
     const createdGame = await GameService.createGameInSyndicate(newGames);
     return res.status(200).json(createdGame);
@@ -45,18 +45,31 @@ async function getGamesBySyndicateId(req: Request, res: Response) {
     res.status(500).json({ "Cannot access database": error });
   }
 }
+async function getGamesByTypeId(req: Request, res: Response) {
+  try {
+    const gameTypeId = Number(req.params["gameTypeId"]);
+    const games = await GameService.getGamesByTypeId(gameTypeId);
+    if(isNaN(gameTypeId)){
+      return res.status(400);
+    }
+    
+      return res.status(200).json(games);
+    
+  } catch (error) {
 
+    res.status(500).json({ "Cannot access database": error });
+  }
+}
 //update syndicate details
 async function UpdateGame(req: Request, res: Response) {
   try {
     
     let gameDetails={
       ...req.body,
-      id: Number(req.params.id),
-      drawDate : new Date(req.body.drawDate),
-      reward: Number(req.body.reward),
-      image: req.body.image,
-      requiredTicketNumber: req.body.requiredTicketNumber
+      gameId: Number(req.params.id),
+ 
+      maximumPlayers: req.body.maximumPlayers
+      
 
     }
   
@@ -77,5 +90,5 @@ async function deleteGameById(req: Request, res: Response) {
   return res.status(200).json(deletedGame);
 }
 
-const GameController = {getGamesById, getGamesBySyndicateId, getAllGames, createGames, UpdateGame, deleteGameById};
+const GameController = {getGamesByTypeId,getGamesById, getGamesBySyndicateId, getAllGames, createGames, UpdateGame, deleteGameById};
 export {GameController};

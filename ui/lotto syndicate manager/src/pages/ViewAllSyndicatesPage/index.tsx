@@ -3,7 +3,7 @@ import Grid from "@mui/material/Grid";
 import SearchInput from "./components/searchBar";
 import MediaCard from "./components/card";
 import fetchAllSyndicateData from "./components/fetchallSyndicateData";
-const ViewSyndicates: React.FC = () => {
+const ViewSyndicates = () => {
   const [data, setData] = useState<any[]>([]);
 
   useEffect(() => {

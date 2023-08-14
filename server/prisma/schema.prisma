@@ -54,14 +54,14 @@ model game_user_syndicates_ticket {
 
 model games {
   id                          Int                           @id(map: "games_pk") @default(autoincrement())
-  name                        String                        @db.VarChar(255)
-  draw_date                   DateTime                      @db.Date
-  reward                      Float
-  image                       String                        @db.VarChar(255)
-  required_ticket_number      String                        @db.VarChar(255)
+  maximum_players             Float
+  treasury                    Float
   user_syndicate_id           Int
+  game_type_id                Int
   game_user_syndicates_ticket game_user_syndicates_ticket[]
+  game_types                  game_types                    @relation(fields: [game_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_games_games_types")
   user_syndicates             user_syndicates               @relation(fields: [user_syndicate_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_games_user_syndicate_id")
+  user_games                  user_games[]
 }
 
 model roles {
@@ -120,7 +120,28 @@ model users {
   last_name              String                   @db.VarChar(255)
   password               String                   @db.VarChar(255)
   email                  String                   @db.VarChar(255)
+  balance                Float
   syndicates             syndicates[]
+  user_games             user_games[]
   user_syndicate_reviews user_syndicate_reviews[]
   user_syndicates        user_syndicates[]
+}
+
+model game_types {
+  id        Int      @id(map: "game_type_pk") @default(autoincrement())
+  name      String   @db.VarChar(255)
+  draw_date DateTime @db.Date
+  reward    Float
+  image     String   @db.VarChar(255)
+  games     games[]
+}
+
+model user_games {
+  id         Int      @id(map: "user_games_pk") @default(autoincrement())
+  start_date DateTime @db.Date
+  deposit    Float
+  game_id    Int
+  user_id    Int
+  games      games    @relation(fields: [game_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_games_game")
+  users      users    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_user_games")
 }

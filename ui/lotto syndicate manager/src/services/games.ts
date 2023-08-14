@@ -1,4 +1,3 @@
-import { number } from "yup";
 import axios from "../integrations/instance";
 /**
  * 
@@ -25,20 +24,39 @@ const fetchGamesById = async(gameId: number) => {
   }
 }
 
-const createGame = async (name: any, drawDate: Date, reward: number, image: any, requiredTicketNumber: number, userSyndicateId: number) => {
-console.log(requiredTicketNumber)
+const fetchGamesByTypeID = async (gameTypeId: number) => {
+  try {
+    const response = await axios.get(`games/gameTypes/${gameTypeId}`);
+    return response.data;
+  } catch (error) {
+    console.error("There was an error getting the games by id:", error);
+    throw error; 
+  }
+}
+const fetchGameById = async (gameId: number) =>{
+  try{
+    const response = await axios.get(`games/${gameId}`)
+    return response.data
+  }catch(error){
+    console.error("failed to get game by id");
+  }
+}
+
+const createGame = async (maximumPlayers: number, treasury: number, userSyndicateId: number, gameTypeId: number) => {
+console.log(treasury);
+
   const gameData = {
-    name: name,
-    drawDate: new Date(drawDate),
-    reward: reward,
-    image: image, 
-    requiredTicketNumber: Number(requiredTicketNumber),
-    //userSyndicateId: Number(userSyndicateId),
+    maximumPlayers: maximumPlayers,
+    treasury: 0,
+    
   };
 
-    
-    const response = await axios.post(`/games/create/syndicates/${userSyndicateId}`, gameData);
+    console.log(userSyndicateId)
+    console.log(gameTypeId)
+    const response = await axios.post(`games/create/syndicates/${Number(userSyndicateId)}/gameTypes/${Number(gameTypeId)}`, gameData);
+    console.log("RESPONSE DATA", response);
     return response.data;
 
 };
-export { fetchGamesBySyndicateId, createGame,fetchGamesById} 
+
+export { fetchGamesBySyndicateId, createGame,fetchGamesById, fetchGamesByTypeID, fetchGameById} 

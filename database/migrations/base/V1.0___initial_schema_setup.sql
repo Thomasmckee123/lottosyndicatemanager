@@ -4,7 +4,8 @@ CREATE TABLE users(
     first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL
+    email VARCHAR(255) NOT NULL,
+    balance FLOAT NOT NULL
 );
 CREATE TABLE syndicates(
     id SERIAL NOT NULL CONSTRAINT syndicate_pk PRIMARY KEY,
@@ -39,15 +40,27 @@ CREATE TABLE user_syndicates(
     syndicate_id INTEGER NOT NULL CONSTRAINT FK_user_syndicates_syndicates REFERENCES syndicates(id),
     role_id INTEGER NOT NULL CONSTRAINT FK_role_user_syndicates REFERENCES roles(id)
 );
-
-CREATE TABLE games(
-    id SERIAL NOT NULL constraint games_pk PRIMARY KEY,
+CREATE TABLE game_types(
+    id SERIAL NOT NULL constraint game_type_pk PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     draw_date DATE NOT NULL,
     reward FLOAT NOT NULL,
-    image VARCHAR(255) NOT NULL,
-    required_ticket_number VARCHAR(255) NOT NULL,
-    user_syndicate_id INTEGER NOT NULL CONSTRAINT fk_games_user_syndicate_id REFERENCES user_syndicates(id)
+    image VARCHAR(255) NOT NULL
+);
+CREATE TABLE games(
+    id SERIAL NOT NULL constraint games_pk PRIMARY KEY,
+    maximum_players FLOAT NOT NULL,
+    treasury FLOAT NOT NULL,
+    user_syndicate_id INTEGER NOT NULL CONSTRAINT fk_games_user_syndicate_id REFERENCES user_syndicates(id),
+    game_type_id INTEGER NOT NULL CONSTRAINT fk_games_games_types REFERENCES game_types(id)
+);
+
+CREATE TABLE user_games(
+    id SERIAL NOT NULL constraint user_games_pk PRIMARY KEY,
+    start_date DATE NOT NULL,
+    deposit FLOAT NOT NULL, 
+    game_id INTEGER NOT NULL CONSTRAINT fk_user_games_game REFERENCES games(id),
+    user_id INTEGER NOT NULL CONSTRAINT fk_user_user_games REFERENCES users(id)
 );
 CREATE TABLE ticket_status(
     id SERIAL NOT NULL constraint ticket_type_pk PRIMARY KEY,

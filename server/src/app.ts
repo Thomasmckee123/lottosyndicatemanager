@@ -16,6 +16,8 @@ import { AuthenticationRouter } from './routers/authentication';
 import { SignupRouter } from './routers/signup';
 import cors from 'cors';
 import { UserSyndicatesRouter } from './routers/userSyndicates';
+import { GameTypesRouter } from './routers/gameTypes';
+import UserGameRouter from './routers/userGames';
 const app = express();
 app.use(cors());
 const port = 3000;
@@ -37,7 +39,9 @@ app.use('/api/boards', BoardsRouter);
 app.use('/api/messages', MessagesRouter);
 app.use('/api/tickets', TicketRouter);
 app.use('/api/reviews',ReviewsRouter);
-app.use('/api/userSyndicates',UserSyndicatesRouter)
+app.use('/api/userSyndicates',UserSyndicatesRouter);
+app.use('/api/gameTypes',GameTypesRouter);
+app.use('/api/userGames',UserGameRouter)
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

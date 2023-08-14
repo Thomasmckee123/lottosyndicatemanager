@@ -19,7 +19,7 @@ import insideSyndicate from "../../pages/insideSyndicatePage/Index";
 const pages = [
   { title: "Home", path: NavigationRoutes.HOME },
   { title: "About", path: NavigationRoutes.ABOUT },
-  { title: "Contact", path: NavigationRoutes.CONTRACT },
+  { title: "account", path: NavigationRoutes.ACCOUNT },
   { title: "View Syndicates", path: NavigationRoutes.VIEWSYDICATES },
 ];
 const NonTopBarPages = [
@@ -32,6 +32,7 @@ const NonTopBarPages = [
     title: "log in",
     path: NavigationRoutes.LOGIN,
   },
+
   {
     title: "Inside Synidcate",
     path: NavigationRoutes.INSIDESYNDICATE,

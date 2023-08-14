@@ -2,11 +2,16 @@
 //interface for messages
 interface IGames {
   id: number;
-    name: string;
-    drawDate: Date;
-    reward: number;
-    image: string;
-    requiredTicketNumber: string;
+    maximumPlayers: number;
+    treasury:number;
+  
+      gameTypes:{
+        id: number;
+        name: string;
+        drawDate: Date;
+        reward: number;
+        image: string,
+      },
     userSyndicates: {
       startDate: Date;
       users: {
@@ -14,6 +19,7 @@ interface IGames {
         firstName: string;
         lastName: string;
         email: string;
+        balance:number;
       };
       syndicates: {
         id: number;
@@ -22,7 +28,13 @@ interface IGames {
         description: string|null;
         avatar: string|null;
       };
-    }
-  }
+    }}
 
-export{IGames};
+interface IGameTypes{
+      name: string;
+    drawDate: Date;
+    reward: number;
+    image: string;
+}
+
+export{IGames, IGameTypes};

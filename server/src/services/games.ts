@@ -1,16 +1,25 @@
 import {prisma} from "../utils/prisma"
 import { IGames } from "../interfaces";
+import { game_types } from "@prisma/client";
+import e from "express";
 
 const getAll = async () => {
 
-    const allGames =  await prisma.games.findMany({
+  let allGames;
+    allGames = await prisma.games.findMany({
+ 
       select:{
-        id:true,
+    id: true,
+       maximum_players: true,
+       treasury: true,
+       game_types:{
+        select:{
+        id: true,
         name: true,
         draw_date: true,
         reward: true,
-        image: true,
-        required_ticket_number: true,
+        image: true,}
+       },
         user_syndicates:{
           select:{
             start_date: true,
@@ -20,6 +29,7 @@ const getAll = async () => {
                 first_name: true,
                 last_name: true,
                 email: true,  
+                balance:true
               }
             },
             syndicates:{
@@ -34,16 +44,21 @@ const getAll = async () => {
           }
         }
       }
-    });
-
+    }
+    );
+    
     const modifiedGames: IGames[] = allGames.map(
       (x: {
-        id: number;
-        name: string;
-        draw_date: Date;
-        reward: number;
-        image: string;
-        required_ticket_number: string;
+         id:number,
+        maximumPlayers: number;
+        treasury: number;
+        game_types:{
+          id: number;
+          name: string;
+          draw_date: Date;
+          reward: number;
+          image: string,
+        }
         user_syndicates: {
           start_date: Date;
           users: {
@@ -61,12 +76,16 @@ const getAll = async () => {
           };
         }
       }) => ({
-        id: x.id,
-        name: x.name,
-        drawDate: x.draw_date,
-        reward: x.reward,
-        image: x.image,
-        requiredTicketNumber: x.required_ticket_number,
+      
+        maximumPlayers: x.maximumPlayers,
+       treasury: x.treasury,
+       gameTypes: {
+        id: x.game_types.id,
+        name: x.game_types.name,
+        drawDate: x.game_types.draw_date,
+        reward: x.game_types.reward,
+        image: x.game_types.image,
+       },
         userSyndicates: {
           startDate:x.user_syndicates.start_date,
           users: {
@@ -83,11 +102,21 @@ const getAll = async () => {
             avatar: x.user_syndicates.syndicates.avatar,
           }
         }
-}))
-
-    return modifiedGames;
-  }
+  }))
+  return modifiedGames;
+}
  
+
+
+
+
+
+
+
+
+
+
+
 
   async function getGamesByGameId(gameId :number) {
     let gamesById;
@@ -115,12 +144,10 @@ async function getGamesBySyndicateId(syndicateId: number) {
         }
       },
       select:{
-        id:true,
-        name: true,
-        draw_date: true,
-        reward: true,
-        image: true,
-        required_ticket_number: true,
+    
+       maximum_players: true,
+       treasury: true,
+       game_type_id:true,
         user_syndicates:{
           select:{
             start_date: true,
@@ -130,6 +157,7 @@ async function getGamesBySyndicateId(syndicateId: number) {
                 first_name: true,
                 last_name: true,
                 email: true,  
+                balance:true
               }
             },
             syndicates:{
@@ -150,14 +178,14 @@ async function getGamesBySyndicateId(syndicateId: number) {
 
     throw Error("Cannot get game by syndicate Id", error);
   }
+
+  
   const modifiedGames: IGames[] = gamesBySyndicateId.map(
     (x: {
-      id: number;
-      name: string;
-      draw_date: Date;
-      reward: number;
-      image: string;
-      required_ticket_number: string;
+   id: number;
+      maximum_players: number;
+      treasury: number;
+      game_type_id:number;
       user_syndicates: {
         start_date: Date;
         users: {
@@ -175,12 +203,10 @@ async function getGamesBySyndicateId(syndicateId: number) {
         };
       }
     }) => ({
-      id: x.id,
-      name: x.name,
-      drawDate: x.draw_date,
-      reward: x.reward,
-      image: x.image,
-      requiredTicketNumber: x.required_ticket_number,
+    id:x.id,
+      maximumPlayers: x.maximum_players,
+     treasury: x.treasury,
+     gameTypeypeId: x.game_type_id,
       userSyndicates: {
         startDate:x.user_syndicates.start_date,
         users: {
@@ -201,25 +227,136 @@ async function getGamesBySyndicateId(syndicateId: number) {
   return modifiedGames;
 
 }
-
+  //getting the syndicates by user id
+  async function getGamesByTypeId(gameTypeId: number) {
+    let gamesByTypeId;
+  
+    try {
+      gamesByTypeId = await prisma.games.findMany({
+        where: {
+          
+            game_type_id: gameTypeId
+          
+        },
+        select:{
+      id: true,
+         maximum_players: true,
+         treasury: true,
+         game_types:{
+          select:{
+          id: true,
+          name: true,
+          draw_date: true,
+          reward: true,
+          image: true,}
+         },
+          user_syndicates:{
+            select:{
+              start_date: true,
+              users:{
+                select:{
+                  id: true,
+                  first_name: true,
+                  last_name: true,
+                  email: true,  
+                  balance:true
+                }
+              },
+              syndicates:{
+                select:{
+                  id:true,
+                  created_date:true,
+                  name: true,
+                  description:true,
+                  avatar: true,
+                }
+              }
+            }
+          }
+        }
+      }
+      );
+    } catch (error) {
+  
+      throw Error("Cannot get game by syndicate Id", error);
+    }
+  
+    
+    const modifiedGames: IGames[] = gamesByTypeId.map(
+      (x: {
+         id:number,
+        maximum_players: number;
+        treasury: number;
+        game_types:{
+          id: number;
+          name: string;
+          draw_date: Date;
+          reward: number;
+          image: string,
+        },
+        user_syndicates: {
+          start_date: Date;
+          users: {
+            id: number;
+            first_name: string;
+            last_name: string;
+            email: string;
+          };
+          syndicates: {
+            id: number;
+            created_date: Date;
+            name: string;
+            description: string|null;
+            avatar: string|null;
+          };
+        }
+      }) => ({
+      id: x.id,
+        maximumPlayers: x.maximum_players,
+       treasury: x.treasury,
+       gameTypes: {
+        id: x.game_types.id,
+        name: x.game_types.name,
+        drawDate: x.game_types.draw_date,
+        reward: x.game_types.reward,
+        image: x.game_types.image,
+       },
+        userSyndicates: {
+          startDate:x.user_syndicates.start_date,
+          users: {
+            id: x.user_syndicates.users.id,
+            firstName: x.user_syndicates.users.first_name,
+            lastName: x.user_syndicates.users.last_name,
+            email: x.user_syndicates.users.email,
+          },
+          syndicates: {
+            id: x.user_syndicates.syndicates.id,
+            createdDate: x.user_syndicates.syndicates.created_date,
+            name: x.user_syndicates.syndicates.name,
+            description: x.user_syndicates.syndicates.description,
+            avatar: x.user_syndicates.syndicates.avatar,
+          }
+        }
+  }))
+    return modifiedGames;
+  
+  }
 //create a game using the syndicate id
 
 async function createGameInSyndicate(game: any) {
   try {
-
+console.log("game" + game)
   const newGame = await prisma.games.create({
     data: {
-  name: game.name,
-  draw_date: game.drawDate,
-  image: game.image,
-  reward: Number(game.reward),
-  required_ticket_number: game.requiredTicketNumber,
-  user_syndicate_id: game.userSyndicateId
+  maximum_players: Number(game.maximumPlayers),
+  treasury: 0,
+  user_syndicate_id: Number(game.userSyndicateId),
+  game_type_id: Number(game.gameTypeId),
   
     },
   });
-  console.log(newGame.draw_date)
-    return newGame.draw_date;
+  console.log(newGame)
+    return newGame;
   } catch(error) {
     console.log(error);
     throw Error("Cannot create game");
@@ -231,15 +368,13 @@ async function updateGames(game: any) {
   try {
     updateGame= await prisma.games.update({
       where: {
-        id: game.id
+        id: game.gameId
       },
       data: {
-      name: game.name,
-      draw_date: game.drawDate,
-      reward: game.reward,
-      image: game.image,
-      required_ticket_number: game.requiredTicketNumber,
-      user_syndicate_id: game.userSyndicateId
+      
+      
+      treasury: Number(game.treasury),
+     
 
       },
     });
@@ -273,5 +408,5 @@ async function deleteGameById(gameId) {
     throw error;
   }
 }
-  const GameService = {getGamesByGameId, getGamesBySyndicateId, getAll,createGameInSyndicate,updateGames,deleteGameById};
+  const GameService = {getGamesByTypeId,getGamesByGameId, getGamesBySyndicateId, getAll,createGameInSyndicate,updateGames,deleteGameById};
   export {GameService};

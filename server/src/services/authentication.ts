@@ -31,7 +31,7 @@ const generateTokens = (user) => {
     try {
     
       const accessToken = jwt.sign(
-        { sub: user.id, claims:{userId: user.id, email: user.email, firstName: user.first_name}},
+        { sub: user.id, claims:{userId: user.id, email: user.email, firstName: user.first_name, balance: user.balance}},
         authConst.ACCESS_TOKEN_SECRET,
         {
           expiresIn: 1200000000000,

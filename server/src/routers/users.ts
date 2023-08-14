@@ -96,7 +96,8 @@ UserRouter.put(/**
 *       200:
 *         description: User Updated
 */
- "/update/:userId(\\d+)",[
+ "/update/:userId(\\d+)",
+ [
    body("email").isString().isLength({ min: 3 }).isEmail().normalizeEmail(),
    body("first_name").isString().isLength({ min: 2 }).trim(),
    body("last_name").isString().isLength({min: 2}).trim(),
@@ -108,7 +109,8 @@ UserRouter.put(/**
      .withMessage("your password should have at least one number")
      .matches(/[!@#$%^&*(),.?“:{}|<>]/)
      .withMessage("your password should have at least one special character"),
- ],resolver, UserController.updateUserDetails);
+ ],resolver,
+ UserController.updateUserDetails);
 
 UserRouter.put(/**
 * @swagger
@@ -141,5 +143,8 @@ UserRouter.put(/**
 *       200:
 *         description: User Updated
 */"/delete/:userId(\\d+)",UserController.deleteUserById);
+
+
+UserRouter.put("/updateBalance/:userId", UserController.updateBalance)
 export { UserRouter }; 
 

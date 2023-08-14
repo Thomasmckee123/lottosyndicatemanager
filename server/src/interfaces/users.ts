@@ -4,6 +4,7 @@ interface IUser{
     firstName: string,
     lastName: string,
     email: string,
+    balance: number,
 } 
 
 export{IUser };

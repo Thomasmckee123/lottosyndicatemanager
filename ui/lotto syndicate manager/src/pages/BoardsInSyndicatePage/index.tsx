@@ -24,6 +24,7 @@ import {
   deleteUserSyndicate,
   fetchUserBySyndicateId,
 } from "../../services/members";
+import { GameTypes } from "./components/gameTypesPage";
 function MessageBoardsPage() {
   const [open, setOpen] = useState(false);
   const [boardName, setBoardName] = useState("");
@@ -277,6 +278,7 @@ function MessageBoardsPage() {
             </Grid>
           ))}
       </Grid>
+      <GameTypes />
     </Box>
   );
 }

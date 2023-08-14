@@ -29,8 +29,17 @@ async function updateUserDetails(req: Request, res: Response) {
     res.status(500).json("Could not update user.");
   }
 }
-
-
+async function updateBalance(req: Request, res: Response){
+  try{
+    const { userId } = req.params;
+    let balanceDetails = req.body;
+    balanceDetails["id"] = Number(userId);
+    const updatedBalance = await UserService.depositMoney(balanceDetails);
+    return res.status(200).json(updatedBalance)
+  }catch(error){
+    res.status(500).json("could not add balance")
+  }
+}
 async function deleteUserById(req: Request, res: Response)    {
   const  deleteData =  Number(req.params.userId);
     
@@ -43,5 +52,5 @@ async function deleteUserById(req: Request, res: Response)    {
   return res.status(200).json(deletedUser);
 }
 
-const UserController = {deleteUserById, getAllUsers, getUserById,updateUserDetails, };
+const UserController = {updateBalance, deleteUserById, getAllUsers, getUserById,updateUserDetails, };
 export {UserController};

@@ -9,6 +9,7 @@ const getAll = async () => {
       first_name: true,
       last_name: true,
       email: true,
+      balance: true,
     },
   });
   let getAllUsers: IUser[] = allUsers
@@ -18,6 +19,7 @@ const getAll = async () => {
       firstName: x.first_name,
       lastName: x.last_name,
       email: x.email,
+      balance: Number(x.balance)
     }));
   return getAllUsers;
 };
@@ -35,6 +37,7 @@ const getAll = async () => {
         first_name: true,
         last_name: true,
         email: true,
+        balance:true,
       },
     });
     const returnedValue: IUser = {
@@ -42,6 +45,7 @@ const getAll = async () => {
     firstName: usersById?.first_name ?? "",
     lastName: usersById?.last_name??"",
     email: usersById?.email??"",
+    balance: Number(usersById?.balance),
     };
     if(!returnedValue){
       return null;
@@ -65,7 +69,8 @@ const getAll = async () => {
         first_name: user.firstName,
         last_name: user.lastName,
         email: user.email,
-        password: hashedPassword
+        password: hashedPassword,
+        balance: 0
       },
     });
       return newUser.email;
@@ -116,6 +121,7 @@ const getAll = async () => {
         last_name: true,
         email: true,
         password: true,
+        balance: true,
       },
       
     });
@@ -126,9 +132,27 @@ const getAll = async () => {
       firstName: x.first_name,
       lastName: x.last_name,
       email: x.email,
+      balance: Number(x.balance)
     }));  
     return getAllUsers && getAllUsers.length>0 && users[0];
   };
+
+  async function depositMoney(user:any){
+    let updateBalance;
+    try{
+      updateBalance = await prisma.users.update({
+        where: {
+          id: user.id,
+        },
+        data: {
+         balance: user.balance
+        },
+      });
+    }catch(err){
+      console.error("cannot update balance")
+    }
+    return updateBalance
+  }
   async function deleteUserById(userId: number) {
     let deletedUser;
     try {
@@ -150,7 +174,7 @@ const getAll = async () => {
   }
   
 
-  const UserService = { getByEmail, deleteUserById,getAll,getUserById, createUser, updateUserDetails};
+  const UserService = {depositMoney, getByEmail, deleteUserById,getAll,getUserById, createUser, updateUserDetails};
   export {UserService};
 
   

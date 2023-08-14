@@ -21,7 +21,7 @@ GamesRouter.get("/"/**
 *             schema:
 *               type: array
 */, GameController.getAllGames);
-
+GamesRouter.get('/gameTypes/:gameTypeId',GameController.getGamesByTypeId)
 GamesRouter.get("/syndicate/:syndicateId", GameController.getGamesBySyndicateId);
 GamesRouter.post(/**
 * @swagger
@@ -64,11 +64,7 @@ GamesRouter.post(/**
 *             schema:
 *               type: array
 */
-"/create/syndicates/:id(\\d+)", [
-    body("name").isString(),
-    body("reward").isNumeric().trim(),
-    body("requiredTicketNumber").isNumeric().isLength({ min:1} ).trim(),
-  ], resolver,GameController.createGames);
+"/create/syndicates/:syndicateId/gameTypes/:gameTypesId", GameController.createGames);
 GamesRouter.put( /**
 * @swagger
 * /api/games/update/{id}:
@@ -111,12 +107,14 @@ GamesRouter.put( /**
 *         description: Bad Request - required values are missing.
 *       200:
 *         description: User Updated
-*/"/update/:id(\\d+)", [
-    body("name").isString(),
-    body("drawDate").isDate(),
-    body("reward").isNumeric().trim(),
-    body("requiredTicketNumber").isNumeric().trim(),
-  ], resolver, GameController.UpdateGame);
+*/"/update/:id(\\d+)", 
+// [
+//     body("name").isString(),
+//     body("drawDate").isDate(),
+//     body("reward").isNumeric().trim(),
+//     body("requiredTicketNumber").isNumeric().trim(),
+//   ], resolver, 
+  GameController.UpdateGame);
 
   GamesRouter.get('/:gameId', GameController.getGamesById)
 GamesRouter.delete(/**
