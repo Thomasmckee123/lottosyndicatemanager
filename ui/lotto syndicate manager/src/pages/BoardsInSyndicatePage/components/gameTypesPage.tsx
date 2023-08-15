@@ -17,7 +17,7 @@ import {
   TextField,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { fetchGamesWePlay } from "../../../services/gameTypes";
+import { archiveGames, fetchGamesWePlay } from "../../../services/gameTypes";
 import {
   createGame,
   fetchGameById,
@@ -53,6 +53,8 @@ function GameTypes() {
   const [maximumPlayers, setMaximumPlayers] = useState<number | null>(null);
   const [treasury, setTreasury] = useState<number | null>(null);
   const [balanceData, setBalanceData] = useState<any>(null);
+  const game = { drawDate: "some date" }; // Sample data
+  const [isOver, setIsOver] = useState(false);
 
   const jwt = TokenUtils.getJWT();
   const userId = jwt.claims.userId;
@@ -248,7 +250,8 @@ function GameTypes() {
                   Reward: {game.reward}
                 </Typography>
                 <Typography variant="body1" component="p">
-                  count down: <CountDown drawDate={game.drawDate} />
+                  count down:{" "}
+                  <CountDown drawDate={game.drawDate} gameId={game.id} />
                 </Typography>
               </CardContent>
               <ButtonGroup

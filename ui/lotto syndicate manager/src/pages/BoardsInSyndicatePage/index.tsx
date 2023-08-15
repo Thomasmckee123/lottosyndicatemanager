@@ -25,6 +25,7 @@ import {
   fetchUserBySyndicateId,
 } from "../../services/members";
 import { GameTypes } from "./components/gameTypesPage";
+import TokenUtils from "../../integrations/token";
 function MessageBoardsPage() {
   const [open, setOpen] = useState(false);
   const [boardName, setBoardName] = useState("");
@@ -33,6 +34,7 @@ function MessageBoardsPage() {
   const [relationshipData, setRelationshipData] = useState<any>(null);
   const [data, setData] = useState<any>(null);
   const [role, setRole] = useState<any>(0);
+  const [balanceData, setBalanceData] = useState<any>(null);
   const { syndicateId, userSyndicateId } = useParams<{
     syndicateId: string;
     userSyndicateId: string;
