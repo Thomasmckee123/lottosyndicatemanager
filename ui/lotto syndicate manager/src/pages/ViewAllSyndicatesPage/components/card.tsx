@@ -5,7 +5,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
-import { NavigationRoutes } from "../../../constants/navigation_routes";
+import { NavigationRoutes } from "../../../constants/navigationRoutes";
 
 function MediaCard({ data }: { data: any }) {
   if (!data) return null;

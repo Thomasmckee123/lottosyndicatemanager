@@ -7,7 +7,10 @@ interface IUserGames {
         id: number,
         maximumPlayers: number,
         treasury: number,
-        gameTypeId: number,
+        gameTypes:{
+         id: number, 
+        name: string,
+        },
       userSyndicates: {
         startDate: Date;
         users: {
@@ -24,6 +27,6 @@ interface IUserGames {
           description: string|null;
           avatar: string|null;
         };
-      }}
+        }}
     }
     export {IUserGames}

@@ -1,1 +1,1 @@
-export * from './navigation_routes';
+export * from './navigationRoutes';

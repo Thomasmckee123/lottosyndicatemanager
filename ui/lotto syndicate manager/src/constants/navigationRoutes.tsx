@@ -14,7 +14,7 @@ const NavigationRoutes = {
   LOGIN: "/Login",
   SYNDICATEBOARDS:
     "/MessageBoardsPage/:syndicateId/userSyndicate/:userSyndicateId",
-  GAMEPAGE: "/game/:gameId/syndicates/:syndicateId",
+  GAMEPAGE: "/gamePage",
   SIGNUP: "/SignUp",
   ACCOUNT: "/Account",
 };

@@ -13,7 +13,11 @@ const getAll = async () => {
           id: true,
           maximum_players: true,
           treasury: true,
-          game_type_id: true,
+          game_types:{
+            select:{
+            id: true,
+            name: true,
+          }},
           user_syndicates: {
             select: {
               start_date: true,
@@ -51,7 +55,10 @@ const getAll = async () => {
       id: x.games.id,
       maximumPlayers: x.games.maximum_players,
       treasury: x.games.treasury,
-      gameTypeId: x.games.game_type_id,
+      gameTypes:{
+      id:  x.games.game_types.id ,
+      name: x.games.game_types.name,
+      },
       userSyndicates: {
         startDate: x.games.user_syndicates.start_date,
         users: {
@@ -93,7 +100,11 @@ const getGamesBySyndicateId = async (syndicateId) => {
           id: true,
           maximum_players: true,
           treasury: true,
-          game_type_id: true,
+          game_types:{
+            select:{
+            id: true,
+            name: true,
+          }},
           user_syndicates: {
             select: {
               start_date: true,
@@ -131,7 +142,10 @@ const getGamesBySyndicateId = async (syndicateId) => {
       id: x.games.id,
       maximumPlayers: x.games.maximum_players,
       treasury: x.games.treasury,
-      gameTypeId: x.games.game_type_id,
+      gameTypes:{
+      id:  x.games.game_types.id ,
+      name: x.games.game_types.name,
+      },
       userSyndicates: {
         startDate: x.games.user_syndicates.start_date,
         users: {
@@ -162,7 +176,7 @@ const getGamesBySyndicateId = async (syndicateId) => {
  */
 const getGamesByUserId = async (userId) => {
   let allUserGames = await prisma.user_games.findMany({
-    where:{id:userId},
+    where:{user_id:userId},
     select: {
       id: true,
       start_date: true,
@@ -173,7 +187,11 @@ const getGamesByUserId = async (userId) => {
           id: true,
           maximum_players: true,
           treasury: true,
-          game_type_id: true,
+          game_types:{
+            select:{
+            id: true,
+            name: true,
+          }},
           user_syndicates: {
             select: {
               start_date: true,
@@ -211,7 +229,10 @@ const getGamesByUserId = async (userId) => {
       id: x.games.id,
       maximumPlayers: x.games.maximum_players,
       treasury: x.games.treasury,
-      gameTypeId: x.games.game_type_id,
+      gameTypes:{
+      id:  x.games.game_types.id ,
+      name: x.games.game_types.name,
+      },
       userSyndicates: {
         startDate: x.games.user_syndicates.start_date,
         users: {
@@ -287,7 +308,10 @@ async function getGamesByGameId(gameId: number){
         id: x.games.id,
         maximumPlayers: x.games.maximum_players,
         treasury: x.games.treasury,
-        gameTypeId: x.games.game_type_id,
+        gameType:{
+          id: x.games.gameType.id,
+          name:x.games.gameType.name
+        },
         userSyndicates: {
           startDate: x.games.user_syndicates.start_date,
           users: {

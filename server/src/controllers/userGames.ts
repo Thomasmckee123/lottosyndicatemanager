@@ -36,15 +36,22 @@ const getUserGamesByGameId = async(req: Request, res: Response) => {
     }
 }
 
-const getUserGamesByUserId = async(req: Request, res: Response)=>{
-    try{
-        const userId = req.params;
-        const userGamesByUserId = await UserGameService.getGamesByUserId(userId)
-        return!userGamesByUserId ? res.sendStatus(404): res.sendStatus(200).json(userGamesByUserId)
-    }catch{
-        return res.sendStatus(500).json("issue getting the games by gameId")
-    }
+const getUserGamesByUserId = async(req: Request, res: Response) => {
+  try {
+      const userId = Number(req.params.userId); // Ensure you extract the userId from the params
+      const userGamesByUserId = await UserGameService.getGamesByUserId(userId);
+      
+      if (!userGamesByUserId) {
+          return res.sendStatus(404);
+      }
+      
+      return res.status(200).json(userGamesByUserId);
+  } catch (error) {
+      console.error("Error:", error); // For debugging
+      return res.status(500).json("Issue getting the games by gameId");
+  }
 }
+
 /**
  * 
  * @param req create User Game

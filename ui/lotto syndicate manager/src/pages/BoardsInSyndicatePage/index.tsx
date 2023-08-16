@@ -26,6 +26,7 @@ import {
 } from "../../services/members";
 import { GameTypes } from "./components/gameTypesPage";
 import TokenUtils from "../../integrations/token";
+import PlayOrView from "./components/playOrViewArchive";
 function MessageBoardsPage() {
   const [open, setOpen] = useState(false);
   const [boardName, setBoardName] = useState("");
@@ -281,6 +282,7 @@ function MessageBoardsPage() {
           ))}
       </Grid>
       <GameTypes />
+      <PlayOrView />
     </Box>
   );
 }

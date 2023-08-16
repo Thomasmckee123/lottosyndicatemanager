@@ -40,7 +40,7 @@ function GameTypes() {
     syndicateId: string;
     userSyndicateId: string;
   }>();
-
+  const [isGame, setIsGame] = useState(false);
   const [value, setValue] = useState(0);
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [isFundsOpen, setIsFundsOpen] = useState<boolean>(false);
@@ -189,6 +189,40 @@ function GameTypes() {
     // handleMembersInGroupChange(gameId);
   }, [gameTypeId]);
 
+
+const handlePlayGame = async(gameTypeId : number) =>{
+ let newData :any[] = await fetchGamesByTypeID(Number(gameTypeId)) 
+ let settinggameId;
+  handleOpenDialog();
+if(data){
+ newData.forEach(item => {
+  settinggameId = item.id;
+   if (
+  typeof usersPerGame[item.id] === "number" &&
+  item.maximumPlayers &&
+  Number(usersPerGame[item.id]) < Number(item.maximumPlayers)
+) {
+  handleJoinGame()
+  setGameId(item.id)
+}else{
+  setGameTypeId(gameTypeId)
+  setGameId(item.id);
+  handleCreateNewGame()
+}
+ });
+}else{
+  setGameTypeId(gameTypeId)
+  setGameId(Number(settinggameId));
+  handleCreateNewGame()
+} 
+}
+
+
+
+
+
+
+
   const handleTabClick = (id: number) => {
     console.log("game type id", id);
     setGameTypeId(id);
@@ -258,12 +292,8 @@ function GameTypes() {
                 aria-label="join random group buttons"
               >
                 <Button
-                  onClick={() => {
-                    handleOpenDialog();
-                    setGameTypeId(game.id);
-                    handleCreateNewGame();
-                    setGameId(game.id);
-                  }}
+                  onClick={() => {handlePlayGame(Number(game.id))}}
+            
                 >
                   play in random group
                 </Button>
@@ -340,12 +370,14 @@ function GameTypes() {
               >
                 Join
               </Button>
+
+              
             </CardContent>
           </Card>
         </CustomTabPanel>
       ))}
     </>
   );
-}
+              }
 
 export { GameTypes };
