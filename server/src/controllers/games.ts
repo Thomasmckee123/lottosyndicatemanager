@@ -79,6 +79,20 @@ async function UpdateGame(req: Request, res: Response) {
     res.status(500).json("Could not update user.");
   }
 }
+async function archiveGame(req: Request, res: Response){
+  try{
+    let gameDetails= {
+      ...req.body,
+      gameTypeId: Number(req.params.gameTypeId)
+
+
+    }
+    const updatedGame = await GameService.archiveGames(gameDetails)
+    return res.status(200).json(updatedGame);
+  }catch(error){
+    return res.status(500).json({"cannot archive game": error})
+  }
+}
 //deleting a game by id
 async function deleteGameById(req: Request, res: Response) {
   const gameId = Number(req.params.gameId);
@@ -90,5 +104,5 @@ async function deleteGameById(req: Request, res: Response) {
   return res.status(200).json(deletedGame);
 }
 
-const GameController = {getGamesByTypeId,getGamesById, getGamesBySyndicateId, getAllGames, createGames, UpdateGame, deleteGameById};
+const GameController = {archiveGame,getGamesByTypeId,getGamesById, getGamesBySyndicateId, getAllGames, createGames, UpdateGame, deleteGameById};
 export {GameController};

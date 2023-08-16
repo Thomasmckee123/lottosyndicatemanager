@@ -9,5 +9,5 @@ const GameTypesRouter = express.Router();
 GameTypesRouter.get('/', GameTypesController.getAllGameTypes)
 GameTypesRouter.get('/:gameTypeId',GameTypesController.getGameTypesById);
 GameTypesRouter.put('/archive/:gameTypeId',GameTypesController.updateGameTypeStatus);
-GameTypesRouter.post('/autoCreateGames',GameTypesController.autoCreateGameTypes)
+// GameTypesRouter.post('/autoCreateGames',GameTypesController.autoCreateGameTypes)
 export{GameTypesRouter};

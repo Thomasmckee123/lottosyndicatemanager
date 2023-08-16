@@ -6,5 +6,12 @@
     "bcrypt": "^5.1.0",
     "jwt-decode": "^3.1.2",
     "react-router-dom": "^6.14.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.1.6",
+    "ts-node": "^<latest-version>"
+  },
+  "scripts": {
+    "start": "nodemon --watch \"src/**/*.ts\" --exec .\\node_modules\\.bin\\ts-node src/app.ts"
   }
 }

@@ -57,7 +57,7 @@ return newModifiedGameTypes;
  * @param gameTypes updating the gameTypes, archiving them
  * @returns 
  */
-async function archiveGames(gameTypes: any) {
+async function updateDates(gameTypes: any) {
     let updateGameTypes;
     try {
       updateGameTypes = await prisma.game_types.update({
@@ -65,7 +65,7 @@ async function archiveGames(gameTypes: any) {
           id: gameTypes.gameTypeId,
         },
         data: {
-      name: gameTypes.name
+     draw_date: gameTypes.drawDate
         },          
 
       });
@@ -91,5 +91,5 @@ async function archiveGames(gameTypes: any) {
         console.error("error creating new game types")
     }
   }
-const GameTypeService ={ getAll, getGameTypeById, archiveGames, autoCreateGameTypes};
+const GameTypeService ={ getAll, getGameTypeById, updateDates, autoCreateGameTypes};
 export{GameTypeService}

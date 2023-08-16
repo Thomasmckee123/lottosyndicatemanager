@@ -338,7 +338,9 @@ async function getGamesBySyndicateId(syndicateId: number) {
           }
         }
   }))
-    return modifiedGames;
+  const filteredGames = modifiedGames?.filter((game) =>game.maximumPlayers  !== 0)
+
+    return filteredGames;
   
   }
 //create a game using the syndicate id
@@ -383,6 +385,24 @@ async function updateGames(game: any) {
   }
   return updateGame;
 }
+
+  
+async function archiveGames (game: any){
+  let archivedGame;
+  try{
+  
+  archivedGame = await prisma.games.update({
+    where: {
+      id : game.gameTypeId
+    },data:{
+     maximum_players: game.maximumPlayers
+    }
+})
+  }catch(error){
+    console.error(error)
+  }
+  return archivedGame;
+}
 //delete game
 
 async function deleteGameById(gameId) {
@@ -408,5 +428,6 @@ async function deleteGameById(gameId) {
     throw error;
   }
 }
-  const GameService = {getGamesByTypeId,getGamesByGameId, getGamesBySyndicateId, getAll,createGameInSyndicate,updateGames,deleteGameById};
+
+  const GameService = {updateGames, getGamesByTypeId,getGamesByGameId, getGamesBySyndicateId, getAll,createGameInSyndicate,archiveGames,deleteGameById};
   export {GameService};

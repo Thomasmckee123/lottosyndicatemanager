@@ -42,9 +42,22 @@ const fetchGameById = async (gameId: number) =>{
   }
 }
 
-const createGame = async (maximumPlayers: number, treasury: number, userSyndicateId: number, gameTypeId: number) => {
+const createGame = async (treasury: number, userSyndicateId: number, gameTypeId: number) => {
 console.log(treasury);
-
+let maximumPlayers
+if(Number(gameTypeId) == 1){
+  maximumPlayers = 5
+}else if(Number(gameTypeId) == 2){
+  maximumPlayers = 7
+}else if(Number(gameTypeId)== 3){
+  maximumPlayers = 15
+}else if(Number(gameTypeId)==4){
+  maximumPlayers = 10
+}else if(Number(gameTypeId)==5){
+  maximumPlayers = 9
+}else if(Number(gameTypeId ==6)){
+  maximumPlayers = 4
+}
   const gameData = {
     maximumPlayers: maximumPlayers,
     treasury: 0,
@@ -58,5 +71,16 @@ console.log(treasury);
     return response.data;
 
 };
-
-export { fetchGamesBySyndicateId, createGame,fetchGamesById, fetchGamesByTypeID, fetchGameById} 
+const archiveGame = async(gameTypeId: number)=>{
+  try{
+  const gameData = {
+    maximumPlayers: 0
+  };
+  const response = await axios.put(`games/archive/${gameTypeId}`,gameData)
+  return response.data}catch(error){
+    console.error(error)
+    console.log("problem with request")
+    return null
+  }
+}
+export {archiveGame, fetchGamesBySyndicateId, createGame,fetchGamesById, fetchGamesByTypeID, fetchGameById} 

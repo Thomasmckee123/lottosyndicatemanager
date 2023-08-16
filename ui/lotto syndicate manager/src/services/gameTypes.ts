@@ -20,12 +20,17 @@ const fetchGamesWePlay = async () => {
  * 
  * @param gameTypeId archiving a game
  */
-const archiveGames = async (gameTypeId: number)=>{
+const updateDates = async (gameTypeId: number, drawDate: Date)=>{
   console.log("archive Id", gameTypeId)
+
+    let  fixedDrawDate = new Date(drawDate)
+    fixedDrawDate.setDate(fixedDrawDate.getDate()+7)
+console.log("BACK END DRAW DATE", fixedDrawDate)
+console.log(fixedDrawDate)
   const gameData = {
-    name: "game ended"
-  }
-  console.log("archive data", gameData)
+    drawDate: new Date(fixedDrawDate),
+  };
+  console.log("DATE UPDATE DATA", gameData)
   try{
   const response = await axios.put(`gameTypes/archive/${gameTypeId}`,gameData)
   console.log("archive response data", response.data)
@@ -46,4 +51,4 @@ try{
 console.error("couldnt auto create a game", error)
 }
 }
-  export{archiveGames, fetchGamesWePlay, autoCreateGames}
+  export{updateDates, fetchGamesWePlay, autoCreateGames}

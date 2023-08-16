@@ -18,9 +18,13 @@ INSERT INTO user_syndicates (start_date, user_id, syndicate_id, role_id) VALUES
 ('2023-07-14', 2, 2, 1),
 ('2023-07-15', 3, 3, 1);
 INSERT INTO game_types(name, draw_date, reward, image) VALUES
-('Fortune Flood', '2023-07-16', 50000.0,'euromillions.png'),
-('Lucky Labyrinth', '2023-07-17', 75000.0,'euromillions.png'),
-('Money Maze', '2023-07-18', 100000.0,'euromillions.png');
+('euro millions', '2023-08-18', 43000000.0,'euromillions.png'),
+('set for life', '2023-08-17', 10000.0,'setforLife.png'),
+('Thunderball', '2023-08-16', 500000.0,'thunderball.png'),
+('lotto hotpicks', '2023-08-16', 3500000.0, 'hotpicks.png'),
+('Euro Millions hotpicks', '2023-08-18',10000000, 'euromillions hotpicks'),
+('lotto', '2023-08-16', 20000000, 'lotto.png');
+
 INSERT INTO games ( maximum_players,treasury, user_syndicate_id, game_type_id) VALUES 
 ( 5,0, 1, 1),
 ( 2,0, 2, 2),

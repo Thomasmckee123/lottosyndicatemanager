@@ -17,7 +17,7 @@ import {
   TextField,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { archiveGames, fetchGamesWePlay } from "../../../services/gameTypes";
+import { fetchGamesWePlay } from "../../../services/gameTypes";
 import {
   createGame,
   fetchGameById,
@@ -122,7 +122,6 @@ function GameTypes() {
     getGames();
     console.log("HANDLE CREATE GAME TYPE ID", gameTypeId);
     const newGame = await createGame(
-      Number(maximumPlayers),
       0,
       Number(userSyndicateId),
       Number(gameTypeId)
@@ -140,7 +139,6 @@ function GameTypes() {
     try {
       const response = await fetchmembersInGroup(Number(gameId));
       if (Array.isArray(response)) {
-        console.log("B ", response);
         setUsersPerGame((prevUsersPerGame) => ({
           ...prevUsersPerGame,
           [Number(gameId)]: response.length,
@@ -251,7 +249,7 @@ function GameTypes() {
                 </Typography>
                 <Typography variant="body1" component="p">
                   count down:{" "}
-                  <CountDown drawDate={game.drawDate} gameId={game.id} />
+                  <CountDown drawDate={game.drawDate} gameId={game.id} userSyndicateId={userSyndicateId} />
                 </Typography>
               </CardContent>
               <ButtonGroup
@@ -262,6 +260,8 @@ function GameTypes() {
                 <Button
                   onClick={() => {
                     handleOpenDialog();
+                    setGameTypeId(game.id);
+                    handleCreateNewGame();
                     setGameId(game.id);
                   }}
                 >

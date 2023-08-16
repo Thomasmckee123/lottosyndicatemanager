@@ -138,4 +138,5 @@ GamesRouter.delete(/**
 */
 "/delete/:gameId(\\d+)",GameController.deleteGameById);
 
+GamesRouter.put("/archive/:gameTypeId",GameController.archiveGame)
 export { GamesRouter }; 

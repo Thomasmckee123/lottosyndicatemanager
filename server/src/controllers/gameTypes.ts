@@ -23,31 +23,29 @@ const getAllGameTypes = async (req: Request, res: Response) => {
       
       
       }
-      const updatedGame = await GameTypeService.archiveGames(gameDetails);
+      const updatedGame = await GameTypeService.updateDates(gameDetails);
       return res.status(200).json(gameDetails);
     } catch (error) {
       res.status(500).json("Could not update Game");
     }
   }
-async function autoCreateGameTypes(req: Request, res : Response){
-  try{
-    const currentDate = new Date();
-      const drawDateOneWeekLater = new Date(currentDate);
-      drawDateOneWeekLater.setDate(currentDate.getDate() + 7);
-    let GameDetails ={
-      ...req.body ,
-       name: "Euro Millions",
-            drawDate: drawDateOneWeekLater,
-            reward:4200000000,
-            image:"https://i2-prod.gloucestershirelive.co.uk/news/cheltenham-news/article946294.ece/ALTERNATES/s1200c/1_EuroMillions.jpg",
-    }
-    const newGames = await GameTypeService.autoCreateGameTypes(GameDetails);
-    return res.status(200).json(GameDetails)
-  }catch(error){
-    res.status(500).json("could not add new games")
-  }
-}
+// async function autoCreateGameTypes(req: Request, res : Response){
+//   try{
+  
+//     let GameDetails ={
+//       ...req.body ,
+//        name: "Euro Millions",
+//             drawDate: drawDateOneWeekLater,
+//             reward:4200000000,
+//             image:"https://i2-prod.gloucestershirelive.co.uk/news/cheltenham-news/article946294.ece/ALTERNATES/s1200c/1_EuroMillions.jpg",
+//     }
+//     const newGames = await GameTypeService.autoCreateGameTypes(GameDetails);
+//     return res.status(200).json(GameDetails)
+//   }catch(error){
+//     res.status(500).json("could not add new games")
+//   }
+// }
 
 
-  const GameTypesController ={getAllGameTypes, getGameTypesById, updateGameTypeStatus, autoCreateGameTypes}
+  const GameTypesController ={getAllGameTypes, getGameTypesById, updateGameTypeStatus,}
   export default GameTypesController
