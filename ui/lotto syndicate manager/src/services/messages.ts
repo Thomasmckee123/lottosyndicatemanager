@@ -1,31 +1,44 @@
 import axios from "../integrations/instance";
-import TokenUtils from "../integrations/token";
-//getting all the user syndicate data
-const fetchBoardsAndMessagesFromSyndicates = async (boardId: Number) => {
-  try {
-    
-    const response = await axios.get(`messages/boards/${boardId}`);
-   
-    return response.data;
+const fetchingMessagesByGameId = async(gameId: number)=>{try{
+const response = await axios.get(`boards/games/${gameId}`);
 
-  } catch (error) {
-    console.error("There was an error!", error);
-    return null;
-  }}
+return response.data
+}catch(error){
+  console.error("error getting messages by game id")
+}
+}
+
+
+const fetchingMessagesByBoardId = async(boardId: number)=>{
+  try{
+  const response = await axios.get(`messages/boards/${boardId}`)
+  return response.data
+  }catch(error){
+    console.error(error)
+  }
+}
+
+
+
+
+
 
 // Update createSyndicate function to handle file
-const createMessage = async (message: any, userSyndicateId: number, boardId: number) => {
+const createMessage = async (message: any, userGameId: number, boardId: number) => {
+  try{
   const gameData={
     message:message,
     createdDate: new Date()
   }
-    const response = await axios.post(`/messages/syndicates/${userSyndicateId}/boards/${boardId}`, gameData);
+    const response = await axios.post(`/messages/games/${userGameId}/boards/${boardId}`, gameData);
     return response.data;
-
+  }catch(error){
+    console.error("couldnt create message")
+  }
 };
 
 
 
 
 
-  export {fetchBoardsAndMessagesFromSyndicates, createMessage}
+  export {createMessage, fetchingMessagesByGameId, fetchingMessagesByBoardId}

@@ -45,7 +45,8 @@ CREATE TABLE game_types(
     name VARCHAR(255) NOT NULL,
     draw_date DATE NOT NULL,
     reward FLOAT NOT NULL,
-    image VARCHAR(255) NOT NULL
+    image VARCHAR(255) NOT NULL,
+    ticket_cost FLOAT NOT NULL
 );
 CREATE TABLE games(
     id SERIAL NOT NULL constraint games_pk PRIMARY KEY,
@@ -66,19 +67,18 @@ CREATE TABLE ticket_status(
     id SERIAL NOT NULL constraint ticket_type_pk PRIMARY KEY,
     name VARCHAR(255) NOT NULL
 ) ;
-CREATE TABLE game_user_syndicates_ticket(
+CREATE TABLE game_user_game_ticket(
     id SERIAL NOT NULL constraint game_user_syndicates_ticket_pk PRIMARY KEY,
     ticket_code VARCHAR(255) NOT NULL,
     total_reward_value FLOAT NOT NULL,
     ticket_status_id INTEGER NOT NULL CONSTRAINT fk_ticket_type_game_user_syndicates REFERENCES ticket_status(id),
-   user_syndicate_id INTEGER NOT NULL CONSTRAINT FK_user_syndicate_game_user_syndicates_ticket REFERENCES user_syndicates(id),
     game_id INTEGER NOT NULL CONSTRAINT FK_game_game_user_syndicates_ticket REFERENCES games(id)
 );
 
 CREATE TABLE boards(
     id SERIAL NOT NULL CONSTRAINT board_pk PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    syndicate_id SERIAL NOT NULL CONSTRAINT FK_syndicate_Board REFERENCES syndicates(id)
+    game_id SERIAL NOT NULL CONSTRAINT FK_games_Board REFERENCES games(id)
 );
 
 CREATE TABLE board_message(
@@ -88,7 +88,7 @@ CREATE TABLE board_message(
   
     
     board_id INTEGER NOT NULL CONSTRAINT FK_board_message_board_id REFERENCES boards(id),
-    user_syndicate_id INTEGER NOT NULL CONSTRAINT FK_board_message_user_syndicate_id REFERENCES user_syndicates(id)
+    user_game_id INTEGER NOT NULL CONSTRAINT FK_board_message_user_game_id REFERENCES user_games(id)
 );
 
 

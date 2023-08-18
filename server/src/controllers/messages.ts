@@ -26,7 +26,7 @@ async function getMessagesByBoardsId(req: Request, res: Response) {
       const newBoard = {...req.body,
         
       createdDate: new Date(),
-      userSyndicateId: Number(req.params.userSyndicateId),
+      userGameId: Number(req.params.userGameId),
       boardId: Number(req.params.boardId)
       
       
@@ -50,7 +50,7 @@ console.log(GameMessage)
         const newGameMessage = {
             message: GameMessage,
             createdDate: new Date(),
-            userSyndicateId: Number(req.params.userSyndicateId),
+            userGameId: Number(req.params.userSyndicateId),
             boardId: Number(req.params.boardId)
         };
 

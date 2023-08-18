@@ -5,10 +5,10 @@ const getAllBoards = async (req: Request, res: Response) => {
   const boards = await BoardsService.getAll();
   return !boards ? res.sendStatus(404) : res.status(200).json(boards);
 };
-async function getBoardsBySyndicateId(req: Request, res: Response) {
+async function getBoardsByGameId(req: Request, res: Response) {
     try {
-      const syndicateId = Number(req.params["syndicateId"]);
-      const boards= await BoardsService.getBoardsBySyndicateId(syndicateId);
+      const gameId = Number(req.params["gameId"]);
+      const boards= await BoardsService.getBoardsByGameId(gameId);
       console.log(boards)
       return res.status(200).json(boards);
     } catch (error) {
@@ -20,13 +20,13 @@ async function getBoardsBySyndicateId(req: Request, res: Response) {
     try {
       let newBoard={
         ...req.body,
-  userId : Number(req.params.userId)
+  gameId : Number(req.params.gameId)
   
       }
       const createdBoard = await BoardsService.createBoards(newBoard);
       return res.status(200).json(createdBoard);
     } catch (error) {
-      res.status(500).json("Could not create user.");
+      res.status(500).json("Could not create game.");
     }
   }
 
@@ -53,5 +53,5 @@ async function getBoardsBySyndicateId(req: Request, res: Response) {
       res.status(500).json("Could not update Board.");
     }
   }
-const BoardsController = {getAllBoards, getBoardsBySyndicateId,createBoard, deleteBoardById, UpdateBoards};
+const BoardsController = {getAllBoards, getBoardsByGameId,createBoard, deleteBoardById, UpdateBoards};
 export {BoardsController};

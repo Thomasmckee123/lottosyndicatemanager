@@ -76,20 +76,6 @@ async function updateDates(gameTypes: any) {
   }
 
 
-  async function autoCreateGameTypes(gameData) {
-    let createGames;
-    try {
-       
-        createGames = await prisma.game_types.create({
-        data:{
-            name: gameData.name,
-            draw_date: gameData.drawDate,
-            reward:gameData.reward,
-            image:gameData.image,
-    }})
-    }catch(error){
-        console.error("error creating new game types")
-    }
-  }
-const GameTypeService ={ getAll, getGameTypeById, updateDates, autoCreateGameTypes};
+
+const GameTypeService ={ getAll, getGameTypeById, updateDates};
 export{GameTypeService}

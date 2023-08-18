@@ -14,7 +14,7 @@ import CreateSyndicate from "./pages/CreateSyndicatePage";
 import ReviewPage from "./pages/ReviewsPage";
 
 import GameOptions from "./pages/CreateGamesPage";
-import BoardChat from "./pages/messageBoardPage/Index";
+//import BoardChat from "./pages/messageBoardPage/Index";
 
 import { AuthContext } from "./contexts";
 import Login from "./pages/LoginPage/components/login";
@@ -23,6 +23,8 @@ import GamePage from "./pages/gamePage";
 import CreateGame from "./pages/CreateGamesPage";
 import DepositMoney from "./pages/CreateGamesPage/components/ProposeGames";
 import AccountPage from "./pages/Account";
+import UserGames from "./pages/gamePage/components/userGames";
+import Message from "./pages/PlayGamePage";
 
 function App() {
   const unAuthorisedRoutes = () => {
@@ -56,7 +58,7 @@ function App() {
         <Route path={NavigationRoutes.REVIEW} element={<ReviewPage />} />
         <Route path={NavigationRoutes.JOINGAME} element={<CreateGame />} />
         <Route path={NavigationRoutes.CREATEGAME} element={<GameOptions />} />
-        <Route path={NavigationRoutes.BOARDCHAT} element={<BoardChat />} />
+
         <Route
           path={NavigationRoutes.SYNDICATEBOARDS}
           element={<MessageBoardsPage />}
@@ -64,6 +66,7 @@ function App() {
 
         <Route path={NavigationRoutes.GAMEPAGE} element={<GamePage />} />
         <Route path={NavigationRoutes.ACCOUNT} element={<AccountPage />} />
+        <Route path={NavigationRoutes.GAMEMESSAGE} element={<Message />}></Route>
         <Route path="*" element={<Navigate to={"/"} />} />
       </>
     );

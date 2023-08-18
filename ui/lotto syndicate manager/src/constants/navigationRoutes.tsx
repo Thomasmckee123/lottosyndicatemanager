@@ -17,5 +17,6 @@ const NavigationRoutes = {
   GAMEPAGE: "/gamePage",
   SIGNUP: "/SignUp",
   ACCOUNT: "/Account",
+  GAMEMESSAGE: "/PlayGame/userGames/:userGameId/games/:gameId"
 };
 export { NavigationRoutes };

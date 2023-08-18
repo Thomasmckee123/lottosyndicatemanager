@@ -8,6 +8,8 @@ import { Button, Container, Paper, Table, TableBody, TableCell, TableContainer, 
 import { useEffect, useState } from "react";
 import { fetchUserGames } from '../../../services/userGames';
 import TokenUtils from '../../../integrations/token';
+import { NavigationRoutes } from '../../../constants';
+import { Link } from 'react-router-dom';
 
 
 
@@ -63,9 +65,10 @@ const UserGames = () => {
                 </TableCell>
                 <TableCell align="right">${game?.deposit}</TableCell>
                 <TableCell align="right">
-                  <Button variant="contained" color="primary">
+                 <Link to={NavigationRoutes.GAMEMESSAGE.replace(":userGameId",`${game.id}`).replace(":gameId", `${game?.games?.id}`)}> <Button variant="contained" color="primary" >
                     Enter Chat
                   </Button>
+                  </Link>
                 </TableCell>
               </TableRow>
             ))}

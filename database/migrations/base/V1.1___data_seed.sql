@@ -17,13 +17,13 @@ INSERT INTO user_syndicates (start_date, user_id, syndicate_id, role_id) VALUES
 ('2023-07-13', 1, 1, 1),
 ('2023-07-14', 2, 2, 1),
 ('2023-07-15', 3, 3, 1);
-INSERT INTO game_types(name, draw_date, reward, image) VALUES
-('euro millions', '2023-08-18', 43000000.0,'euromillions.png'),
-('set for life', '2023-08-17', 10000.0,'setforLife.png'),
-('Thunderball', '2023-08-16', 500000.0,'thunderball.png'),
-('lotto hotpicks', '2023-08-16', 3500000.0, 'hotpicks.png'),
-('Euro Millions hotpicks', '2023-08-18',10000000, 'euromillions hotpicks'),
-('lotto', '2023-08-16', 20000000, 'lotto.png');
+INSERT INTO game_types(name, draw_date, reward, image,ticket_cost) VALUES
+('euro millions', '2023-08-18', 43000000.0,'euromillions.png',2.50),
+('set for life', '2023-08-17', 10000.0,'setforLife.png', 2),
+('Thunderball', '2023-08-16', 500000.0,'thunderball.png',1),
+('lotto hotpicks', '2023-08-16', 3500000.0, 'hotpicks.png',2),
+('Euro Millions hotpicks', '2023-08-18',10000000, 'euromillions hotpicks',1.50),
+('lotto', '2023-08-16', 20000000, 'lotto.png',1);
 
 INSERT INTO games ( maximum_players,treasury, user_syndicate_id, game_type_id) VALUES 
 ( 5,0, 1, 1),
@@ -41,18 +41,18 @@ INSERT INTO ticket_status (name) VALUES
 ('pending');
 INSERT INTO user_games (deposit, start_date, game_id, user_id)
 VALUES(0,'2023-07-21', 1, 1);
-INSERT INTO game_user_syndicates_ticket (ticket_code, total_reward_value, ticket_status_id, user_syndicate_id, game_id) VALUES
-('123456', 0, 3, 1, 1),
-('234567', 0, 3, 2, 2),
-('345678', 0, 3, 3, 3);
+INSERT INTO game_user_game_ticket (ticket_code, total_reward_value, ticket_status_id, game_id) VALUES
+('123456', 0, 3,  1),
+('234567', 0, 3,  2),
+('345678', 0, 3,  3);
 
-INSERT INTO boards (name, syndicate_id) VALUES
+INSERT INTO boards (name, game_id) VALUES
 ('Thunderbolts Talk', 1),
 ('Shadows Speak', 2),
 ('Warriors Word', 3);
 
-INSERT INTO board_message (message, created_date, board_id, user_syndicate_id) VALUES
+INSERT INTO board_message (message, created_date, board_id, user_game_id) VALUES
 ('Lets win this, Thunderbolts!', '2023-07-22', 1, 1),
-('We move silently, we win always.', '2023-07-23', 2, 2),
-('No bug can stop us!', '2023-07-24', 3, 3);
+('We move silently, we win always.', '2023-07-23', 2, 1),
+('No bug can stop us!', '2023-07-24', 3, 1);
 

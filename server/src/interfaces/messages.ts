@@ -10,14 +10,18 @@ interface IMessages{
                 name: string
 
             },
-        userSyndicates:{
-            id: number,
-            users:{
-            id: number,
-            firstName: string,
-            lastName:string,
-            },
-        },
-}
+            userGames: {
+               
+            id:number
+                  deposit: number,
+                  users:{
+                       
+                      id: number,
+                      firstName: string,
+                      lastName: string
+                    
+                  }
+                }}
+
 
 export{IMessages};

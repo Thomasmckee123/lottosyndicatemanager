@@ -45,7 +45,7 @@ BoardsRouter.get(/**
 *             schema:
 *               type: array
 *               
-*/"/syndicate/:syndicateId(\\d+)",BoardsController.getBoardsBySyndicateId);
+*/"/games/:gameId(\\d+)",BoardsController.getBoardsByGameId);
 BoardsRouter.post(/**
 * @swagger
 * api/boards/create:
@@ -80,7 +80,7 @@ BoardsRouter.post(/**
 *             schema:
 *               type: array
 *               
-*/"/create/syndicates/:syndicateId", [
+*/"/create/games/:gameId", [
     body("name").isString().isLength( {min:3} ),
   ], resolver,
   BoardsController.createBoard);

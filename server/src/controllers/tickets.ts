@@ -31,12 +31,11 @@ async function getTicketsByGameId(req: Request, res: Response) {
   const newTickets = {...req.body,
     totalRewardValue: Number(req.body.total_reward_value),
     ticketStatusId: Number(req.body.ticket_status_id),
-   userSyndicateId: Number(req.params.syndicateId),
    gameId: Number(req.params.gameId)
   }
   
     
-      const createTicket = await TicketService.createTicketsByGameAndUserSyndicateId(newTickets);
+      const createTicket = await TicketService.createTicketsByGameId(newTickets);
       return res.status(200).json(createTicket);
     } catch (error) {
       res.status(500).json("Could not create game.");

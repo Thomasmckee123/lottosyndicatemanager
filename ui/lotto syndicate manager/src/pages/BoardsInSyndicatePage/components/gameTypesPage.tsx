@@ -118,13 +118,12 @@ function GameTypes() {
     }
   };
 
-  const handleCreateNewGame = async () => {
-    getGames();
-    console.log("HANDLE CREATE GAME TYPE ID", gameTypeId);
+  const handleCreateNewGame = async (typeId: number) => {
+    console.log("HANDLE CREATE GAME TYPE ID", typeId);
     const newGame = await createGame(
       0,
       Number(userSyndicateId),
-      Number(gameTypeId)
+      Number(typeId)
     );
     setGameId(newGame.id);
   };
@@ -169,7 +168,7 @@ function GameTypes() {
       });
   }, []);
 
-  async function getGames() {
+  async function  getGames() {
     if (gameTypeId !== null) {
       setGameData([]); // Clear previous data or set to loading state.
       try {
@@ -184,17 +183,21 @@ function GameTypes() {
   }
 
   useEffect(() => {
-    getGames();
     console.log("get games", gameTypeId);
+    getGames();
+ 
     // handleMembersInGroupChange(gameId);
   }, [gameTypeId]);
 
 
-const handlePlayGame = async(gameTypeId : number) =>{
- let newData :any[] = await fetchGamesByTypeID(Number(gameTypeId)) 
+const handlePlayGame = async(gtId : number) =>{
+  setGameTypeId(gtId);
+  console.log("GAME TYPE",gtId, gameTypeId)
+ let newData :any[] = await fetchGamesByTypeID(gtId) 
  let settinggameId;
   handleOpenDialog();
-if(data){
+if(newData.length > 0){
+  console.log("NEW DATA", newData);
  newData.forEach(item => {
   settinggameId = item.id;
    if (
@@ -205,15 +208,17 @@ if(data){
   handleJoinGame()
   setGameId(item.id)
 }else{
-  setGameTypeId(gameTypeId)
-  setGameId(item.id);
-  handleCreateNewGame()
+  setGameTypeId(gtId)
+
+  handleCreateNewGame(gtId)
 }
  });
 }else{
-  setGameTypeId(gameTypeId)
-  setGameId(Number(settinggameId));
-  handleCreateNewGame()
+  console.log("ELSE DATA", newData);
+
+  await handleCreateNewGame(gtId)
+
+ 
 } 
 }
 
@@ -360,7 +365,7 @@ if(data){
                       game
                     );
                     setGameTypeId(game.gameTypes.id);
-                    handleCreateNewGame();
+                    handleCreateNewGame(game.gameTypes.id);
                     handleOpenDialog();
 
                     setGameId(game.id);

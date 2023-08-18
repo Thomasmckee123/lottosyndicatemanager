@@ -124,14 +124,84 @@ const getAll = async () => {
    gamesById =  await prisma.games.findUnique({
       where: {
         id: gameId
+      },
+      select:{
+           id: true,
+           maximum_players: true,
+           treasury: true,
+           game_types:{
+            select:{
+            id: true,
+            name: true,
+            draw_date: true,
+            reward: true,
+            image: true,}
+           },
+            user_syndicates:{
+              select:{
+                start_date: true,
+                users:{
+                  select:{
+                    id: true,
+                    first_name: true,
+                    last_name: true,
+                    email: true,  
+                    balance:true
+                  }
+                },
+                syndicates:{
+                  select:{
+                    id:true,
+                    created_date:true,
+                    name: true,
+                    description:true,
+                    avatar: true,
+                  }
+                }
+              }
+            }
+          }
+        }
+        );
+        
+        const modifiedGames: IGames ={ 
+          id:Number(gamesById?.id),
+            maximumPlayers: Number(gamesById?.maximumPlayers),
+           treasury: Number(gamesById?.treasury),
+           gameTypes: {
+            id: Number(gamesById?.game_types.id),
+            name: gamesById?.game_types?.name,
+            drawDate: gamesById?.game_types?.draw_date,
+            reward: Number(gamesById?.game_types?.reward),
+            image: gamesById?.game_types?.image,
+           },
+            userSyndicates: {
+              startDate: gamesById?.user_syndicates?.start_date,
+              users: {
+                id: gamesById?.user_syndicates?.users.id,
+                firstName: gamesById?.user_syndicates?.users?.first_name,
+                lastName: gamesById?.user_syndicates.users.last_name,
+                email: gamesById?.user_syndicates?.users?.email,
+                balance: gamesById?.user_syndicates?.users?.balance
+              },
+              syndicates: {
+                id: gamesById?.user_syndicates?.syndicates?.id,
+                createdDate: gamesById?.user_syndicates?.syndicates?.created_date,
+                name: gamesById?.user_syndicates?.syndicates.name,
+                description: gamesById?.user_syndicates?.syndicates?.description,
+                avatar: gamesById?.user_syndicates?.syndicates.avatar,
+              }
+            }
       }
-    })
-  }catch(error){
-    console.log(error)
-    throw error("couldnt get game")
+      return modifiedGames;
+    }catch(error){
+      console.error("error getting game data",error)
+    
+    }
   }
-    return gamesById
-  }
+    
+    
+    
   //getting the syndicates by user id
 async function getGamesBySyndicateId(syndicateId: number) {
   let gamesBySyndicateId;
@@ -234,10 +304,11 @@ async function getGamesBySyndicateId(syndicateId: number) {
     try {
       gamesByTypeId = await prisma.games.findMany({
         where: {
-          
-            game_type_id: gameTypeId
-          
-        },
+          game_types: {
+            id: gameTypeId 
+          }
+        }
+        ,
         select:{
       id: true,
          maximum_players: true,
@@ -348,6 +419,7 @@ async function getGamesBySyndicateId(syndicateId: number) {
 async function createGameInSyndicate(game: any) {
   try {
 console.log("game" + game)
+console.log("game Type id" , game.gameTypeId)
   const newGame = await prisma.games.create({
     data: {
   maximum_players: Number(game.maximumPlayers),
@@ -408,9 +480,9 @@ async function archiveGames (game: any){
 async function deleteGameById(gameId) {
   try {
     // First, delete all messages that reference the board
-    await prisma.game_user_syndicates_ticket.deleteMany({
+    await prisma.game_user_game_ticket.deleteMany({
       where: {
-        game_id: gameId
+        games:{id: gameId}
       },
     });
     

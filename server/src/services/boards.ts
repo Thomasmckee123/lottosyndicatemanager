@@ -6,10 +6,20 @@ const getAll = async () => {
       select: {
         id: true,
         name: true,
-        syndicates: {
+        games: {
           select: {
             id: true,
-            name: true,
+          user_games:{
+            select:{
+              id:true,
+              deposit:true,
+              users: {select:{
+                id: true,
+                first_name: true,
+                last_name:true
+              }}
+            }
+          }
           }
         }, 
         board_message: {
@@ -18,7 +28,7 @@ const getAll = async () => {
             message: true,
             created_date: true,
             board_id: true,
-            user_syndicate_id: true,
+            user_game_id: true,
           },
         },
       },
@@ -27,19 +37,28 @@ const getAll = async () => {
     return getAllBoards
   };
   //getting boards by syndicate Id
-  async function getBoardsBySyndicateId(syndicateId: number) {
+  async function getBoardsByGameId(gameId: number) {
     let boardsBySyndicateId;
 
     try {
       boardsBySyndicateId = await prisma.boards.findMany({
-        where: { syndicate_id: syndicateId },
+        where: { game_id: gameId },
         select: {
           id: true,
           name: true,
-          syndicates: {
+          games: {
             select: {
               id: true,
-              name: true,
+              user_games:{
+                select:{
+                  id:true,
+                  deposit:true,
+                  users: {select:{
+                    id: true,
+                    first_name: true,
+                    last_name:true
+                   } }}
+                }
             }
           }, 
           board_message: {
@@ -48,7 +67,7 @@ const getAll = async () => {
               message: true,
               created_date: true,
               board_id: true,
-              user_syndicates:{
+              user_games:{
                 select:{
                 users:{
                   select:{
@@ -78,7 +97,7 @@ async function createBoards(board: any) {
     const newBoards = await prisma.boards.create({
       data: {
      name: board.name,
-     syndicate_id: board.syndicateId,
+     game_id: board.gameId,
 
       },
     });
@@ -134,5 +153,5 @@ async function updateBoards(board: any) {
     }
   }
   
-  const BoardsService = {deleteBoardsById, getAll, getBoardsBySyndicateId, createBoards, updateBoards};
+  const BoardsService = {deleteBoardsById, getAll, getBoardsByGameId, createBoards, updateBoards};
   export {BoardsService};

@@ -106,10 +106,10 @@ MessagesRouter.post(/**
 *                   type: number
 *                 syndicateId:
 *                   type: number
-*/"/syndicates/:userSyndicateId(\\d+)/boards/:boardId",[
+*/"/games/:userGameId(\\d+)/boards/:boardId",[
     body("message").isString().isLength({min:3, max: 2000}),
   ],resolver, MessagesController.createNewMessageInBoard);
 MessagesRouter.put("/delete/:messageId(\\d+)", MessagesController.deleteMessageById);
 
-MessagesRouter.post("/userGame/userSyndicate/:userSyndicateId(\\d+)/boards/:boardId(\\d+)/games/:gameId(\\d+)", MessagesController.createNewGameMessageInBoard);
+MessagesRouter.post("/userGame/userGame/:userGameId(\\d+)/boards/:boardId(\\d+)/games/:gameId(\\d+)", MessagesController.createNewGameMessageInBoard);
 export { MessagesRouter }; 

@@ -19,19 +19,19 @@ const fetchGamesById = async(gameId: number) => {
     const response = await axios.get(`games/${gameId}`);
     return response.data
   }catch(error){
-    console.error("there was an issue getting games by id")
-    return null
+  console.log(error)
   }
 }
 
-const fetchGamesByTypeID = async (gameTypeId: number) => {
-  try {
-    const response = await axios.get(`games/gameTypes/${gameTypeId}`);
+const fetchGamesByTypeID = async (gTypeId: number) => {
+  // try {
+    console.log("fetching games by type ", gTypeId);
+    const response = await axios.get(`games/gameTypes/${gTypeId}`);
     return response.data;
-  } catch (error) {
-    console.error("There was an error getting the games by id:", error);
-    throw error; 
-  }
+  // } catch (error) {
+  //   //console.error("There was an error getting the games by id:", error);
+  //   throw error; 
+  // }
 }
 const fetchGameById = async (gameId: number) =>{
   try{
@@ -71,6 +71,10 @@ if(Number(gameTypeId) == 1){
     return response.data;
 
 };
+
+
+
+
 const archiveGame = async(gameTypeId: number)=>{
   try{
   const gameData = {

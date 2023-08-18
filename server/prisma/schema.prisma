@@ -8,21 +8,21 @@ datasource db {
 }
 
 model board_message {
-  id                Int             @id(map: "board_message_pk") @default(autoincrement())
-  message           String
-  created_date      DateTime        @db.Date
-  board_id          Int
-  user_syndicate_id Int
-  boards            boards          @relation(fields: [board_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_board_message_board_id")
-  user_syndicates   user_syndicates @relation(fields: [user_syndicate_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_board_message_user_syndicate_id")
+  id           Int        @id(map: "board_message_pk") @default(autoincrement())
+  message      String
+  created_date DateTime   @db.Date
+  board_id     Int
+  user_game_id Int
+  boards       boards     @relation(fields: [board_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_board_message_board_id")
+  user_games   user_games @relation(fields: [user_game_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_board_message_user_game_id")
 }
 
 model boards {
   id            Int             @id(map: "board_pk") @default(autoincrement())
   name          String          @db.VarChar(255)
-  syndicate_id  Int             @default(autoincrement())
+  game_id       Int             @default(autoincrement())
   board_message board_message[]
-  syndicates    syndicates      @relation(fields: [syndicate_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_syndicate_board")
+  games         games           @relation(fields: [game_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_games_board")
 }
 
 model flyway_schema_history {
@@ -41,36 +41,26 @@ model flyway_schema_history {
 }
 
 model game_types {
-  id        Int      @id(map: "game_type_pk") @default(autoincrement())
-  name      String   @db.VarChar(255)
-  draw_date DateTime @db.Date
-  reward    Float
-  image     String   @db.VarChar(255)
-  games     games[]
-}
-
-model game_user_syndicates_ticket {
-  id                 Int             @id(map: "game_user_syndicates_ticket_pk") @default(autoincrement())
-  ticket_code        String          @db.VarChar(255)
-  total_reward_value Float
-  ticket_status_id   Int
-  user_syndicate_id  Int
-  game_id            Int
-  games              games           @relation(fields: [game_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_game_game_user_syndicates_ticket")
-  ticket_status      ticket_status   @relation(fields: [ticket_status_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_ticket_type_game_user_syndicates")
-  user_syndicates    user_syndicates @relation(fields: [user_syndicate_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_syndicate_game_user_syndicates_ticket")
+  id          Int      @id(map: "game_type_pk") @default(autoincrement())
+  name        String   @db.VarChar(255)
+  draw_date   DateTime @db.Date
+  reward      Float
+  image       String   @db.VarChar(255)
+  ticket_cost Float
+  games       games[]
 }
 
 model games {
-  id                          Int                           @id(map: "games_pk") @default(autoincrement())
-  maximum_players             Float
-  treasury                    Float
-  user_syndicate_id           Int
-  game_type_id                Int
-  game_user_syndicates_ticket game_user_syndicates_ticket[]
-  game_types                  game_types                    @relation(fields: [game_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_games_games_types")
-  user_syndicates             user_syndicates               @relation(fields: [user_syndicate_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_games_user_syndicate_id")
-  user_games                  user_games[]
+  id                    Int                     @id(map: "games_pk") @default(autoincrement())
+  maximum_players       Float
+  treasury              Float
+  user_syndicate_id     Int
+  game_type_id          Int
+  boards                boards[]
+  game_user_game_ticket game_user_game_ticket[]
+  game_types            game_types              @relation(fields: [game_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_games_games_types")
+  user_syndicates       user_syndicates         @relation(fields: [user_syndicate_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_games_user_syndicate_id")
+  user_games            user_games[]
 }
 
 model roles {
@@ -86,26 +76,26 @@ model syndicates {
   description            String?
   avatar                 String?                  @db.VarChar(255)
   owner_id               Int
-  boards                 boards[]
   users                  users                    @relation(fields: [owner_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_syndicate_user")
   user_syndicate_reviews user_syndicate_reviews[]
   user_syndicates        user_syndicates[]
 }
 
 model ticket_status {
-  id                          Int                           @id(map: "ticket_type_pk") @default(autoincrement())
-  name                        String                        @db.VarChar(255)
-  game_user_syndicates_ticket game_user_syndicates_ticket[]
+  id                    Int                     @id(map: "ticket_type_pk") @default(autoincrement())
+  name                  String                  @db.VarChar(255)
+  game_user_game_ticket game_user_game_ticket[]
 }
 
 model user_games {
-  id         Int      @id(map: "user_games_pk") @default(autoincrement())
-  start_date DateTime @db.Date
-  deposit    Float
-  game_id    Int
-  user_id    Int
-  games      games    @relation(fields: [game_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_games_game")
-  users      users    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_user_games")
+  id            Int             @id(map: "user_games_pk") @default(autoincrement())
+  start_date    DateTime        @db.Date
+  deposit       Float
+  game_id       Int
+  user_id       Int
+  board_message board_message[]
+  games         games           @relation(fields: [game_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_games_game")
+  users         users           @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_user_games")
 }
 
 model user_syndicate_reviews {
@@ -120,17 +110,15 @@ model user_syndicate_reviews {
 }
 
 model user_syndicates {
-  id                          Int                           @id(map: "user_syndicate_pk") @default(autoincrement())
-  start_date                  DateTime                      @db.Date
-  user_id                     Int
-  syndicate_id                Int
-  role_id                     Int
-  board_message               board_message[]
-  game_user_syndicates_ticket game_user_syndicates_ticket[]
-  games                       games[]
-  roles                       roles                         @relation(fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_role_user_syndicates")
-  syndicates                  syndicates                    @relation(fields: [syndicate_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_syndicates_syndicates")
-  users                       users                         @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_user_syndicates")
+  id           Int        @id(map: "user_syndicate_pk") @default(autoincrement())
+  start_date   DateTime   @db.Date
+  user_id      Int
+  syndicate_id Int
+  role_id      Int
+  games        games[]
+  roles        roles      @relation(fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_role_user_syndicates")
+  syndicates   syndicates @relation(fields: [syndicate_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_syndicates_syndicates")
+  users        users      @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_user_syndicates")
 }
 
 model users {
@@ -144,4 +132,14 @@ model users {
   user_games             user_games[]
   user_syndicate_reviews user_syndicate_reviews[]
   user_syndicates        user_syndicates[]
+}
+
+model game_user_game_ticket {
+  id                 Int           @id(map: "game_user_syndicates_ticket_pk") @default(autoincrement())
+  ticket_code        String        @db.VarChar(255)
+  total_reward_value Float
+  ticket_status_id   Int
+  game_id            Int
+  games              games         @relation(fields: [game_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_game_game_user_syndicates_ticket")
+  ticket_status      ticket_status @relation(fields: [ticket_status_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_ticket_type_game_user_syndicates")
 }

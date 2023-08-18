@@ -22,17 +22,18 @@ return response.data;
     console.error("There was an error")
     return null
   }
-}
-const createNewBoard = async (name: any, syndicateId: number ) => {
+};
+const createNewBoard = async ( gameId: number ) => {
 
   const boardData = {
-    name: name,
-    syndicateId: syndicateId
+    name: "new game board",
+
    
   };
 
+
     
-    const response = await axios.post(`/boards/create/syndicates/${syndicateId}`, boardData);
+    const response = await axios.post(`/boards/create/games/${gameId}`, boardData);
     return response.data;
 
 };
@@ -43,4 +44,13 @@ const updateUserRole = async (userSyndicateId: number, roleId: number)=>{
   const response = await axios.put(`/userSyndicates/updateRole/${userSyndicateId}`,updateData);
   return response.data
 }
-export {updateUserRole, createNewBoard, fetchBoardsBySyndicateId, fetchUserRelationship}
+
+
+const updateBoards = async(boardId: number, name: string) =>{
+  const updateData = {
+   name: name
+  }
+  const response = await axios.put(`boards/update/${boardId}`,updateData)
+  return response.data;
+}
+export {updateBoards,updateUserRole, createNewBoard, fetchBoardsBySyndicateId, fetchUserRelationship}

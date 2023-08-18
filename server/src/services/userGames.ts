@@ -270,7 +270,12 @@ async function getGamesByGameId(gameId: number){
             id: true,
             maximum_players: true,
             treasury: true,
-            game_type_id: true,
+            game_types:{
+              select:{
+id:true,
+name: true
+              }
+            },
             user_syndicates: {
               select: {
                 start_date: true,
@@ -305,12 +310,12 @@ async function getGamesByGameId(gameId: number){
       deposit: x.deposit,
       userId: x.user_id,
       games: {
-        id: x.games.id,
-        maximumPlayers: x.games.maximum_players,
-        treasury: x.games.treasury,
-        gameType:{
-          id: x.games.gameType.id,
-          name:x.games.gameType.name
+        id: x?.games?.id,
+        maximumPlayers: x?.games?.maximum_players,
+        treasury: x?.games?.treasury,
+        gameTypes:{
+          id: x?.games?.gameTypes?.id,
+          name:x.games?.gameTypes?.name
         },
         userSyndicates: {
           startDate: x.games.user_syndicates.start_date,

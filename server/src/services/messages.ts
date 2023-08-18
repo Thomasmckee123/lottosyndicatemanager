@@ -12,9 +12,10 @@ const getAll = async () => {
           name: true
         }
       },
-      user_syndicates: {
+      user_games: {
         select: {
           id: true,
+          deposit: true,
           users: {
             select: {
               id: true,
@@ -26,53 +27,36 @@ const getAll = async () => {
       }
     }
   });
-  const modifiedMessages: IMessages[] = allMessages.map(
-    (x: {       
-       id: number;
-      message: string;
-      created_date: Date;
-      boards:{
-              id: number; 
-              name: string;
-          },
-      user_syndicates:{
-          id: number;
-          users:{
-          id: number;
-          first_name: string;
-          last_name:string;
-          },
-      },
-    }) => ({
-      id: x.id,
-      message: x.message,
-      createdDate:x.created_date,
-      boards:{
-        
-              id: x.boards.id, 
-              name: x.boards.name,
 
-          },
-      userSyndicates:{
-          id: x.user_syndicates.id,
-          users:{
-          id: x.user_syndicates.users.id,
-          firstName: x.user_syndicates.users.first_name,
-          lastName:x.user_syndicates.users.last_name,
-          }}}))
+  const modifiedMessages: IMessages[] = allMessages.map((x: any) => ({
+    id: x.id,
+    message: x.message,
+    createdDate: x.created_date,
+    boards: {
+      id: x.boards.id, 
+      name: x.boards.name,
+    },
+    userGames: {
+      id: x.user_games.id,
+      deposit: x.user_games.deposit,
+      users: {
+        id: x.user_games.users.id,
+        firstName: x.user_games.users.first_name,
+        lastName: x.user_games.users.last_name,
+      }
+    }
+  }));
 
-
-  const filteredMessages = modifiedMessages?.filter((message) => message.message !== "deleted");
+  const filteredMessages = modifiedMessages.filter((message) => message.message !== "deleted");
 
   return filteredMessages;
 };
-
 
   
   async function getMessagesByBoardsId(boardsId: number) {
     let messagesByBoardsId;
   
-    try {
+    
       messagesByBoardsId = await prisma.board_message.findMany({
         where: {
           board_id: boardsId,
@@ -86,9 +70,10 @@ const getAll = async () => {
               name: true
             }
           },
-          user_syndicates: {
+          user_games: {
             select: {
               id: true,
+              deposit: true,
               users: {
                 select: {
                   id: true,
@@ -97,50 +82,33 @@ const getAll = async () => {
                 }
               }
             }
-          }}
+          }
+        }
       });
-      
-
-    } catch (error) {
-      throw Error("Cannot get messages by board id", error);
-    }const modifiedMessages: IMessages[] = messagesByBoardsId.map(
-    (x: {       
-       id: number;
-      message: string;
-      created_date: Date;
-      boards:{
-              id: number; 
-              name: string;
-          },
-      user_syndicates:{
-          id: number;
-          users:{
-          id: number;
-          first_name: string;
-          last_name:string;
-          },
-      },
-    }) => ({
-      id: x.id,
-      message: x.message,
-      createdDate:x.created_date,
-      boards:{
-        
-              id: x.boards.id, 
-              name: x.boards.name,
-
-          },
-      userSyndicates:{
-          id: x.user_syndicates.id,
-          users:{
-          id: x.user_syndicates.users.id,
-          firstName: x.user_syndicates.users.first_name,
-          lastName:x.user_syndicates.users.last_name,
-          }}}))
-    const filteredMessages = modifiedMessages?.filter((message) => message.message !== "DELETED");
-
-    return filteredMessages;
-  }
+    
+      const modifiedMessages: IMessages[] = messagesByBoardsId.map((x: any) => ({
+        id: x.id,
+        message: x.message,
+        createdDate: x.created_date,
+        boards: {
+          id: x.boards.id, 
+          name: x.boards.name,
+        },
+        userGames: {
+          id: x.user_games.id,
+          deposit: x.user_games.deposit,
+          users: {
+            id: x.user_games.users.id,
+            firstName: x.user_games.users.first_name,
+            lastName: x.user_games.users.last_name,
+          }
+        }
+      }));
+    
+      const filteredMessages = modifiedMessages.filter((message) => message.message !== "deleted");
+    
+      return filteredMessages;
+    };
   //creating a new message in a board
 
 
@@ -154,7 +122,7 @@ async function createMessageInBoard(message: any) {
    message: message.message,
    created_date: message.createdDate,
    board_id: message.boardId,
-   user_syndicate_id: message.userSyndicateId,
+   user_game_id: message.userGameId,
  
     },
   });
@@ -187,7 +155,7 @@ const game = await prisma.games.findUnique({
               message: message.message,
               created_date: message.createdDate,
                 board_id: message.boardId,
-                user_syndicate_id: message.userSyndicateId,
+                user_game_id: message.userGameId,
             },
         });
 

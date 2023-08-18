@@ -3,7 +3,7 @@ import { ITicket } from "../interfaces";
 
 //getting all tickets
 const getAll = async () => {
-    const allTickets = await prisma.game_user_syndicates_ticket.findMany({
+    const allTickets = await prisma.game_user_game_ticket.findMany({
     select:{
         id: true,
         ticket_code: true,
@@ -13,117 +13,165 @@ const getAll = async () => {
                 id: true,
                 name: true,
             },
-        },user_syndicates:{
-            select:{
-                id: true, 
-                users:{
-                    select:{
-                        id: true,
-                        first_name: true,
-                        last_name: true,
-                    },
-                },
-     
-            },  
+        
         },
-        game_id: true
+        games:{ select:{
+          id: true,
+        treasury: true,
+        game_types:{
+         select:{
+         id: true,
+         name: true,
+         draw_date: true,
+         reward: true,
+         image: true,}
+        },
+         user_syndicates:{
+           select:{
+             start_date: true,
+             users:{
+               select:{
+                 id: true,
+                 first_name: true,
+                 last_name: true,
+                 email: true,  
+                 balance:true
+               }}}}}
 
 
     }
   
-    }); 
-    const alteredTickets: ITicket[] = allTickets.map((x: { id: number; ticket_code: string; total_reward_value: number; ticket_status: {id: number; name: string;},user_syndicates:{id: number; users:{id:number; first_name:string; last_name: string}}, game_id: number }) => ({
+  }}); 
+    const alteredTickets: ITicket[] = allTickets.map(x => ({
       id: x.id,
-    ticketCode: x.ticket_code,
-    totalRewardValue: x.total_reward_value,
-    ticketStatus: {  
-        id: x.ticket_status.id,
-        name: x.ticket_status.name
-    },userSyndicates:{
-      id:x.user_syndicates.id,
-      users:{
-      id: x.user_syndicates.users.id,
-      firstName: x.user_syndicates.users.first_name,
-      lastName: x.user_syndicates.users.last_name
+      ticketCode: x.ticket_code,
+      totalRewardValue: x.total_reward_value,
+      ticketStatus: {
+          id: x.ticket_status.id,
+          name: x.ticket_status.name
+      },games:{
+      id: x.games.id,
+      treasury: x.games.treasury,
+      gameTypes: {
+          id: x.games.game_types.id,
+          name: x.games.game_types.name,
+          drawDate: x.games.game_types.draw_date,
+          reward: x.games.game_types.reward,
+          image: x.games.game_types.image
+      },
+      userSyndicates: {
+          startDate: x.games.user_syndicates.start_date,
+          users: {
+              id: x.games.user_syndicates.users.id,
+              firstName: x.games.user_syndicates.users.first_name,
+              lastName: x.games.user_syndicates.users.last_name,
+              email: x.games.user_syndicates.users.email,
+              balance: x.games.user_syndicates.users.balance
+          }
       }
-    }, 
-    gameId: x.game_id
-}));
-    const filteredTickets = alteredTickets?.filter((ticket) => ticket.userSyndicates.users.firstName !== "DELETEDUSER");
-
-     return filteredTickets;
-  };
-
+  }}));
+  
+  const filteredTickets = alteredTickets.filter(ticket => ticket.games.userSyndicates.users.firstName !== "DELETEDUSER");
+  
+  return filteredTickets;
+}
   //geting tickets of a particular game Id
 
   async function ticketsByGameId(gameId: number) {
     let ticketsByGameId ;
   
     try {
-      ticketsByGameId = await prisma.game_user_syndicates_ticket.findMany({
+      ticketsByGameId = await prisma.game_user_game_ticket.findMany({
         where: {
-          game_id: gameId,
-        },    select:{
-          id: true,
-          ticket_code: true,
-          total_reward_value: true,
-          ticket_status:{
-              select:{
-                  id: true,
-                  name: true,
-              },
-          },user_syndicates:{
-              select:{
-                  id: true, 
-                  users:{
-                      select:{
-                          id: true,
-                          first_name: true,
-                          last_name: true,
-                      },
-                  },
-       
-              },  
+          games:{
+            id : gameId
           },
-          game_id: true
-  
-  
-      }
-      });
-
-    } catch (error) {
-      throw Error("Cannot get messages by game id", error);
-    }
-        const alteredTickets: ITicket[] =  ticketsByGameId .map((x: { id: number; ticket_code: string; total_reward_value: number; ticket_status: {id: number; name: string;},user_syndicates:{id: number; users:{id:number; first_name:string; last_name: string}}, game_id: number }) => ({
-        id: x.id,
-      ticketCode: x.ticket_code,
-      totalRewardValue: x.total_reward_value,
-      ticketStatus: {  
-          id: x.ticket_status.id,
-          name: x.ticket_status.name
-      },userSyndicates:{
-        id:x.user_syndicates.id,
-        users:{
-        id: x.user_syndicates.users.id,
-        firstName: x.user_syndicates.users.first_name,
-        lastName: x.user_syndicates.users.last_name
+        },   
+          select:{
+            id: true,
+            ticket_code: true,
+            total_reward_value: true,
+            ticket_status:{
+                select:{
+                    id: true,
+                    name: true,
+                },
+            
+            },
+            games:{ select:{
+              id: true,
+            treasury: true,
+            game_types:{
+             select:{
+             id: true,
+             name: true,
+             draw_date: true,
+             reward: true,
+             image: true,}
+            },
+             user_syndicates:{
+               select:{
+                 start_date: true,
+                 users:{
+                   select:{
+                     id: true,
+                     first_name: true,
+                     last_name: true,
+                     email: true,  
+                     balance:true
+                   }}}}}
+    
+    
         }
-      }, 
-      gameId: x.game_id
-  }));
-    return alteredTickets;
+          }
+      }); 
+        const alteredTickets: ITicket[] = ticketsByGameId.map(x => ({
+          id: x.id,
+          ticketCode: x.ticket_code,
+          totalRewardValue: x.total_reward_value,
+          ticketStatus: {
+              id: x.ticket_status.id,
+              name: x.ticket_status.name
+          },games:{
+          id: x.games.id,
+          treasury: x.games.treasury,
+          gameTypes: {
+              id: x.games.game_types.id,
+              name: x.games.game_types.name,
+              drawDate: x.games.game_types.draw_date,
+              reward: x.games.game_types.reward,
+              image: x.games.game_types.image
+          },
+          userSyndicates: {
+              startDate: x.games.user_syndicates.start_date,
+              users: {
+                  id: x.games.user_syndicates.users.id,
+                  firstName: x.games.user_syndicates.users.first_name,
+                  lastName: x.games.user_syndicates.users.last_name,
+                  email: x.games.user_syndicates.users.email,
+                  balance: x.games.user_syndicates.users.balance
+              }
+          }
+      }}));
+      
+      const filteredTickets = alteredTickets.filter(ticket => ticket.games.userSyndicates.users.firstName !== "DELETEDUSER");
+      
+      return filteredTickets;
+    }catch(error){
+      console.error(error)
+    }
   }
+
   
-  async function createTicketsByGameAndUserSyndicateId(ticket: any) {
+  async function createTicketsByGameId(ticket: any) {
     try {
   
-    const newGame = await prisma.game_user_syndicates_ticket.create({
+    const newGame  = await prisma.game_user_game_ticket.create({
       data: {
     ticket_code: ticket.ticketCode,
     total_reward_value: ticket.totalRewardValue,
     ticket_status_id: ticket.ticketStatusId,
-    user_syndicate_id: ticket.userSyndicateId,
-    game_id: ticket.gameid
+    game_id: ticket.gameId
     
       },
     });
@@ -138,7 +186,7 @@ const getAll = async () => {
   async function updateTickets(ticket: any) {
     let updateTicket;
     try {
-      updateTicket = await prisma.game_user_syndicates_ticket.update({
+      updateTicket = await prisma.game_user_game_ticket.update({
         where: {
           id: ticket.id,
         },
@@ -158,7 +206,7 @@ const getAll = async () => {
     try {
      
           
-      const deletedTicket = await prisma.game_user_syndicates_ticket.delete({
+      const deletedTicket = await prisma.game_user_game_ticket.delete({
         where: {
           id: ticketId
         },
@@ -173,5 +221,5 @@ const getAll = async () => {
   }
   
 
-  const TicketService = {deleteTicketsById, getAll, ticketsByGameId,createTicketsByGameAndUserSyndicateId, updateTickets};
+  const TicketService = {deleteTicketsById, getAll, ticketsByGameId,createTicketsByGameId, updateTickets};
   export {TicketService};

@@ -7,16 +7,29 @@ interface ITicket {
       id: number,
       name: string,
     },
-    userSyndicates: {
-      id: number,
-      users: {
-        id: number,
-        firstName: string,
-        lastName: string,
-      },
+    games:{ 
+      id:number,
+    treasury: number,
+    gameTypes:{
+     
+     id: number,
+     name: string,
+     drawDate: Date,
+     reward: number,
+     image: string,
     },
-    gameId: number,
-  }
+     userSyndicates:{
+      
+         startDate: Date,
+         users:{
+         
+             id: number,
+             firstName: string,
+             lastName: string,
+             email: string,  
+             balance:number
+           }}}}
+
   
 
 export{ITicket};
