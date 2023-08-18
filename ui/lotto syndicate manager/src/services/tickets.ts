@@ -1,18 +1,27 @@
 import axios from "../integrations/instance";
-const createTicket = async (ticketCode: string, syndicateId:number, gameId:number) => {
+const createTicket = async (ticketCode: string, gameId:number) => {
   
   
   const gameData = {
    ticketCode: ticketCode,
     totalRewardValue: 0,
     ticketStatusId: 1,
-   syndicateId: syndicateId,
-   gameId: gameId
   };
 
-      const response = await axios.post(`/tickets/syndicates/${syndicateId}/games/${gameId}`, gameData);
+      const response = await axios.post(`/tickets/games/${gameId}`, gameData);
       return response.data;
   
   };
+  const getTicketsByGameId =async(gameId: number)=>{
+    try{
+let response = await axios(`tickets/games/${gameId}`)
+response.data
+    }catch(error){
+        console.error("error getting the tickets",error)
+        
+    }
+}
 
-  export {createTicket}
+
+export{getTicketsByGameId,createTicket}
+  

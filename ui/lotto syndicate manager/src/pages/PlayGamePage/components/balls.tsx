@@ -1,24 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Typography, Button, Paper, List, ListItem, Container } from '@mui/material';
+import { getTicketsByGameId } from '../../../services/ticket';
 
-interface Props {}
 
-interface BallSelection {
-  ballNumber: number;
-  selectedNumbers: number[];
-}
+const SelectedNumbers:any = ({gameId}: any) => {
 
-const SelectedNumbers: React.FC<Props> = () => {
-  const [groupSelections, setGroupSelections] = useState<BallSelection[]>([]);
 
-  // For demonstration
-  const addDummyData = () => {
-    setGroupSelections([
-      { ballNumber: 1, selectedNumbers: [4, 23, 56] },
-      { ballNumber: 2, selectedNumbers: [7, 12, 42, 68] },
-      { ballNumber: 3, selectedNumbers: [9, 14, 48, 57, 85] }
-    ]);
-  };
+const [data, setData] = useState<any>([]);
+
+useEffect(()=>{
+    console.log(gameId)
+    getTicketsByGameId(Number(gameId)).then((response)=>setData(Array(response)));
+    
+    }, [gameId])
 
   return (
     <Container maxWidth="sm">
@@ -26,21 +20,18 @@ const SelectedNumbers: React.FC<Props> = () => {
         Selected Numbers
       </Typography>
 
-      <Button variant="contained" color="primary" onClick={addDummyData} style={{ marginBottom: '20px' }}>
-        Load Dummy Data
-      </Button>
-
-      {groupSelections.map((selection) => (
-        <Paper key={selection.ballNumber} style={{ padding: '20px', marginBottom: '20px' }}>
+      
+      {data.map((item: any) => (
+        <Paper key={item?.TicketCode} style={{ padding: '20px', marginBottom: '20px' }}>
           <Typography variant="h6" gutterBottom>
-            Ball {selection.ballNumber}
+            Ball {item?.ticketCode}
           </Typography>
           <List>
-            {selection.selectedNumbers.map((num) => (
-              <ListItem key={num}>
-                <Typography variant="body1">{num}</Typography>
+          
+              <ListItem key={item?.id}>
+                <Typography variant="body1">{item?.games?.gameTypes?.name}</Typography>
               </ListItem>
-            ))}
+            
           </List>
         </Paper>
       ))}

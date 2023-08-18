@@ -249,8 +249,8 @@ if(numberOfDropdowns != undefined){
 
       {
   (data?.gameTypes?.id !== 4 && data?.gameTypes?.id !== 5) 
-    ? <RegularNumbers numbers={[1, 2, 3, 4, 5]} />
-    : <SelectedNumbers />
+    ? <RegularNumbers gameId={gameId} />
+    : <SelectedNumbers gameId={gameId}/>
 }
 
     </Box>  
