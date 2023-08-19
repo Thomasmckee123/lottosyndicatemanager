@@ -111,8 +111,8 @@ TicketRouter.post(/**
 
 "/games/:gameId(\\d+)",[
     
-    body("total_reward_value").isNumeric().isLength({ min: 0 }).trim(),
-    body("ticket_status_id").isNumeric().isLength({min: 1}).trim(),
+    body("totalRewardValue").isNumeric(),
+    body("ticketStatusId").isNumeric().isLength({min: 1}).trim(),
   ],resolver, TicketController.createTickets);
 TicketRouter.put( /**
 * @swagger

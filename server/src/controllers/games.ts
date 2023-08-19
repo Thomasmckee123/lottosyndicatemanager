@@ -10,9 +10,24 @@ const getAllGames = async (req: Request, res: Response) => {
 const getGamesById = async (req: Request, res: Response)=>{
   const { gameId } = req.params;
 
-  const game= await GameService.getGamesByGameId(Number(gameId));
+  const game = await GameService.getGamesByGameId(Number(gameId));
   return !game ? res.sendStatus(404) : res.status(200).json(game);
+};
+
+
+const getArchivedGames = async(req: Request, res: Response)=>{
+  const {userId} = req.params
+  const archive = await GameService.archivedGames(Number(userId));
+  if (!archive) {
+    return res.sendStatus(404);
 }
+return res.status(200).json(archive);
+
+}
+
+
+
+
 async function createGames(req: Request, res: Response) {
   try {
   
@@ -22,6 +37,8 @@ const newGames = {
   gameTypeId:Number(req.params.gameTypesId)
   
 }
+
+
   
     const createdGame = await GameService.createGameInSyndicate(newGames);
     return res.status(200).json(createdGame);
@@ -48,7 +65,8 @@ async function getGamesBySyndicateId(req: Request, res: Response) {
 async function getGamesByTypeId(req: Request, res: Response) {
   try {
     const gameTypeId = Number(req.params["gameTypeId"]);
-    const games = await GameService.getGamesByTypeId(gameTypeId);
+    const syndicateId = Number(req.params["syndicateId"]);
+    const games = await GameService.getGamesByTypeId(gameTypeId, syndicateId);
     if(isNaN(gameTypeId)){
       return res.status(400);
     }
@@ -104,5 +122,5 @@ async function deleteGameById(req: Request, res: Response) {
   return res.status(200).json(deletedGame);
 }
 
-const GameController = {archiveGame,getGamesByTypeId,getGamesById, getGamesBySyndicateId, getAllGames, createGames, UpdateGame, deleteGameById};
+const GameController = {getArchivedGames,archiveGame,getGamesByTypeId,getGamesById, getGamesBySyndicateId, getAllGames, createGames, UpdateGame, deleteGameById};
 export {GameController};

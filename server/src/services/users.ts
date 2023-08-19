@@ -9,6 +9,7 @@ const getAll = async () => {
       first_name: true,
       last_name: true,
       email: true,
+      image: true,
       balance: true,
     },
   });
@@ -19,6 +20,7 @@ const getAll = async () => {
       firstName: x.first_name,
       lastName: x.last_name,
       email: x.email,
+      image: x.image,
       balance: Number(x.balance)
     }));
   return getAllUsers;
@@ -37,6 +39,7 @@ const getAll = async () => {
         first_name: true,
         last_name: true,
         email: true,
+        image: true,
         balance:true,
       },
     });
@@ -45,6 +48,7 @@ const getAll = async () => {
     firstName: usersById?.first_name ?? "",
     lastName: usersById?.last_name??"",
     email: usersById?.email??"",
+    image: usersById?.image??"",
     balance: Number(usersById?.balance),
     };
     if(!returnedValue){
@@ -70,6 +74,7 @@ const getAll = async () => {
         last_name: user.lastName,
         email: user.email,
         password: hashedPassword,
+        image: user.image,
         balance: 0
       },
     });
@@ -93,6 +98,7 @@ const getAll = async () => {
         data: {
           first_name: user.firstName,
           last_name: user.lastName,
+          image:user.image,
           email: user.email,
         },
       });
@@ -120,6 +126,7 @@ const getAll = async () => {
         first_name: true,
         last_name: true,
         email: true,
+        image: true,
         password: true,
         balance: true,
       },
@@ -132,6 +139,7 @@ const getAll = async () => {
       firstName: x.first_name,
       lastName: x.last_name,
       email: x.email,
+      image: x.image,
       balance: Number(x.balance)
     }));  
     return getAllUsers && getAllUsers.length>0 && users[0];

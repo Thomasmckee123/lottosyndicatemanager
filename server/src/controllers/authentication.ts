@@ -13,7 +13,7 @@ const authenticate = async (req: Request, res: Response) => {
   } catch (err) {
     res
       .status(StatusCodes.UNAUTHORIZED)
-      .json('Could not authenticate the user');
+      .json(err.message || 'Could not authenticate user');
   }
 };
 

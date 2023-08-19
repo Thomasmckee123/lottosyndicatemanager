@@ -1,7 +1,7 @@
-INSERT INTO users (first_name, last_name, password, email,balance) VALUES 
-('John', 'Doe', 'h4x0r123', 'JohnDoe@Gmail.com',0),
-('Jane', 'Smith', 'al0ha123', 'JaneSmith@Gmail.com',0),
-('Charlie', 'Brown', 'peanut123', 'CharlieBrown@Gmail.com',0);
+INSERT INTO users (first_name, last_name, image, password, email,balance) VALUES 
+('John', 'Doe', 'image','h4x0r123', 'JohnDoe@Gmail.com',0),
+('Jane', 'Smith', 'image','al0ha123', 'JaneSmith@Gmail.com',0),
+('Charlie', 'Brown', 'image','peanut123', 'CharlieBrown@Gmail.com',0);
 
 INSERT INTO syndicates (created_date, name, description, avatar, owner_id) VALUES 
 ('2023-07-10', 'The Thunderbolts', 'For those who strike like lightning!', 'thunderbolts.jpg', 1),
@@ -11,7 +11,8 @@ INSERT INTO syndicates (created_date, name, description, avatar, owner_id) VALUE
 INSERT INTO roles (name) VALUES 
 ('Leader'),
 ('Member'),
-('Moderator');
+('Moderator'),
+('buyer');
 
 INSERT INTO user_syndicates (start_date, user_id, syndicate_id, role_id) VALUES 
 ('2023-07-13', 1, 1, 1),
@@ -39,8 +40,8 @@ INSERT INTO ticket_status (name) VALUES
 ('win'),
 ('loss'),
 ('pending');
-INSERT INTO user_games (deposit, start_date, game_id, user_id)
-VALUES(0,'2023-07-21', 1, 1);
+INSERT INTO user_games (deposit, start_date, role_id, game_id, user_id)
+VALUES(0,'2023-07-21',3, 1, 1);
 INSERT INTO game_user_game_ticket (ticket_code, total_reward_value, ticket_status_id, game_id) VALUES
 ('123456', 0, 3,  1),
 ('234567', 0, 3,  2),

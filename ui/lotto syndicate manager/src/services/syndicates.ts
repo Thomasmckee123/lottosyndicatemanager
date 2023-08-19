@@ -27,7 +27,14 @@ const fetchAllSyndicateData = async () => {
   }
 };
 
-
+const fetchSyndicateByName = async(name: string)=>{
+  try{
+const response = await axios.get(`syndicates/name/${name}`)
+return response.data;
+  }catch(error){
+    console.error("error fetching syndicate by name")
+  }
+}
 //getting the homepage syndicate data
 
 const fetchHomePageSyndicateData = async (userId: number) => {
@@ -42,6 +49,8 @@ const fetchHomePageSyndicateData = async (userId: number) => {
 // Create Syndicate
 
 
+
+export default fetchAllSyndicateData
 // Update createSyndicate function to handle file
 const createSyndicate = async (name: any, description: any, file:any, ownerId:number) => {
 
@@ -73,4 +82,4 @@ const createUserSyndicate = async (startDate: Date, userId: number, syndicateId:
 
 
 
-export { createUserSyndicate,fetchHomePageSyndicateData, createSyndicate, fetchAllSyndicateData, fetchInsideUserSyndicateData};
+export {fetchSyndicateByName,createUserSyndicate,fetchHomePageSyndicateData, createSyndicate, fetchAllSyndicateData, fetchInsideUserSyndicateData};

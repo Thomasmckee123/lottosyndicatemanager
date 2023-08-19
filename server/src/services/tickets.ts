@@ -24,7 +24,8 @@ const getAll = async () => {
          name: true,
          draw_date: true,
          reward: true,
-         image: true,}
+         image: true,
+        ticket_cost:true}
         },
          user_syndicates:{
            select:{
@@ -57,7 +58,8 @@ const getAll = async () => {
           name: x.games.game_types.name,
           drawDate: x.games.game_types.draw_date,
           reward: x.games.game_types.reward,
-          image: x.games.game_types.image
+          image: x.games.game_types.image,
+          ticketCost: x.games.game_types.ticket_cost
       },
       userSyndicates: {
           startDate: x.games.user_syndicates.start_date,
@@ -107,7 +109,8 @@ const getAll = async () => {
              name: true,
              draw_date: true,
              reward: true,
-             image: true,}
+             image: true,
+            ticket_cost:true}
             },
              user_syndicates:{
                select:{
@@ -140,7 +143,8 @@ const getAll = async () => {
               name: x.games.game_types.name,
               drawDate: x.games.game_types.draw_date,
               reward: x.games.game_types.reward,
-              image: x.games.game_types.image
+              image: x.games.game_types.image,
+              ticketCost:x.games.game_types.ticket_cost
           },
           userSyndicates: {
               startDate: x.games.user_syndicates.start_date,

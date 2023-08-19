@@ -51,6 +51,65 @@ const getAll = async () => {
     return filteredSyndicates;
 
 };
+
+const getSyndicateByName = async(name :string)=>{
+  
+  const syndicatesByName = await prisma.syndicates.findMany({
+  where: {
+    name: {
+      contains: name
+    }
+  },
+   select: {
+      id: true,
+      created_date: true,
+      name: true,
+      description: true,
+      avatar: true,
+      owner_id: true,
+      users: {
+        select: {
+          id: true,
+          first_name: true,
+          last_name: true,
+        },
+      },
+    },
+  });
+  const modifiedSyndicate: ISyndicate[] = syndicatesByName.map(
+    (x: {
+      id: number;
+      created_date: Date;
+      name: string;
+      description: string | null;
+      avatar: string | null;
+      owner_id: number;
+      users: {
+        id: number;
+        first_name: string;
+        last_name: string;
+      };
+    }) => ({
+      id: x.id,
+      createdDate: x.created_date,
+      name: x.name,
+      description: x.description,
+      avatar: x.avatar,
+      ownerId: x.owner_id,
+      users: {
+        id: x.users.id,
+        firstName: x.users.first_name,
+        lastName: x.users.last_name,
+}})
+  );
+
+  const filteredSyndicates = modifiedSyndicate?.filter((syndicate) => syndicate.name !== "DELETED")
+  return filteredSyndicates;
+
+};
+
+
+
 const getSyndicateById = async (syndicateId: number) => {
    
   
@@ -156,5 +215,5 @@ async function updateSyndicateDetails(syndicate: any) {
     }
     return deletedSyndicate;
   }
-  const SyndicateService = {getSyndicateById, deleteSyndicateById, getAll, createSyndicate,updateSyndicateDetails};
+  const SyndicateService = {getSyndicateByName,getSyndicateById, deleteSyndicateById, getAll, createSyndicate,updateSyndicateDetails};
   export {SyndicateService};

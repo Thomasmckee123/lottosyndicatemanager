@@ -12,8 +12,8 @@ const joinGame= async (startDate: Date, deposit: number, gameId: number, userId:
       startDate: startDate,
       deposit: Number(deposit),
       gameId: Number(gameId),
-      userId: Number(userId)
-  
+      userId: Number(userId),
+      roleId: 3
     }
     const response = await axios.post(`userGames/createUserGame/games/${gameId}/users/${userId}`,createUserGame)
     return response.data

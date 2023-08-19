@@ -14,13 +14,13 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { NavigationRoutes } from "../../constants";
 import { Link, useLocation } from "react-router-dom";
-import ViewSyndicates from "../../pages/ViewAllSyndicatesPage";
-import insideSyndicate from "../../pages/insideSyndicatePage/Index";
+
 const pages = [
   { title: "Home", path: NavigationRoutes.HOME },
   { title: "About", path: NavigationRoutes.ABOUT },
   { title: "account", path: NavigationRoutes.ACCOUNT },
   { title: "View Syndicates", path: NavigationRoutes.VIEWSYDICATES },
+  { title: "log out", path: NavigationRoutes.LOGIN },
 ];
 const NonTopBarPages = [
   { title: "Create Syndicate", path: NavigationRoutes.CREATESYNDICATE },

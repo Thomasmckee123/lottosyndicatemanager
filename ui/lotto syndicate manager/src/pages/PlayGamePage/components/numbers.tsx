@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { fetchGamesByTypeID } from '../../../services/games';
-import { getTicketsByGameId } from '../../../services/ticket';
+import React, { useEffect, useState } from "react";
+import { fetchGamesByTypeID } from "../../../services/games";
+import { getTicketsByGameId } from "../../../services/tickets";
 
+const RegularNumbers: any = ({ gameId }: any) => {
+  const [data, setData] = useState<any[]>([]);
 
-const RegularNumbers: any = ({ gameId}: any) => {
-    const [data, setData] = useState<any[]>([]);
-
-useEffect(()=>{
-    console.log("GAME ID",gameId)
-getTicketsByGameId(Number(gameId)).then((response: any)=>setData(Array(response)));
-console.log("RESPONSE", data)
-
-}, [gameId])
+  useEffect(() => {
+    console.log("GAME ID", gameId);
+    getTicketsByGameId(Number(gameId)).then((response: any) =>
+      setData(Array(response))
+    );
+    console.log("RESPONSE", data);
+  }, [gameId]);
   return (
     <div>
       <h1>Game Numbers</h1>
@@ -22,6 +22,6 @@ console.log("RESPONSE", data)
       </ul>
     </div>
   );
-}
+};
 
 export default RegularNumbers;

@@ -24,7 +24,7 @@ SyndicatesRouter.get("/"/**
 */
 , SyndicateController.getAllSyndicates);
 SyndicatesRouter.get("/:syndicateId(\\d+)", SyndicateController.getSyndicatesById); 
-
+SyndicatesRouter.get("/name/:name", SyndicateController.getSyndicateByName);
 
 
 SyndicatesRouter.post(/**

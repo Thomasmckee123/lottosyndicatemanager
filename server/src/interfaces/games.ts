@@ -10,7 +10,8 @@ interface IGames {
         name: string;
         drawDate: Date;
         reward: number;
-        image: string,
+        image: string;
+        ticketCost: number;
       },
     userSyndicates: {
       startDate: Date;
@@ -35,6 +36,7 @@ interface IGameTypes{
     drawDate: Date;
     reward: number;
     image: string;
+    ticketCost:number;
 }
 
 export{IGames, IGameTypes};

@@ -7,7 +7,7 @@ async function createUser(req: Request, res: Response) {
       const createdUser = await UserService.createUser(newUser);
       return res.status(200).json(createdUser);
     } catch (error) {
-      res.status(500).json("Could not create user.");
+      res.status(500).json(error);
     }
   }
 

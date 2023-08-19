@@ -2,6 +2,7 @@ interface IUserGames {
     id: number;
     startDate:Date,
     deposit: number,
+    roleId: number,
     userId:number,
     games:{
         id: number,

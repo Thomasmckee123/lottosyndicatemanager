@@ -8,7 +8,7 @@ import {
   Typography,
   Button,
 } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   createUserSyndicate,
   fetchAllSyndicateData,
@@ -16,6 +16,7 @@ import {
   fetchInsideUserSyndicateData,
 } from "../../../services/syndicates";
 import TokenUtils from "../../../integrations/token";
+import { NavigationRoutes } from "../../../constants";
 
 function CoverImage() {
   const roleId = 2;
@@ -100,9 +101,13 @@ function CoverImage() {
         <Typography variant="body2" color="red">
           {joinedMessage}
         </Typography>
-        <Button size="small" color="primary">
-          Reviews
-        </Button>
+        <Link
+          to={NavigationRoutes.REVIEW.replace(`:syndicateId`, `${syndicateId}`)}
+        >
+          <Button size="small" color="primary">
+            Reviews
+          </Button>
+        </Link>
       </CardActions>
     </Card>
   );

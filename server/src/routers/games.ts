@@ -21,8 +21,9 @@ GamesRouter.get("/"/**
 *             schema:
 *               type: array
 */, GameController.getAllGames);
-GamesRouter.get('/gameTypes/:gameTypeId',GameController.getGamesByTypeId)
+GamesRouter.get('/gameTypes/:gameTypeId/syndicates/:syndicateId',GameController.getGamesByTypeId)
 GamesRouter.get("/syndicate/:syndicateId", GameController.getGamesBySyndicateId);
+GamesRouter.get("/archivedGames/:userId", GameController.getArchivedGames);
 GamesRouter.post(/**
 * @swagger
 * api/games/create/syndicates/{id}:
@@ -116,7 +117,7 @@ GamesRouter.put( /**
 //   ], resolver, 
   GameController.UpdateGame);
 
-  GamesRouter.get('/:gameId', GameController.getGamesById)
+ GamesRouter.get('/:gameId', GameController.getGamesById)
 GamesRouter.delete(/**
 * @swagger
 * /api/boards/delete/{boardId}:

@@ -12,6 +12,7 @@ const getAll = async () => {
                 draw_date: true,
                 reward: true,
                 image: true,
+                ticket_cost:true,
             }
         });
         
@@ -20,7 +21,8 @@ const getAll = async () => {
             name: x.name,
             drawDate: x.draw_date,
             reward: x.reward,
-            image: x.image
+            image: x.image,
+            ticketCost:x.ticket_cost
         }));
         const filteredgameTypes = modifiedGameTypes?.filter((modifiedGameTypes) => modifiedGameTypes.name!== "game ended")
         return filteredgameTypes;

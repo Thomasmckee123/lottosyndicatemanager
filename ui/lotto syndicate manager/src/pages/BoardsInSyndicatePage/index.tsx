@@ -67,18 +67,6 @@ function MessageBoardsPage() {
   const handleClose = () => {
     setOpen(false);
   };
-  /**
-   * creating a new board
-   */
-  const handleSubmit = async () => {
-    try {
-      await createNewBoard(boardName, Number(syndicateId)); // Assuming createNewBoard is async
-      setBoardName(""); // You may want to reset the board name after successful creation
-      handleClose();
-    } catch (error) {
-      console.error("Error creating new board:", error);
-    }
-  };
 
   /**
    * promoting/demoting the users
@@ -136,23 +124,17 @@ function MessageBoardsPage() {
         console.error("Error fetching data:", error);
       });
   }, [syndicateId]);
+  let currentUserRank = relationshipData?.roleId;
 
   return (
     <Box sx={{ flexGrow: 1, m: 3 }}>
       <Typography variant="h4" component="div" gutterBottom></Typography>
 
-      {(relationshipData?.roleId == 1 || relationshipData?.roleId == 3) && (
+      {(currentUserRank == 1 || currentUserRank == 2) && (
         <Box mb={3}>
           <Typography variant="h6" component="div" gutterBottom>
             Admin Actions
           </Typography>
-          <Button
-            variant="contained"
-            sx={{ mr: 1, backgroundColor: "darkRed" }}
-            onClick={handleOpen}
-          >
-            Create Board
-          </Button>
           <Button
             variant="contained"
             color="secondary"
@@ -183,40 +165,40 @@ function MessageBoardsPage() {
                 {member.roles.name}
               </Typography>
               <Box>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  sx={{ mx: 1 }}
-                  onClick={() => update(3, Number(member.id))}
-                >
-                  promote
-                </Button>
-
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  sx={{ mx: 1 }}
-                  onClick={() => update(2, Number(member.id))}
-                >
-                  demote
-                </Button>
-                <Button
-                  variant="contained"
-                  color="error"
-                  sx={{ mx: 1 }}
-                  onClick={() => deleteUserSyndicate(Number(member.id))}
-                >
-                  Kick Out
-                </Button>
+                {currentUserRank < member.roles.id && (
+                  <>
+                    <>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        sx={{ mx: 1 }}
+                        onClick={() => update(3, Number(member.id))}
+                      >
+                        Promote
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        sx={{ mx: 1 }}
+                        onClick={() => update(2, Number(member.id))}
+                      >
+                        Demote
+                      </Button>
+                    </>
+                    <Button
+                      variant="contained"
+                      color="error"
+                      sx={{ mx: 1 }}
+                      onClick={() => deleteUserSyndicate(Number(member.id))}
+                    >
+                      Kick Out
+                    </Button>
+                  </>
+                )}
               </Box>
             </Box>
           ))}
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleManageMembersClose} color="primary">
-            Close
-          </Button>
-        </DialogActions>
       </Dialog>
 
       {/* Create Board Dialog */}
@@ -242,15 +224,11 @@ function MessageBoardsPage() {
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleSubmit} color="primary">
-            Create
-          </Button>
+          <Button color="primary">Create</Button>
         </DialogActions>
       </Dialog>
 
-      <Typography variant="h4" component="div" gutterBottom>
-        Message Boards
-      </Typography>
+      <Typography variant="h4" component="div" gutterBottom></Typography>
 
       <Grid container spacing={3}>
         {data &&

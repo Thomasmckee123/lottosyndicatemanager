@@ -34,6 +34,7 @@ import {
   updateTreasury,
 } from "../../../services/depositAndWithdraw";
 import InsufficientFunds from "./insufficientFunds";
+import { fetchUserGamesByGameId } from "../../../services/userGames";
 
 function GameTypes() {
   const { syndicateId, userSyndicateId } = useParams<{
@@ -55,7 +56,7 @@ function GameTypes() {
   const [balanceData, setBalanceData] = useState<any>(null);
   const game = { drawDate: "some date" }; // Sample data
   const [isOver, setIsOver] = useState(false);
-
+  const [joinedMessage, setJoinedMessage] = useState("");
   const jwt = TokenUtils.getJWT();
   const userId = jwt.claims.userId;
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
@@ -168,11 +169,14 @@ function GameTypes() {
       });
   }, []);
 
-  async function  getGames() {
+  async function getGames() {
     if (gameTypeId !== null) {
       setGameData([]); // Clear previous data or set to loading state.
       try {
-        const response = await fetchGamesByTypeID(Number(gameTypeId));
+        const response = await fetchGamesByTypeID(
+          Number(gameTypeId),
+          Number(syndicateId)
+        );
         console.log("Data from API:", response);
         setGameData(response);
         setMaximumPlayers(response[0].maximumPlayers);
@@ -185,48 +189,39 @@ function GameTypes() {
   useEffect(() => {
     console.log("get games", gameTypeId);
     getGames();
- 
+
     // handleMembersInGroupChange(gameId);
   }, [gameTypeId]);
 
+  const handlePlayGame = async (gtId: number) => {
+    setGameTypeId(gtId);
+    console.log("GAME TYPE", gtId, gameTypeId);
+    let newData: any[] = await fetchGamesByTypeID(gtId, Number(syndicateId));
+    let settinggameId;
+    handleOpenDialog();
+    if (newData.length > 0) {
+      console.log("NEW DATA", newData);
+      newData.forEach((item) => {
+        settinggameId = item.id;
+        if (
+          typeof usersPerGame[item.id] === "number" &&
+          item.maximumPlayers &&
+          Number(usersPerGame[item.id]) < Number(item.maximumPlayers)
+        ) {
+          handleJoinGame();
+          setGameId(item.id);
+        } else {
+          setGameTypeId(gtId);
 
-const handlePlayGame = async(gtId : number) =>{
-  setGameTypeId(gtId);
-  console.log("GAME TYPE",gtId, gameTypeId)
- let newData :any[] = await fetchGamesByTypeID(gtId) 
- let settinggameId;
-  handleOpenDialog();
-if(newData.length > 0){
-  console.log("NEW DATA", newData);
- newData.forEach(item => {
-  settinggameId = item.id;
-   if (
-  typeof usersPerGame[item.id] === "number" &&
-  item.maximumPlayers &&
-  Number(usersPerGame[item.id]) < Number(item.maximumPlayers)
-) {
-  handleJoinGame()
-  setGameId(item.id)
-}else{
-  setGameTypeId(gtId)
+          handleCreateNewGame(gtId);
+        }
+      });
+    } else {
+      console.log("ELSE DATA", newData);
 
-  handleCreateNewGame(gtId)
-}
- });
-}else{
-  console.log("ELSE DATA", newData);
-
-  await handleCreateNewGame(gtId)
-
- 
-} 
-}
-
-
-
-
-
-
+      await handleCreateNewGame(gtId);
+    }
+  };
 
   const handleTabClick = (id: number) => {
     console.log("game type id", id);
@@ -288,7 +283,11 @@ if(newData.length > 0){
                 </Typography>
                 <Typography variant="body1" component="p">
                   count down:{" "}
-                  <CountDown drawDate={game.drawDate} gameId={game.id} userSyndicateId={userSyndicateId} />
+                  <CountDown
+                    drawDate={game.drawDate}
+                    gameId={game.id}
+                    userSyndicateId={userSyndicateId}
+                  />
                 </Typography>
               </CardContent>
               <ButtonGroup
@@ -297,8 +296,9 @@ if(newData.length > 0){
                 aria-label="join random group buttons"
               >
                 <Button
-                  onClick={() => {handlePlayGame(Number(game.id))}}
-            
+                  onClick={() => {
+                    handlePlayGame(Number(game.id));
+                  }}
                 >
                   play in random group
                 </Button>
@@ -350,39 +350,49 @@ if(newData.length > 0){
                 onClick={() => {
                   console.log("upg", usersPerGame);
                   console.log("firstGameId" + usersPerGame[game.id]);
-                  if (
-                    typeof usersPerGame[game.id] === "number" &&
-                    game.maximumPlayers &&
-                    Number(usersPerGame[game.id]) < Number(game.maximumPlayers)
-                  ) {
-                    console.log("firstGameId" + game.id);
-                    handleOpenDialog();
-                    setGameId(game.id);
-                    console.log("gameId " + gameId);
-                  } else {
-                    console.error(
-                      "Maximum players reached for this game.",
-                      game
-                    );
-                    setGameTypeId(game.gameTypes.id);
-                    handleCreateNewGame(game.gameTypes.id);
-                    handleOpenDialog();
+                  const userGameExists = fetchUserGamesByGameId(game.id);
 
-                    setGameId(game.id);
-                    console.log(gameId);
+                  if (!userGameExists) {
+                    if (
+                      typeof usersPerGame[game.id] === "number" &&
+                      game.maximumPlayers &&
+                      Number(usersPerGame[game.id]) <
+                        Number(game.maximumPlayers)
+                    ) {
+                      console.log("firstGameId" + game.id);
+                      handleOpenDialog();
+                      setGameId(game.id);
+                      console.log("gameId " + gameId);
+                    } else {
+                      console.error(
+                        "Maximum players reached for this game.",
+                        game
+                      );
+                      setGameTypeId(game.gameTypes.id);
+                      handleCreateNewGame(game.gameTypes.id);
+                      handleOpenDialog();
+
+                      setGameId(game.id);
+                      console.log(gameId);
+                    }
+                  } else {
+                    {
+                      setJoinedMessage(
+                        "you have already joined this game type,"
+                      );
+                    }
                   }
                 }}
               >
                 Join
               </Button>
-
-              
+              {joinedMessage}
             </CardContent>
           </Card>
         </CustomTabPanel>
       ))}
     </>
   );
-              }
+}
 
 export { GameTypes };

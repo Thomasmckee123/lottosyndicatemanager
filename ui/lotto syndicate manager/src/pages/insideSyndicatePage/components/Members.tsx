@@ -14,14 +14,14 @@ function Members({ data }: { data: any }) {
           <React.Fragment>
             <CardContent>
               <Typography sx={{ fontSize: 14 }} color="white" gutterBottom>
-                {data.users.first_name}
+                {data.users.firstName}
               </Typography>
 
               <Typography sx={{ mb: 1.5 }} color="white">
                 role : {data.roles.name}
               </Typography>
               <Typography variant="body2" color="white">
-                start date : {data.start_date}
+                start date : {data.startDate}
               </Typography>
             </CardContent>
             <CardActions>

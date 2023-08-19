@@ -17,6 +17,7 @@ interface ITicket {
      drawDate: Date,
      reward: number,
      image: string,
+     ticketCost: number,
     },
      userSyndicates:{
       

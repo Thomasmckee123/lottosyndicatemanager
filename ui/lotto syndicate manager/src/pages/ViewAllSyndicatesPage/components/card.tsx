@@ -43,7 +43,11 @@ function MediaCard({ data }: { data: any }) {
           </Link>
         </Button>
         <Button size="small">
-          <Link to={NavigationRoutes.REVIEW}>reviews</Link>
+          <Link
+            to={NavigationRoutes.REVIEW.replace(":syndicateId", `${data.id}`)}
+          >
+            reviews
+          </Link>
         </Button>
       </CardActions>
     </Card>

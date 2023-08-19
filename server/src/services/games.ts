@@ -18,7 +18,8 @@ const getAll = async () => {
         name: true,
         draw_date: true,
         reward: true,
-        image: true,}
+        image: true,
+      ticket_cost: true}
        },
         user_syndicates:{
           select:{
@@ -57,7 +58,8 @@ const getAll = async () => {
           name: string;
           draw_date: Date;
           reward: number;
-          image: string,
+          image: string;
+          ticket_cost: number
         }
         user_syndicates: {
           start_date: Date;
@@ -85,6 +87,7 @@ const getAll = async () => {
         drawDate: x.game_types.draw_date,
         reward: x.game_types.reward,
         image: x.game_types.image,
+        ticketCost: x.game_types.ticket_cost
        },
         userSyndicates: {
           startDate:x.user_syndicates.start_date,
@@ -103,7 +106,9 @@ const getAll = async () => {
           }
         }
   }))
-  return modifiedGames;
+  const filteredGames = modifiedGames?.filter((game) =>game.maximumPlayers  !== 0)
+
+  return filteredGames;
 }
  
 
@@ -135,7 +140,8 @@ const getAll = async () => {
             name: true,
             draw_date: true,
             reward: true,
-            image: true,}
+            image: true,
+          ticket_cost:true}
            },
             user_syndicates:{
               select:{
@@ -174,6 +180,7 @@ const getAll = async () => {
             drawDate: gamesById?.game_types?.draw_date,
             reward: Number(gamesById?.game_types?.reward),
             image: gamesById?.game_types?.image,
+            ticketCost: gamesById?.game_types?.ticket_cost
            },
             userSyndicates: {
               startDate: gamesById?.user_syndicates?.start_date,
@@ -193,11 +200,12 @@ const getAll = async () => {
               }
             }
       }
-      return modifiedGames;
+       return modifiedGames
     }catch(error){
       console.error("error getting game data",error)
     
     }
+  
   }
     
     
@@ -294,19 +302,26 @@ async function getGamesBySyndicateId(syndicateId: number) {
         }
       }
 }))
-  return modifiedGames;
+const filteredGames = modifiedGames?.filter((game) =>game.maximumPlayers  !== 0)
+
+  return filteredGames;
 
 }
   //getting the syndicates by user id
-  async function getGamesByTypeId(gameTypeId: number) {
+  async function getGamesByTypeId(gameTypeId: number, syndicateId: number) {
     let gamesByTypeId;
   
     try {
       gamesByTypeId = await prisma.games.findMany({
         where: {
-          game_types: {
-            id: gameTypeId 
-          }
+            game_types: {
+                id: gameTypeId 
+            },
+            user_syndicates: {
+                syndicates: {
+                    id: syndicateId 
+                }
+            }
         }
         ,
         select:{
@@ -319,7 +334,8 @@ async function getGamesBySyndicateId(syndicateId: number) {
           name: true,
           draw_date: true,
           reward: true,
-          image: true,}
+          image: true,
+        ticket_cost:true}
          },
           user_syndicates:{
             select:{
@@ -364,6 +380,7 @@ async function getGamesBySyndicateId(syndicateId: number) {
           draw_date: Date;
           reward: number;
           image: string,
+          ticket_cost: number
         },
         user_syndicates: {
           start_date: Date;
@@ -391,6 +408,7 @@ async function getGamesBySyndicateId(syndicateId: number) {
         drawDate: x.game_types.draw_date,
         reward: x.game_types.reward,
         image: x.game_types.image,
+        ticketCost: x.game_types.ticket_cost
        },
         userSyndicates: {
           startDate:x.user_syndicates.start_date,
@@ -415,6 +433,128 @@ async function getGamesBySyndicateId(syndicateId: number) {
   
   }
 //create a game using the syndicate id
+
+async function archivedGames(userId: number){
+  let archivedGame;
+  
+  try {
+    archivedGame = await prisma.games.findMany({
+      where: {
+          
+             maximum_players : 0,
+             user_syndicates:{
+              users:{
+                id: userId
+              }
+             }
+      }
+      ,
+      select:{
+    id: true,
+       maximum_players: true,
+       treasury: true,
+       game_types:{
+        select:{
+        id: true,
+        name: true,
+        draw_date: true,
+        reward: true,
+        image: true,
+      ticket_cost:true}
+       },
+        user_syndicates:{
+          select:{
+            start_date: true,
+            users:{
+              select:{
+                id: true,
+                first_name: true,
+                last_name: true,
+                email: true,  
+                balance:true
+              }
+            },
+            syndicates:{
+              select:{
+                id:true,
+                created_date:true,
+                name: true,
+                description:true,
+                avatar: true,
+              }
+            }
+          }
+        }
+      }
+    }
+    );
+  } catch (error) {
+
+    throw Error("Cannot get game by syndicate Id", error);
+  }
+      
+  const modifiedGames: IGames[] = archivedGame.map(
+    (x: {
+       id:number,
+      maximum_players: number;
+      treasury: number;
+      game_types:{
+        id: number;
+        name: string;
+        draw_date: Date;
+        reward: number;
+        image: string,
+        ticket_cost: number
+      },
+      user_syndicates: {
+        start_date: Date;
+        users: {
+          id: number;
+          first_name: string;
+          last_name: string;
+          email: string;
+        };
+        syndicates: {
+          id: number;
+          created_date: Date;
+          name: string;
+          description: string|null;
+          avatar: string|null;
+        };
+      }
+    }) => ({
+    id: x.id,
+      maximumPlayers: x.maximum_players,
+     treasury: x.treasury,
+     gameTypes: {
+      id: x.game_types.id,
+      name: x.game_types.name,
+      drawDate: x.game_types.draw_date,
+      reward: x.game_types.reward,
+      image: x.game_types.image,
+      ticketCost: x.game_types.ticket_cost
+     },
+      userSyndicates: {
+        startDate:x.user_syndicates.start_date,
+        users: {
+          id: x.user_syndicates.users.id,
+          firstName: x.user_syndicates.users.first_name,
+          lastName: x.user_syndicates.users.last_name,
+          email: x.user_syndicates.users.email,
+        },
+        syndicates: {
+          id: x.user_syndicates.syndicates.id,
+          createdDate: x.user_syndicates.syndicates.created_date,
+          name: x.user_syndicates.syndicates.name,
+          description: x.user_syndicates.syndicates.description,
+          avatar: x.user_syndicates.syndicates.avatar,
+        }
+      }
+}))
+return modifiedGames
+}
+
+
 
 async function createGameInSyndicate(game: any) {
   try {
@@ -501,5 +641,5 @@ async function deleteGameById(gameId) {
   }
 }
 
-  const GameService = {updateGames, getGamesByTypeId,getGamesByGameId, getGamesBySyndicateId, getAll,createGameInSyndicate,archiveGames,deleteGameById};
+  const GameService = {archivedGames,updateGames, getGamesByTypeId,getGamesByGameId, getGamesBySyndicateId, getAll,createGameInSyndicate,archiveGames,deleteGameById};
   export {GameService};

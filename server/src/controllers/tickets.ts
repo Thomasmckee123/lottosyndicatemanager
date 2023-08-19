@@ -29,8 +29,9 @@ async function getTicketsByGameId(req: Request, res: Response) {
     try {
   console.log(req.body)
   const newTickets = {...req.body,
-    totalRewardValue: Number(req.body.total_reward_value),
-    ticketStatusId: Number(req.body.ticket_status_id),
+    totalRewardValue: Number(req.body.totalRewardValue),
+    ticketStatusId: Number(req.body.ticketStatusId),
+    ticketCode : req.body.ticketCode,
    gameId: Number(req.params.gameId)
   }
   

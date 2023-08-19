@@ -7,6 +7,7 @@ const getAll = async () => {
       id: true,
       start_date: true,
       deposit: true,
+      role_id: true,
       user_id: true,  
       games: {
         select: {
@@ -50,6 +51,7 @@ const getAll = async () => {
     id: x.id,
     startDate: x.start_date,
     deposit: x.deposit,
+    roleId: x.role_id,
     userId: x.user_id,
     games: {
       id: x.games.id,
@@ -94,6 +96,7 @@ const getGamesBySyndicateId = async (syndicateId) => {
       id: true,
       start_date: true,
       deposit: true,
+      role_id: true,
       user_id: true,  
       games: {
         select: {
@@ -137,6 +140,7 @@ const getGamesBySyndicateId = async (syndicateId) => {
     id: x.id,
     startDate: x.start_date,
     deposit: x.deposit,
+    roleId: x.role_id,
     userId: x.user_id,
     games: {
       id: x.games.id,
@@ -181,6 +185,7 @@ const getGamesByUserId = async (userId) => {
       id: true,
       start_date: true,
       deposit: true,
+      role_id: true,
       user_id: true,  
       games: {
         select: {
@@ -224,6 +229,7 @@ const getGamesByUserId = async (userId) => {
     id: x.id,
     startDate: x.start_date,
     deposit: x.deposit,
+    roleId: x.role_id,
     userId: x.user_id,
     games: {
       id: x.games.id,
@@ -264,6 +270,7 @@ async function getGamesByGameId(gameId: number){
         id: true,
         start_date: true,
         deposit: true,
+        role_id: true,
         user_id: true,  
         games: {
           select: {
@@ -308,6 +315,7 @@ name: true
       id: x.id,
       startDate: x.start_date,
       deposit: x.deposit,
+      role_id: x.role_id,
       userId: x.user_id,
       games: {
         id: x?.games?.id,
@@ -355,6 +363,7 @@ async function createUserGame(userGame: any) {
 start_date: userGame.startDate,
 deposit: userGame.deposit,
 game_id: Number(userGame.gameId),
+role_id: Number(userGame.roleId),
 user_id: Number(userGame.userId),
     },
   });

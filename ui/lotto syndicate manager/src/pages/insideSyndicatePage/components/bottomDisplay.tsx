@@ -1,42 +1,36 @@
 import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Skeleton from "@mui/material/Skeleton";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { fetchGamesBySyndicateId } from "../../../services/games";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import { fetchGamesWePlay } from "../../../services/gameTypes";
 
-function Media({ data }: { data: any }) {
+function GameCard({ data }: { data: any }) {
   const displayDate = new Date(Date.parse(data.drawDate)).toLocaleDateString();
 
   return (
-    <Grid container wrap="wrap" sx={{ width: "100vw" }}>
-      <Box sx={{ width: 210, marginRight: 0.5, my: 5 }}>
-        <img
-          style={{ width: 210, height: 118 }}
+    <Grid item xs={12} sm={6} md={4} lg={3}>
+      <Card sx={{ maxWidth: 345, m: 2 }}>
+        <CardMedia
+          component="img"
+          height="140"
+          image={data?.image}
           alt={data?.name}
-          src={data?.image}
         />
-
-        <Skeleton variant="rectangular" width={"30vw"} height={118} />
-
-        <Box sx={{ pr: 2 }}>
-          <Typography gutterBottom variant="body2">
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="div">
             {data?.firstName} {data?.lastName}
           </Typography>
-          <Typography display="block" variant="caption" color="text.secondary">
+          <Typography variant="body2" color="text.secondary">
             {data?.name}
           </Typography>
-          <Typography variant="caption" color="text.secondary">
-            {`${data?.requiredTicketNumber} • ${displayDate}`}
+          <Typography variant="body2" color="text.secondary">
+            ticket Cost: {data?.ticketCost} draw date: {displayDate}
           </Typography>
-        </Box>
-
-        <Box sx={{ pt: 0.5 }}>
-          <Skeleton />
-          <Skeleton width="100%" />
-        </Box>
-      </Box>
+        </CardContent>
+      </Card>
     </Grid>
   );
 }
@@ -44,10 +38,10 @@ function Media({ data }: { data: any }) {
 function BottomDisplay() {
   const { syndicateId } = useParams<{ syndicateId: string }>();
   const [data, setData] = useState<any[]>([]);
+
   useEffect(() => {
-    fetchGamesBySyndicateId(Number(syndicateId))
+    fetchGamesWePlay()
       .then((response) => {
-        setData(response[0]);
         if (Array.isArray(response)) {
           setData(response);
         }
@@ -55,19 +49,21 @@ function BottomDisplay() {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, []);
+  }, [syndicateId]);
+
   return (
-    <>
+    <div>
       <Typography variant="h2" gutterBottom>
         Games
       </Typography>
 
-      <Box sx={{ overflow: "hidden" }}>
+      <Grid container spacing={3}>
         {data.map((item) => (
-          <Media data={item} />
+          <GameCard key={item.id} data={item} />
         ))}
-      </Box>
-    </>
+      </Grid>
+    </div>
   );
 }
+
 export default BottomDisplay;

@@ -1,22 +1,26 @@
-import * as React from 'react';
-import { TextField, InputAdornment, IconButton } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
+import * as React from "react";
+import { TextField, InputAdornment, IconButton } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 
-const SearchInput = () => {
+type SearchInputProps = {
+  onSearchChange: (value: string) => void;
+};
+
+const SearchInput: React.FC<SearchInputProps> = ({ onSearchChange }) => {
   const [searchTerm, setSearchTerm] = React.useState("");
 
-  const handleSearchChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
 
   const performSearch = () => {
-    // Place your search function here
+    onSearchChange(searchTerm);
     console.log("Searching for: " + searchTerm);
   };
 
   return (
     <TextField
-    sx={{width: '50%'}}
+      sx={{ width: "50%" }}
       label="Search"
       value={searchTerm}
       onChange={handleSearchChange}
@@ -29,7 +33,7 @@ const SearchInput = () => {
               <SearchIcon />
             </IconButton>
           </InputAdornment>
-        )
+        ),
       }}
     />
   );

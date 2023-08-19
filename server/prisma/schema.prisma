@@ -66,6 +66,7 @@ model games {
 model roles {
   id              Int               @id(map: "role_pk") @default(autoincrement())
   name            String            @db.VarChar(255)
+  user_games      user_games[]
   user_syndicates user_syndicates[]
 }
 
@@ -91,10 +92,12 @@ model user_games {
   id            Int             @id(map: "user_games_pk") @default(autoincrement())
   start_date    DateTime        @db.Date
   deposit       Float
+  role_id       Int
   game_id       Int
   user_id       Int
   board_message board_message[]
   games         games           @relation(fields: [game_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_games_game")
+  roles         roles           @relation(fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_games_roles")
   users         users           @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_user_games")
 }
 
@@ -125,6 +128,7 @@ model users {
   id                     Int                      @id(map: "users_pk") @default(autoincrement())
   first_name             String                   @db.VarChar(255)
   last_name              String                   @db.VarChar(255)
+  image                  String                   @db.VarChar(255)
   password               String                   @db.VarChar(255)
   email                  String                   @db.VarChar(255)
   balance                Float

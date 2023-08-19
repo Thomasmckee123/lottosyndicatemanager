@@ -3,6 +3,7 @@ CREATE TABLE users(
     id SERIAL NOT NULL CONSTRAINT users_pk PRIMARY KEY,
     first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL,
+    image VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     balance FLOAT NOT NULL
@@ -59,7 +60,9 @@ CREATE TABLE games(
 CREATE TABLE user_games(
     id SERIAL NOT NULL constraint user_games_pk PRIMARY KEY,
     start_date DATE NOT NULL,
-    deposit FLOAT NOT NULL, 
+    deposit FLOAT NOT NULL,
+    role_id INTEGER NOT NULL CONSTRAINT fk_user_games_roles REFERENCES roles(id),
+
     game_id INTEGER NOT NULL CONSTRAINT fk_user_games_game REFERENCES games(id),
     user_id INTEGER NOT NULL CONSTRAINT fk_user_user_games REFERENCES users(id)
 );

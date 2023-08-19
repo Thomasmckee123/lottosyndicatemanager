@@ -42,17 +42,17 @@ SignupRouter.post( /**
 *               type: array
 *               
 */"/",[
-    body("email").isString().isLength({ min: 3 }).isEmail().normalizeEmail(),
-    body("first_name").isString().isLength({ min: 2 }).trim(),
-    body("last_name").isString().isLength({min: 2}).trim(),
-    body("password")
-      .isString()
-      .isLength({ min: 8, max: 15 })
-      .withMessage("your password should have min and max length between 8-15")
-      .matches(/\d/)
-      .withMessage("your password should have at least one number")
-      .matches(/[!@#$%^&*(),.?“:{}|<>]/)
-      .withMessage("your password should have at least one special character"),
+    // body("email").isString().isLength({ min: 3 }).isEmail().normalizeEmail(),
+    // // body("first_name").isString().isLength({ min: 2 }).trim(),
+    // // body("last_name").isString().isLength({min: 2}).trim(),
+    // body("password")
+    //   .isString()
+    //   .isLength({ min: 8, max: 15 })
+    //   .withMessage("your password should have min and max length between 8-15")
+    //   .matches(/\d/)
+    //   .withMessage("your password should have at least one number")
+    //   .matches(/[!@#$%^&*(),.?“:{}|<>]/)
+    //   .withMessage("your password should have at least one special character"),
   ],
   resolver, 
   SignUpController.createUser);
