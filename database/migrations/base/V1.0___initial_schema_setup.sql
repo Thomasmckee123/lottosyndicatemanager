@@ -7,7 +7,7 @@ CREATE TABLE
         password VARCHAR(255) NOT NULL,
         email VARCHAR(255) NOT NULL,
         balance FLOAT NOT NULL
-        balance FLOAT NOT NULL,
+      
     );
 
 CREATE TABLE
