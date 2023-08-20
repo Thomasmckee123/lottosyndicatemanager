@@ -42,17 +42,23 @@ let gameTypeById = await  prisma.game_types.findUnique({
     draw_date: true,
     reward: true,
     image: true,
+    ticket_cost:true,
 }
 })
-  const newModifiedGameTypes ={
-    id: gameTypeById?.id,
+if(gameTypeById){
+  const newModifiedGameTypes :IGameTypes={
+    id: gameTypeById.id,
     name: gameTypeById?.name,
     drawDate: gameTypeById?.draw_date,
     reward: gameTypeById?.reward,
-    image:gameTypeById?.image
+    image:gameTypeById?.image,
+    ticketCost:gameTypeById?.ticket_cost
   }
 
 return newModifiedGameTypes;
+}else{
+  return null
+}
 }
 /**
  * 

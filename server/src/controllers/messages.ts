@@ -45,18 +45,6 @@ async function getMessagesByBoardsId(req: Request, res: Response) {
             return res.status(400).json({ error: "Invalid game ID." });
         }
 
-        const GameMessage = await MessageService.getGameMessage(gameId);
-console.log(GameMessage)
-        const newGameMessage = {
-            message: GameMessage,
-            createdDate: new Date(),
-            userGameId: Number(req.params.userSyndicateId),
-            boardId: Number(req.params.boardId)
-        };
-
-        const createdGameMessage = await MessageService.createGameMessage(newGameMessage, gameId);
-
-        return res.status(200).json(createdGameMessage);
     } catch (error) {
         console.error(error); // It's good to log the error for debugging.
         return res.status(500).json("Could not create game message.");

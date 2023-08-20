@@ -1,132 +1,211 @@
-import { IReviews } from '../../interfaces';
-import { IUserSyndicate } from '../../interfaces/syndicates';
+
 import { prismaAsAny } from '../../test-utils/prisma';
 import { prisma } from '../../utils/prisma';
 import { BoardsService } from '../boards';
-import { SyndicateService } from '../syndicates';
-const practiceBoards = [{
-id: 1,
-name: "new board",
-syndicates: {
-  id: 1,
-  name: "Thomas",
-}}]
-const practiceBoardsBySyndicateId = [{
-    id: 1,
-    name: "new board",
-    syndicates: {
-      id: 1,
-      name: "Thomas",
-    }}]
-    const practiceCreateBoardsBySyndicateId = {
-        id: 1,
-        name: "new board",
-        syndicates: {
-          id: 1,
-          name: "Thomas",
-        }}
-const updateBoards = {
-    name: "board1"
-}
 
-const testdeleteBoard  = {
-    id : 2,
-}
-const deleteManyBoard ={
-    board_id: 2
-}
-/**
- * get all boards
- */
-describe("GET /boards", () => {
-    test("get all boards", async () => {
-      prismaAsAny.boards= {
-        findMany: jest.fn().mockResolvedValueOnce(practiceBoards),
-      };
-      const result = await BoardsService.getAll();
-      expect(prisma.boards.findMany).toHaveBeenCalledTimes(1);
-      expect(result).toEqual(practiceBoards);
-    });
+import { GameService } from "../games";
 
-  });
-/**
- * get boards by id
- */
-describe("/GET/MessagesByBoardById", () => {
-    it("should return all the messages with their board id", async () => {
-      prismaAsAny.boards = {
-        findMany: jest.fn().mockReturnValueOnce(practiceBoardsBySyndicateId),
-      };
-      const result = await BoardsService.getBoardsBySyndicateId(1);
-   
-     
-      expect(prisma.boards.findMany).toHaveBeenCalledTimes(1);
-      
-      if(result){
-      expect(result).toEqual(practiceBoardsBySyndicateId);
-    }
-    });
-  });
+
+    describe("GET /boards/:id", () => {
 
 
 
-  /**
- * create Board
- */
-  describe("/POST /createBoards", () => {
- 
-    it("should create a new board", async () => {
-      prismaAsAny.boards = { 
-        create: jest.fn().mockResolvedValueOnce(practiceCreateBoardsBySyndicateId),
-    };
-    
-  const result = await BoardsService.createBoards(practiceCreateBoardsBySyndicateId);
-  console.log("hi"+result)
-  expect(prisma.boards.create).toHaveBeenCalledTimes(1);
-  expect(result).toEqual(practiceCreateBoardsBySyndicateId.name);
-      
-    });
-  
-  
-  });
-
-  /**
-   * doing update boards
-   */
-describe("PUT /syndicates/:id", () => {
-    it("should get update syndicate by id", async () => {
-      prismaAsAny.boards = {
-        update: jest.fn().mockReturnValueOnce(updateBoards),
-      };
-
-      const result = await BoardsService.updateBoards(updateBoards);
-      expect(prisma.boards.update).toHaveBeenCalledTimes(1);
-      expect(result).toEqual(updateBoards);
-    });
-  });
-
-  
-
-      /**
-       * deleting a boards
-       */
-      describe('deleteBoardsById', () => {
-        it('should delete the boards by ID', async () => {
-            prismaAsAny.board_message = {
-                deleteMany: jest.fn().mockResolvedValueOnce({ deleteManyBoard}),
-              };
-            prismaAsAny.boards = {
-                delete: jest.fn().mockResolvedValueOnce(testdeleteBoard)
+        const testBoards :any[]= [
+    {
+        "id": 1,
+        "name": "Thunderbolts Talk",
+        "games": {
+            "id": 1,
+            "user_games": [
+                {
+                    "id": 1,
+                    "deposit": 0,
+                    "users": {
+                        "id": 1,
+                        "first_name": "John",
+                        "last_name": "Doe"
+                    }
+                }
+            ]
+        },
+        "board_message": [
+            {
+                "id": 1,
+                "message": "Lets win this, Thunderbolts!",
+                "created_date": "2023-07-22T00:00:00.000Z",
+                "board_id": 1,
+                "user_game_id": 1
             }
-            
-          
-      
-          
-          const result = await BoardsService.deleteBoardsById(testdeleteBoard);
-      
-          
-          expect(prisma.boards.delete).toHaveBeenCalledTimes(1);
-      
-          expect(result).toEqual(testdeleteBoard);
+        ]
+    }]
+    
+      const testBoardsResponse :any[]= [
+        {
+            "id": 1,
+            "name": "Thunderbolts Talk",
+            "games": {
+                "id": 1,
+                "user_games": [
+                    {
+                        "id": 1,
+                        "deposit": 0,
+                        "users": {
+                            "id": 1,
+                            "first_name": "John",
+                            "last_name": "Doe"
+                        }
+                    }
+                ]
+            },
+            "board_message": [
+                {
+                    "id": 1,
+                    "message": "Lets win this, Thunderbolts!",
+                    "created_date": "2023-07-22T00:00:00.000Z",
+                    "board_id": 1,
+                    "user_game_id": 1
+                }
+            ]
+        }]
+           
+        test("get gameResponse", async () => {
+            prismaAsAny.boards = {
+                findMany: jest.fn().mockResolvedValueOnce(testBoards),
+            };
+            const result = await BoardsService.getAll();
+            expect(prisma.boards.findMany).toHaveBeenCalledTimes(1);
+            expect(result).toEqual(testBoardsResponse);
         });
+    });
+
+
+
+    describe("GET /boards/:id", () => {
+
+
+
+        const testBoards :any[]= [
+    {
+        "id": 1,
+        "name": "Thunderbolts Talk",
+        "games": {
+            "id": 1,
+            "user_games": [
+                {
+                    "id": 1,
+                    "deposit": 0,
+                    "users": {
+                        "id": 1,
+                        "first_name": "John",
+                        "last_name": "Doe"
+                    }
+                }
+            ]
+        },
+        "board_message": [
+            {
+                "id": 1,
+                "message": "Lets win this, Thunderbolts!",
+                "created_date": "2023-07-22T00:00:00.000Z",
+                "board_id": 1,
+                "user_game_id": 1
+            }
+        ]
+    }]
+    
+      const testBoardsResponse :any[]= [
+        {
+            "id": 1,
+            "name": "Thunderbolts Talk",
+            "games": {
+                "id": 1,
+                "user_games": [
+                    {
+                        "id": 1,
+                        "deposit": 0,
+                        "users": {
+                            "id": 1,
+                            "first_name": "John",
+                            "last_name": "Doe"
+                        }
+                    }
+                ]
+            },
+            "board_message": [
+                {
+                    "id": 1,
+                    "message": "Lets win this, Thunderbolts!",
+                    "created_date": "2023-07-22T00:00:00.000Z",
+                    "board_id": 1,
+                    "user_game_id": 1
+                }
+            ]
+        }]
+           
+        test("get gameResponse", async () => {
+            prismaAsAny.boards = {
+                findMany: jest.fn().mockResolvedValueOnce(testBoards),
+            };
+            const result = await BoardsService.getBoardsByGameId(1);
+            expect(prisma.boards.findMany).toHaveBeenCalledTimes(1);
+            expect(result).toEqual(testBoardsResponse);
+        });
+    });
+
+
+    describe("/POST /createBoards", () => {
+        const testCreateBoardData = {
+            name: "board.name",
+            game_id: 1,
+         
+         }
+        it("should create a new review", async () => {
+          prismaAsAny.boards = { 
+            create: jest.fn().mockResolvedValueOnce(testCreateBoardData),
+        };
+      
+      const result = await BoardsService.createBoards(testCreateBoardData);
+      console.log("hi"+result)
+      expect(prisma.boards.create).toHaveBeenCalledTimes(1);
+      expect(result).toEqual(testCreateBoardData.name);
+          
+        });
+      
+      
       });
+
+      describe("PUT /update/:boardId", () => { 
+
+        const testNameChange= {
+        name: "newname",
+        };
+          it("should get update the board by id", async () => {
+            prismaAsAny.boards = {
+              update: jest.fn().mockReturnValueOnce(testNameChange),
+            };
+      
+            const result = await BoardsService.updateBoards(testNameChange);
+            expect(prisma.boards.update).toHaveBeenCalledTimes(1);
+            expect(result).toEqual(testNameChange);
+          });
+        });
+
+        describe('DELETE/ deleteBoardById', () => {
+            const deleteBoard = {
+                id: 1 
+              
+            };
+            it('should delete the review by ID', async () => {
+                prismaAsAny.boards = {
+                    delete: jest.fn().mockResolvedValueOnce(deleteBoard)
+                }
+           
+          
+              
+              await BoardsService.deleteBoardsById(1);
+          
+              
+              expect(prisma.boards.delete).toHaveBeenCalledTimes(1);
+          
+            });
+          });

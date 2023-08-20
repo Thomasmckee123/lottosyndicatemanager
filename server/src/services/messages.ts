@@ -60,7 +60,7 @@ const getAll = async () => {
       messagesByBoardsId = await prisma.board_message.findMany({
         where: {
           board_id: boardsId,
-        },    select: {
+        },       select: {
           id: true,
           message: true,
           created_date: true,
@@ -109,8 +109,6 @@ const getAll = async () => {
     
       return filteredMessages;
     };
-  //creating a new message in a board
-
 
 
 async function createMessageInBoard(message: any) {
@@ -132,39 +130,7 @@ async function createMessageInBoard(message: any) {
     throw Error("Cannot create message");
   }
 } 
-async function getGameMessage(gameId: number){
-  try{
-const game = await prisma.games.findUnique({
-      where: { id: gameId },
-    });  
-    return game;
-  }catch(error){
-    console.log(error)
-    throw Error("cannot get game");
-  }
-  }
-  async function createGameMessage(message: any, gameId: number) {
-    try {
-        // Get game data from the game ID
-        const game = await getGameMessage(gameId); 
-        const gameMessage = JSON.stringify(game);
-        console.log(gameMessage);
-        // Create the new message
-        const newGameMessage = await prisma.board_message.create({
-            data: {
-              message: message.message,
-              created_date: message.createdDate,
-                board_id: message.boardId,
-                user_game_id: message.userGameId,
-            },
-        });
 
-        return newGameMessage;
-    } catch(error) {
-        console.log(error);
-        throw Error("Cannot post game");
-    }
-}
 
 
 //delete message
@@ -188,7 +154,7 @@ async function deleteMessageById(messageId: number) {
   return deletedMessage;
 }
 
-  const MessageService = {getGameMessage, createGameMessage, getAll, getMessagesByBoardsId, createMessageInBoard,deleteMessageById};
+  const MessageService = { getAll, getMessagesByBoardsId, createMessageInBoard,deleteMessageById};
   export {MessageService};
 
 

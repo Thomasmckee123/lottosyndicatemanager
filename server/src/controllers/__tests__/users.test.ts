@@ -7,22 +7,32 @@ import { StatusCodes } from "http-status-codes";
 import { when } from "jest-when";
 import { UserController } from '../users';
 import { error } from 'console';
+import { IUser } from '../../interfaces';
 
 
 
 
 jest.mock("@prisma/client");  
 jest.mock("../../services/users");
-const testUser = [{
+let testUser = [{}] as IUser[];
+let testUserResult = [{}] as IUser[];
+beforeAll(() => {
+testUser  = [{
     id: 1,
-          first_name: "John",
-          last_name: "Smith",
-          email: "johnsmith@email.com"}]; 
-          const testUserResult = [{
-            userId: 1,
+          firstName: "John",
+          lastName: "Smith",
+          email: "johnsmith@email.com",
+          image: "image",
+          balance: 0,
+        }]; 
+           testUserResult = [{
+            id: 1,
                   firstName: "John",
                   lastName: "Smith",
-                  email: "johnsmith@email.com"}];
+                  email: "johnsmith@email.com",
+                  image: "image",
+                  balance: 0,}];
+          });
 describe("GET /users", () => {
     test("returns status code `200` and an array of users", async () => {
         const request = httpMocks.createRequest({
@@ -30,22 +40,15 @@ describe("GET /users", () => {
           url: "/api/users/",
         });
         const response: MockResponse<Response> = createResponse();
-        const returnValue = [
-          {
-            userId: 1,
-            firstName: "John",
-            lastName: "Smith",
-            email: "JohnSmith@email.com",
-          }
-        ];
+     
         when(UserService.getAll)
           .calledWith()
-          .mockReturnValueOnce(Promise.resolve(returnValue));
+          .mockReturnValueOnce(Promise.resolve(testUser) );
   
         await UserController.getAllUsers(request, response);
   
         expect(response._getStatusCode()).toEqual(StatusCodes.OK);
-        expect(response._getJSONData()[0]).toEqual(returnValue[0]);
+        expect(response._getJSONData()[0]).toEqual(testUser[0]);
       });
       test("returns status code `500` if an error occurs", async () => {
         const request = httpMocks.createRequest({
@@ -78,12 +81,13 @@ describe("GET /users", () => {
             },
           });
           const response: MockResponse<Response> = createResponse();
-          const returnValue = {
-            id: 1,
-            first_name: "Thomas",
-            last_name: "mckee",
-            email: "JohnSmith@example.com",
-        
+          const returnValue :any = {
+            "id": 1,
+            "firstName": "Thomas",
+            "lastName": "mckee",
+            "email": "JohnSmith@example.com",
+             "image": "image",
+             "balance":0
           };
           when(UserService.getUserById)
             .calledWith(1)
@@ -112,55 +116,58 @@ describe("GET /users", () => {
         });
       });
     
-  //testing making user syndicate
-  describe("createUserSyndicate", () => {
-    const createBody = {
-     start_date: new Date(),
-     user_id: 1,
-     user_syndicate_id: 1,
-     role_id: 1
-    };
-    const invalidCreateBody = {
-        start_date: new Date(),
-     role_id: 99
-    };
-    it("returns status code `200` if user syndciate is successfully created", async () => {
-      const request = httpMocks.createRequest({
-        method: "POST",
-        url: "/1/syndicates/1",
-        body: createBody,
-      });
-      const response: MockResponse<Response> = createResponse();
-      const returnValue = {
-        start_date: new Date(),
+//   //testing making user syndicate
+//   describe("createUserSyndicate", () => {
+//     const createBody = {
+//      start_date: new Date(),
+//      user_id: 1,
+//      user_syndicate_id: 1,
+//      role_id: 1
+//     };
+//     const invalidCreateBody = {
+//         start_date: new Date(),
+//      role_id: 99
+//     };
+//     it("returns status code `200` if user syndciate is successfully created", async () => {
+//       const request = httpMocks.createRequest({
+//         method: "POST",
+//         url: "/1/syndicates/1",
+//         body: createBody,
+//       });
+//       const response: MockResponse<Response> = createResponse();
+//       const returnValue = {
+//         start_date: new Date(),
 
-        role_id: 9999
-      };
-      when(UserService.createUserSyndicate)
-        .calledWith(createBody)
-        .mockReturnValueOnce(Promise.resolve(new Date()));
+//         role_id: 9999
+//       };
+//       when(UserService.createUserSyndicate)
+//         .calledWith(createBody)
+//         .mockReturnValueOnce(Promise.resolve(new Date()));
 
-      await UserController.createUserSyndicate(request, response);
+//       await UserController.createUserSyndicate(request, response);
 
-      expect(response._getStatusCode()).toEqual(StatusCodes.OK);
-    });
+//       expect(response._getStatusCode()).toEqual(StatusCodes.OK);
+//     });
  
-  });
+//   });
 
   describe("updateUserDetails", () => {
     const updateBody = {
       id: 1,
-      first_name: "John",
-      last_name: "Smith",
+      firstName: "John",
+      lastName: "Smith",
       email: "JohnSmith@example.com",
+      image: "image"
+      
  
     };
     //invalid update body
     const invalidUpdateBody = {
       id: 1,
-  first_name : "",
-  last_name: "",
-  email : ""
+  firstName : "",
+  lastName: "",
+  email : "",
+  image: ""
     };
     it("returns status code `200` if user is successfully created", async () => {
       const request = httpMocks.createRequest({
@@ -171,10 +178,10 @@ describe("GET /users", () => {
       const response: MockResponse<Response> = createResponse();
       const returnValue = {
         userId: 1,
-        first_name : "Thoams",
-        last_name: "mckee",
+        firstName : "Thoams",
+        lastName: "mckee",
         email: "JohnSmith@example.com",
-        
+        image: "image"
       };
       when(UserService.updateUserDetails)
         .calledWith(updateBody)

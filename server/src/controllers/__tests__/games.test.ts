@@ -21,27 +21,37 @@ describe("GET /games", () => {
           url: "/api/games/",
         });
         const response: MockResponse<Response> = createResponse();
-        const returnValue : any = [{
-            name: "Thomas",
-            draw_date:"2023-07-25T10:24:39.694Z",
-            reward: 12,
-            required_ticket_number: "2",
-            user_syndicates: {
-              start_date: "2023-07-25T10:24:39.694Z",
-              users: {
-                id: 1,
-                first_name: "Thomas",
-                last_name: "McKee",
-                email: "ThomasMckee@Gmail.com",
-              },
-              syndicates: {
-                id: 1,
-                created_date: "2023-07-25T10:24:39.694Z",
-                name: "Thomas",
-                description:"awesome",
-                avatar: "String.png",
-              },
-            }}];
+        const returnValue : any[] = [
+            {
+                "id": 1,
+                "maximumPlayers": 5,
+                "treasury": 0,
+                "gameTypes": {
+                    "id": 1,
+                    "name": "euro millions",
+                    "drawDate": "2023-08-18T00:00:00.000Z",
+                    "reward": 43000000,
+                    "image": "euromillions.png",
+                    "ticketCost": 2.5
+                },
+                "userSyndicates": {
+                    "startDate": "2023-07-13T00:00:00.000Z",
+                    "users": {
+                        "id": 1,
+                        "firstName": "John",
+                        "lastName": "Doe",
+                        "email": "JohnDoe@Gmail.com",
+                        "balance": 0
+                    },
+                    "syndicates": {
+                        "id": 1,
+                        "createdDate": "2023-07-10T00:00:00.000Z",
+                        "name": "The Thunderbolts",
+                        "description": "For those who strike like lightning!",
+                        "avatar": "thunderbolts.jpg"
+                    }
+                }
+            },];
         when(GameService.getAll)
           .calledWith()
           .mockReturnValueOnce(Promise.resolve(returnValue));

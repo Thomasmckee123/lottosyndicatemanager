@@ -1,36 +1,32 @@
-import { prismaAsAny } from '../../test-utils/prisma';
-import { prisma } from '../../utils/prisma';
-import { UserService } from  '../../services/users';
+
 import httpMocks, { createResponse, MockResponse } from "node-mocks-http";
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { when } from "jest-when";
-import { UserController } from '../users';
-import { error } from 'console';
+
 import { TicketService } from '../../services/tickets';
 import { TicketController } from '../tickets';
-import { ITicket } from '../../interfaces';
-import { body } from 'express-validator';
+import { ITicket, IUserSyndicate } from '../../interfaces';
 
 jest.mock("@prisma/client");  
 jest.mock("../../services/tickets");
 const testTicket = [{
     id: 1,
-    ticket_code: "NA86YWD",
-    total_reward_value: 12342,
-    ticket_status: {
+    ticketCode: "NA86YWD",
+    totalRewardValue: 12342,
+    ticketStatus: {
       id: 1,
       name: "Thomas",
     },
-    user_syndicates: {
+    userSyndicates: {
       id: 2,
       users: {
         id: 2,
-        first_name: "Thomas",
-        last_name: "McKee",
+        firstName: "Thomas",
+        lastName: "McKee",
       },
     },
-    game_id: 1,}
+    gameId: 1,}
 ];
 describe("GET /tickets", () => {
     test("returns status code `200` and an array of tickets", async () => {
@@ -39,26 +35,39 @@ describe("GET /tickets", () => {
           url: "/api/tickets/",
         });
         const response: MockResponse<Response> = createResponse();
-        const returnValue :ITicket[] = 
-        [  {
-            id: 1,
-            ticket_code: "NA86YWD",
-            total_reward_value: 12342,
-            ticket_status: {
-              id: 1,
-              name: "Thomas",
-            },
-            user_syndicates: {
-              id: 2,
-              users: {
-                id: 2,
-                first_name: "Thomas",
-                last_name: "McKee",
-              },
-            },
-            game_id: 1
-        
-        }];
+        const returnValue :any[] = 
+        [
+            {
+                "id": 1,
+                "ticketCode": "123456",
+                "totalRewardValue": 0,
+                "ticketStatus": {
+                    "id": 3,
+                    "name": "pending"
+                },
+                "games": {
+                    "id": 1,
+                    "treasury": 0,
+                    "gameTypes": {
+                        "id": 1,
+                        "name": "euro millions",
+                        "drawDate": "2023-08-18T00:00:00.000Z",
+                        "reward": 43000000,
+                        "image": "euromillions.png",
+                        "ticketCost": 2.5
+                    },
+                    "userSyndicates": {
+                        "startDate":"2023-07-13T00:00:00.000Z",
+                        "users": {
+                            "id": 1,
+                            "firstName": "John",
+                            "lastName": "Doe",
+                            "email": "JohnDoe@Gmail.com",
+                            "balance": 0
+                        }
+                    }
+                }
+            },];
         when(TicketService.getAll)
           .calledWith()
           .mockReturnValueOnce(Promise.resolve(returnValue));
@@ -87,29 +96,42 @@ describe("GET /tickets", () => {
 
     describe("getTicketsByGameId", () => {
         it("returns status code `200` and an array of tickets", async () => {     
-                 const returnValue  = [{
-              id: 1,
-              ticket_code: "NA86YWD",
-              total_reward_value: 12342,
-              ticket_status: {
-                id: 1,
-                name: "Thomas",
-              },
-              user_syndicates: {
-                id: 1,
-                users: {
-                  id: 2,
-                  first_name: "Thomas",
-                  last_name: "McKee",
-                }
-              },
-              game_id: 1
-          
-          }];
+                 const returnValue : any[] = [
+                    {
+                        "id": 1,
+                        "ticketCode": "123456",
+                        "totalRewardValue": 0,
+                        "ticketStatus": {
+                            "id": 3,
+                            "name": "pending"
+                        },
+                        "games": {
+                            "id": 1,
+                            "treasury": 0,
+                            "gameTypes": {
+                                "id": 1,
+                                "name": "euro millions",
+                                "drawDate": "2023-08-18T00:00:00.000Z",
+                                "reward": 43000000,
+                                "image": "euromillions.png",
+                                "ticketCost": 2.5
+                            },
+                            "userSyndicates": {
+                                "startDate": "2023-07-13T00:00:00.000Z",
+                                "users": {
+                                    "id": 1,
+                                    "firstName": "John",
+                                    "lastName": "Doe",
+                                    "email": "JohnDoe@Gmail.com",
+                                    "balance": 0
+                                }
+                            }
+                        }
+                    },];
           console.log(returnValue)
           const request = httpMocks.createRequest({
             method: "GET",
-            url: "/api/syndicates/1/games/1",
+            url: "/api/tickets/syndicates/1/games/1",
             params: {
               gameId: 1,
           
@@ -137,24 +159,38 @@ describe("GET /tickets", () => {
             },
           });
           const response: MockResponse<Response> = createResponse();
-          const returnValue : ITicket[] = [{
-                id: 1,
-                ticket_code: "NA86YWD",
-                total_reward_value: 12342,
-                ticket_status: {
-                  id: 1,
-                  name: "Thomas",
+          const returnValue :any[] = [
+            {
+                "id": 1,
+                "ticketCode": "123456",
+                "totalRewardValue": 0,
+                "ticketStatus": {
+                    "id": 3,
+                    "name": "pending"
                 },
-                user_syndicates: {
-                  id: 1,
-                  users: {
-                    id: 1,
-                    first_name: "Thomas",
-                    last_name: "McKee",
-                  },
-                },
-                game_id: 1,
-          }];
+                "games": {
+                    "id": 1,
+                    "treasury": 0,
+                    "gameTypes": {
+                        "id": 1,
+                        "name": "euro millions",
+                        "drawDate":"2023-08-18T00:00:00.000Z",
+                        "reward": 43000000,
+                        "image": "euromillions.png",
+                        "ticketCost": 2.5
+                    },
+                    "userSyndicates": {
+                        "startDate": "2023-07-13T00:00:00.000Z",
+                        "users": {
+                            "id": 1,
+                            "firstName": "John",
+                            "lastName": "Doe",
+                            "email": "JohnDoe@Gmail.com",
+                            "balance": 0
+                        }
+                    }
+                }
+            },];
          
           when(TicketService.ticketsByGameId)
             .calledWith(NaN)

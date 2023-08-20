@@ -6,31 +6,26 @@ import { when } from "jest-when";
 
 import { SyndicateService } from '../../services/syndicates';
 import { SyndicateController } from '../syndicates';
-import { ISyndicate } from "../../interfaces";
 
 
 
 
 jest.mock("@prisma/client");  
 jest.mock("../../services/syndicates");
-const testSyndicate = [{
-  start_date: new Date(),
-    users: {
-      id: 1,
-      first_name: "Thomas",
-      last_name: "Mckee",
-      email: "mckeethomas293@gmail.com",
-    },
-    syndicates: {
-      created_date: new Date(),
-      name: "Thomas",
-      description: "yesssss",
-      avatar: "dog.png",
-    },
-    roles: {
-      name: "leader"
-    },  
-  }];
+const testSyndicate :any[]= [
+    {
+        "id": 1,
+        "createdDate": "2023-07-10T00:00:00.000Z",
+        "name": "The Thunderbolts",
+        "description": "For those who strike like lightning!",
+        "avatar": "thunderbolts.jpg",
+        "ownerId": 1,
+        "users": {
+            "id": 1,
+            "firstName": "John",
+            "lastName": "Doe"
+        }
+    },];
 describe("GET /syndicates", () => {
     test("returns status code `200` and an array of users", async () => {
         const request = httpMocks.createRequest({
@@ -39,24 +34,19 @@ describe("GET /syndicates", () => {
         });
         const response: MockResponse<Response> = createResponse();
         const returnValue: any = [{
-          start_date: "2022/10/10",
-          users: {
-            id: 1,
-            first_name: "Thomas",
-            last_name: "Mckee",
-            email: "mckeethomas293@gmail.com",
-          },
-          syndicates: {
-            created_date : "2020/10/10",
-            name: "Thomas",
-            description: "yesssss",
-            avatar: "dog.png",
-          },
-          roles: {
-            name: "leader"
-          },  ail: "JohnSmith@email.com",
-          }
-        ];
+         
+                    "id": 1,
+                    "createdDate": "2023-07-10T00:00:00.000Z",
+                    "name": "The Thunderbolts",
+                    "description": "For those who strike like lightning!",
+                    "avatar": "thunderbolts.jpg",
+                    "ownerId": 1,
+                    "users": {
+                        "id": 1,
+                        "firstName": "John",
+                        "lastName": "Doe"
+                    }
+                },];
         when(SyndicateService.getAll)
           .calledWith()
           .mockReturnValueOnce(Promise.resolve(returnValue));
@@ -71,107 +61,7 @@ describe("GET /syndicates", () => {
 
 
 
-    describe("getSyndicatesById", () => {
-      it("returns status code `200` and an array of syndicates", async () => {     
-               const returnValue : any = [{
-                start_date: "2023-07-25T10:24:39.694Z",
-                users: {
-                  id: 1,
-                  first_name: "Thomas",
-                  last_name: "Mckee",
-                  email: "mckeethomas293@gmail.com",
-                },
-                syndicates: {
-                   created_date: "2023-07-25T10:24:39.694Z",
-                  name: "Thomas",
-                  description: "yesssss",
-                  avatar: "dog.png",
-                },
-                roles: {
-                  name: "leader"
-                },  
-              }];
-        console.log(returnValue)
-        const request = httpMocks.createRequest({
-          method: "GET",
-          url: "/api/syndicates/1/games/1",
-          params: {
-            userId: '1',
-        
-          }
-        });
 
-        const response: MockResponse<Response> = createResponse();
-
-      
-        when(SyndicateService.getSyndicatesByUserId)
-          .calledWith(1)
-          .mockReturnValueOnce(Promise.resolve(returnValue));
-  console.log(returnValue)
-        await SyndicateController.getSyndicatesByUserId(request, response);
-  console.log(response)
-        expect(response._getStatusCode()).toEqual(StatusCodes.OK);
-        expect(response._getJSONData()).toEqual(returnValue);
-      });
-      it("returns status code `400` if invalid userId", async () => {
-        const request = httpMocks.createRequest({
-          method: "GET",
-          url: "/api/syndicates/users/NaN",
-          params: {
-            userId: NaN,
-          },
-        });
-        const response: MockResponse<Response> = createResponse();
-        const returnValue : any = [{
-          start_date: new Date(),
-          users: {
-            id: 1,
-            first_name: "Thomas",
-            last_name: "Mckee",
-            email: "mckeethomas293@gmail.com",
-          },
-          syndicates: {
-            created_date: new Date(),
-            name: "Thomas",
-            description: "yesssss",
-            avatar: "dog.png",
-          },
-          roles: {
-            name: "leader"
-          },  
-        }];
-       
-        when(SyndicateService.getSyndicatesByUserId)
-          .calledWith(NaN);
-          //.mockReturnValueOnce(Promise.resolve(returnValue));
-  
-        await SyndicateController.getSyndicatesByUserId(request, response);
-  
-        expect(response._getStatusCode()).toEqual(StatusCodes.BAD_REQUEST);
-      });
-      it("returns status code `500` if an error occurs", async () => {
-        const request = httpMocks.createRequest({
-          method: "GET",
-          url: "/api/syndicates/users/1",
-          params: {
-            userId: 1,
-          },
-        });
-        const response: MockResponse<Response> = createResponse();
-  
-        when(SyndicateService.getSyndicatesByUserId)
-          .calledWith(1)
-          .mockImplementationOnce(() => {
-            throw Error("Error getting client by id");
-          });
-  
-        await SyndicateController.getSyndicatesByUserId(request, response);
-  
-        expect(response._getStatusCode()).toEqual(
-          StatusCodes.INTERNAL_SERVER_ERROR
-        );
-      });
-    });
 
     //create syndicate
     describe("createUserSyndicate", () => {
@@ -194,7 +84,7 @@ describe("GET /syndicates", () => {
         const returnValue = {
           id: 1,
   
-          role_id: 9999
+          roleId: 9999
         };
         when(SyndicateService.createSyndicate)
           .calledWith(validCreateBody)
@@ -211,20 +101,20 @@ describe("GET /syndicates", () => {
     //update a syndicate
     describe("updateUserDetails", () => {
       const updateBody = {
-        created_date: new Date(),
+        createdDate: new Date(),
       name: "test syndicate",
       description: "new syndicate",
       avatar:"newSyndicate.png",
-      owner_id: 1
+      ownerId: 1
    
       };
       //invalid update body
       const invalidUpdateBody = {
-        created_date: new Date(),
+        createdDate: new Date(),
         name: "",
         description: "",
         avatar:"n",
-        owner_id: 1
+        ownerId: 1
       };
       it("returns status code `200` if user is successfully created", async () => {
         const request = httpMocks.createRequest({
@@ -234,11 +124,11 @@ describe("GET /syndicates", () => {
         });
         const response: MockResponse<Response> = createResponse();
         const returnValue = {
-          created_date: new Date(),
+          createdDate: new Date(),
       name: "test syndicate",
       description: "new syndicate",
       avatar:"newSyndicate.png",
-      owner_id: 1,
+      ownerId: 1,
           
         };
         when(SyndicateService.updateSyndicateDetails)

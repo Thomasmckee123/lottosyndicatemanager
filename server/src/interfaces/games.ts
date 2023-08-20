@@ -32,6 +32,7 @@ interface IGames {
     }}
 
 interface IGameTypes{
+    id: number;
       name: string;
     drawDate: Date;
     reward: number;

@@ -20,6 +20,8 @@ const getUserSyndicateByUserSyndicteId = async (userSyndicateId: number)=> {
     }
     return returnedValue
   }
+   
+  
   const getUserSyndicateBySyndicateId = async (syndicateId: number) => {
 
     const usersSyndicatesById = await prisma.user_syndicates.findMany({

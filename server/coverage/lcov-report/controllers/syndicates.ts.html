@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">78.12% </span>
+                <span class="strong">55.88% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>25/32</span>
+                <span class='fraction'>19/34</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">14.28% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>1/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">50% </span>
-                <span class="quiet">Branches</span>
-                <span class='fraction'>2/4</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">80% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/5</span>
+                <span class='fraction'>3/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">78.12% </span>
+                <span class="strong">55.88% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>25/32</span>
+                <span class='fraction'>19/34</span>
             </div>
         
             
@@ -124,27 +124,34 @@
 <a name='L59'></a><a href='#L59'>59</a>
 <a name='L60'></a><a href='#L60'>60</a>
 <a name='L61'></a><a href='#L61'>61</a>
-<a name='L62'></a><a href='#L62'>62</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -158,6 +165,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -192,35 +200,39 @@ const getAllSyndicates = async (req: Request, res: Response) =&gt; {
   const syndicates = await SyndicateService.getAll();
   return !syndicates ? <span class="branch-0 cbranch-no" title="branch not covered" >res.sendStatus(404) </span>: res.status(200).json(syndicates);
 };
-async function getSyndicatesByUserId(req: Request, res: Response) {
-    try {
-      const userId = Number(req.params["userId"]);
-      const syndicates = await SyndicateService.getSyndicatesByUserId(userId);
-      console.log(syndicates)
-      if(isNaN(userId)){
-        return res.status(400);
-      }
-      
-        return res.status(200).json(syndicates);
-      
-    } catch (error) {
- 
-      res.status(500).json({ "Cannot access database": error });
-    }
+const getSyndicatesById = <span class="fstat-no" title="function not covered" >async </span>(req: Request, res: Response) =&gt; {
+  const { syndicateId } = <span class="cstat-no" title="statement not covered" >req.params;</span>
+  
+&nbsp;
+  const syndicate= <span class="cstat-no" title="statement not covered" >await SyndicateService.getSyndicateById(Number(syndicateId));</span>
+<span class="cstat-no" title="statement not covered" >  return !syndicate ? res.sendStatus(404) : res.status(200).json(syndicate);</span>
+};
+&nbsp;
+const getSyndicateByName = <span class="fstat-no" title="function not covered" >async(</span>req:Request, res:Response)=&gt;{
+<span class="cstat-no" title="statement not covered" >  try{</span>
+  const {name} = <span class="cstat-no" title="statement not covered" >req.params;</span>
+const syndicates = <span class="cstat-no" title="statement not covered" >await SyndicateService.getSyndicateByName(name);</span>
+<span class="cstat-no" title="statement not covered" >return !syndicates ? res.sendStatus(404) : res.status(200).json(syndicates);</span>
+  }catch(error){
+<span class="cstat-no" title="statement not covered" >    console.error("error getting syndicates by name",error)</span>
   }
+&nbsp;
+}
+&nbsp;
   //creating a user.
   async function createSyndicate(req: Request, res: Response) {
     try {
       const newSyndicate = {
         ...req.body,
-        user_id: req.query.user_id as string,  // Get user_id from query parameters
+       ownerId: Number(req.params.ownerId),  // Get user_id from query parameters
       };
       const createdSyndicate = await SyndicateService.createSyndicate(newSyndicate);
       return res.status(200).json(createdSyndicate);
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >      res.status(500).json("Could not create user.");</span>
+<span class="cstat-no" title="statement not covered" >      res.status(500).json("Could not create syndicate.");</span>
     }
   }
+&nbsp;
 //update syndicate details
   async function UpdateSyndicateDetails(req: Request, res: Response) {
     try {
@@ -245,7 +257,7 @@ async function <span class="fstat-no" title="function not covered" >deleteSyndic
   }
 <span class="cstat-no" title="statement not covered" >  return res.status(200).json(deletedSyndicate);</span>
 }
-const SyndicateController = {getAllSyndicates, getSyndicatesByUserId, createSyndicate, UpdateSyndicateDetails,deleteSyndicateById};
+const SyndicateController = {getSyndicateByName,getSyndicatesById, getAllSyndicates, createSyndicate, UpdateSyndicateDetails,deleteSyndicateById};
 export {SyndicateController};</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -253,7 +265,7 @@ export {SyndicateController};</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-07-26T09:14:36.095Z
+                at 2023-08-20T23:13:04.329Z
             </div>
         <script src="../prettify.js"></script>
         <script>

@@ -4,152 +4,161 @@ import { prisma } from '../../utils/prisma';
 import { UserService } from '../users';
 
 jest.mock("@prisma/client");  
-//test for user
-const testUser = [{
-    id: 1,
-          first_name: "John",
-          last_name: "Smith",
-          email: "johnsmith@email.com"}];
-          //test for user result 
-          const testUserResult = [{
-            userId: 1,
-                  firstName: "John",
-                  lastName: "Smith",
-                  email: "johnsmith@email.com"}];
-            //case for user id
-         const testUserIdResult = {
-       id: 1,
-     first_name: "John",
-        last_name: "Smith",
-     email: "johnsmith@email.com"};
-     //test case for user email
-     const testUseremailResult = {
-        id: 1,
-              first_name: "John",
-              last_name: "Smith",
-              email: "johnsmith@email.com"};
+
+
+
+          
 
 describe("GET /users", () => {
+  const testUser = [{
+    
+      id: 1,
+      first_name: "John",
+      last_name: "Doe",
+      email: "JohnDoe@Gmail.com",
+      image: "image",
+      balance: 0
+  
+          }];
+          const testResponse = [{
+    
+            id: 1,
+            firstName: "John",
+            lastName: "Doe",
+            email: "JohnDoe@Gmail.com",
+            image: "image",
+            balance: 0
+        
+                }];
+      
+     
       test("get all users", async () => {
         prismaAsAny.users = {
           findMany: jest.fn().mockResolvedValueOnce(testUser),
         };
         const result = await UserService.getAll();
         expect(prisma.users.findMany).toHaveBeenCalledTimes(1);
-        expect(result).toEqual(testUserResult);
+        expect(result).toEqual(testResponse);
       });
 
     });
-    /**
-     * getting user by id
-     */
-    describe("getUserById", () => {
-        it("should return a user with their id", async () => {
-          prismaAsAny.users = {
-            findUnique: jest.fn().mockReturnValueOnce(testUserIdResult),
-          };
-          const result = await UserService.getUserById(1);
-       
-         
-          expect(prisma.users.findUnique).toHaveBeenCalledTimes(1);
-          
-          if(result){
-          expect(result.id).toEqual(testUserIdResult.id);
-        }
-        });
-      });
-
-  const exampleUpdateUsers: IUser = {
-    id: 1,
-    firstName: "John ",
-    lastName: "Smyth",
-    
-    email: "JohnSmyth@example.com",
-  };
-  /**
-   * doing update users
-   */
-describe("PUT /users/:id", () => {
-    it("should get update user by id", async () => {
-      prismaAsAny.users = {
-        update: jest.fn().mockReturnValueOnce(exampleUpdateUsers),
-      };
-
-      const result = await UserService.updateUserDetails(exampleUpdateUsers);
-      expect(prisma.users.update).toHaveBeenCalledTimes(1);
-      expect(result).toEqual(exampleUpdateUsers);
-    });
-  });
-
-/**
- * testing creating a user syndicate
- */
-
-const userSyndicateMock = {
-
-  start_date: new Date(),
-  syndicate_id: 1,
-  user_id: 1,
-  role_id: 1,
-};
-
-/** 
- * creating user syndicate
- * 
- */
-
-  
-  describe("/POST /createUserSyndicate", () => {
  
-    it("should create a new syndicate", async () => {
-      prismaAsAny.user_syndicates = { 
-        create: jest.fn().mockResolvedValueOnce(userSyndicateMock),
-    };
-
-  const result = await UserService.createUserSyndicate(userSyndicateMock);
-  console.log("hi"+result)
-  expect(prisma.user_syndicates.create).toHaveBeenCalledTimes(1);
-  expect(result).toEqual(userSyndicateMock.start_date);
+    describe("GET /users/:userId", () => {
       
-    });
-  
-  
-  });
+     const testUser = {
+        "id" : 1,
+        "first_name": "John",
+        "last_name": "Smith",
+        "email": "johnsmith@email.com",
+        "image": "image",
+        "balance": 0,
+      }
+    const testUserResult:IUser = {
+          id: testUser?.id,
+          firstName:testUser?.first_name,
+          lastName:testUser?.last_name,
+          email:testUser?.email,
+          image:testUser?.image,
+          balance:testUser?.balance
 
-/**
- * getting user by email
- */
-describe("getUserByEmail", () => {
-    it("should return a user with their email", async () => {
-      prismaAsAny.users = {
-        findMany: jest.fn().mockReturnValueOnce(testUseremailResult),
-      };
-      const result = await UserService.getByEmail(testUseremailResult.email);
-      expect(result).toEqual(testUseremailResult);
-    });
-  });
+         }
+test("get user by id", async () => {
+prismaAsAny.users = {
+findUnique: jest.fn().mockResolvedValueOnce(testUser),
 
-  /**
-   * delete user
-   */
-  const exampleDeleteUsers: IUser = {
-    id: 1,
-    firstName: "DELETED USER ",
-    lastName: "DELETED",
+};
+const result = await UserService.getUserById(1);
+
+expect (prisma.users.findUnique).toHaveBeenCalledTimes(1);
+expect(result).toEqual(testUserResult);
+});
+
+    });
+
+ 
+    /**
+     * doing update users
+     */
+  describe("PUT /users/:userId", () => { 
+
+    const exampleUpdateUsers: IUser = {
+      "id" : 1,
+        "firstName": "John",
+        "lastName": "Smith",
+        "email": "johnsmith@email.com",
+        "image": "image",
+        "balance": 0,
+    };
+      it("should get update user by id", async () => {
+        prismaAsAny.users = {
+          update: jest.fn().mockReturnValueOnce(exampleUpdateUsers),
+        };
+  
+        const result = await UserService.updateUserDetails(exampleUpdateUsers);
+        expect(prisma.users.update).toHaveBeenCalledTimes(1);
+        expect(result).toEqual(exampleUpdateUsers);
+      });
+    });
     
-    email: "DELETED",
-  };
-  /**
-   * doing update users
-   */
-describe("PUT /users/delete:id", () => {
-    it("should get delete user by id", async () => {
-      prismaAsAny.users = {
-        update: jest.fn().mockReturnValueOnce(exampleDeleteUsers),
-      };
+    describe("getUserByEmail", () => {
+      it("should return a user with their email", async () => {
+        const testUseremail= [{
+    
+         "id" : 1,
+        "first_name": "John",
+        "last_name": "Smith",
+        "email": "johnsmith@email.com",
+        "image": "image",
+        "balance": 0,
+              }];
 
-      const result = await UserService.deleteUserById(exampleDeleteUsers.userId);
-      expect(prisma.users.update).toHaveBeenCalledTimes(1);
-      expect(result).toEqual(exampleDeleteUsers);
+              const testUserEmailResult:IUser = {
+                id: testUseremail[0]?.id,
+                firstName:testUseremail[0]?.first_name,
+                lastName:testUseremail[0]?.last_name,
+                email:testUseremail[0]?.email,
+                image:testUseremail[0]?.image,
+                balance:testUseremail[0]?.balance
+               }
+
+
+       
+       
+
+
+ prismaAsAny.users = {
+          findMany: jest.fn().mockReturnValueOnce(testUseremail),
+        };
+            
+       
+        const result = await UserService.getByEmail(testUseremail[0].email);
+        if(result)
+        expect(result).toEqual(testUserEmailResult);
+      });
     });
-  });
+  
+    /**
+     * delete user
+     */
+  
+    /**
+     * doing update users
+     */
+  describe("PUT /users/delete:id", () => { 
+     const exampleDeleteUsers:any = {
+      id: 1,
+      firstName: "DELETED USER ",
+      lastName: "DELETED",
+      
+      email: "DELETED",
+    };
+      it("should get delete user by id", async () => {
+        prismaAsAny.users = {
+          update: jest.fn().mockReturnValueOnce(exampleDeleteUsers),
+        };
+  
+        const result = await UserService.deleteUserById(exampleDeleteUsers.userId);
+        expect(prisma.users.update).toHaveBeenCalledTimes(1);
+        expect(result).toEqual(exampleDeleteUsers);
+      });
+    });

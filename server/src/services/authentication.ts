@@ -7,8 +7,8 @@ import { authConst } from '../constants/auth';
 const authenticate = async (email: string, password: string) => {
   const user = await UserService.getByEmail(email);
   if (user) {
-    const passwordCorrect = await bcrypt.compare(password, user.password);
-    const passwordCorrectNoEncrypt = password === user.password;
+    const passwordCorrect = await bcrypt.compare(password, user[0].password);
+    const passwordCorrectNoEncrypt = password === user[0].password;
     if (passwordCorrect || passwordCorrectNoEncrypt) {
       return await generateTokens(user);
     }

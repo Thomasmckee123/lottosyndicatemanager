@@ -118,26 +118,6 @@ GamesRouter.put( /**
   GameController.UpdateGame);
 
  GamesRouter.get('/:gameId', GameController.getGamesById)
-GamesRouter.delete(/**
-* @swagger
-* /api/boards/delete/{boardId}:
-*   delete:
-*     tags: 
-*     summary: Deletes an existing game
-*     description: deletes a game object.
-*       -games
-*     parameters:
-*       - in: path
-*         name: boardId
-*         type: integer
-*         description: The ID of the board.
-*     responses:
-*       400:
-*         description: Bad Request - required values are missing.
-*       204:
-*         description:board Deleted
-*/
-"/delete/:gameId(\\d+)",GameController.deleteGameById);
 
 GamesRouter.put("/archive/:gameTypeId",GameController.archiveGame)
 export { GamesRouter }; 

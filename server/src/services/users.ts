@@ -13,6 +13,9 @@ const getAll = async () => {
       balance: true,
     },
   });
+  if(!allUsers){
+    return null
+  }
   let getAllUsers: IUser[] = allUsers
     .filter((user) => user.first_name !== "DELETEDUSER")
     .map((x) => ({
@@ -43,12 +46,15 @@ const getAll = async () => {
         balance:true,
       },
     });
+    if (!usersById) {
+      return null;
+  }
     const returnedValue: IUser = {
      id: Number(usersById?.id),
-    firstName: usersById?.first_name ?? "",
-    lastName: usersById?.last_name??"",
-    email: usersById?.email??"",
-    image: usersById?.image??"",
+    firstName: usersById?.first_name,
+    lastName: usersById?.last_name,
+    email: usersById?.email,
+    image: usersById?.image,
     balance: Number(usersById?.balance),
     };
     if(!returnedValue){
@@ -132,19 +138,22 @@ const getAll = async () => {
       },
       
     });
-    let getAllUsers: IUser[] = users
-    .filter((user) => user.first_name !== "DELETEDUSER")
-    .map((x) => ({
-      id: x.id,
-      firstName: x.first_name,
-      lastName: x.last_name,
-      email: x.email,
-      image: x.image,
-      balance: Number(x.balance)
-    }));  
-    return getAllUsers && getAllUsers.length>0 && users[0];
-  };
-
+    const returnedValue: IUser = {
+      id: Number(users[0]?.id),
+     firstName: users[0]?.first_name,
+     lastName: users[0]?.last_name,
+     email: users[0]?.email,
+     image: users[0]?.image,
+     balance: Number(users[0]?.balance),
+     };
+     if(!returnedValue){
+       return null;
+     }
+ 
+   
+     return returnedValue;
+   };
+ 
   async function depositMoney(user:any){
     let updateBalance;
     try{

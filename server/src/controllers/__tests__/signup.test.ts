@@ -1,12 +1,9 @@
-import { prismaAsAny } from '../../test-utils/prisma';
-import { prisma } from '../../utils/prisma';
+
 import { UserService } from  '../../services/users';
 import httpMocks, { createResponse, MockResponse } from "node-mocks-http";
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import { when } from "jest-when";
-import { UserController } from '../users';
-import { error } from 'console';
+
 import { SignUpController } from '../signup';
 
 jest.mock("@prisma/client");  
@@ -14,8 +11,8 @@ jest.mock("../../services/users");
 //testing making user syndicate
 describe("signUp", () => {
     const createBody : any = {
-      first_name: "thomas",
-      last_name: "McKee",
+      firstName: "thomas",
+      lastName: "McKee",
       email: "Thomasmckee1234@gmail.com",
       password: "qwerty1@"
     };
@@ -30,8 +27,8 @@ describe("signUp", () => {
     const response: MockResponse<Response> = createResponse();
     const returnValue : any = {
       id: 1,
-      first_name: "thomas",
-      last_name: "McKee",
+      firstName: "thomas",
+      lastName: "McKee",
       email: "Thomasmckee1234@gmail.com",
       password: "qwerty1@"
     };
@@ -46,4 +43,3 @@ describe("signUp", () => {
   });
   
   });
-  

@@ -1,17 +1,11 @@
-import { prismaAsAny } from '../../test-utils/prisma';
-import { prisma } from '../../utils/prisma';
-import { UserService } from  '../../services/users';
+
 import httpMocks, { createResponse, MockResponse } from "node-mocks-http";
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { when } from "jest-when";
-import { UserController } from '../users';
-import { error } from 'console';
-import { SignUpController } from '../signup';
-import { ReviewsService } from '../../services/reviews';
-import { ReviewsController } from '../reviews';
+
 import { MessageService } from '../../services/messages';
-import { IMessages } from '../../interfaces';
+
 import { MessagesController } from '../messages';
 
 jest.mock("@prisma/client");  
@@ -23,25 +17,25 @@ describe("GET /messages", () => {
           url: "/api/messages/",
         });
         const response: MockResponse<Response> = createResponse();
-        const returnValue : any = [{
-            id: 1,
-            message: "what do you want",
-            created_date: "2023-07-25T10:24:39.694Z" ,
-            boards:{
-              
-                    id: 1, 
-                    name: "Thomas board",
-    
+        const returnValue : any[] = [
+            {
+                "id": 2,
+                "message": "We move silently, we win always.",
+                "createdDate": "2023-07-23T00:00:00.000Z",
+                "boards": {
+                    "id": 2,
+                    "name": "Shadows Speak"
                 },
-            user_syndicates:{
-                id: 1,
-                users:{
-                id: 1,
-                first_name: "Thomas",
-                last_name: "Mckee",
-                },
-            },
-     } ];
+                "userGames": {
+                    "id": 1,
+                    "deposit": 0,
+                    "users": {
+                        "id": 1,
+                        "firstName": "John",
+                        "lastName": "Doe"
+                    }
+                }
+            } ];
         when(MessageService.getAll)
           .calledWith()
           .mockReturnValueOnce(Promise.resolve(returnValue));
@@ -55,25 +49,25 @@ describe("GET /messages", () => {
 
 describe("getReviewsByBoardsId", () => {
     it("returns status code `200` and an array of reviews by syndicates", async () => {     
-             const returnValue : any = [{
-                id: 1,
-                message: "what do you want",
-                created_date: "2023-07-25T10:24:39.694Z" ,
-                boards:{
-                  
-                        id: 1, 
-                        name: "Thomas board",
-        
+             const returnValue : any = [
+                {
+                    "id": 2,
+                    "message": "We move silently, we win always.",
+                    "createdDate": "2023-07-23T00:00:00.000Z",
+                    "boards": {
+                        "id": 2,
+                        "name": "Shadows Speak"
                     },
-                user_syndicates:{
-                    id: 1,
-                    users:{
-                    id: 1,
-                    first_name: "Thomas",
-                    last_name: "Mckee",
-                    },
-                },
-            }];
+                    "userGames": {
+                        "id": 1,
+                        "deposit": 0,
+                        "users": {
+                            "id": 1,
+                            "firstName": "John",
+                            "lastName": "Doe"
+                        }
+                    }
+                }];
       console.log(returnValue)
       const request = httpMocks.createRequest({
         method: "GET",
@@ -143,25 +137,25 @@ console.log(response)
 
   //creating a review 
   describe("createreviews", () => {
-    const createBody : any = [{
-        id: 1,
-        message: "what do you want",
-        created_date: "2023-07-25T10:24:39.694Z" ,
-        boards:{
-          
-                id: 1, 
-                name: "Thomas board",
-
+    const createBody : any = [
+        {
+            "id": 2,
+            "message": "We move silently, we win always.",
+            "createdDate": "2023-07-23T00:00:00.000Z",
+            "boards": {
+                "id": 2,
+                "name": "Shadows Speak"
             },
-        user_syndicates:{
-            id: 1,
-            users:{
-            id: 1,
-            first_name: "Thomas",
-            last_name: "Mckee",
-            },
-        },
-    }];
+            "userGames": {
+                "id": 1,
+                "deposit": 0,
+                "users": {
+                    "id": 1,
+                    "firstName": "John",
+                    "lastName": "Doe"
+                }
+            }
+        }];
   console.log(createBody)
   it("returns status code `200` if message is successfully created", async () => {
     const request = httpMocks.createRequest({
@@ -171,25 +165,25 @@ console.log(response)
     });
   
     const response: MockResponse<Response> = createResponse();
-    const returnValue : any = [{
-        id: 1,
-        message: "what do you want",
-        created_date: "2023-07-25T10:24:39.694Z" ,
-        boards:{
-          
-                id: 1, 
-                name: "Thomas board",
-
+    const returnValue : any = [
+        {
+            "id": 2,
+            "message": "We move silently, we win always.",
+            "createdDate": "2023-07-23T00:00:00.000Z",
+            "boards": {
+                "id": 2,
+                "name": "Shadows Speak"
             },
-        user_syndicates:{
-            id: 1,
-            users:{
-            id: 1,
-            first_name: "Thomas",
-            last_name: "Mckee",
-            },
-        },
-    }];
+            "userGames": {
+                "id": 1,
+                "deposit": 0,
+                "users": {
+                    "id": 1,
+                    "firstName": "John",
+                    "lastName": "Doe"
+                }
+            }
+        }];
   
     MessageService.createMessageInBoard = jest.fn().mockResolvedValue(returnValue);
   

@@ -1,98 +1,465 @@
-import { IGames, IMessages } from '../../interfaces';
+import { Result } from "express-validator";
+import { IGames } from "../../interfaces";
 import { prismaAsAny } from '../../test-utils/prisma';
 import { prisma } from '../../utils/prisma';
-import { GameService } from '../games';
-import { MessageService } from '../messages';
-import { ReviewsService } from '../reviews';
-import { UserService } from '../users';
+import { GameTypeService } from '../gameTypes';
+import { GameService } from "../games";
+import { UserService } from "../users";
+import { SyndicateService } from "../syndicates";
+    describe("GET /games", () => {
 
-const testGames: IGames[] = [{
 
-        name: "string",
-        draw_date: new Date(),
-        reward: 22222,
-        image: "png.png",
-        required_ticket_number: "2",
-        user_syndicates: {
-          start_date: new Date(),
-          users: {
-            id: 2,
-            first_name: "string",
-            last_name:" string",
-            email: "string@string11",
-          },
-          syndicates: {
-            id: 1,
-            created_date: new Date(),
-            name: "Thomas",
-            description: "qewef quqoudbqeib",
-            avatar: "Thoomas203.png",
-         
-        }
-      }
+
+        const games :any[]= [
+            {    "id": 1,
+                "maximum_players": 5,
+                "treasury": 0,
+                "game_types": {
+                    "id": 1,
+                    "name": "euro millions",
+                    "draw_date": new Date("2023-08-18T00:00:00.000Z"),
+                    "reward": 43000000,
+                    "image": "euromillions.png",
+                    "ticket_cost": 2.5
+                },
+                "user_syndicates": {
+                    "start_date": new Date("2023-07-13T00:00:00.000Z"),
+                    "users": {
+                        "id": 1,
+                        "first_name": "John",
+                        "last_name": "Doe",
+                        "email": "JohnDoe@Gmail.com",
+                        "balance": 0
+                    },
+                    "syndicates": {
+                        "id": 1,
+                        "created_date": new Date("2023-07-10T00:00:00.000Z"),
+                        "name": "The Thunderbolts",
+                        "description": "For those who strike like lightning!",
+                        "avatar": "thunderbolts.jpg"
+                    }
+                }
+            },]
     
-}]
-
-const createGames = {
-    name: "Thoams",
-    draw_date: new Date(),
-    reward: 2030,
-    required_ticket_number: 2,
-    user_syndicate_id: 1,
-}
-//updating games
-const updateGames = {
-    name: "update",
-    draw_date: new Date(),
-    reward: 12234,
-    required_ticket_number: 2,
-    user_syndicate_id: 1
-}
-/**
- * get all messages
- */
-describe("GET /games", () => {
-    test("get all games", async () => {
-      prismaAsAny.games = {
-        findMany: jest.fn().mockResolvedValueOnce(testGames),
-      };
-      const result = await GameService.getAll();
-      expect(prisma.games.findMany).toHaveBeenCalledTimes(1);
-      expect(result).toEqual(testGames);
-    });
-
-  });
-/**
- * create game
- */
-  describe("/POST /createGames", () => {
- 
-    it("should create a new game", async () => {
-      prismaAsAny.games = { 
-        create: jest.fn().mockResolvedValueOnce(createGames),
-    };
-     console.log(createGames);
-  const result = await GameService.createGameInSyndicate(createGames);
-  console.log("hi"+result)
-  expect(prisma.games.create).toHaveBeenCalledTimes(1);
-  expect(result).toEqual(createGames.draw_date);
+      const gamesResponse :IGames[]= [
+        {
+            "id": 1,
+            "maximumPlayers": games[0].maximum_players,
+            "treasury": 0,
+            "gameTypes": {
+                "id": 1,
+                "name": "euro millions",
+                "drawDate": new Date("2023-08-18T00:00:00.000Z"),
+                "reward": 43000000,
+                "image": "euromillions.png",
+                "ticketCost": 2.5
+            },
+            "userSyndicates": {
+                "startDate": new Date("2023-07-13T00:00:00.000Z"),
+                "users": {
+                    "id": 1,
+                    "firstName": "John",
+                    "lastName": "Doe",
+                    "email": "JohnDoe@Gmail.com",
+                    "balance":0
+                },
+                "syndicates": {
+                    "id": 1,
+                    "createdDate": new Date("2023-07-10T00:00:00.000Z"),
+                    "name": "The Thunderbolts",
+                    "description": "For those who strike like lightning!",
+                    "avatar": "thunderbolts.jpg"
+                }
+            }
+        },]
       
+           
+        test("get gameResponse", async () => {
+            prismaAsAny.games = {
+                findMany: jest.fn().mockResolvedValueOnce(games),
+            };
+            const result = await GameService.getAll();
+            expect(prisma.games.findMany).toHaveBeenCalledTimes(1);
+            expect(result).toEqual(gamesResponse);
+        });
     });
-  
-  
-  });
-/**
- * updating games
- */
 
-  describe("PUT /games/:id", () => {
-    it("should get update syndicate by id", async () => {
-      prismaAsAny.games = {
-        update: jest.fn().mockReturnValueOnce(updateGames),
-      };
+    describe("GET /games/:id", () => {
 
-      const result = await GameService.updateGames(updateGames);
-      expect(prisma.games.update).toHaveBeenCalledTimes(1);
-      expect(result).toEqual(updateGames);
+
+
+        const games :any= 
+            {    "id": 1,
+                "maximum_players": 5,
+                "treasury": 0,
+                "game_types": {
+                    "id": 1,
+                    "name": "euro millions",
+                    "draw_date": new Date("2023-08-18T00:00:00.000Z"),
+                    "reward": 43000000,
+                    "image": "euromillions.png",
+                    "ticket_cost": 2.5
+                },
+                "user_syndicates": {
+                    "start_date": new Date("2023-07-13T00:00:00.000Z"),
+                    "users": {
+                        "id": 1,
+                        "first_name": "John",
+                        "last_name": "Doe",
+                        "email": "JohnDoe@Gmail.com",
+                        "balance": 0
+                    },
+                    "syndicates": {
+                        "id": 1,
+                        "created_date": new Date("2023-07-10T00:00:00.000Z"),
+                        "name": "The Thunderbolts",
+                        "description": "For those who strike like lightning!",
+                        "avatar": "thunderbolts.jpg"
+                    }
+                }
+            }
+    
+      const gamesResponse :IGames= 
+        {
+            "id": 1,
+            "maximumPlayers": 5,
+            "treasury": 0,
+            "gameTypes": {
+                "id": 1,
+                "name": "euro millions",
+                "drawDate": new Date("2023-08-18T00:00:00.000Z"),
+                "reward": 43000000,
+                "image": "euromillions.png",
+                "ticketCost": 2.5
+            },
+            "userSyndicates": {
+                "startDate": new Date("2023-07-13T00:00:00.000Z"),
+                "users": {
+                    "id": 1,
+                    "firstName": "John",
+                    "lastName": "Doe",
+                    "email": "JohnDoe@Gmail.com",
+                    "balance":0
+                },
+                "syndicates": {
+                    "id": 1,
+                    "createdDate": new Date("2023-07-10T00:00:00.000Z"),
+                    "name": "The Thunderbolts",
+                    "description": "For those who strike like lightning!",
+                    "avatar": "thunderbolts.jpg"
+                }
+            }
+        }
+      
+           
+        test("get gameResponse", async () => {
+            prismaAsAny.games = {
+                findUnique: jest.fn().mockResolvedValueOnce(games),
+            };
+            const result = await GameService.getGamesByGameId(1);
+            expect(prisma.games.findUnique).toHaveBeenCalledTimes(1);
+            expect(result).toEqual(gamesResponse);
+        });
     });
-  });
+
+
+
+
+    describe("GET /games/:syndicateId", () => {
+
+
+
+        const games :any[]= [
+            {    "id": 1,
+                "maximum_players": 5,
+                "treasury": 0,
+                "game_types": {
+                    "id": 1,
+                    "name": "euro millions",
+                    "draw_date": new Date("2023-08-18T00:00:00.000Z"),
+                    "reward": 43000000,
+                    "image": "euromillions.png",
+                    "ticket_cost": 2.5
+                },
+                "user_syndicates": {
+                    "start_date": new Date("2023-07-13T00:00:00.000Z"),
+                    "users": {
+                        "id": 1,
+                        "first_name": "John",
+                        "last_name": "Doe",
+                        "email": "JohnDoe@Gmail.com",
+                        "balance": 0
+                    },
+                    "syndicates": {
+                        "id": 1,
+                        "created_date": new Date("2023-07-10T00:00:00.000Z"),
+                        "name": "The Thunderbolts",
+                        "description": "For those who strike like lightning!",
+                        "avatar": "thunderbolts.jpg"
+                    }
+                }
+            },]
+    
+      const gamesResponse :IGames[]= [
+        {
+            "id": 1,
+            "maximumPlayers": games[0].maximum_players,
+            "treasury": 0,
+            "gameTypes": {
+                "id": 1,
+                "name": "euro millions",
+                "drawDate": new Date("2023-08-18T00:00:00.000Z"),
+                "reward": 43000000,
+                "image": "euromillions.png",
+                "ticketCost": 2.5
+            },
+            "userSyndicates": {
+                "startDate": new Date("2023-07-13T00:00:00.000Z"),
+                "users": {
+                    "id": 1,
+                    "firstName": "John",
+                    "lastName": "Doe",
+                    "email": "JohnDoe@Gmail.com",
+                    "balance":0
+                },
+                "syndicates": {
+                    "id": 1,
+                    "createdDate": new Date("2023-07-10T00:00:00.000Z"),
+                    "name": "The Thunderbolts",
+                    "description": "For those who strike like lightning!",
+                    "avatar": "thunderbolts.jpg"
+                }
+            }
+        },]
+      
+           
+        test("get games by syndicate id", async () => {
+            prismaAsAny.games = {
+                findMany: jest.fn().mockResolvedValueOnce(games),
+            };
+            const result = await GameService.getGamesBySyndicateId(1);
+            expect(prisma.games.findMany).toHaveBeenCalledTimes(1);
+            expect(result).toEqual(gamesResponse);
+        });
+    });
+
+
+    describe("GET /games/:typeId", () => {
+
+
+
+        const games :any[]= [
+            {    "id": 1,
+                "maximum_players": 5,
+                "treasury": 0,
+                "game_types": {
+                    "id": 1,
+                    "name": "euro millions",
+                    "draw_date": new Date("2023-08-18T00:00:00.000Z"),
+                    "reward": 43000000,
+                    "image": "euromillions.png",
+                    "ticket_cost": 2.5
+                },
+                "user_syndicates": {
+                    "start_date": new Date("2023-07-13T00:00:00.000Z"),
+                    "users": {
+                        "id": 1,
+                        "first_name": "John",
+                        "last_name": "Doe",
+                        "email": "JohnDoe@Gmail.com",
+                        "balance": 0
+                    },
+                    "syndicates": {
+                        "id": 1,
+                        "created_date": new Date("2023-07-10T00:00:00.000Z"),
+                        "name": "The Thunderbolts",
+                        "description": "For those who strike like lightning!",
+                        "avatar": "thunderbolts.jpg"
+                    }
+                }
+            },]
+    
+      const gamesResponse :IGames[]= [
+        {
+            "id": 1,
+            "maximumPlayers": games[0].maximum_players,
+            "treasury": 0,
+            "gameTypes": {
+                "id": 1,
+                "name": "euro millions",
+                "drawDate": new Date("2023-08-18T00:00:00.000Z"),
+                "reward": 43000000,
+                "image": "euromillions.png",
+                "ticketCost": 2.5
+            },
+            "userSyndicates": {
+                "startDate": new Date("2023-07-13T00:00:00.000Z"),
+                "users": {
+                    "id": 1,
+                    "firstName": "John",
+                    "lastName": "Doe",
+                    "email": "JohnDoe@Gmail.com",
+                    "balance":0
+                },
+                "syndicates": {
+                    "id": 1,
+                    "createdDate": new Date("2023-07-10T00:00:00.000Z"),
+                    "name": "The Thunderbolts",
+                    "description": "For those who strike like lightning!",
+                    "avatar": "thunderbolts.jpg"
+                }
+            }
+        },]
+      
+           
+        test("get games by syndicate and type id", async () => {
+            prismaAsAny.games = {
+                findMany: jest.fn().mockResolvedValueOnce(games),
+            };
+            const result = await GameService.getGamesByTypeId(1, 1);
+            expect(prisma.games.findMany).toHaveBeenCalledTimes(1);
+            expect(result).toEqual(gamesResponse);
+        });
+    });
+
+
+    describe("GET /games/archived", () => {
+
+
+
+        const games :any[]= [
+            {    "id": 1,
+                "maximum_players": 5,
+                "treasury": 0,
+                "game_types": {
+                    "id": 1,
+                    "name": "euro millions",
+                    "draw_date": new Date("2023-08-18T00:00:00.000Z"),
+                    "reward": 43000000,
+                    "image": "euromillions.png",
+                    "ticket_cost": 2.5
+                },
+                "user_syndicates": {
+                    "start_date": new Date("2023-07-13T00:00:00.000Z"),
+                    "users": {
+                        "id": 1,
+                        "first_name": "John",
+                        "last_name": "Doe",
+                        "email": "JohnDoe@Gmail.com",
+                        "balance": 0
+                    },
+                    "syndicates": {
+                        "id": 1,
+                        "created_date": new Date("2023-07-10T00:00:00.000Z"),
+                        "name": "The Thunderbolts",
+                        "description": "For those who strike like lightning!",
+                        "avatar": "thunderbolts.jpg"
+                    }
+                }
+            },]
+    
+      const gamesResponse :IGames[]= [
+        {
+            "id": 1,
+            "maximumPlayers": games[0].maximum_players,
+            "treasury": 0,
+            "gameTypes": {
+                "id": 1,
+                "name": "euro millions",
+                "drawDate": new Date("2023-08-18T00:00:00.000Z"),
+                "reward": 43000000,
+                "image": "euromillions.png",
+                "ticketCost": 2.5
+            },
+            "userSyndicates": {
+                "startDate": new Date("2023-07-13T00:00:00.000Z"),
+                "users": {
+                    "id": 1,
+                    "firstName": "John",
+                    "lastName": "Doe",
+                    "email": "JohnDoe@Gmail.com",
+                    "balance":0
+                },
+                "syndicates": {
+                    "id": 1,
+                    "createdDate": new Date("2023-07-10T00:00:00.000Z"),
+                    "name": "The Thunderbolts",
+                    "description": "For those who strike like lightning!",
+                    "avatar": "thunderbolts.jpg"
+                }
+            }
+        },]
+      
+           
+        test("get games by syndicate and type id", async () => {
+            prismaAsAny.games = {
+                findMany: jest.fn().mockResolvedValueOnce(games),
+            };
+            const result = await GameService.archivedGames(1);
+            expect(prisma.games.findMany).toHaveBeenCalledTimes(1);
+            expect(result).toEqual(gamesResponse);
+        });
+    });
+
+
+    describe("PUT /update/:gameId", () => { 
+
+        const balanceChange= {
+        treasury: 0,
+        };
+          it("should get update user by id", async () => {
+            prismaAsAny.games = {
+              update: jest.fn().mockReturnValueOnce(balanceChange),
+            };
+      
+            const result = await GameService.updateGames(balanceChange);
+            expect(prisma.games.update).toHaveBeenCalledTimes(1);
+            expect(result).toEqual(balanceChange);
+          });
+        });
+
+
+
+        describe("/POST /game", () => {
+            const testCreateGame = {
+                maximumPlayers: 1,
+                treasury: 0,
+                userSyndicateId: 1,
+                gameTypeId: 1,
+             
+             
+             }
+            it("should create a new game", async () => {
+              prismaAsAny.games = { 
+                create: jest.fn().mockResolvedValueOnce(testCreateGame),
+            };
+             console.log(testCreateGame);
+          const result = await GameService.createGameInSyndicate(testCreateGame);
+          console.log("hi"+result)
+          expect(prisma.games.create).toHaveBeenCalledTimes(1);
+          expect(result).toEqual(testCreateGame);
+              
+            });
+          
+          
+          });
+    
+          
+    
+    describe("/update/archive",()=>{
+        const updatedResponse = {
+"maximumPlayers": 0
+        }
+        
+        test("archive game", async () => {
+            prismaAsAny.games = {
+                update: jest.fn().mockResolvedValueOnce(updatedResponse),
+            };
+            const result = await GameService.archiveGames(updatedResponse);
+            expect(prisma.games.update).toHaveBeenCalledTimes(1);
+            expect(result.maximumPlayers).toEqual(updatedResponse.maximumPlayers);
+        });
+        
+        
+        
+        })

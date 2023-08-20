@@ -263,7 +263,7 @@ const getGamesByUserId = async (userId) => {
 };
 async function getGamesByGameId(gameId: number){
   let userGamesById;
-  try {
+  
     userGamesById = await prisma.user_games.findMany({
       where: { games:{id: gameId,} }, 
       select: {
@@ -279,10 +279,9 @@ async function getGamesByGameId(gameId: number){
             treasury: true,
             game_types:{
               select:{
-id:true,
-name: true
-              }
-            },
+              id: true,
+              name: true,
+            }},
             user_syndicates: {
               select: {
                 start_date: true,
@@ -315,15 +314,15 @@ name: true
       id: x.id,
       startDate: x.start_date,
       deposit: x.deposit,
-      role_id: x.role_id,
+      roleId: x.role_id,
       userId: x.user_id,
       games: {
-        id: x?.games?.id,
-        maximumPlayers: x?.games?.maximum_players,
-        treasury: x?.games?.treasury,
+        id: x.games.id,
+        maximumPlayers: x.games.maximum_players,
+        treasury: x.games.treasury,
         gameTypes:{
-          id: x?.games?.gameTypes?.id,
-          name:x.games?.gameTypes?.name
+        id:  x.games.game_types.id ,
+        name: x.games.game_types.name,
         },
         userSyndicates: {
           startDate: x.games.user_syndicates.start_date,
@@ -344,13 +343,9 @@ name: true
         }
       }
     }));
-    console.log()
+  
     return modifiedUserGames;
-  } catch (error) {
-    console.error("error with server")
-    throw error;
-  }
-}
+  };
 
 async function createUserGame(userGame: any) {
   try {

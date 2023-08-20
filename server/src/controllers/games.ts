@@ -111,16 +111,6 @@ async function archiveGame(req: Request, res: Response){
     return res.status(500).json({"cannot archive game": error})
   }
 }
-//deleting a game by id
-async function deleteGameById(req: Request, res: Response) {
-  const gameId = Number(req.params.gameId);
 
-  const deletedGame = await GameService.deleteGameById(gameId);
-  if (!deletedGame) {
-    return res.status(500).json("Cannot delete game");
-  }
-  return res.status(200).json(deletedGame);
-}
-
-const GameController = {getArchivedGames,archiveGame,getGamesByTypeId,getGamesById, getGamesBySyndicateId, getAllGames, createGames, UpdateGame, deleteGameById};
+const GameController = {getArchivedGames,archiveGame,getGamesByTypeId,getGamesById, getGamesBySyndicateId, getAllGames, createGames, UpdateGame};
 export {GameController};
