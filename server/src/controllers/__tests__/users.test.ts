@@ -116,40 +116,6 @@ describe("GET /users", () => {
         });
       });
     
-//   //testing making user syndicate
-//   describe("createUserSyndicate", () => {
-//     const createBody = {
-//      start_date: new Date(),
-//      user_id: 1,
-//      user_syndicate_id: 1,
-//      role_id: 1
-//     };
-//     const invalidCreateBody = {
-//         start_date: new Date(),
-//      role_id: 99
-//     };
-//     it("returns status code `200` if user syndciate is successfully created", async () => {
-//       const request = httpMocks.createRequest({
-//         method: "POST",
-//         url: "/1/syndicates/1",
-//         body: createBody,
-//       });
-//       const response: MockResponse<Response> = createResponse();
-//       const returnValue = {
-//         start_date: new Date(),
-
-//         role_id: 9999
-//       };
-//       when(UserService.createUserSyndicate)
-//         .calledWith(createBody)
-//         .mockReturnValueOnce(Promise.resolve(new Date()));
-
-//       await UserController.createUserSyndicate(request, response);
-
-//       expect(response._getStatusCode()).toEqual(StatusCodes.OK);
-//     });
- 
-//   });
 
   describe("updateUserDetails", () => {
     const updateBody = {
