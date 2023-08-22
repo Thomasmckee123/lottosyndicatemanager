@@ -53,7 +53,10 @@ const getUserSyndicateByUserSyndicteId = async(req: Request, res: Response)=>{
       let userSyndicate = req.body;
       userSyndicate["id"] = Number(userSyndicateId);
       const updatedUser = await UserSyndicateService.updateUserSyndicateDetails(userSyndicate);
-      return res.status(200).json(updatedUser);
+      if(!updatedUser){
+        return res.status(400);
+      }else{
+      return res.status(200).json(updatedUser)};
     } catch (error) {
       res.status(500).json("Could not update user.");
     }

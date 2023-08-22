@@ -38,11 +38,9 @@ const LogonPage = () => {
         accessToken: response.data.accessToken,
         refreshToken: response.data.refreshToken,
       };
-
+      console.log("RESPONSE DATA" + JSON.stringify(response));
       localStorage.setItem("user", JSON.stringify(authDetails));
-
       localStorage.setItem("userEmail", JSON.stringify(emailAddress));
-
       dispatch({
         type: "authentication",
         ...authDetails,

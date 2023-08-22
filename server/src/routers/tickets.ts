@@ -1,7 +1,7 @@
 import express from "express";
 import { TicketController } from "../controllers/tickets";
-import { resolver } from "../middleware/_resolver";
 import { body } from "express-validator";
+import { validate } from "../utils/validation";
 //setting up routers
 const TicketRouter = express.Router();
 
@@ -113,7 +113,7 @@ TicketRouter.post(/**
     
     body("totalRewardValue").isNumeric(),
     body("ticketStatusId").isNumeric().isLength({min: 1}).trim(),
-  ],resolver, TicketController.createTickets);
+  ],validate, TicketController.createTickets);
 TicketRouter.put( /**
 * @swagger
 * /api/tickets/update/{ticketId}:
@@ -149,11 +149,11 @@ TicketRouter.put( /**
 *       200:
 *         description: User Updated
 */
-"/update/:id(\\d+)",[
+"/:ticketId(\\d+)",[
     body("ticket_code").isString().isLength({ min: 3 }),
     body("total_reward_value").isNumeric().isLength({ min: 3 }).trim(),
     body("ticket_status_id").isNumeric().isLength({min: 1}).trim(),
-  ],resolver, TicketController.updateTicketStatus);
+  ],validate, TicketController.updateTicketStatus);
 
 TicketRouter.put( /**
 * @swagger

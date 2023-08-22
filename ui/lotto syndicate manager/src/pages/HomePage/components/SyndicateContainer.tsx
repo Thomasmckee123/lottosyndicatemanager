@@ -28,27 +28,34 @@ function SyndicateContainer() {
   return (
     <>
       <CssBaseline />
-      <Header />
+
       <Container maxWidth="xl">
+        <Header />
         <Box
           sx={{
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            height: "80vh",
+            minHeight: "90vh",
+            borderRadius: "20px",
+            boxShadow: "0px 0px 20px rgba(0, 0, 0, 0.1)",
+            padding: "20px",
           }}
         >
+          {" "}
           <Box
             sx={{
               bgcolor: "gray",
-              width: "80vw", // This will set the width to be 80% of the viewport width
-              height: "70vh", // Adjust the height here if needed
-              overflow: "auto", // This will add a scrollbar when content overflows
+              width: "100%",
+              height: "90%", // Updated height to 90%
+              overflow: "auto",
+              borderRadius: "20px",
+              padding: "20px",
             }}
           >
             <Grid container spacing={2}>
               {data.map((item) => (
-                <Grid item xs={6} md={4}>
+                <Grid item xs={12} sm={6} md={4} key={item.id}>
                   <SyndicateCard data={item} />
                 </Grid>
               ))}

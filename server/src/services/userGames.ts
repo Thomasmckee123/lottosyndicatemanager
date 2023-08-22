@@ -19,35 +19,13 @@ const getAll = async () => {
             id: true,
             name: true,
           }},
-          user_syndicates: {
-            select: {
-              start_date: true,
-              users: {
-                select: {
-                  id: true,
-                  first_name: true,
-                  last_name: true,
-                  email: true,  
-                  balance: true,
-                }
-              },
-              syndicates: {
-                select: {
-                  id: true,
-                  created_date: true,
-                  name: true,
-                  description: true,
-                  avatar: true,
-                }
-              }
-            }
-          }
+          syndicate_id:true,
         }
       }
     }
   });
 
-  const modifiedUserGames: IUserGames[] = allUserGames.map((x) => ({
+  const modifiedUserGames: any[] = allUserGames.map((x) => ({
     id: x.id,
     startDate: x.start_date,
     deposit: x.deposit,
@@ -61,23 +39,8 @@ const getAll = async () => {
       id:  x.games.game_types.id ,
       name: x.games.game_types.name,
       },
-      userSyndicates: {
-        startDate: x.games.user_syndicates.start_date,
-        users: {
-          id: x.games.user_syndicates.users.id,
-          firstName: x.games.user_syndicates.users.first_name,
-          lastName: x.games.user_syndicates.users.last_name,
-          email: x.games.user_syndicates.users.email,
-          balance: x.games.user_syndicates.users.balance
-        },
-        syndicates: {
-          id: x.games.user_syndicates.syndicates.id,
-          createdDate: x.games.user_syndicates.syndicates.created_date,
-          name: x.games.user_syndicates.syndicates.name,
-          description: x.games.user_syndicates.syndicates.description,
-          avatar: x.games.user_syndicates.syndicates.avatar
-        }
-      }
+   syndicateId: x.games.syndicate_id,
+
     }
   }));
 
@@ -91,7 +54,12 @@ const getAll = async () => {
  */
 const getGamesBySyndicateId = async (syndicateId) => {
   let allUserGames = await prisma.user_games.findMany({
-    where:{id:syndicateId},
+    where:
+    {
+    
+      id:syndicateId
+        
+  },
     select: {
       id: true,
       start_date: true,
@@ -108,35 +76,15 @@ const getGamesBySyndicateId = async (syndicateId) => {
             id: true,
             name: true,
           }},
-          user_syndicates: {
-            select: {
-              start_date: true,
-              users: {
-                select: {
-                  id: true,
-                  first_name: true,
-                  last_name: true,
-                  email: true,  
-                  balance: true,
-                }
-              },
-              syndicates: {
-                select: {
-                  id: true,
-                  created_date: true,
-                  name: true,
-                  description: true,
-                  avatar: true,
-                }
-              }
-            }
+        syndicate_id: true,
+            
           }
         }
       }
     }
-  });
+)
 
-  const modifiedUserGames: IUserGames[] = allUserGames.map((x) => ({
+  const modifiedUserGames: any[] = allUserGames.map((x) => ({
     id: x.id,
     startDate: x.start_date,
     deposit: x.deposit,
@@ -150,23 +98,8 @@ const getGamesBySyndicateId = async (syndicateId) => {
       id:  x.games.game_types.id ,
       name: x.games.game_types.name,
       },
-      userSyndicates: {
-        startDate: x.games.user_syndicates.start_date,
-        users: {
-          id: x.games.user_syndicates.users.id,
-          firstName: x.games.user_syndicates.users.first_name,
-          lastName: x.games.user_syndicates.users.last_name,
-          email: x.games.user_syndicates.users.email,
-          balance: x.games.user_syndicates.users.balance
-        },
-        syndicates: {
-          id: x.games.user_syndicates.syndicates.id,
-          createdDate: x.games.user_syndicates.syndicates.created_date,
-          name: x.games.user_syndicates.syndicates.name,
-          description: x.games.user_syndicates.syndicates.description,
-          avatar: x.games.user_syndicates.syndicates.avatar
-        }
-      }
+    
+      syndicateId: x.games.syndicate_id,
     }
   }));
 
@@ -197,35 +130,15 @@ const getGamesByUserId = async (userId) => {
             id: true,
             name: true,
           }},
-          user_syndicates: {
-            select: {
-              start_date: true,
-              users: {
-                select: {
-                  id: true,
-                  first_name: true,
-                  last_name: true,
-                  email: true,  
-                  balance: true,
-                }
-              },
-              syndicates: {
-                select: {
-                  id: true,
-                  created_date: true,
-                  name: true,
-                  description: true,
-                  avatar: true,
-                }
-              }
-            }
-          }
+         
+            syndicate_id:true,
+          
         }
       }
     }
   });
 
-  const modifiedUserGames: IUserGames[] = allUserGames.map((x) => ({
+  const modifiedUserGames: any[] = allUserGames.map((x) => ({
     id: x.id,
     startDate: x.start_date,
     deposit: x.deposit,
@@ -239,23 +152,7 @@ const getGamesByUserId = async (userId) => {
       id:  x.games.game_types.id ,
       name: x.games.game_types.name,
       },
-      userSyndicates: {
-        startDate: x.games.user_syndicates.start_date,
-        users: {
-          id: x.games.user_syndicates.users.id,
-          firstName: x.games.user_syndicates.users.first_name,
-          lastName: x.games.user_syndicates.users.last_name,
-          email: x.games.user_syndicates.users.email,
-          balance: x.games.user_syndicates.users.balance
-        },
-        syndicates: {
-          id: x.games.user_syndicates.syndicates.id,
-          createdDate: x.games.user_syndicates.syndicates.created_date,
-          name: x.games.user_syndicates.syndicates.name,
-          description: x.games.user_syndicates.syndicates.description,
-          avatar: x.games.user_syndicates.syndicates.avatar
-        }
-      }
+  syndicateId: x.games.game_types.id,
     }
   }));
 
@@ -282,29 +179,7 @@ async function getGamesByGameId(gameId: number){
               id: true,
               name: true,
             }},
-            user_syndicates: {
-              select: {
-                start_date: true,
-                users: {
-                  select: {
-                    id: true,
-                    first_name: true,
-                    last_name: true,
-                    email: true,  
-                    balance: true,
-                  }
-                },
-                syndicates: {
-                  select: {
-                    id: true,
-                    created_date: true,
-                    name: true,
-                    description: true,
-                    avatar: true,
-                  }
-                }
-              }
-            }
+      syndicate_id: true,
           }
         }
       }
@@ -324,23 +199,7 @@ async function getGamesByGameId(gameId: number){
         id:  x.games.game_types.id ,
         name: x.games.game_types.name,
         },
-        userSyndicates: {
-          startDate: x.games.user_syndicates.start_date,
-          users: {
-            id: x.games.user_syndicates.users.id,
-            firstName: x.games.user_syndicates.users.first_name,
-            lastName: x.games.user_syndicates.users.last_name,
-            email: x.games.user_syndicates.users.email,
-            balance: x.games.user_syndicates.users.balance
-          },
-          syndicates: {
-            id: x.games.user_syndicates.syndicates.id,
-            createdDate: x.games.user_syndicates.syndicates.created_date,
-            name: x.games.user_syndicates.syndicates.name,
-            description: x.games.user_syndicates.syndicates.description,
-            avatar: x.games.user_syndicates.syndicates.avatar
-          }
-        }
+   syndicates_id: x.games.syndicate_id,
       }
     }));
   

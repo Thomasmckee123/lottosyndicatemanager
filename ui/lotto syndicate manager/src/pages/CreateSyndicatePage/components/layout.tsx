@@ -1,6 +1,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import { Button, Grid, Typography, useTheme } from "@mui/material";
+import { Alert, AlertTitle } from "@mui/material";
 
 import {
   createSyndicate,
@@ -18,41 +19,31 @@ function InputArea() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState<File | null>(null); // Initial state is null
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const { ownerId } = useParams<{ ownerId: string }>();
-  // console.log(decodedJwt.userId);
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault(); // Prevent the default form submit action
     if (!image) {
       alert("Please select an image.");
       return;
     }
-    let createdSyndicate = null;
-    console.log(ownerId);
     try {
-      if (ownerId) {
-        createdSyndicate = await createSyndicate(
-          name,
-          description,
-          image,
-          Number(ownerId)
-        );
-      } else {
-        console.error("ownerId is undefined!");
-      }
+      const createdSyndicate = await createSyndicate(
+        name,
+        description,
+        image,
+        Number(ownerId)
+      );
       setName("");
       setDescription("");
       setImage(null);
-    } catch (error) {
-      console.error("Error creating syndicate:", error);
-    }
-    //automatically setting the role id to 1
-    let roleId = 1;
-    let userId = ownerId;
-    let syndicateId = createdSyndicate;
-    console.log(userId);
-    console.log(syndicateId);
-    console.log(roleId);
-    try {
+      setSuccessMessage("Syndicate created successfully!");
+      //automatically setting the role id to 1
+      const roleId = 1;
+      const userId = ownerId;
+      const syndicateId = createdSyndicate;
       await createUserSyndicate(
         new Date(),
         Number(userId),
@@ -60,7 +51,8 @@ function InputArea() {
         Number(roleId)
       );
     } catch (error) {
-      console.error(error);
+      console.error("Error creating syndicate:", error);
+      setErrorMessage("Could not create syndicate.");
     }
   };
 
@@ -79,11 +71,12 @@ function InputArea() {
         onSubmit={handleSubmit}
         sx={{
           position: "absolute",
-          left: "20vw",
+          left: "50%",
+          top: "50%",
+          transform: "translate(-50%, -50%)",
           display: "flex",
           flexDirection: "column",
-          width: "70vw",
-          maxHeight: "70vh",
+          width: "50%",
           backgroundColor: "white",
           borderRadius: "15px",
           padding: theme.spacing(3),
@@ -97,7 +90,7 @@ function InputArea() {
           alignItems="stretch"
           justifyContent="center"
         >
-          <Grid item xs={12}>
+          <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
             <NameInput value={name} setValue={setName} />
           </Grid>
 
@@ -112,7 +105,7 @@ function InputArea() {
           <Grid item xs={12}>
             <Button
               sx={{
-                backgroundColor: "darkred",
+                backgroundColor: "#f44336",
                 color: "white",
                 alignSelf: "flex-end",
               }}
@@ -125,7 +118,30 @@ function InputArea() {
           </Grid>
         </Grid>
       </Box>
+
+      {successMessage && (
+        <Alert
+          severity="success"
+          sx={{ position: "fixed", bottom: "20px", right: "20px" }}
+          onClose={() => setSuccessMessage("")}
+        >
+          <AlertTitle>Success</AlertTitle>
+          {successMessage}
+        </Alert>
+      )}
+
+      {errorMessage && (
+        <Alert
+          severity="error"
+          sx={{ position: "fixed", bottom: "20px", right: "20px" }}
+          onClose={() => setErrorMessage("")}
+        >
+          <AlertTitle>Error</AlertTitle>
+          {errorMessage}
+        </Alert>
+      )}
     </>
   );
 }
+
 export default InputArea;

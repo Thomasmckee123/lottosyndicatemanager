@@ -12,22 +12,7 @@ interface IUserGames {
          id: number, 
         name: string,
         },
-      userSyndicates: {
-        startDate: Date;
-        users: {
-          id: number;
-          firstName: string;
-          lastName: string;
-          email: string;
-          balance:number;
-        };
-        syndicates: {
-          id: number;
-          createdDate: Date;
-          name: string;
-          description: string|null;
-          avatar: string|null;
-        };
-        }}
+    syndicate_id: number,
+        }
     }
     export {IUserGames}

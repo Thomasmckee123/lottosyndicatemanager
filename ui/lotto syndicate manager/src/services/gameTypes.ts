@@ -32,7 +32,7 @@ console.log(fixedDrawDate)
   };
   console.log("DATE UPDATE DATA", gameData)
   try{
-  const response = await axios.put(`gameTypes/archive/${gameTypeId}`,gameData)
+  const response = await axios.put(`gameTypes/${gameTypeId}`,gameData)
   console.log("archive response data", response.data)
   return response.data;
   
@@ -43,12 +43,5 @@ console.log(fixedDrawDate)
 
 }
 
-const autoCreateGames = async()=>{
-try{
-  const response = await axios.post('gameTypes/autoCreateGames')
-  return response.data
-}catch(error){
-console.error("couldnt auto create a game", error)
-}
-}
-  export{updateDates, fetchGamesWePlay, autoCreateGames}
+
+  export{updateDates, fetchGamesWePlay, }

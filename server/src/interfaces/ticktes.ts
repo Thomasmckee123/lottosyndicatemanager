@@ -19,17 +19,9 @@ interface ITicket {
      image: string,
      ticketCost: number,
     },
-     userSyndicates:{
-      
-         startDate: Date,
-         users:{
-         
-             id: number,
-             firstName: string,
-             lastName: string,
-             email: string,  
-             balance:number
-           }}}}
+   syndicateId: number,
+  
+  }}
 
   
 

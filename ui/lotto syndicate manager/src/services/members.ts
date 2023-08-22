@@ -25,7 +25,7 @@ const fetchUserBySyndicateId = async (syndicateId: Number) => {
     return response.data
   }
   const deleteUserSyndicate = async(userSyndicateId: number)=>{
-    const response = axios.delete(`userSyndicates/delete/${userSyndicateId}`)
+    const response = axios.delete(`userSyndicates/${userSyndicateId}`)
     return response;
   }
   

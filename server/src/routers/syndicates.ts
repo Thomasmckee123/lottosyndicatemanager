@@ -1,7 +1,7 @@
 import express from "express";
 import { SyndicateController } from "../controllers/syndicates";
-import { resolver } from "../middleware/_resolver";
 import { body } from "express-validator";
+import { validate } from "../utils/validation";
 
 const SyndicatesRouter = express.Router();
 
@@ -76,11 +76,11 @@ SyndicatesRouter.post(/**
 *               type: array
 *               
 */
-"/create/users/:ownerId(\\d+)",[
+"/users/:ownerId(\\d+)",[
     body("name").isString().isLength({ min: 3 }),
     body("description").isString().isLength({ min: 3 }).trim(),
     
-  ],resolver, SyndicateController.createSyndicate);
+  ],validate, SyndicateController.createSyndicate);
 
 SyndicatesRouter.put(/**
 * @swagger
@@ -120,13 +120,13 @@ SyndicatesRouter.put(/**
 *         description: Bad Request - required values are missing.
 *       200:
 *         description: User Updated
-*/"/update/:syndicateId(\\d+)",[
+*/"/:syndicateId(\\d+)",[
     body("ticket_code").isString().isLength({ min: 3 }),
     body("total_reward_value").isNumeric().isLength({ min: 3 }).trim(),
     body("ticket_status_id").isNumeric().isLength({min: 1}).trim(),
     body("required_ticket_number").isNumeric().isLength({min:1})
-  ], resolver, SyndicateController.UpdateSyndicateDetails);
-SyndicatesRouter.put(/**
+  ], validate, SyndicateController.UpdateSyndicateDetails);
+SyndicatesRouter.delete(/**
 * @swagger
 * /api/tickets/delete/{syndicateId}:
 *   put:
@@ -161,5 +161,5 @@ SyndicatesRouter.put(/**
 *         description: Bad Request - required values are missing.
 *       200:
 *         description: User Updated
-*/"/delete/:syndicateId(\\d+)",SyndicateController.deleteSyndicateById);
+*/"/:syndicateId(\\d+)",SyndicateController.deleteSyndicateById);
 export { SyndicatesRouter }; 

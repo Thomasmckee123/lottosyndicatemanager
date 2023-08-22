@@ -1,7 +1,7 @@
 import express from "express";
 import { BoardsController } from "../controllers/boards";
-import { resolver } from "../middleware/_resolver";
 import { body } from "express-validator";
+import { validate } from "../utils/validation";
 
 const BoardsRouter = express.Router();
 
@@ -80,9 +80,9 @@ BoardsRouter.post(/**
 *             schema:
 *               type: array
 *               
-*/"/create/games/:gameId", [
+*/"/games/:gameId", [
     body("name").isString().isLength( {min:3} ),
-  ], resolver,
+  ], validate,
   BoardsController.createBoard);
 BoardsRouter.delete(/**
 * @swagger
@@ -133,5 +133,5 @@ BoardsRouter.put(/**
 *         description: Bad Request - required values are missing.
 *       200:
 *         description: User Updated
-*/"/update/:boardId(\\d+)", BoardsController.UpdateBoards);
+*/"/:boardId(\\d+)", BoardsController.UpdateBoards);
 export { BoardsRouter }; 

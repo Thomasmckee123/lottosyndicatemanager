@@ -6,11 +6,11 @@ const UserGameRouter = express.Router()
 
 
 UserGameRouter.get('/',UserGameController.getAllUserGames);
-UserGameRouter.get('/userGamesByGameId/:gameId',UserGameController.getUserGamesByGameId);
-UserGameRouter.get('/userGamesBySyndicateId/:syndicateId',UserGameController.getUserGamesBySyndicateId);
-UserGameRouter.get('/userGamesByUserId/:userId', UserGameController.getUserGamesByUserId);
-UserGameRouter.post('/createUserGame/games/:gameId/users/:userId',UserGameController.createUserGame);
-UserGameRouter.post('/updateUserGame',UserGameController.UpdateUserGame);
+UserGameRouter.get('/games/:gameId',UserGameController.getUserGamesByGameId);
+UserGameRouter.get('/syndicates/:syndicateId',UserGameController.getUserGamesBySyndicateId);
+UserGameRouter.get('/users/:userId', UserGameController.getUserGamesByUserId);
+UserGameRouter.post('/games/:gameId/users/:userId',UserGameController.createUserGame);
+UserGameRouter.put('/',UserGameController.UpdateUserGame);
 
 
 

@@ -18,7 +18,9 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "types": ["@types/webrtc"]
+
   },
   "include": ["src", "utils/games.ts", "utils/syndicates.ts", "utils/fetchHomePageByUserId.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }]

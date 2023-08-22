@@ -88,6 +88,6 @@ UserSyndicatesRouter.post(/**
 *                   type: number
 */"/:userId(\\d+)/syndicates/:syndicateId(\\d+)/roles/:roleId", UserSyndicateController.createUserSyndicate)
 
-UserSyndicatesRouter.put("/updateRole/:userSyndicateId",UserSyndicateController.updateUserSyndicate);
+UserSyndicatesRouter.put("/:userSyndicateId",UserSyndicateController.updateUserSyndicate);
 UserSyndicatesRouter.delete("/delete/:userSyndicateId",UserSyndicateController.deleteUserSyndicateById)
 export{UserSyndicatesRouter}

@@ -19,14 +19,14 @@ INSERT INTO user_syndicates (start_date, user_id, syndicate_id, role_id) VALUES
 ('2023-07-14', 2, 2, 1),
 ('2023-07-15', 3, 3, 1);
 INSERT INTO game_types(name, draw_date, reward, image,ticket_cost) VALUES
-('euro millions', '2023-08-18', 43000000.0,'euromillions.png',2.50),
-('set for life', '2023-08-17', 10000.0,'setforLife.png', 2),
-('Thunderball', '2023-08-16', 500000.0,'thunderball.png',1),
-('lotto hotpicks', '2023-08-16', 3500000.0, 'hotpicks.png',2),
-('Euro Millions hotpicks', '2023-08-18',10000000, 'euromillions hotpicks',1.50),
-('lotto', '2023-08-16', 20000000, 'lotto.png',1);
+('euro millions', '2023-08-18', 43000000.0,'https://lottosyndicatebucket.s3.eu-west-1.amazonaws.com/games/euromillions.jpeg',2.50),
+('set for life', '2023-08-17', 10000.0,'https://lottosyndicatebucket.s3.eu-west-1.amazonaws.com/games/e17751d4-set-for-life-monday-draw-results-live-national-lottery.jpg', 2),
+('Thunderball', '2023-08-16', 500000.0,'https://lottosyndicatebucket.s3.eu-west-1.amazonaws.com/games/UK-Thunderball-logo.jpg',1),
+('lotto hotpicks', '2023-08-16', 3500000.0, 'https://lottosyndicatebucket.s3.eu-west-1.amazonaws.com/games/Euromillions-Hotpicks-logo.jpg',2),
+('Euro Millions hotpicks', '2023-08-18',10000000, 'https://lottosyndicatebucket.s3.eu-west-1.amazonaws.com/games/Euromillions-Hotpicks-logo.jpg',1.50),
+('lotto', '2023-08-16', 20000000, 'https://lottosyndicatebucket.s3.eu-west-1.amazonaws.com/games/lotto-numbers-live-triple-rollover-May-25-results-evg-1616045.jpg',1);
 
-INSERT INTO games ( maximum_players,treasury, user_syndicate_id, game_type_id) VALUES 
+INSERT INTO games ( maximum_players,treasury, syndicate_id, game_type_id) VALUES 
 ( 5,0, 1, 1),
 ( 2,0, 2, 2),
 ( 7,0, 3, 3);

@@ -25,13 +25,25 @@ function SyndicateCard({ data }: { data: any }) {
             <MoreVertIcon />
           </IconButton>
         }
-        title={data.syndicates.name}
-        subheader={data.syndicates.createdDate}
+        title={
+          <Typography variant="h6" component="div">
+            {data.syndicates.name}
+          </Typography>
+        }
+        subheader={
+          <Typography variant="subtitle2" color="text.secondary">
+            {data.syndicates.createdDate}
+          </Typography>
+        }
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
           {data.syndicates.description}
         </Typography>
+        <img
+          src={data.syndicates.imageUrl || "https://via.placeholder.com/150"}
+          alt={data.syndicates.name}
+        />
       </CardContent>
       <CardActions>
         <Button
@@ -40,6 +52,7 @@ function SyndicateCard({ data }: { data: any }) {
             backgroundColor: "darkRed",
             textDecoration: "none",
             color: "white",
+            width: "100%",
           }}
         >
           <Link
@@ -47,10 +60,9 @@ function SyndicateCard({ data }: { data: any }) {
               ":syndicateId",
               `${data.syndicates.id}`
             ).replace(":userSyndicateId", `${data.id}`)}
-            style={{ color: "inherit", textDecoration: "none" }}
+            style={{ color: "inherit", textDecoration: "none", width: "100%" }}
           >
-            {" "}
-            Enter{" "}
+            Enter
           </Link>
         </Button>
       </CardActions>

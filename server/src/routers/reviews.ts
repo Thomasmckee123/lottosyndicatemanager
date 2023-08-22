@@ -1,7 +1,7 @@
 import express from "express";
 import { ReviewsController } from "../controllers/reviews";
-import { resolver } from "../middleware/_resolver";
 import { body } from "express-validator";
+import { validate } from "../utils/validation";
 
 const ReviewsRouter = express.Router();
 ReviewsRouter.get(/**
@@ -91,11 +91,10 @@ ReviewsRouter.post(/**
 *                 syndicateId:
 *                   type: number
 */
- "/create/syndicates/:syndicateId/users/:userId(\\d+)",[
-    body("created_date").isDate(),
+ "/syndicates/:syndicateId/users/:userId(\\d+)",[
     body("title").isString().isLength({ min: 3 }).trim(),
     body("content").isString().isLength({min: 3, max:2000}).trim(),
-  ], resolver, ReviewsController.createNewReviewOnSyndicate);
+  ], validate, ReviewsController.createNewReviewOnSyndicate);
 
 ReviewsRouter.delete(/**
 * @swagger

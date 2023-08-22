@@ -1,7 +1,7 @@
 import express from "express";
 import { MessagesController } from "../controllers/messages";
-import { resolver } from "../middleware/_resolver";
 import { body } from "express-validator";
+import { validate } from "../utils/validation";
 
 const MessagesRouter = express.Router();
 MessagesRouter.get("/"/**
@@ -108,8 +108,8 @@ MessagesRouter.post(/**
 *                   type: number
 */"/games/:userGameId(\\d+)/boards/:boardId",[
     body("message").isString().isLength({min:3, max: 2000}),
-  ],resolver, MessagesController.createNewMessageInBoard);
+  ],validate, MessagesController.createNewMessageInBoard);
 MessagesRouter.put("/delete/:messageId(\\d+)", MessagesController.deleteMessageById);
 
-MessagesRouter.post("/userGame/userGame/:userGameId(\\d+)/boards/:boardId(\\d+)/games/:gameId(\\d+)", MessagesController.createNewGameMessageInBoard);
+MessagesRouter.post("/userGames/:userGameId(\\d+)/boards/:boardId(\\d+)/games/:gameId(\\d+)", MessagesController.createNewGameMessageInBoard);
 export { MessagesRouter }; 

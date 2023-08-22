@@ -3,7 +3,7 @@ import axios from "../integrations/instance";
 const fetchUserGames = async (userId: Number) => {
     try {
       
-      const response = await axios.get(`userGames/userGamesByUserId/${Number(userId)}`);
+      const response = await axios.get(`userGames/users/${Number(userId)}`);
      console.log("Response",response)
       return response.data;
   
@@ -14,7 +14,7 @@ const fetchUserGames = async (userId: Number) => {
 const fetchUserGamesByGameId = async(gameId: number) =>{
   try{
     console.log("USER GAME GAME ID", gameId)
-    const response = await axios.get(`userGames/getUserGamesByGameId/${gameId}`)
+    const response = await axios.get(`userGames/games/${gameId}`)
     console.log("USER GAME RESPONSE", response)
     return response.data
     

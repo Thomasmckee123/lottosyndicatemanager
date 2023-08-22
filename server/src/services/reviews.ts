@@ -69,7 +69,7 @@ async function createReviewInSyndicate(review: any) {
 
   const newReviews = await prisma.user_syndicate_reviews.create({
     data: {
-   created_date: review.createdDate,
+created_date: new Date(),
    title: review.title,
    content: review.content,
    user_id: review.userId,

@@ -1,9 +1,7 @@
 import express from "express";
 import { UserController } from "../controllers/users";
 import { validate } from '../utils/validation'
-import { resolver } from "./../middleware/_resolver";
 import { body } from "express-validator";
-import { userInfo } from "os";
 const UserRouter = express.Router();
 
 UserRouter.get("/", 
@@ -51,8 +49,7 @@ UserRouter.get(/**
 *               type: array
 *               
 */"/:userId(\\d+)", UserController.getUserById); 
-
-UserRouter.put(/**
+/**
 * @swagger
 * /api/users/update/{userId}:
 *   put:
@@ -96,11 +93,12 @@ UserRouter.put(/**
 *       200:
 *         description: User Updated
 */
- "/update/:userId(\\d+)",
+UserRouter.route(
+ "/:userId(\\d+)").put(
  [
    body("email").isString().isLength({ min: 3 }).isEmail().normalizeEmail(),
-   body("first_name").isString().isLength({ min: 2 }).trim(),
-   body("last_name").isString().isLength({min: 2}).trim(),
+   body("firstName").isString().isLength({ min: 2 }).trim(),
+   body("lastName").isString().isLength({min: 2}).trim(),
    body("password")
      .isString()
      .isLength({ min: 8, max: 15 })
@@ -109,10 +107,10 @@ UserRouter.put(/**
      .withMessage("your password should have at least one number")
      .matches(/[!@#$%^&*(),.?“:{}|<>]/)
      .withMessage("your password should have at least one special character"),
- ],resolver,
+ ],validate,
  UserController.updateUserDetails);
-
-UserRouter.put(/**
+ UserRouter.route("/photo/:userId(\\d+)").put(UserController.takePhoto);
+/**
 * @swagger
 * /api/users/delete/{userId}:
 *   put:
@@ -142,9 +140,10 @@ UserRouter.put(/**
 *         description: Bad Request - required values are missing.
 *       200:
 *         description: User Updated
-*/"/delete/:userId(\\d+)",UserController.deleteUserById);
+*/
+UserRouter.route("/:userId(\\d+)").delete(UserController.deleteUserById);
 
 
-UserRouter.put("/updateBalance/:userId", UserController.updateBalance)
+UserRouter.put("/updateBalance", UserController.updateBalance)
 export { UserRouter }; 
 

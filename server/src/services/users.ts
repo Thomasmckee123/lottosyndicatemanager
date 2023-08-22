@@ -8,6 +8,7 @@ const getAll = async () => {
       id: true,
       first_name: true,
       last_name: true,
+      password: true,
       email: true,
       image: true,
       balance: true,
@@ -22,6 +23,7 @@ const getAll = async () => {
       id: x.id,
       firstName: x.first_name,
       lastName: x.last_name,
+      password: x.password,
       email: x.email,
       image: x.image,
       balance: Number(x.balance)
@@ -41,6 +43,7 @@ const getAll = async () => {
         id: true,
         first_name: true,
         last_name: true,
+        password: true,
         email: true,
         image: true,
         balance:true,
@@ -53,6 +56,7 @@ const getAll = async () => {
      id: Number(usersById?.id),
     firstName: usersById?.first_name,
     lastName: usersById?.last_name,
+    password: usersById?.password,
     email: usersById?.email,
     image: usersById?.image,
     balance: Number(usersById?.balance),
@@ -138,23 +142,49 @@ const getAll = async () => {
       },
       
     });
+    if(users.length === 0){
+      return null
+    }
     const returnedValue: IUser = {
       id: Number(users[0]?.id),
      firstName: users[0]?.first_name,
      lastName: users[0]?.last_name,
+     password: users[0]?.password,
      email: users[0]?.email,
      image: users[0]?.image,
      balance: Number(users[0]?.balance),
      };
-     if(!returnedValue){
-       return null;
-     }
+    
  
    
      return returnedValue;
    };
  
-  async function depositMoney(user:any){
+
+
+  async function depositMoney(userId:number, balance:number){
+    let updateBalance;
+    console.log("Servic balance"+ balance)
+
+      updateBalance = await prisma.users.update({
+        where: {
+          id: userId,
+        },
+        data: {
+         balance: balance
+        },
+      });
+ return updateBalance
+    
+     
+      console.error("cannot update balance")
+    
+   
+  }
+
+
+
+  async function takePhoto(user:any){
     let updateBalance;
     try{
       updateBalance = await prisma.users.update({
@@ -162,7 +192,7 @@ const getAll = async () => {
           id: user.id,
         },
         data: {
-         balance: user.balance
+         image: user.image
         },
       });
     }catch(err){
@@ -191,7 +221,7 @@ const getAll = async () => {
   }
   
 
-  const UserService = {depositMoney, getByEmail, deleteUserById,getAll,getUserById, createUser, updateUserDetails};
+  const UserService = {takePhoto, depositMoney, getByEmail, deleteUserById,getAll,getUserById, createUser, updateUserDetails};
   export {UserService};
 
   

@@ -21,5 +21,6 @@ const NavigationRoutes = {
   GAMEMESSAGE: "/PlayGame/userGames/:userGameId/games/:gameId",
   LOTTOSIMULATION: "/lottoSimulation",
   ARCHIVEPAGE: "/archivePage",
+  PROFILE: "/profile",
 };
 export { NavigationRoutes };

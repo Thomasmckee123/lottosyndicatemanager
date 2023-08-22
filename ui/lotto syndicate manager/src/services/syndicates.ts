@@ -64,7 +64,7 @@ const createSyndicate = async (name: any, description: any, file:any, ownerId:nu
   }
   
     
-    const response = await axios.post(`/syndicates/create/users/${ownerId}`, createData);
+    const response = await axios.post(`/syndicates/users/${ownerId}`, createData);
     return response.data;
 
 };

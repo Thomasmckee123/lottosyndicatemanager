@@ -12,6 +12,9 @@ function Header() {
         justifyContent: "center",
         alignItems: "center",
         height: "10vh",
+        borderRadius: "20px",
+        boxShadow: "0px 0px 20px rgba(0, 0, 0, 0.1)",
+        padding: "10px",
       }}
     >
       <Box
@@ -20,7 +23,10 @@ function Header() {
           maxWidth: "80vw",
         }}
       >
-        <AppBar position="static" sx={{ backgroundColor: "darkred" }}>
+        <AppBar
+          position="static"
+          sx={{ backgroundColor: "darkred", borderRadius: "20px" }}
+        >
           <Toolbar>
             <IconButton
               size="large"
@@ -29,7 +35,7 @@ function Header() {
               aria-label="menu"
               sx={{ mr: 2 }}
             ></IconButton>
-            <Typography variant="h6" gutterBottom>
+            <Typography variant="h6" gutterBottom sx={{ flexGrow: 1 }}>
               Your Syndicates
             </Typography>
           </Toolbar>

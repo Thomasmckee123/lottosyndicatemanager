@@ -60,7 +60,7 @@ CREATE TABLE
         id SERIAL NOT NULL constraint games_pk PRIMARY KEY,
         maximum_players FLOAT NOT NULL,
         treasury FLOAT NOT NULL,
-        user_syndicate_id INTEGER NOT NULL CONSTRAINT fk_games_user_syndicate_id REFERENCES user_syndicates(id),
+        syndicate_id INTEGER NOT NULL CONSTRAINT fk_games_syndicate_id REFERENCES syndicates(id),
         game_type_id INTEGER NOT NULL CONSTRAINT fk_games_games_types REFERENCES game_types(id)
     );
 

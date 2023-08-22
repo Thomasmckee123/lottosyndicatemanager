@@ -1,7 +1,7 @@
 import express from "express";
 import { GameController } from "../controllers/games";
 import { body } from "express-validator";
-import { resolver } from "../middleware/_resolver";
+import { validate } from "../utils/validation";
 
 const GamesRouter = express.Router();
 
@@ -22,7 +22,7 @@ GamesRouter.get("/"/**
 *               type: array
 */, GameController.getAllGames);
 GamesRouter.get('/gameTypes/:gameTypeId/syndicates/:syndicateId',GameController.getGamesByTypeId)
-GamesRouter.get("/syndicate/:syndicateId", GameController.getGamesBySyndicateId);
+GamesRouter.get("/syndicates/:syndicateId", GameController.getGamesBySyndicateId);
 GamesRouter.get("/archivedGames/:userId", GameController.getArchivedGames);
 GamesRouter.post(/**
 * @swagger
@@ -65,7 +65,7 @@ GamesRouter.post(/**
 *             schema:
 *               type: array
 */
-"/create/syndicates/:syndicateId/gameTypes/:gameTypesId", GameController.createGames);
+"/syndicates/:syndicateId/gameTypes/:gameTypesId", GameController.createGames);
 GamesRouter.put( /**
 * @swagger
 * /api/games/update/{id}:
@@ -108,16 +108,16 @@ GamesRouter.put( /**
 *         description: Bad Request - required values are missing.
 *       200:
 *         description: User Updated
-*/"/update/:id(\\d+)", 
-// [
-//     body("name").isString(),
-//     body("drawDate").isDate(),
-//     body("reward").isNumeric().trim(),
-//     body("requiredTicketNumber").isNumeric().trim(),
-//   ], resolver, 
+*/"/:id(\\d+)", 
+[
+    body("name").isString(),
+    body("drawDate").isDate(),
+    body("reward").isNumeric().trim(),
+    body("requiredTicketNumber").isNumeric().trim(),
+  ], validate, 
   GameController.UpdateGame);
 
  GamesRouter.get('/:gameId', GameController.getGamesById)
 
-GamesRouter.put("/archive/:gameTypeId",GameController.archiveGame)
+GamesRouter.put("/gameTypes/:gameTypeId",GameController.archiveGame)
 export { GamesRouter }; 

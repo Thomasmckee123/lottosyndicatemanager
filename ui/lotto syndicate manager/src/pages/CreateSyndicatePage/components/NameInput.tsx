@@ -10,10 +10,13 @@ interface Props {
 const NameInput: React.FC<Props> = ({ value, setValue }) => {
   return (
     <Box
+      component="form"
       sx={{
-        width: "100%",
-        maxWidth: "100%",
-        backgroundColor: "white",
+        "& .MuiTextField-root": {
+          width: "100%",
+          backgroundColor: "#f5f5f5",
+          borderRadius: "5px",
+        },
       }}
     >
       <TextField
@@ -22,6 +25,19 @@ const NameInput: React.FC<Props> = ({ value, setValue }) => {
         id="fullWidth"
         value={value}
         onChange={(e) => setValue(e.target.value)}
+        sx={{
+          "& .MuiOutlinedInput-root": {
+            "& fieldset": {
+              borderColor: "#ccc",
+            },
+            "&:hover fieldset": {
+              borderColor: "#ccc",
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: "#ccc",
+            },
+          },
+        }}
       />
     </Box>
   );

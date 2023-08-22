@@ -2,12 +2,12 @@ import { Request, Response } from "express";
 import { UserService } from "./../services/users";
 
 const getAllUsers = async (req: Request, res: Response) => {
-  try{
+  
   const users = await UserService.getAll();
   return !users ? res.sendStatus(404) : res.status(200).json(users);
-}catch
-{ 
- return res.sendStatus(500)}
+
+
+ 
 };
 const getUserById = async (req: Request, res: Response) => {
   const { userId } = req.params;
@@ -30,14 +30,24 @@ async function updateUserDetails(req: Request, res: Response) {
   }
 }
 async function updateBalance(req: Request, res: Response){
+
+    const { userId } = res.locals.claims.id;
+    const {balance } = req.body;
+    console.log("locals", JSON.stringify(res.locals))
+    const updatedBalance = await UserService.depositMoney(userId, balance);
+    return res.status(200).json(updatedBalance)
+  
+}
+
+async function takePhoto(req: Request, res: Response){
   try{
     const { userId } = req.params;
-    let balanceDetails = req.body;
-    balanceDetails["id"] = Number(userId);
-    const updatedBalance = await UserService.depositMoney(balanceDetails);
+    let photo = req.body;
+    photo["id"] = Number(userId);
+    const updatedBalance = await UserService.takePhoto(photo);
     return res.status(200).json(updatedBalance)
   }catch(error){
-    res.status(500).json("could not add balance")
+    res.status(500).json("could not add photo")
   }
 }
 async function deleteUserById(req: Request, res: Response)    {
@@ -52,5 +62,5 @@ async function deleteUserById(req: Request, res: Response)    {
   return res.status(200).json(deletedUser);
 }
 
-const UserController = {updateBalance, deleteUserById, getAllUsers, getUserById,updateUserDetails, };
+const UserController = {takePhoto,updateBalance, deleteUserById, getAllUsers, getUserById,updateUserDetails, };
 export {UserController};

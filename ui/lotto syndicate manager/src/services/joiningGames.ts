@@ -23,7 +23,7 @@ const joinGame= async (startDate: Date, deposit: number, gameId: number, userId:
   const fetchmembersInGroup = async (gameId: Number) => {
     try {
       
-      const response = await axios.get(`userGames/userGamesByGameId/${gameId}`);
+      const response = await axios.get(`userGames/games/${gameId}`);
      
       return response.data;
   

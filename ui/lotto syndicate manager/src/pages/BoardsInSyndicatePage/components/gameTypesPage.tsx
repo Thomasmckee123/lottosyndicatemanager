@@ -106,7 +106,7 @@ function GameTypes() {
 
         // Get current treasury value
 
-        await updateBalance(Number(userId), newBalance);
+        await updateBalance(balance);
         // Update treasury with new value
         await updateTreasury(newTreasury, Number(gameId));
       } else {
@@ -197,20 +197,20 @@ function GameTypes() {
     setGameTypeId(gtId);
     console.log("GAME TYPE", gtId, gameTypeId);
     let newData: any[] = await fetchGamesByTypeID(gtId, Number(syndicateId));
-    let settinggameId;
     handleOpenDialog();
     if (newData.length > 0) {
       console.log("NEW DATA", newData);
       newData.forEach((item) => {
-        settinggameId = item.id;
         if (
           typeof usersPerGame[item.id] === "number" &&
           item.maximumPlayers &&
           Number(usersPerGame[item.id]) < Number(item.maximumPlayers)
         ) {
+          console.log("if yes");
           handleJoinGame();
           setGameId(item.id);
         } else {
+          console.log("if else");
           setGameTypeId(gtId);
 
           handleCreateNewGame(gtId);
@@ -269,9 +269,10 @@ function GameTypes() {
             <Card>
               <CardMedia
                 component="img"
-                height="140"
-                image="/path_to_placeholder_image.jpg"
+                height="200"
+                image={game.image}
                 alt={game.name}
+                sx={{ objectFit: "contain" }} // Updated styles here
               />
               <CardContent>
                 <Typography variant="h5" component="div">

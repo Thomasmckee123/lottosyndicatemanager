@@ -54,12 +54,12 @@ model games {
   id                    Int                     @id(map: "games_pk") @default(autoincrement())
   maximum_players       Float
   treasury              Float
-  user_syndicate_id     Int
+  syndicate_id          Int
   game_type_id          Int
   boards                boards[]
   game_user_game_ticket game_user_game_ticket[]
   game_types            game_types              @relation(fields: [game_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_games_games_types")
-  user_syndicates       user_syndicates         @relation(fields: [user_syndicate_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_games_user_syndicate_id")
+  syndicates            syndicates              @relation(fields: [syndicate_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_games_syndicate_id")
   user_games            user_games[]
 }
 
@@ -77,6 +77,7 @@ model syndicates {
   description            String?
   avatar                 String?                  @db.VarChar(255)
   owner_id               Int
+  games                  games[]
   users                  users                    @relation(fields: [owner_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_syndicate_user")
   user_syndicate_reviews user_syndicate_reviews[]
   user_syndicates        user_syndicates[]
@@ -118,7 +119,6 @@ model user_syndicates {
   user_id      Int
   syndicate_id Int
   role_id      Int
-  games        games[]
   roles        roles      @relation(fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_role_user_syndicates")
   syndicates   syndicates @relation(fields: [syndicate_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_syndicates_syndicates")
   users        users      @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_user_syndicates")

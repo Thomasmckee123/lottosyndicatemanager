@@ -21,6 +21,7 @@ const pages = [
   { title: "account", path: NavigationRoutes.ACCOUNT },
   { title: "View Syndicates", path: NavigationRoutes.VIEWSYDICATES },
   { title: "log out", path: NavigationRoutes.LOGIN },
+  { title: "profile", path: NavigationRoutes.PROFILE },
 ];
 const NonTopBarPages = [
   { title: "Create Syndicate", path: NavigationRoutes.CREATESYNDICATE },

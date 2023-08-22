@@ -64,8 +64,9 @@ const createUserGame = async(req: Request, res: Response)=>{
           
             const newUserGame = {
 
-startDate: req.body.startDate,
+startDate: new Date(),
 deposit: Number(req.body.deposit),
+roleId: Number(req.body.roleId),
 gameId: req.params.gameId,
 userId: req.params.userId,
             }

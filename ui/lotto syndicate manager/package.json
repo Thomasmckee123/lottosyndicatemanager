@@ -30,7 +30,10 @@
     "react-hot-toast": "^2.4.1",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.14.2",
+    "react-vision-camera": "^1.0.1",
+    "react-webcam": "^7.1.1",
     "ui": "^0.2.4",
+    "webrtc": "^1.14.1",
     "yup": "^1.2.0",
     "zustand": "^4.3.9"
   },
@@ -39,6 +42,7 @@
     "@types/node": "^20.4.5",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
+    "@types/webrtc": "^0.0.36",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "@vitejs/plugin-react": "^4.0.3",

@@ -33,7 +33,7 @@ async function createGames(req: Request, res: Response) {
   
 const newGames = {
  ...req.body,
-  userSyndicateId:Number(req.params.syndicateId),
+  syndicateId:Number(req.params.syndicateId),
   gameTypeId:Number(req.params.gameTypesId)
   
 }

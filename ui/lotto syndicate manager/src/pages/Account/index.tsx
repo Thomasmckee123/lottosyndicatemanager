@@ -4,28 +4,26 @@ import TokenUtils from "../../integrations/token";
 import { updateBalance } from "../../services/depositAndWithdraw";
 
 const AccountPage = () => {
-  const [data, setData] = useState<any>();
-  const [balanceData, setBalanceData] = useState<any>("");
-
-  useEffect(() => {
-    const jwt = TokenUtils.getJWT();
-    setData(jwt);
-  }, []);
-
-  const balance = data?.claims?.balance;
-  const userId = data?.claims?.userId;
+  const jwt = TokenUtils.getJWT();
+  const [balanceData, setBalanceData] = useState<number>(0);
+  const [balance, setBalance] = useState<any>(jwt?.claims?.balance);
 
   function handleAmountChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setBalanceData(event.target.value);
+    setBalanceData(Number(event.target.value));
   }
 
   function depositFunds() {
-    updateBalance(userId, Number(balanceData) + balance);
+    updateBalance(balanceData);
   }
+  useEffect(() => {
+    console.log("balance", balanceData);
+  }, [balanceData]);
 
-  function withdrawFunds() {
+  async function withdrawFunds() {
     if (Number(balanceData) <= balance) {
-      updateBalance(balance - Number(balanceData), userId);
+      const newBalance = balance - Number(balanceData);
+      await updateBalance(newBalance);
+      setBalance(newBalance);
     } else {
       alert("Insufficient funds.");
     }
@@ -49,7 +47,11 @@ const AccountPage = () => {
       />
 
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <Button variant="contained" color="primary" onClick={depositFunds}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => depositFunds()}
+        >
           Deposit
         </Button>
 

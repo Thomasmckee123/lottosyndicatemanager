@@ -50,7 +50,7 @@ async function getTicketsByGameId(req: Request, res: Response) {
       
 
       let ticketDetails ={ ...req.body,
-        id: Number(req.params.id),
+        id: Number(req.params.ticketId),
         totalRewardValue : Number(req.body.totalRewardValue),
         ticketStatusId: Number(req.body.ticketStatusId)
       

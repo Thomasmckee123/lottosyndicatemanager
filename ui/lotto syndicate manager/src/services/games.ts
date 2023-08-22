@@ -6,7 +6,7 @@ import axios from "../integrations/instance";
 const fetchGamesBySyndicateId = async (syndicateId: number) => {
   try {
     
-    const response = await axios.get(`games/syndicate/${syndicateId}`);
+    const response = await axios.get(`games/syndicates/${syndicateId}`);
     return response.data;
   } catch (error) {
     console.error("There was an error!", error);
@@ -49,7 +49,7 @@ return response.data
   console.error("error getting response data",error)
 }
 }
-const createGame = async (treasury: number, userSyndicateId: number, gameTypeId: number) => {
+const createGame = async (treasury: number, syndicateId: number, gameTypeId: number) => {
 console.log(treasury);
 let maximumPlayers
 if(Number(gameTypeId) == 1){
@@ -71,9 +71,9 @@ if(Number(gameTypeId) == 1){
     
   };
 
-    console.log(userSyndicateId)
+    console.log(syndicateId)
     console.log(gameTypeId)
-    const response = await axios.post(`games/create/syndicates/${Number(userSyndicateId)}/gameTypes/${Number(gameTypeId)}`, gameData);
+    const response = await axios.post(`games/syndicates/${Number(syndicateId)}/gameTypes/${Number(gameTypeId)}`, gameData);
     console.log("RESPONSE DATA", response);
     return response.data;
 

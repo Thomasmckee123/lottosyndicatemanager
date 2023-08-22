@@ -13,7 +13,12 @@ const ImageInput: React.FC<Props> = ({ value, setValue }) => {
       type="file"
       InputLabelProps={{
         shrink: true,
+        style: { fontWeight: "bold", color: "#333" },
       }}
+      InputProps={{
+        style: { backgroundColor: "#f5f5f5", borderRadius: "5px" },
+      }}
+      sx={{ width: "100%" }}
       onChange={(e) => {
         const target = e.target as HTMLInputElement;
         if (target.files) {

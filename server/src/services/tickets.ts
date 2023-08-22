@@ -27,22 +27,12 @@ const getAll = async () => {
          image: true,
         ticket_cost:true}
         },
-         user_syndicates:{
-           select:{
-             start_date: true,
-             users:{
-               select:{
-                 id: true,
-                 first_name: true,
-                 last_name: true,
-                 email: true,  
-                 balance:true
-               }}}}}
+       syndicate_id:true,
 
 
     }
   
-  }}); 
+  }}});  
     const alteredTickets: ITicket[] = allTickets.map(x => ({
       id: x.id,
       ticketCode: x.ticket_code,
@@ -61,21 +51,11 @@ const getAll = async () => {
           image: x.games.game_types.image,
           ticketCost: x.games.game_types.ticket_cost
       },
-      userSyndicates: {
-          startDate: x.games.user_syndicates.start_date,
-          users: {
-              id: x.games.user_syndicates.users.id,
-              firstName: x.games.user_syndicates.users.first_name,
-              lastName: x.games.user_syndicates.users.last_name,
-              email: x.games.user_syndicates.users.email,
-              balance: x.games.user_syndicates.users.balance
-          }
-      }
-  }}));
+      syndicateId: x.games.syndicate_id
+      }}));
   
-  const filteredTickets = alteredTickets.filter(ticket => ticket.games.userSyndicates.users.firstName !== "DELETEDUSER");
   
-  return filteredTickets;
+  return alteredTickets;
 }
   //geting tickets of a particular game Id
 
@@ -112,17 +92,8 @@ const getAll = async () => {
              image: true,
             ticket_cost:true}
             },
-             user_syndicates:{
-               select:{
-                 start_date: true,
-                 users:{
-                   select:{
-                     id: true,
-                     first_name: true,
-                     last_name: true,
-                     email: true,  
-                     balance:true
-                   }}}}}
+           syndicate_id:true,
+          }
     
     
         }
@@ -146,21 +117,11 @@ const getAll = async () => {
               image: x.games.game_types.image,
               ticketCost:x.games.game_types.ticket_cost
           },
-          userSyndicates: {
-              startDate: x.games.user_syndicates.start_date,
-              users: {
-                  id: x.games.user_syndicates.users.id,
-                  firstName: x.games.user_syndicates.users.first_name,
-                  lastName: x.games.user_syndicates.users.last_name,
-                  email: x.games.user_syndicates.users.email,
-                  balance: x.games.user_syndicates.users.balance
-              }
-          }
-      }}));
+          syndicateId: x.games.syndicate_id
+          }}));
       
-      const filteredTickets = alteredTickets.filter(ticket => ticket.games.userSyndicates.users.firstName !== "DELETEDUSER");
       
-      return filteredTickets;
+      return alteredTickets;
     }catch(error){
       console.error(error)
     }
