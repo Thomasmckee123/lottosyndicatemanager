@@ -184,21 +184,20 @@ const getAll = async () => {
 
 
 
-  async function takePhoto(user:any){
-    let updateBalance;
-    try{
-      updateBalance = await prisma.users.update({
+  async function takePhoto(photo:any, userId:number){
+    let updateImage;
+    console.log("IMAGE SERVERR"+ photo)
+    console.log("USERID SERVERR"+ userId)
+      updateImage = await prisma.users.update({
         where: {
-          id: user.id,
+          id: userId,
         },
         data: {
-         image: user.image
+         image: photo
         },
       });
-    }catch(err){
-      console.error("cannot update balance")
-    }
-    return updateBalance
+  
+    return updateImage
   }
   async function deleteUserById(userId: number) {
     let deletedUser;

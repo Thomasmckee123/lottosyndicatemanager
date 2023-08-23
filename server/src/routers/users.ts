@@ -109,7 +109,7 @@ UserRouter.route(
      .withMessage("your password should have at least one special character"),
  ],validate,
  UserController.updateUserDetails);
- UserRouter.route("/photo/:userId(\\d+)").put(UserController.takePhoto);
+ UserRouter.route("/photo/:userId").put(UserController.takePhoto);
 /**
 * @swagger
 * /api/users/delete/{userId}:

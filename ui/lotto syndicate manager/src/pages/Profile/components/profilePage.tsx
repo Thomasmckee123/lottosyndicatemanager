@@ -12,6 +12,7 @@ import {
   DialogContent,
   DialogActions,
   Button,
+  CardMedia,
 } from "@mui/material";
 import TokenUtils from "../../../integrations/token";
 import { fetchHomePageSyndicateData } from "../../../services/syndicates";
@@ -55,16 +56,12 @@ const ProfilePage = () => {
         console.error("Error fetching syndicate data:", error);
       });
   }, [userId]);
+
   const capture = (): any => {
     const imageSrc = webcamRef.current?.getScreenshot();
     return imageSrc;
   };
-  const handleTakePhoto = async () => {
-    const imageSrc = capture();
-    if (imageSrc) {
-      takeAPhoto(userId, imageSrc);
-    }
-  };
+
   const handleOpen = () => {
     navigator.mediaDevices
       .getUserMedia({ video: true })
@@ -91,41 +88,69 @@ const ProfilePage = () => {
   const handleFileUpload = (file: File) => {
     setUploadedFile(file);
   };
+
+  const [capturedImage, setCapturedImage] = useState<File | null>(null);
+
+  const captureImage = (): any => {
+    const imageSrc = webcamRef.current?.getScreenshot();
+    if (imageSrc) {
+      const blob = new Blob([imageSrc], { type: "image/png" });
+      const file = new File([blob], "imageFileName.png", {
+        type: "image/png",
+      });
+      setCapturedImage(file);
+      handleFileUpload(file);
+    }
+  };
+
+  const handleTakePhoto = async () => {
+    const imageSrc = captureImage();
+    if (imageSrc) {
+    }
+  };
+
   const handleUpload = () => {
     uploadImage(userId, uploadedFile!);
+    takeAPhoto(Number(userId));
+    handleClose();
   };
+
   return (
     <div>
-      <Card>
-        <CardContent>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={4}>
-              <Box display="flex" justifyContent="center">
-                <Avatar
-                  alt={`${userData.firstName} ${userData.lastName}`}
-                  src={userData.image}
-                />
-              </Box>
-              <Box display="flex" justifyContent="center">
-                <IconButton onClick={handleOpen}>
-                  <AddPhotoAlternateIcon />
-                </IconButton>
-              </Box>
-            </Grid>
-            <Grid item xs={12} md={8}>
-              <Typography variant="h4" gutterBottom>
-                {`${userData.firstName} ${userData.lastName}`}
-                {userData.image}
-              </Typography>
-              <Typography variant="h6" gutterBottom>
-                {userData.email}
-              </Typography>
-              <Typography variant="h6" gutterBottom>
-                {`Balance: ${userData.balance}`}
-              </Typography>
-            </Grid>
-          </Grid>
-        </CardContent>
+      <Card
+        sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+      >
+        <CardMedia
+          component="img"
+          sx={{ width: 200, height: 200, borderRadius: "50%" }}
+          image={userData?.image}
+          alt={userData?.name}
+        />
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            flexGrow: 1,
+          }}
+        >
+          <CardContent>
+            <Typography variant="h4" gutterBottom>
+              {`${userData.firstName} ${userData.lastName}`}
+            </Typography>
+            <Typography variant="h6" gutterBottom>
+              {userData.email}
+            </Typography>
+            <Typography variant="h6" gutterBottom>
+              {`Balance: ${userData.balance}`}
+            </Typography>
+          </CardContent>
+          <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
+            <IconButton onClick={handleOpen}>
+              <AddPhotoAlternateIcon />
+            </IconButton>
+          </Box>
+        </Box>
       </Card>
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         {syndicateData.map((syndicate) => (
@@ -150,12 +175,14 @@ const ProfilePage = () => {
           {error ? (
             <Typography color="error">{error}</Typography>
           ) : (
-            <Webcam
-              ref={webcamRef}
-              audio={false}
-              screenshotFormat="image/jpeg"
-              width="100%"
-            />
+            <>
+              <Webcam
+                ref={webcamRef}
+                audio={false}
+                screenshotFormat="image/jpeg"
+                width="100%"
+              />
+            </>
           )}
           <FileUpload onUpload={handleFileUpload} />
           <Button onClick={handleUpload}> upload</Button>
@@ -164,7 +191,7 @@ const ProfilePage = () => {
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleUpload} color="primary">
+          <Button onClick={handleTakePhoto} color="primary">
             Take Photo
           </Button>
         </DialogActions>

@@ -14,12 +14,10 @@ const fetchProfileData = async(userId: number) =>{
     
 
 
-    const takeAPhoto = async(userId: number, image:string) =>{
+    const takeAPhoto = async(userId: number) =>{
         try{
-            const photoData = {
-            image: image
-            }
-            const response = await axios.put(`users/photo/${userId}`, photoData);
+         
+            const response = await axios.put(`users/photo/${userId}`);
             return response.data;
         }catch(error){
             console.error("error updating photo", error);
