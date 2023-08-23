@@ -105,7 +105,7 @@ function InputArea() {
           <Grid item xs={12}>
             <Button
               sx={{
-                backgroundColor: "#f44336",
+                backgroundColor: "darkRed",
                 color: "white",
                 alignSelf: "flex-end",
               }}

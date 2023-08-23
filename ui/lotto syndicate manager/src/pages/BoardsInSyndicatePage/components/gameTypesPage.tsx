@@ -101,7 +101,7 @@ function GameTypes() {
           Number(gameId),
           Number(userId)
         );
-        await updateBalance(balance!);
+        await updateBalance(newBalance!);
         await updateTreasury(newTreasury, Number(gameId));
       } else {
         handleOpenFunds();

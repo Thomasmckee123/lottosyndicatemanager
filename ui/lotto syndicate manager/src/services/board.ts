@@ -33,7 +33,7 @@ const createNewBoard = async ( gameId: number ) => {
 
 
     
-    const response = await axios.post(`/boards/create/games/${gameId}`, boardData);
+    const response = await axios.post(`/boards/games/${gameId}`, boardData);
     return response.data;
 
 };
@@ -50,7 +50,7 @@ const updateBoards = async(boardId: number, name: string) =>{
   const updateData = {
    name: name
   }
-  const response = await axios.put(`boards/update/${boardId}`,updateData)
+  const response = await axios.put(`boards/${boardId}`,updateData)
   return response.data;
 }
 export {updateBoards,updateUserRole, createNewBoard, fetchBoardsBySyndicateId, fetchUserRelationship}

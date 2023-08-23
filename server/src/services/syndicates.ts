@@ -158,10 +158,10 @@ async function createSyndicate(syndicate: any) {
   try {
   const newSyndicate = await prisma.syndicates.create({
     data: {
+
       created_date: new Date(),
       name: syndicate.name,
       description:syndicate.description,
-      avatar:syndicate.avatar,
       owner_id: syndicate.ownerId
   
     },
@@ -172,7 +172,23 @@ async function createSyndicate(syndicate: any) {
     throw Error("Cannot create syndicate");
   }
 }
-
+// adding an image
+async function addSyndicateImage(syndicateId: number, avatar: string) {
+  try {
+    const updatedSyndicate = await prisma.syndicates.update({
+      where: {
+        id: syndicateId,
+      },
+      data: {
+        avatar: avatar,
+      },
+    });
+    return updatedSyndicate;
+  } catch (error) {
+    console.log(error);
+    throw Error("Cannot update syndicate");
+  }
+}
 
 //update syndicate details
 async function updateSyndicateDetails(syndicate: any) {
@@ -215,5 +231,5 @@ async function updateSyndicateDetails(syndicate: any) {
     }
     return deletedSyndicate;
   }
-  const SyndicateService = {getSyndicateByName,getSyndicateById, deleteSyndicateById, getAll, createSyndicate,updateSyndicateDetails};
+  const SyndicateService = {addSyndicateImage, getSyndicateByName,getSyndicateById, deleteSyndicateById, getAll, createSyndicate,updateSyndicateDetails};
   export {SyndicateService};

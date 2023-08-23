@@ -162,4 +162,7 @@ SyndicatesRouter.delete(/**
 *       200:
 *         description: User Updated
 */"/:syndicateId(\\d+)",SyndicateController.deleteSyndicateById);
+
+
+SyndicatesRouter.put("/photo/:syndicateId", SyndicateController.addSyndicateImage);
 export { SyndicatesRouter }; 

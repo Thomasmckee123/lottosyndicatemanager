@@ -41,8 +41,9 @@ function SyndicateCard({ data }: { data: any }) {
           {data.syndicates.description}
         </Typography>
         <img
-          src={data.syndicates.imageUrl || "https://via.placeholder.com/150"}
+          src={data.syndicates.avatar || "https://via.placeholder.com/150"}
           alt={data.syndicates.name}
+          style={{ width: "300px", height: "300px" }}
         />
       </CardContent>
       <CardActions>

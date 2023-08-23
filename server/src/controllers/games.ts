@@ -69,9 +69,8 @@ async function UpdateGame(req: Request, res: Response) {
   try {
     let gameDetails = {
       ...req.body,
-      gameId: Number(req.params.id),
+      gameId: Number(req.params.gameId),
 
-      maximumPlayers: req.body.maximumPlayers,
     };
 
     const updatedGame = await GameService.updateGames(gameDetails);

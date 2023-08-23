@@ -108,12 +108,9 @@ GamesRouter.put( /**
 *         description: Bad Request - required values are missing.
 *       200:
 *         description: User Updated
-*/"/:id(\\d+)", 
+*/"/:gameId(\\d+)", 
 [
-    body("name").isString(),
-    body("drawDate").isDate(),
-    body("reward").isNumeric().trim(),
-    body("requiredTicketNumber").isNumeric().trim(),
+  body("treasury").isNumeric(),
   ], validate, 
   GameController.UpdateGame);
 

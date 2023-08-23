@@ -10,16 +10,9 @@ import { NavigationRoutes } from "../../../constants/navigationRoutes";
 function MediaCard({ data }: { data: any }) {
   if (!data) return null;
 
-  // Set a fallback image URL when 'avatar' is not available
-  const fallbackImage = "fallback_image.jpg";
-
   return (
     <Card sx={{ maxWidth: 345 }}>
-      <CardMedia
-        sx={{ height: 140 }}
-        image={data.avatar || fallbackImage}
-        title={data.name}
-      />
+      <CardMedia sx={{ height: 140 }} image={data.avatar} title={data.name} />
       <CardContent>
         <Typography variant="body2" color="text.tiertary">
           date: {data.createdDate}

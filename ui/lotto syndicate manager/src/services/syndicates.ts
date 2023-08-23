@@ -52,22 +52,30 @@ const fetchHomePageSyndicateData = async (userId: number) => {
 
 export default fetchAllSyndicateData
 // Update createSyndicate function to handle file
-const createSyndicate = async (name: any, description: any, file:any, ownerId:number) => {
+const createSyndicate = async (name: any, description: any, file:File, ownerId:number) => {
 
   const createData ={
     createdDate: new Date().toDateString(),
     name: name,
     description: description,
-    avatar: file.toString(),
     ownerId: Number(ownerId)
 
   }
-  
+
     
     const response = await axios.post(`/syndicates/users/${ownerId}`, createData);
+    console.log("CreationOfSyndicate", response.data)
+    uploadSyndicateImage(Number(response.data), file)
+    addSyndicateImage(Number(response.data)) 
     return response.data;
 
 };
+
+const addSyndicateImage = async (syndicateId: number) => {
+ 
+  await axios.put(`syndicates/photo/${syndicateId}`)
+  
+}
 const createUserSyndicate = async (startDate: Date, userId: number, syndicateId: number, roleId: number) =>{
   const createUserSyndicate = {
     startDate: startDate,
@@ -79,7 +87,21 @@ const createUserSyndicate = async (startDate: Date, userId: number, syndicateId:
   const response = await axios.post(`userSyndicates/${userId}/syndicates/${syndicateId}/roles/${roleId}`,createUserSyndicate)
   return response.data
 }
+const uploadSyndicateImage = async(syndicateId: number, images:File) =>{
+  try{
+      const formData = new FormData();
+      formData.append('file', images);
+
+      const response = await axios.post(`/images/syndicates/${syndicateId}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      return response.data;
+  }catch(error){
+      console.error("error updating photo", error);
+  }
+  }   
 
 
-
-export {fetchSyndicateByName,createUserSyndicate,fetchHomePageSyndicateData, createSyndicate, fetchAllSyndicateData, fetchInsideUserSyndicateData};
+export {uploadSyndicateImage,fetchSyndicateByName,createUserSyndicate,fetchHomePageSyndicateData, createSyndicate, fetchAllSyndicateData, fetchInsideUserSyndicateData};

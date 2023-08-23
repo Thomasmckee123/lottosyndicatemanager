@@ -4,9 +4,9 @@ INSERT INTO users (first_name, last_name, image, password, email,balance) VALUES
 ('Charlie', 'Brown', 'image','peanut123', 'CharlieBrown@Gmail.com',0);
 
 INSERT INTO syndicates (created_date, name, description, avatar, owner_id) VALUES 
-('2023-07-10', 'The Thunderbolts', 'For those who strike like lightning!', 'thunderbolts.jpg', 1),
-('2023-07-11', 'The Silent Shadows', 'We move in silence, we win in shadows.', 'silent_shadows.jpg', 2),
-('2023-07-12', 'Code Warriors', 'Battling bugs, one line of code at a time.', 'code_warriors.jpg', 3);
+('2023-07-10', 'The Thunderbolts', 'For those who strike like lightning!', 'https://lottosyndicatebucket.s3.eu-west-1.amazonaws.com/syndicates/1/background+image+1.jpeg', 1),
+('2023-07-11', 'The Silent Shadows', 'We move in silence, we win in shadows.', 'https://lottosyndicatebucket.s3.eu-west-1.amazonaws.com/syndicates/2/background+image+2.webp', 2),
+('2023-07-12', 'Code Warriors', 'Battling bugs, one line of code at a time.', 'https://lottosyndicatebucket.s3.eu-west-1.amazonaws.com/syndicates/3/background+image+3.jpeg', 3);
 
 INSERT INTO roles (name) VALUES 
 ('Leader'),

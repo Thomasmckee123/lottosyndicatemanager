@@ -62,5 +62,23 @@ async function deleteSyndicateById(req: Request, res: Response)    {
   }
   return res.status(200).json(deletedSyndicate);
 }
-const SyndicateController = {getSyndicateByName,getSyndicatesById, getAllSyndicates, createSyndicate, UpdateSyndicateDetails,deleteSyndicateById};
+
+const addSyndicateImage = async (req: Request, res: Response) => {
+  try {
+  
+
+     
+    let  syndicateId = Number(req.params.syndicateId)
+     let avatar =`https://lottosyndicatebucket.s3.eu-west-1.amazonaws.com/syndicates/${syndicateId}/e17751d4-set-for-life-monday-draw-results-live-national-lottery.jpg`
+    
+    const updatedSyndicate = await SyndicateService.addSyndicateImage(
+    syndicateId, avatar
+    );
+    return res.status(200).json(updatedSyndicate);
+  } catch (error) {
+    res.status(500).json("Could not update syndicate.");
+  }
+};
+
+const SyndicateController = {addSyndicateImage, getSyndicateByName,getSyndicatesById, getAllSyndicates, createSyndicate, UpdateSyndicateDetails,deleteSyndicateById};
 export {SyndicateController};

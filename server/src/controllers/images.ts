@@ -11,6 +11,14 @@ const uploadImage = async (req: Request, res: Response) => {
   return res.status(StatusCodes.CREATED).json(location);
 };
 
-const ImagesController = { uploadImage };
+const uploadSyndicateImage = async (req: Request, res: Response) => {
+  const {syndicateId} = req.params;
+  console.log("req",req);
+  
+  //@ts-ignore)
+  const location = await S3Service.uploadSyndicateImage(req.files!, syndicateId);
+  return res.status(StatusCodes.CREATED).json(location);
+};
+const ImagesController = { uploadImage, uploadSyndicateImage };
 
 export { ImagesController }; 
