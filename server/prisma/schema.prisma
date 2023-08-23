@@ -50,6 +50,16 @@ model game_types {
   games       games[]
 }
 
+model game_user_game_ticket {
+  id                 Int           @id(map: "game_user_syndicates_ticket_pk") @default(autoincrement())
+  ticket_code        String        @db.VarChar(255)
+  total_reward_value Float
+  ticket_status_id   Int
+  game_id            Int
+  games              games         @relation(fields: [game_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_game_game_user_syndicates_ticket")
+  ticket_status      ticket_status @relation(fields: [ticket_status_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_ticket_type_game_user_syndicates")
+}
+
 model games {
   id                    Int                     @id(map: "games_pk") @default(autoincrement())
   maximum_players       Float
@@ -136,14 +146,4 @@ model users {
   user_games             user_games[]
   user_syndicate_reviews user_syndicate_reviews[]
   user_syndicates        user_syndicates[]
-}
-
-model game_user_game_ticket {
-  id                 Int           @id(map: "game_user_syndicates_ticket_pk") @default(autoincrement())
-  ticket_code        String        @db.VarChar(255)
-  total_reward_value Float
-  ticket_status_id   Int
-  game_id            Int
-  games              games         @relation(fields: [game_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_game_game_user_syndicates_ticket")
-  ticket_status      ticket_status @relation(fields: [ticket_status_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_ticket_type_game_user_syndicates")
 }

@@ -1,28 +1,27 @@
-
 //interface for messages
 interface IGames {
   id: number;
-    maximumPlayers: number;
-    treasury:number;
-  
-      gameTypes:{
-        id: number;
-        name: string;
-        drawDate: Date;
-        reward: number;
-        image: string;
-        ticketCost: number;
-      },
-   syndicate_id: number;
-    }
+  maximumPlayers: number;
+  treasury: number;
 
-interface IGameTypes{
+  gameTypes: {
     id: number;
-      name: string;
+    name: string;
     drawDate: Date;
     reward: number;
     image: string;
-    ticketCost:number;
+    ticketCost: number;
+  };
+  syndicate_id: number;
 }
 
-export{IGames, IGameTypes};
+interface IGameTypes {
+  id: number;
+  name: string;
+  drawDate: Date;
+  reward: number;
+  image: string;
+  ticketCost: number;
+}
+
+export { IGames, IGameTypes };

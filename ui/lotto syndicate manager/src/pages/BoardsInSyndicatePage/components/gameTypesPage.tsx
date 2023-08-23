@@ -9,12 +9,6 @@ import {
   CardMedia,
   Button,
   ButtonGroup,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  TextField,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { fetchGamesWePlay } from "../../../services/gameTypes";
@@ -27,7 +21,6 @@ import TokenUtils from "../../../integrations/token";
 import { fetchmembersInGroup, joinGame } from "../../../services/joiningGames";
 import DepositDialog from "./deposit";
 import { useParams } from "react-router-dom";
-import { useCountdown } from "../../../hooks/useCountdown";
 import CountDown from "../../../components/countdown";
 import {
   updateBalance,
@@ -35,31 +28,40 @@ import {
 } from "../../../services/depositAndWithdraw";
 import InsufficientFunds from "./insufficientFunds";
 import { fetchUserGamesByGameId } from "../../../services/userGames";
+import {
+  ICustomTab,
+  IDecodedJWT,
+  IGame,
+  IGameMember,
+  IGameType,
+  IMember,
+  IMemberPerGame,
+} from "../../../interfaces";
 
 function GameTypes() {
   const { syndicateId, userSyndicateId } = useParams<{
     syndicateId: string;
     userSyndicateId: string;
   }>();
-  const [isGame, setIsGame] = useState(false);
+
   const [value, setValue] = useState(0);
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [isFundsOpen, setIsFundsOpen] = useState<boolean>(false);
-  const [data, setData] = useState<any[]>([]);
-  const [gameData, setGameData] = useState<any[]>([]);
+  const [gameTypeData, setGameTypeData] = useState<IGameType[]>([]);
+  const [gameData, setGameData] = useState<IGame[]>([]);
   const [gameTypeId, setGameTypeId] = useState<number>();
   const [deposit, setDeposit] = useState<number | null>(null);
   const [gameId, setGameId] = useState<number | null>(null);
   const [usersPerGame, setUsersPerGame] = useState<Record<number, number>>({});
-  const [maximumPlayers, setMaximumPlayers] = useState<number | null>(null);
-  const [treasury, setTreasury] = useState<number | null>(null);
-  const [balanceData, setBalanceData] = useState<any>(null);
-  const game = { drawDate: "some date" }; // Sample data
-  const [isOver, setIsOver] = useState(false);
+  const [membersPerGame, setMembersPerGame] = useState<IMemberPerGame>([]);
+  const [balanceData, setBalanceData] = useState<IDecodedJWT>();
   const [joinedMessage, setJoinedMessage] = useState("");
   const jwt = TokenUtils.getJWT();
   const userId = jwt.claims.userId;
-  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+  const handleChange = (
+    _event: React.ChangeEvent<object>,
+    newValue: number
+  ) => {
     setValue(newValue);
   };
   useEffect(() => {
@@ -85,17 +87,13 @@ function GameTypes() {
     const game = await fetchGameById(gameId);
     return game.treasury;
   };
+
   const handleJoinGame = async () => {
-    console.log("join game id", gameId);
     try {
       const currentTreasury = await getCurrentTreasury(Number(gameId));
-
-      // Calculate new treasury value
       const newTreasury = currentTreasury + Number(deposit);
-      const newBalance = balance - newTreasury;
-      console.log("new Treasury", newTreasury);
-      console.log("newBalance", newBalance);
-      //update balance
+      const newBalance = balance! - newTreasury;
+
       if (newBalance > 0) {
         await joinGame(
           new Date(),
@@ -103,24 +101,18 @@ function GameTypes() {
           Number(gameId),
           Number(userId)
         );
-
-        // Get current treasury value
-
-        await updateBalance(balance);
-        // Update treasury with new value
+        await updateBalance(balance!);
         await updateTreasury(newTreasury, Number(gameId));
       } else {
         handleOpenFunds();
       }
-      // Reload game data
       await getGames();
     } catch (error) {
-      console.log("couldn't join game");
+      console.error("couldn't join game");
     }
   };
 
   const handleCreateNewGame = async (typeId: number) => {
-    console.log("HANDLE CREATE GAME TYPE ID", typeId);
     const newGame = await createGame(
       0,
       Number(userSyndicateId),
@@ -132,34 +124,36 @@ function GameTypes() {
   useEffect(() => {
     gameData.forEach((game) => handleMembersInGroupChange(game.id));
   }, [gameData]);
-  /**
-   * setting the different members within the group
-   */
+
   const handleMembersInGroupChange = async (gameId: number) => {
     try {
-      const response = await fetchmembersInGroup(Number(gameId));
-      if (Array.isArray(response)) {
-        setUsersPerGame((prevUsersPerGame) => ({
-          ...prevUsersPerGame,
-          [Number(gameId)]: response.length,
-        }));
-      } else {
-        console.error("Unexpected response format:", response);
-      }
+      const response: IMember[] = await fetchmembersInGroup(Number(gameId));
+      setMembersPerGame((prevMembersPerGame) => ({
+        ...prevMembersPerGame,
+        [Number(gameId)]: response,
+      }));
+      setUsersPerGame((prevUsersPerGame) => ({
+        ...prevUsersPerGame,
+        [Number(gameId)]: response.length,
+      }));
     } catch (error) {
       console.error("Error fetching members in group:", error);
     }
   };
   const fetchMembers = async (someGameId: number) => {
-    const members = await handleMembersInGroupChange(someGameId);
-    console.log("gameId" + someGameId);
-    console.log("fetching members" + members);
+    await handleMembersInGroupChange(someGameId);
   };
+
+  const currencyFormatter = new Intl.NumberFormat("en-GB", {
+    style: "currency",
+    currency: "GBP",
+  });
+
   useEffect(() => {
     fetchGamesWePlay()
       .then((response) => {
         if (Array.isArray(response)) {
-          setData(response);
+          setGameTypeData(response);
         } else {
           console.error("Unexpected data format:", response);
         }
@@ -170,64 +164,53 @@ function GameTypes() {
   }, []);
 
   async function getGames() {
-    if (gameTypeId !== null) {
-      setGameData([]); // Clear previous data or set to loading state.
+    if (gameTypeId) {
+      setGameData([]);
       try {
         const response = await fetchGamesByTypeID(
-          Number(gameTypeId),
+          gameTypeId,
           Number(syndicateId)
         );
-        console.log("Data from API:", response);
         setGameData(response);
-        setMaximumPlayers(response[0].maximumPlayers);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching games:", error);
       }
     }
   }
 
   useEffect(() => {
-    console.log("get games", gameTypeId);
     getGames();
-
-    // handleMembersInGroupChange(gameId);
   }, [gameTypeId]);
 
-  const handlePlayGame = async (gtId: number) => {
-    setGameTypeId(gtId);
-    console.log("GAME TYPE", gtId, gameTypeId);
-    let newData: any[] = await fetchGamesByTypeID(gtId, Number(syndicateId));
+  const handlePlayGame = async (gtypeId: number) => {
+    setGameTypeId(gtypeId);
+    const allGamesForType: IGameMember[] = await fetchGamesByTypeID(
+      gtypeId,
+      Number(syndicateId)
+    );
     handleOpenDialog();
-    if (newData.length > 0) {
-      console.log("NEW DATA", newData);
-      newData.forEach((item) => {
-        if (
-          typeof usersPerGame[item.id] === "number" &&
+    if (allGamesForType.length > 0) {
+      const availableGame = allGamesForType.find((item) => {
+        typeof usersPerGame[item.id] === "number" &&
           item.maximumPlayers &&
-          Number(usersPerGame[item.id]) < Number(item.maximumPlayers)
-        ) {
-          console.log("if yes");
-          handleJoinGame();
-          setGameId(item.id);
-        } else {
-          console.log("if else");
-          setGameTypeId(gtId);
-
-          handleCreateNewGame(gtId);
-        }
+          Number(usersPerGame[item.id]) < Number(item.maximumPlayers);
       });
+      if (availableGame) {
+        setGameId(availableGame.id);
+        handleJoinGame();
+      } else {
+        setGameTypeId(gtypeId);
+        handleCreateNewGame(gtypeId);
+      }
     } else {
-      console.log("ELSE DATA", newData);
-
-      await handleCreateNewGame(gtId);
+      await handleCreateNewGame(gtypeId);
     }
   };
 
   const handleTabClick = (id: number) => {
-    console.log("game type id", id);
     setGameTypeId(id);
   };
-  const CustomTabPanel = (props: any) => {
+  const CustomTabPanel = (props: ICustomTab) => {
     const { children, value, index, ...other } = props;
 
     return (
@@ -243,12 +226,44 @@ function GameTypes() {
     );
   };
 
+  const handleJoinClick = async (gameToJoin: IGame) => {
+    const userGameExists = await fetchUserGamesByGameId(gameToJoin.id);
+    if (userGameExists.length === 0) {
+      if (
+        typeof usersPerGame[gameToJoin.id] === "number" &&
+        gameToJoin.maximumPlayers &&
+        Number(usersPerGame[gameToJoin.id]) < Number(gameToJoin.maximumPlayers)
+      ) {
+        handleOpenDialog();
+        setGameId(gameToJoin.id);
+      } else {
+        console.error("Maximum players reached for this game.", gameToJoin);
+        setGameTypeId(gameToJoin.gameTypes.id);
+        handleCreateNewGame(gameToJoin.gameTypes.id);
+        handleOpenDialog();
+        setGameId(gameToJoin.id);
+      }
+    } else {
+      {
+        setJoinedMessage("you have already joined this game type,");
+      }
+    }
+  };
+
+  const matchUserToGame = (matchGameId: number) => {
+    return membersPerGame[matchGameId]?.find(
+      (member) => member.userId === userId
+    )
+      ? true
+      : false;
+  };
+
   return (
     <>
       <InsufficientFunds
         open={isFundsOpen}
         onClose={handleCloseFunds}
-        funds={balance}
+        funds={balance!}
         deposit={Number(deposit)}
       />
       <Typography variant="h4" component="div" gutterBottom>
@@ -256,8 +271,8 @@ function GameTypes() {
       </Typography>
 
       <Grid container spacing={3}>
-        {data.map((game) => (
-          <Grid item xs={12} md={6} lg={4} key={game.id}>
+        {gameTypeData.map((thisGameType) => (
+          <Grid item xs={12} md={6} lg={4} key={thisGameType.id}>
             <DepositDialog
               open={isDialogOpen}
               onClose={handleCloseDialog}
@@ -269,24 +284,27 @@ function GameTypes() {
             <Card>
               <CardMedia
                 component="img"
-                height="200"
-                image={game.image}
-                alt={game.name}
-                sx={{ objectFit: "contain" }} // Updated styles here
+                height="295"
+                image={thisGameType.image}
+                alt={thisGameType.name}
+                sx={{ objectFit: "cover" }}
               />
               <CardContent>
                 <Typography variant="h5" component="div">
-                  {game.name}
-                  {game.id}
+                  {thisGameType.name}
+                  {thisGameType.id}
                 </Typography>
                 <Typography variant="body1" component="p">
-                  Reward: {game.reward}
+                  Reward:{" "}
+                  {currencyFormatter
+                    .format(thisGameType.reward)
+                    .replace(".00", "")}
                 </Typography>
-                <Typography variant="body1" component="p">
-                  count down:{" "}
+                <Typography variant="body1" component="div">
+                  Countdown:
                   <CountDown
-                    drawDate={game.drawDate}
-                    gameId={game.id}
+                    drawDate={thisGameType.drawDate}
+                    gameId={thisGameType.id}
                     userSyndicateId={userSyndicateId}
                   />
                 </Typography>
@@ -295,97 +313,76 @@ function GameTypes() {
                 variant="contained"
                 color="primary"
                 aria-label="join random group buttons"
+                sx={{ display: "flex", mt: 1, mx: 2, mb: 2 }}
               >
                 <Button
+                  fullWidth
                   onClick={() => {
-                    handlePlayGame(Number(game.id));
+                    handlePlayGame(Number(thisGameType.id));
                   }}
                 >
                   play in random group
                 </Button>
 
-                <Button>play every week</Button>
+                <Button fullWidth>play every week</Button>
               </ButtonGroup>
             </Card>
           </Grid>
         ))}
       </Grid>
 
-      <Typography variant="h4" component="div" gutterBottom>
+      <Typography variant="h4" component="div" gutterBottom mt={5}>
         Ongoing Games
       </Typography>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs value={value} onChange={handleChange} aria-label="game tabs">
-          {data.map((game, index) => (
+        <Tabs
+          value={value === 0 ? false : value}
+          onChange={handleChange}
+          aria-label="game tabs"
+        >
+          {gameTypeData.map((tabGameType) => (
             <Tab
-              label={game.name}
-              value={game.id}
-              key={game.id}
+              label={tabGameType.name}
+              value={tabGameType.id}
+              key={tabGameType.id}
               onClick={() => {
-                handleTabClick(game.id);
-                fetchMembers(game.id);
+                handleTabClick(tabGameType.id);
+                fetchMembers(tabGameType.id);
               }}
             />
           ))}
         </Tabs>
       </Box>
-      {gameData.map((game) => (
-        <CustomTabPanel value={value} index={game.gameTypes.id} key={game.id}>
+      {gameData.map((currentGame) => (
+        <CustomTabPanel
+          value={value}
+          index={currentGame.gameTypes.id}
+          key={currentGame.id}
+        >
           <Card>
             <CardContent>
               <Typography variant="h5" component="div">
-                {game?.gameTypes?.name} {game.id}
+                {currentGame?.gameTypes?.name} {currentGame.id}
               </Typography>
               <Typography variant="body1" component="p">
-                Reward: {game?.gameTypes.reward}
+                Reward: {currentGame?.gameTypes.reward}
               </Typography>
               <Typography variant="body1" component="p">
-                Members:{usersPerGame[game.id] || 0}/{game?.maximumPlayers}
+                Members:{usersPerGame[currentGame.id] || 0}/
+                {currentGame?.maximumPlayers}
               </Typography>
               <Typography variant="body1" component="p">
-                Treasury: {game?.treasury}
+                Treasury: {currentGame?.treasury}
               </Typography>
               <Button
                 variant="contained"
                 color="primary"
-                onClick={() => {
-                  console.log("upg", usersPerGame);
-                  console.log("firstGameId" + usersPerGame[game.id]);
-                  const userGameExists = fetchUserGamesByGameId(game.id);
-
-                  if (!userGameExists) {
-                    if (
-                      typeof usersPerGame[game.id] === "number" &&
-                      game.maximumPlayers &&
-                      Number(usersPerGame[game.id]) <
-                        Number(game.maximumPlayers)
-                    ) {
-                      console.log("firstGameId" + game.id);
-                      handleOpenDialog();
-                      setGameId(game.id);
-                      console.log("gameId " + gameId);
-                    } else {
-                      console.error(
-                        "Maximum players reached for this game.",
-                        game
-                      );
-                      setGameTypeId(game.gameTypes.id);
-                      handleCreateNewGame(game.gameTypes.id);
-                      handleOpenDialog();
-
-                      setGameId(game.id);
-                      console.log(gameId);
-                    }
-                  } else {
-                    {
-                      setJoinedMessage(
-                        "you have already joined this game type,"
-                      );
-                    }
-                  }
-                }}
+                disabled={matchUserToGame(currentGame.id)}
+                onClick={() => handleJoinClick(currentGame)}
               >
-                Join
+                {matchUserToGame(currentGame.id)
+                  ? "You have joined this game"
+                  : "Join"}
               </Button>
               {joinedMessage}
             </CardContent>

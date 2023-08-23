@@ -8,21 +8,22 @@ const getAll = async () => {
       start_date: true,
       deposit: true,
       role_id: true,
-      user_id: true,  
+      user_id: true,
       games: {
         select: {
           id: true,
           maximum_players: true,
           treasury: true,
-          game_types:{
-            select:{
-            id: true,
-            name: true,
-          }},
-          syndicate_id:true,
-        }
-      }
-    }
+          game_types: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          syndicate_id: true,
+        },
+      },
+    },
   });
 
   const modifiedUserGames: any[] = allUserGames.map((x) => ({
@@ -35,54 +36,49 @@ const getAll = async () => {
       id: x.games.id,
       maximumPlayers: x.games.maximum_players,
       treasury: x.games.treasury,
-      gameTypes:{
-      id:  x.games.game_types.id ,
-      name: x.games.game_types.name,
+      gameTypes: {
+        id: x.games.game_types.id,
+        name: x.games.game_types.name,
       },
-   syndicateId: x.games.syndicate_id,
-
-    }
+      syndicateId: x.games.syndicate_id,
+    },
   }));
 
   return modifiedUserGames;
 };
 
 /**
- * 
+ *
  * @param syndicateId to find games in a syndicate(archives)
- * @returns 
+ * @returns
  */
 const getGamesBySyndicateId = async (syndicateId) => {
   let allUserGames = await prisma.user_games.findMany({
-    where:
-    {
-    
-      id:syndicateId
-        
-  },
+    where: {
+      id: syndicateId,
+    },
     select: {
       id: true,
       start_date: true,
       deposit: true,
       role_id: true,
-      user_id: true,  
+      user_id: true,
       games: {
         select: {
           id: true,
           maximum_players: true,
           treasury: true,
-          game_types:{
-            select:{
-            id: true,
-            name: true,
-          }},
-        syndicate_id: true,
-            
-          }
-        }
-      }
-    }
-)
+          game_types: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          syndicate_id: true,
+        },
+      },
+    },
+  });
 
   const modifiedUserGames: any[] = allUserGames.map((x) => ({
     id: x.id,
@@ -94,48 +90,48 @@ const getGamesBySyndicateId = async (syndicateId) => {
       id: x.games.id,
       maximumPlayers: x.games.maximum_players,
       treasury: x.games.treasury,
-      gameTypes:{
-      id:  x.games.game_types.id ,
-      name: x.games.game_types.name,
+      gameTypes: {
+        id: x.games.game_types.id,
+        name: x.games.game_types.name,
       },
-    
+
       syndicateId: x.games.syndicate_id,
-    }
+    },
   }));
 
   return modifiedUserGames;
 };
 
 /**
- * 
+ *
  * @param userId game relationships by user id
- * @returns 
+ * @returns
  */
 const getGamesByUserId = async (userId) => {
   let allUserGames = await prisma.user_games.findMany({
-    where:{user_id:userId},
+    where: { user_id: userId },
     select: {
       id: true,
       start_date: true,
       deposit: true,
       role_id: true,
-      user_id: true,  
+      user_id: true,
       games: {
         select: {
           id: true,
           maximum_players: true,
           treasury: true,
-          game_types:{
-            select:{
-            id: true,
-            name: true,
-          }},
-         
-            syndicate_id:true,
-          
-        }
-      }
-    }
+          game_types: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+
+          syndicate_id: true,
+        },
+      },
+    },
   });
 
   const modifiedUserGames: any[] = allUserGames.map((x) => ({
@@ -148,86 +144,84 @@ const getGamesByUserId = async (userId) => {
       id: x.games.id,
       maximumPlayers: x.games.maximum_players,
       treasury: x.games.treasury,
-      gameTypes:{
-      id:  x.games.game_types.id ,
-      name: x.games.game_types.name,
+      gameTypes: {
+        id: x.games.game_types.id,
+        name: x.games.game_types.name,
       },
-  syndicateId: x.games.game_types.id,
-    }
+      syndicateId: x.games.game_types.id,
+    },
   }));
 
   return modifiedUserGames;
 };
-async function getGamesByGameId(gameId: number){
+async function getGamesByGameId(gameId: number) {
   let userGamesById;
-  
-    userGamesById = await prisma.user_games.findMany({
-      where: { games:{id: gameId,} }, 
-      select: {
-        id: true,
-        start_date: true,
-        deposit: true,
-        role_id: true,
-        user_id: true,  
-        games: {
-          select: {
-            id: true,
-            maximum_players: true,
-            treasury: true,
-            game_types:{
-              select:{
+
+  userGamesById = await prisma.user_games.findMany({
+    where: { games: { id: gameId } },
+    select: {
+      id: true,
+      start_date: true,
+      deposit: true,
+      role_id: true,
+      user_id: true,
+      games: {
+        select: {
+          id: true,
+          maximum_players: true,
+          treasury: true,
+          game_types: {
+            select: {
               id: true,
               name: true,
-            }},
-      syndicate_id: true,
-          }
-        }
-      }
-    });
-  
-    const modifiedUserGames: IUserGames[] = userGamesById.map((x) => ({
-      id: x.id,
-      startDate: x.start_date,
-      deposit: x.deposit,
-      roleId: x.role_id,
-      userId: x.user_id,
-      games: {
-        id: x.games.id,
-        maximumPlayers: x.games.maximum_players,
-        treasury: x.games.treasury,
-        gameTypes:{
-        id:  x.games.game_types.id ,
-        name: x.games.game_types.name,
+            },
+          },
+          syndicate_id: true,
         },
-   syndicates_id: x.games.syndicate_id,
-      }
-    }));
-  
-    return modifiedUserGames;
-  };
-
-async function createUserGame(userGame: any) {
-  try {
-  
-
-
-  const newUserGame = await prisma.user_games.create({
-
-    data: {
-start_date: userGame.startDate,
-deposit: userGame.deposit,
-game_id: Number(userGame.gameId),
-role_id: Number(userGame.roleId),
-user_id: Number(userGame.userId),
+      },
     },
   });
-  console.log("user game data")
+
+  const modifiedUserGames: IUserGames[] = userGamesById.map((x) => ({
+    id: x.id,
+    startDate: x.start_date,
+    deposit: x.deposit,
+    roleId: x.role_id,
+    userId: x.user_id,
+    games: {
+      id: x.games.id,
+      maximumPlayers: x.games.maximum_players,
+      treasury: x.games.treasury,
+      gameTypes: {
+        id: x.games.game_types.id,
+        name: x.games.game_types.name,
+      },
+      syndicates_id: x.games.syndicate_id,
+    },
+  }));
+
+  return modifiedUserGames;
+}
+
+async function createUserGame(userGame: any) {
+  console.log("create user game");
+  try {
+    const newUserGame = await prisma.user_games.create({
+      data: {
+        start_date: userGame.startDate,
+        deposit: userGame.deposit,
+        game_id: Number(userGame.gameId),
+        role_id: Number(userGame.roleId),
+        user_id: Number(userGame.userId),
+      },
+    });
+    console.log("user game data");
     return newUserGame.start_date;
-  } catch(error) {
+  } catch (error) {
     console.log(error);
     throw Error("Cannot create user");
   }
-} 
+}
 
 async function updateUserGame(userGame: any) {
   let updateUserSyndicates;
@@ -236,11 +230,9 @@ async function updateUserGame(userGame: any) {
       where: {
         id: userGame.id,
       },
-     data: {
-      
-      deposit: userGame.deposit,
-      
-    }, 
+      data: {
+        deposit: userGame.deposit,
+      },
     });
   } catch (error) {
     console.log(error);
@@ -248,6 +240,12 @@ async function updateUserGame(userGame: any) {
   return updateUserSyndicates;
 }
 
-
-const UserGameService = {getAll, getGamesByGameId, createUserGame, getGamesBySyndicateId, getGamesByUserId, updateUserGame};
-export default UserGameService
+const UserGameService = {
+  getAll,
+  getGamesByGameId,
+  createUserGame,
+  getGamesBySyndicateId,
+  getGamesByUserId,
+  updateUserGame,
+};
+export default UserGameService;
