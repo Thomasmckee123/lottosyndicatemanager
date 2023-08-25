@@ -1,7 +1,5 @@
 const NavigationRoutes = {
   HOME: "/",
-  ABOUT: "/about",
-  CONTRACT: "/contact",
   HOMEPAGE: "/ActualHomePage",
   VIEWSYDICATES: "/viewSyndicates",
   INSIDESYNDICATE: "/InsideSyndicate/:syndicateId",
@@ -22,5 +20,7 @@ const NavigationRoutes = {
   LOTTOSIMULATION: "/lottoSimulation",
   ARCHIVEPAGE: "/archivePage",
   PROFILE: "/profile",
+  LOGOUT: "/logout",
+  GAMEMEMBERS: "/gameMembers/:gameId",
 };
 export { NavigationRoutes };

@@ -1,8 +1,5 @@
 import { Routes, Route, Navigate, Link } from "react-router-dom";
 
-import About from "./pages/informationPages/About";
-import Contact from "./pages/informationPages/contact";
-
 import HomePage from "./pages/HomePage";
 
 import { NavigationRoutes } from "./constants";
@@ -20,11 +17,13 @@ import Login from "./pages/LoginPage/components/login";
 import MessageBoardsPage from "./pages/BoardsInSyndicatePage";
 import GamePage from "./pages/gamePage";
 import AccountPage from "./pages/Account";
-import UserGames from "./pages/gamePage/components/userGames";
 import Message from "./pages/PlayGamePage";
 import SignUp from "./pages/SignUp/components/signUp";
 import Archive from "./pages/archive/index";
 import Profile from "./pages/Profile";
+import Logout from "./pages/Logout";
+import { useEffect } from "react";
+import MembersPage from "./pages/membersOfGame";
 
 function App() {
   const unAuthorisedRoutes = () => {
@@ -41,8 +40,7 @@ function App() {
     return (
       <>
         <Route path="/" element={<HomePage />} />
-        <Route path={NavigationRoutes.ABOUT} element={<About />} />
-        <Route path={NavigationRoutes.CONTRACT} element={<Contact />} />
+
         <Route path={NavigationRoutes.HOMEPAGE} element={<HomePage />} />
         <Route
           path={NavigationRoutes.VIEWSYDICATES}
@@ -52,6 +50,7 @@ function App() {
           path={NavigationRoutes.INSIDESYNDICATE}
           element={<InsideSyndicate />}
         />
+        <Route path={NavigationRoutes.LOGOUT} element={<Logout />}></Route>
         <Route
           path={NavigationRoutes.CREATESYNDICATE}
           element={<CreateSyndicate />}
@@ -68,14 +67,17 @@ function App() {
         <Route path={NavigationRoutes.ACCOUNT} element={<AccountPage />} />
         <Route path={NavigationRoutes.GAMEMESSAGE} element={<Message />} />
         <Route path={NavigationRoutes.PROFILE} element={<Profile />} />
-        <Route path="*" element={<Navigate to={"/"} />} />
+        <Route path={NavigationRoutes.GAMEMEMBERS} element={<MembersPage />} />
+        {/* <Route path="*" element={<Navigate to={"/"} />} /> */}
       </>
     );
   };
 
   const { state } = AuthContext.useLogin();
   const loggedIn = state.accessToken;
-
+  useEffect(() => {
+    console.log("----UPDATED AUTH STATE -----", state);
+  }, [state]);
   return (
     <>
       <Navigation />

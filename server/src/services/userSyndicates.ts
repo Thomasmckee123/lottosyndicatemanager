@@ -5,13 +5,37 @@ const getUserSyndicateByUserSyndicteId = async (userSyndicateId: number)=> {
     const userSyndicateByUserSyndicteId = await prisma.user_syndicates.findUnique({
       where: {
         id : userSyndicateId
-      }
-    })
+      }  ,     select: {
+        id: true,
+        start_date: true,
+   user_id: true,
+        syndicates:
+        {select:{
+         id: true,
+         created_date:true,
+         name:true,
+         description:true,
+         avatar:true,
+        }
+
+        },
+       role_id: true,
+
+        }
+      },
+    );   
+    
     const returnedValue = {
         id: Number(userSyndicateByUserSyndicteId?.id),
        startDate: new Date(),
        userId: Number(userSyndicateByUserSyndicteId?.user_id),
-       syndicateId: Number(userSyndicateByUserSyndicteId?.syndicate_id),
+       syndicates:{
+        id: Number(userSyndicateByUserSyndicteId?.syndicates.id),
+        createdDate: userSyndicateByUserSyndicteId?.syndicates.created_date,
+        name: userSyndicateByUserSyndicteId?.syndicates.name,
+        description: userSyndicateByUserSyndicteId?.syndicates.description,
+        avatar: userSyndicateByUserSyndicteId?.syndicates.avatar
+       },
        roleId: Number(userSyndicateByUserSyndicteId?.role_id)
 
        };
@@ -50,6 +74,7 @@ const getUserSyndicateByUserSyndicteId = async (userSyndicateId: number)=> {
          },
          roles:{
           select:{
+            id: true,
           name: true
          }
 
@@ -75,6 +100,7 @@ const getUserSyndicateByUserSyndicteId = async (userSyndicateId: number)=> {
             avatar: string;
           };
           roles: {
+            id: number;
             name: string;
           };
         }) => ({
@@ -94,6 +120,7 @@ const getUserSyndicateByUserSyndicteId = async (userSyndicateId: number)=> {
             avatar: x.syndicates.avatar
           },
           roles: {
+            id: x.roles.id,
             name: x.roles.name
           }
         })
@@ -193,6 +220,7 @@ roles:{
             avatar: string;
           };
           roles: {
+            id: number;
             name: string;
           };
         }) => ({
@@ -212,6 +240,7 @@ roles:{
             avatar: x.syndicates.avatar
           },
           roles: {
+            id: x.roles.id,
             name: x.roles.name
           }
         })
@@ -264,6 +293,25 @@ roles:{
       throw error;
     }
   }
+
+  async function deleteUserSyndicateBySyndicateId(syndicateId) {
+    try {
   
- const UserSyndicateService= {deleteUserSyndicateById, updateUserSyndicateDetails, createUserSyndicate, getSyndicatesByUserId,getUserSyndicateByUserSyndicteId, getUserSyndicateBySyndicateId }
+      const deletedUserSyndicate = await prisma.user_syndicates.deleteMany({
+        where: {
+          syndicate_id: syndicateId
+        },
+      });
+      
+      return deletedUserSyndicate;
+      
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+    
+  
+  
+ const UserSyndicateService= {deleteUserSyndicateBySyndicateId, deleteUserSyndicateById, updateUserSyndicateDetails, createUserSyndicate, getSyndicatesByUserId,getUserSyndicateByUserSyndicteId, getUserSyndicateBySyndicateId }
  export{UserSyndicateService};

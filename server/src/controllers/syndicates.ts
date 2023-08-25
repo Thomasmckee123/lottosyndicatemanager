@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { SyndicateService } from "./../services/syndicates";
-
+import { ImagesController } from "./images";
 const getAllSyndicates = async (req: Request, res: Response) => {
   const syndicates = await SyndicateService.getAll();
   return !syndicates ? res.sendStatus(404) : res.status(200).json(syndicates);
@@ -63,22 +63,24 @@ async function deleteSyndicateById(req: Request, res: Response)    {
   return res.status(200).json(deletedSyndicate);
 }
 
+
 const addSyndicateImage = async (req: Request, res: Response) => {
   try {
-  
+      const syndicateId = Number(req.params.syndicateId);
+      const avatar = `https://lottosyndicatebucket.s3.eu-west-1.amazonaws.com/syndicates/${syndicateId}/avatar.jpeg`
+      console.log(avatar)
 
-     
-    let  syndicateId = Number(req.params.syndicateId)
-     let avatar =`https://lottosyndicatebucket.s3.eu-west-1.amazonaws.com/syndicates/${syndicateId}/e17751d4-set-for-life-monday-draw-results-live-national-lottery.jpg`
-    
-    const updatedSyndicate = await SyndicateService.addSyndicateImage(
-    syndicateId, avatar
-    );
-    return res.status(200).json(updatedSyndicate);
+      if (!avatar) {
+          return res.status(404).json("Image not found.");
+      }
+
+      const updatedSyndicate = await SyndicateService.addSyndicateImage(syndicateId, avatar);
+      return res.status(200).json(updatedSyndicate);
   } catch (error) {
-    res.status(500).json("Could not update syndicate.");
+      res.status(500).json("Could not update syndicate.");
   }
 };
+
 
 const SyndicateController = {addSyndicateImage, getSyndicateByName,getSyndicatesById, getAllSyndicates, createSyndicate, UpdateSyndicateDetails,deleteSyndicateById};
 export {SyndicateController};

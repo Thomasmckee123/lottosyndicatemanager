@@ -1,5 +1,14 @@
 import axios from "../integrations/instance";
 
+async function fetchUserGamesByUserGameId(userGameId: number){
+  try{
+    const response = await axios.get(`userGames/${userGameId}`)
+    return response.data
+  }catch(error){
+    console.error("error getting user game by user game id", error)
+  }
+
+}
 const fetchUserGames = async (userId: Number) => {
     try {
       
@@ -23,4 +32,21 @@ const fetchUserGamesByGameId = async(gameId: number) =>{
   }
 }
 
-export {fetchUserGames, fetchUserGamesByGameId}
+//updating role
+const updateRole = async (userGameId: number) => {
+try{
+const roleData = {
+  roleId: 4
+}
+const response = await axios.put(`userGames/${userGameId}`,roleData);
+return response.data;
+}catch(error){
+  console.error("error updating role", error)
+}
+
+
+
+}
+
+
+export {fetchUserGamesByUserGameId, fetchUserGames, fetchUserGamesByGameId, updateRole}

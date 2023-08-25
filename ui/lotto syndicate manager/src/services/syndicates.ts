@@ -66,16 +66,16 @@ const createSyndicate = async (name: any, description: any, file:File, ownerId:n
     const response = await axios.post(`/syndicates/users/${ownerId}`, createData);
     console.log("CreationOfSyndicate", response.data)
     uploadSyndicateImage(Number(response.data), file)
-    addSyndicateImage(Number(response.data)) 
+   // addSyndicateImage(Number(response.data)) 
     return response.data;
 
 };
 
-const addSyndicateImage = async (syndicateId: number) => {
+// const addSyndicateImage = async (syndicateId: number) => {
  
-  await axios.put(`syndicates/photo/${syndicateId}`)
+//   await axios.put(`syndicates/photo/${syndicateId}`)
   
-}
+// }
 const createUserSyndicate = async (startDate: Date, userId: number, syndicateId: number, roleId: number) =>{
   const createUserSyndicate = {
     startDate: startDate,

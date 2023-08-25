@@ -18,13 +18,22 @@ const getAll = async () => {
             select: {
               id: true,
               name: true,
+              draw_date:true,
+              image:true,
             },
           },
-          syndicate_id: true,
+          syndicates:{
+            select:{
+              id:true,
+              name:true,
+              description:true,
+              avatar:true,
+              owner_id:true,
+          },
         },
       },
     },
-  });
+  }});
 
   const modifiedUserGames: any[] = allUserGames.map((x) => ({
     id: x.id,
@@ -39,13 +48,106 @@ const getAll = async () => {
       gameTypes: {
         id: x.games.game_types.id,
         name: x.games.game_types.name,
+        drawDate:x.games.game_types.draw_date,
+        image:x.games.game_types.image,
       },
-      syndicateId: x.games.syndicate_id,
-    },
-  }));
 
-  return modifiedUserGames;
+      syndicates:{
+        id:x.games.syndicates.id,
+        name:x.games.syndicates.name,
+        description:x.games.syndicates.description,
+        avatar:x.games.syndicates.avatar,
+        ownerId:x.games.syndicates.owner_id,
+     } },
+  }));
+  const filteredGames = modifiedUserGames?.filter(
+    (game) => game.games.maximumPlayers !== 0
+  );
+
+  return filteredGames;
 };
+
+
+
+
+
+
+
+
+const getGamesByUserGameId = async (userSyndicateId: number) => {
+  let allUserGames = await prisma.user_games.findMany({
+    where: {
+      id: userSyndicateId,
+    },
+    select: {
+      id: true,
+      start_date: true,
+      deposit: true,
+      role_id: true,
+      user_id: true,
+      games: {
+        select: {
+          id: true,
+          maximum_players: true,
+          treasury: true,
+          game_types: {
+            select: {
+              id: true,
+              name: true,
+              draw_date:true,
+              image:true,
+            },
+          },
+          syndicates:{
+            select:{
+              id:true,
+              name:true,
+              description:true,
+              avatar:true,
+              owner_id:true,
+          },
+        },
+      },
+    },
+  }});
+
+  const modifiedUserGames: any[] = allUserGames.map((x) => ({
+    id: x.id,
+    startDate: x.start_date,
+    deposit: x.deposit,
+    roleId: x.role_id,
+    userId: x.user_id,
+    games: {
+      id: x.games.id,
+      maximumPlayers: x.games.maximum_players,
+      treasury: x.games.treasury,
+      gameTypes: {
+        id: x.games.game_types.id,
+        name: x.games.game_types.name,
+        drawDate:x.games.game_types.draw_date,
+        image:x.games.game_types.image,
+      },
+
+      syndicates:{
+        id:x.games.syndicates.id,
+        name:x.games.syndicates.name,
+        description:x.games.syndicates.description,
+        avatar:x.games.syndicates.avatar,
+        ownerId:x.games.syndicates.owner_id,
+     } },
+  }));
+  const filteredGames = modifiedUserGames?.filter(
+    (game) => game.games.maximumPlayers !== 0
+  );
+
+  return filteredGames;
+};
+
+
+
+
+
+
 
 /**
  *
@@ -72,13 +174,22 @@ const getGamesBySyndicateId = async (syndicateId) => {
             select: {
               id: true,
               name: true,
+              draw_date:true,
+              image:true,
             },
           },
-          syndicate_id: true,
+          syndicates:{
+            select:{
+              id:true,
+              name:true,
+              description:true,
+              avatar:true,
+              owner_id:true,
+          },
         },
       },
     },
-  });
+  }});
 
   const modifiedUserGames: any[] = allUserGames.map((x) => ({
     id: x.id,
@@ -93,13 +204,23 @@ const getGamesBySyndicateId = async (syndicateId) => {
       gameTypes: {
         id: x.games.game_types.id,
         name: x.games.game_types.name,
+        drawDate:x.games.game_types.draw_date,
+        image:x.games.game_types.image,
       },
 
-      syndicateId: x.games.syndicate_id,
-    },
+      syndicates:{
+        id:x.games.syndicates.id,
+        name:x.games.syndicates.name,
+        description:x.games.syndicates.description,
+        avatar:x.games.syndicates.avatar,
+        ownerId:x.games.syndicates.owner_id,
+     } },
   }));
+  const filteredGames = modifiedUserGames?.filter(
+    (game) => game.games.maximumPlayers !== 0
+  );
 
-  return modifiedUserGames;
+  return filteredGames;
 };
 
 /**
@@ -114,7 +235,12 @@ const getGamesByUserId = async (userId) => {
       id: true,
       start_date: true,
       deposit: true,
-      role_id: true,
+      roles: {
+        select: {
+          id: true,
+          name: true,
+      }}
+      ,
       user_id: true,
       games: {
         select: {
@@ -125,20 +251,32 @@ const getGamesByUserId = async (userId) => {
             select: {
               id: true,
               name: true,
+              draw_date: true,
+              image: true,
             },
           },
 
-          syndicate_id: true,
+          syndicates: {
+            select: {
+              id: true,
+              name: true,
+              description: true,
+              avatar: true,
+              owner_id: true,
+            }
         },
       },
     },
-  });
+  }});
 
   const modifiedUserGames: any[] = allUserGames.map((x) => ({
     id: x.id,
     startDate: x.start_date,
     deposit: x.deposit,
-    roleId: x.role_id,
+    roles:{
+      id:x.roles.id,
+      name:x.roles.name,
+    },
     userId: x.user_id,
     games: {
       id: x.games.id,
@@ -147,12 +285,23 @@ const getGamesByUserId = async (userId) => {
       gameTypes: {
         id: x.games.game_types.id,
         name: x.games.game_types.name,
+        drawDate: x.games.game_types.draw_date,
+        image: x.games.game_types.image,
       },
-      syndicateId: x.games.game_types.id,
+      syndicates: {
+        id: x.games.syndicates.id,
+        name: x.games.syndicates.name,
+        description: x.games.syndicates.description,
+        avatar: x.games.syndicates.avatar,
+        ownerId: x.games.syndicates.owner_id,
+      }
     },
   }));
+  const filteredGames = modifiedUserGames?.filter(
+    (game) => game.games.maximumPlayers !== 0
+  );
 
-  return modifiedUserGames;
+  return filteredGames;
 };
 async function getGamesByGameId(gameId: number) {
   let userGamesById;
@@ -164,7 +313,16 @@ async function getGamesByGameId(gameId: number) {
       start_date: true,
       deposit: true,
       role_id: true,
-      user_id: true,
+      users:{
+        select:{
+          id:true,
+          first_name:true,
+          last_name:true,
+          email:true,
+          balance:true,
+          image:true,
+        }
+      },
       games: {
         select: {
           id: true,
@@ -174,20 +332,36 @@ async function getGamesByGameId(gameId: number) {
             select: {
               id: true,
               name: true,
+              draw_date:true,
+              image:true,
             },
           },
-          syndicate_id: true,
+          syndicates:{
+            select:{
+              id:true,
+              name:true,
+              description:true,
+              avatar:true,
+              owner_id:true,
+          },
         },
       },
     },
-  });
+  }});
 
-  const modifiedUserGames: IUserGames[] = userGamesById.map((x) => ({
+  const modifiedUserGames: any[] = userGamesById.map((x) => ({
     id: x.id,
     startDate: x.start_date,
     deposit: x.deposit,
     roleId: x.role_id,
-    userId: x.user_id,
+    users:{ 
+      id:x.users.id,
+      firstName:x.users.first_name,
+      lastName:x.users.last_name,
+      email:x.users.email,
+      balance:x.users.balance,
+      image:x.users.image,
+    },
     games: {
       id: x.games.id,
       maximumPlayers: x.games.maximum_players,
@@ -195,8 +369,17 @@ async function getGamesByGameId(gameId: number) {
       gameTypes: {
         id: x.games.game_types.id,
         name: x.games.game_types.name,
+        drawDate:x.games.game_types.draw_date,
+        image:x.games.game_types.image,
       },
-      syndicates_id: x.games.syndicate_id,
+      syndicates:{
+        id:x.games.syndicates.id,
+        name:x.games.syndicates.name,
+        description:x.games.syndicates.description,
+        avatar:x.games.syndicates.avatar,
+        ownerId:x.games.syndicates.owner_id,
+
+      }
     },
   }));
 
@@ -239,6 +422,25 @@ async function updateUserGame(userGame: any) {
   }
   return updateUserSyndicates;
 }
+async function updateRole(userGame: any) {
+  let updateUserSyndicates;
+  try {
+    updateUserSyndicates = await prisma.user_games.update({
+      where: {
+        id: userGame.userGameId,
+      },
+      data: {
+        role_id: userGame.roleId,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+  return updateUserSyndicates;
+}
+
+ 
+
 
 const UserGameService = {
   getAll,
@@ -247,5 +449,7 @@ const UserGameService = {
   getGamesBySyndicateId,
   getGamesByUserId,
   updateUserGame,
+  updateRole,
+  getGamesByUserGameId
 };
 export default UserGameService;

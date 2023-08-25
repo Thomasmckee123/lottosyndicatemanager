@@ -6,6 +6,7 @@ interface AuthContextProps {
     refreshToken: string;
   };
   dispatch: React.Dispatch<any>;
+  handleLogout: () => void;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -40,7 +41,14 @@ function AuthProvider({ children }: any) {
   }
 
   const [state, dispatch] = useReducer(authReducer, parsedAuth);
-  const value = { state, dispatch };
+
+  const handleLogout = () => {
+    dispatch({ type: "logout" });
+    localStorage.removeItem("user");
+    localStorage.removeItem("userEmail");
+  };
+
+  const value = { state, dispatch, handleLogout };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

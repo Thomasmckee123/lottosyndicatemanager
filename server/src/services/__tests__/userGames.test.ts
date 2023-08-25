@@ -109,15 +109,7 @@ describe("GET /userGames", () => {
                            "id": 1,
                            "name": "euro millions"
                        },
-                       "user_syndicates": {
-                           "start_date": "2023-07-13T00:00:00.000Z",
-                           "users": {
-                               "id": 1,
-                               "first_name": "John",
-                               "last_name": "Doe",
-                               "email": "JohnDoe@Gmail.com",
-                               "balance": 0
-                           },
+                
                            "syndicates": {
                                "id": 1,
                                "created_date": "2023-07-10T00:00:00.000Z",
@@ -127,43 +119,34 @@ describe("GET /userGames", () => {
                            }
                        }
                    }
-               }
+               
            ]
-         let testUserGameResponse = [
-           {
-               "id": 1,
-               "startDate": "2023-07-21T00:00:00.000Z",
-               "deposit": 0,
-               "roleId": 3,
-               "userId": 1,
-               "games": {
-                   "id": 1,
-                   "maximumPlayers": 5,
-                   "treasury": 0,
-                   "gameTypes": {
-                       "id": 1,
-                       "name": "euro millions"
-                   },
-                   "userSyndicates": {
-                       "startDate": "2023-07-13T00:00:00.000Z",
-                       "users": {
-                           "id": 1,
-                           "firstName": "John",
-                           "lastName": "Doe",
-                           "email": "JohnDoe@Gmail.com",
-                           "balance": 0
-                       },
-                       "syndicates": {
-                           "id": 1,
-                           "createdDate": "2023-07-10T00:00:00.000Z",
-                           "name": "The Thunderbolts",
-                           "description": "For those who strike like lightning!",
-                           "avatar": "thunderbolts.jpg"
-                       }
-                   }
-               }
-           }
-       ]
+         let testUserGameResponse =         [ {
+            "id": 1,
+            "start_date": "2023-07-21T00:00:00.000Z",
+            "deposit": 0,
+            "role_id": 3,
+            "user_id": 1,
+            "games": {
+                "id": 1,
+                "maximum_players": 5,
+                "treasury": 0,
+                "game_types": {
+                    "id": 1,
+                    "name": "euro millions"
+                },
+         
+                    "syndicates": {
+                        "id": 1,
+                        "created_date": "2023-07-10T00:00:00.000Z",
+                        "name": "The Thunderbolts",
+                        "description": "For those who strike like lightning!",
+                        "avatar": "thunderbolts.jpg"
+                    }
+                
+            }
+        }
+    ]
               
                test("get User games by syndicate id", async () => {
                  prismaAsAny.user_games = {
@@ -197,15 +180,7 @@ describe("GET /userGames", () => {
                                    "id": 1,
                                    "name": "euro millions"
                                },
-                               "user_syndicates": {
-                                   "start_date": "2023-07-13T00:00:00.000Z",
-                                   "users": {
-                                       "id": 1,
-                                       "first_name": "John",
-                                       "last_name": "Doe",
-                                       "email": "JohnDoe@Gmail.com",
-                                       "balance": 0
-                                   },
+                        
                                    "syndicates": {
                                        "id": 1,
                                        "created_date": "2023-07-10T00:00:00.000Z",
@@ -213,7 +188,7 @@ describe("GET /userGames", () => {
                                        "description": "For those who strike like lightning!",
                                        "avatar": "thunderbolts.jpg"
                                    }
-                               }
+                               
                            }
                        }
                    ]
@@ -232,15 +207,7 @@ describe("GET /userGames", () => {
                                "id": 1,
                                "name": "euro millions"
                            },
-                           "userSyndicates": {
-                               "startDate": "2023-07-13T00:00:00.000Z",
-                               "users": {
-                                   "id": 1,
-                                   "firstName": "John",
-                                   "lastName": "Doe",
-                                   "email": "JohnDoe@Gmail.com",
-                                   "balance": 0
-                               },
+                      
                                "syndicates": {
                                    "id": 1,
                                    "createdDate": "2023-07-10T00:00:00.000Z",
@@ -248,7 +215,7 @@ describe("GET /userGames", () => {
                                    "description": "For those who strike like lightning!",
                                    "avatar": "thunderbolts.jpg"
                                }
-                           }
+                           
                        }
                    }
                ]
@@ -280,15 +247,7 @@ describe("GET /userGames", () => {
                                            "id": 1,
                                            "name": "euro millions",
                                        },
-                                       "user_syndicates": {
-                                           "start_date": "2023-07-13T00:00:00.000Z",
-                                           "users": {
-                                               "id": 1,
-                                               "first_name": "John",
-                                               "last_name": "Doe",
-                                               "email": "JohnDoe@Gmail.com",
-                                               "balance": 0
-                                           },
+                                    
                                            "syndicates": {
                                                "id": 1,
                                                "created_date": "2023-07-10T00:00:00.000Z",
@@ -297,7 +256,7 @@ describe("GET /userGames", () => {
                                                "avatar": "thunderbolts.jpg"
                                            }
                                        }
-                                   }
+                                   
                                }
                            ]
                          let testUserGameResponse = [
@@ -315,15 +274,7 @@ describe("GET /userGames", () => {
                                        "id": 1,
                                        "name": "euro millions",
                                    },
-                                   "userSyndicates": {
-                                       "startDate": "2023-07-13T00:00:00.000Z",
-                                       "users": {
-                                           "id": 1,
-                                           "firstName": "John",
-                                           "lastName": "Doe",
-                                           "email": "JohnDoe@Gmail.com",
-                                           "balance": 0
-                                       },
+                                
                                        "syndicates": {
                                            "id": 1,
                                            "createdDate": "2023-07-10T00:00:00.000Z",
@@ -331,7 +282,7 @@ describe("GET /userGames", () => {
                                            "description": "For those who strike like lightning!",
                                            "avatar": "thunderbolts.jpg"
                                        }
-                                   }
+                                   
                                }
                            }
                        ]

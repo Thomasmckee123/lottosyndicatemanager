@@ -4,7 +4,7 @@ const fetchUserBySyndicateId = async (syndicateId: Number) => {
   try {
     
     const response = await axios.get(`userSyndicates/syndicates/${syndicateId}`);
-   
+   console.log("Memeber DATA", response.data);
     return response.data;
 
   } catch (error) {
@@ -28,7 +28,11 @@ const fetchUserBySyndicateId = async (syndicateId: Number) => {
     const response = axios.delete(`userSyndicates/${userSyndicateId}`)
     return response;
   }
+  const deleteUserSyndicateBySyndicateId = async(syndicateId: number)=>{
+    const response = axios.delete(`userSyndicates/syndicates/${syndicateId}`)
+    return response;
+  }
   
-  export {fetchUserBySyndicateId, joinSyndicate, deleteUserSyndicate}
+  export {deleteUserSyndicateBySyndicateId, fetchUserBySyndicateId, joinSyndicate, deleteUserSyndicate}
 
 

@@ -17,16 +17,15 @@ import { useEffect, useState } from "react";
 import { createTicket, getTicketsByGameId } from "../../../services/tickets";
 import { useParams } from "react-router-dom";
 import { fetchGameById } from "../../../services/games";
-import RegularNumbers from "./numbers";
+
 import SelectedNumbers from "./balls";
 import TokenUtils from "../../../integrations/token";
 import {
   updateBalance,
   updateTreasury,
 } from "../../../services/depositAndWithdraw";
-import { GameTypes } from "../../BoardsInSyndicatePage/components/gameTypesPage";
 
-function TicketInput() {
+function TicketInput({ roleId }: any) {
   const [open, setOpen] = useState(false);
   const [selectedNumbers, setSelectedNumbers] = useState<number[][]>([]);
   const { gameId } = useParams<{ gameId: string }>();
@@ -58,11 +57,11 @@ function TicketInput() {
     let takeAwayTicketCost = data?.treasury - data?.gameTypes?.ticketCost;
     let addTicketCost = jwt.claims.balance + data?.gameTypes?.ticketCost;
 
-    updateBalance(Number(userId), Number(addTicketCost)).then(() => {
+    updateBalance(Number(userId)).then(() => {
       updateTreasury(Number(takeAwayTicketCost), Number(gameId));
     });
   };
-
+  console.log("Role ID in ticket input", roleId);
   const handleNumberChange = (ballIndex: number, dropdownIndex: number, e) => {
     const newValue = e.target.value; // Assuming e.target.value contains the selected number.
 
@@ -299,6 +298,7 @@ function TicketInput() {
             <Grid item xs={8}>
               <Button
                 variant="outlined"
+                disabled={roleId !== 4}
                 onClick={() => {
                   handleOpen();
                   handleInputTicket();
@@ -322,11 +322,8 @@ function TicketInput() {
       </Card>
       {dialogBox()}
 
-      {data?.gameTypes?.id !== 4 && data?.gameTypes?.id !== 5 ? (
-        <RegularNumbers gameId={gameId} />
-      ) : (
-        <SelectedNumbers gameId={gameId} />
-      )}
+      <SelectedNumbers gameId={gameId} />
+
       {WaitingPopup()}
     </Box>
   );

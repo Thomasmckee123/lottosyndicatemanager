@@ -53,6 +53,7 @@ const testUserSyndicatesResponse :IUserSyndicate[]= [
             "avatar": "thunderbolts.jpg"
         },
         "roles": {
+            "id":1,
             "name": "Leader"
         }
     }
@@ -117,6 +118,7 @@ afterEach(()=>{
                   "avatar": "thunderbolts.jpg"
               },
               "roles": {
+                  "id":1,
                   "name": "Leader"
               }
           }

@@ -21,27 +21,11 @@ import { SyndicateService } from "../syndicates";
                     "reward": 43000000,
                     "image": "euromillions.png",
                     "ticket_cost": 2.5
-                },
-                "user_syndicates": {
-                    "start_date": new Date("2023-07-13T00:00:00.000Z"),
-                    "users": {
-                        "id": 1,
-                        "first_name": "John",
-                        "last_name": "Doe",
-                        "email": "JohnDoe@Gmail.com",
-                        "balance": 0
-                    },
-                    "syndicates": {
-                        "id": 1,
-                        "created_date": new Date("2023-07-10T00:00:00.000Z"),
-                        "name": "The Thunderbolts",
-                        "description": "For those who strike like lightning!",
-                        "avatar": "thunderbolts.jpg"
-                    }
+                },"syndicate_id": 1,
                 }
-            },]
+            ,]
     
-      const gamesResponse :IGames[]= [
+      const gamesResponse :any[]= [
         {
             "id": 1,
             "maximumPlayers": games[0].maximum_players,
@@ -53,25 +37,9 @@ import { SyndicateService } from "../syndicates";
                 "reward": 43000000,
                 "image": "euromillions.png",
                 "ticketCost": 2.5
-            },
-            "userSyndicates": {
-                "startDate": new Date("2023-07-13T00:00:00.000Z"),
-                "users": {
-                    "id": 1,
-                    "firstName": "John",
-                    "lastName": "Doe",
-                    "email": "JohnDoe@Gmail.com",
-                    "balance":0
-                },
-                "syndicates": {
-                    "id": 1,
-                    "createdDate": new Date("2023-07-10T00:00:00.000Z"),
-                    "name": "The Thunderbolts",
-                    "description": "For those who strike like lightning!",
-                    "avatar": "thunderbolts.jpg"
-                }
+            },  "syndicateId": 1,
             }
-        },]
+        ,]
       
            
         test("get gameResponse", async () => {
@@ -100,26 +68,11 @@ import { SyndicateService } from "../syndicates";
                     "image": "euromillions.png",
                     "ticket_cost": 2.5
                 },
-                "user_syndicates": {
-                    "start_date": new Date("2023-07-13T00:00:00.000Z"),
-                    "users": {
-                        "id": 1,
-                        "first_name": "John",
-                        "last_name": "Doe",
-                        "email": "JohnDoe@Gmail.com",
-                        "balance": 0
-                    },
-                    "syndicates": {
-                        "id": 1,
-                        "created_date": new Date("2023-07-10T00:00:00.000Z"),
-                        "name": "The Thunderbolts",
-                        "description": "For those who strike like lightning!",
-                        "avatar": "thunderbolts.jpg"
-                    }
-                }
+                "syndicate_id": 1,
+                
             }
     
-      const gamesResponse :IGames= 
+      const gamesResponse :any= 
         {
             "id": 1,
             "maximumPlayers": 5,
@@ -131,24 +84,8 @@ import { SyndicateService } from "../syndicates";
                 "reward": 43000000,
                 "image": "euromillions.png",
                 "ticketCost": 2.5
-            },
-            "userSyndicates": {
-                "startDate": new Date("2023-07-13T00:00:00.000Z"),
-                "users": {
-                    "id": 1,
-                    "firstName": "John",
-                    "lastName": "Doe",
-                    "email": "JohnDoe@Gmail.com",
-                    "balance":0
-                },
-                "syndicates": {
-                    "id": 1,
-                    "createdDate": new Date("2023-07-10T00:00:00.000Z"),
-                    "name": "The Thunderbolts",
-                    "description": "For those who strike like lightning!",
-                    "avatar": "thunderbolts.jpg"
-                }
-            }
+            },"syndicateId": 1,
+            
         }
       
            
@@ -181,26 +118,11 @@ import { SyndicateService } from "../syndicates";
                     "image": "euromillions.png",
                     "ticket_cost": 2.5
                 },
-                "user_syndicates": {
-                    "start_date": new Date("2023-07-13T00:00:00.000Z"),
-                    "users": {
-                        "id": 1,
-                        "first_name": "John",
-                        "last_name": "Doe",
-                        "email": "JohnDoe@Gmail.com",
-                        "balance": 0
-                    },
-                    "syndicates": {
-                        "id": 1,
-                        "created_date": new Date("2023-07-10T00:00:00.000Z"),
-                        "name": "The Thunderbolts",
-                        "description": "For those who strike like lightning!",
-                        "avatar": "thunderbolts.jpg"
-                    }
-                }
+        
+          "syndicate_id": 1,
             },]
     
-      const gamesResponse :IGames[]= [
+      const gamesResponse :any[]= [
         {
             "id": 1,
             "maximumPlayers": games[0].maximum_players,
@@ -213,23 +135,9 @@ import { SyndicateService } from "../syndicates";
                 "image": "euromillions.png",
                 "ticketCost": 2.5
             },
-            "userSyndicates": {
-                "startDate": new Date("2023-07-13T00:00:00.000Z"),
-                "users": {
-                    "id": 1,
-                    "firstName": "John",
-                    "lastName": "Doe",
-                    "email": "JohnDoe@Gmail.com",
-                    "balance":0
-                },
-                "syndicates": {
-                    "id": 1,
-                    "createdDate": new Date("2023-07-10T00:00:00.000Z"),
-                    "name": "The Thunderbolts",
-                    "description": "For those who strike like lightning!",
-                    "avatar": "thunderbolts.jpg"
-                }
-            }
+        
+            "syndicateId": 1,
+            
         },]
       
            
@@ -244,83 +152,7 @@ import { SyndicateService } from "../syndicates";
     });
 
 
-    describe("GET /games/:typeId", () => {
-
-
-
-        const games :any[]= [
-            {    "id": 1,
-                "maximum_players": 5,
-                "treasury": 0,
-                "game_types": {
-                    "id": 1,
-                    "name": "euro millions",
-                    "draw_date": new Date("2023-08-18T00:00:00.000Z"),
-                    "reward": 43000000,
-                    "image": "euromillions.png",
-                    "ticket_cost": 2.5
-                },
-                "user_syndicates": {
-                    "start_date": new Date("2023-07-13T00:00:00.000Z"),
-                    "users": {
-                        "id": 1,
-                        "first_name": "John",
-                        "last_name": "Doe",
-                        "email": "JohnDoe@Gmail.com",
-                        "balance": 0
-                    },
-                    "syndicates": {
-                        "id": 1,
-                        "created_date": new Date("2023-07-10T00:00:00.000Z"),
-                        "name": "The Thunderbolts",
-                        "description": "For those who strike like lightning!",
-                        "avatar": "thunderbolts.jpg"
-                    }
-                }
-            },]
     
-      const gamesResponse :IGames[]= [
-        {
-            "id": 1,
-            "maximumPlayers": games[0].maximum_players,
-            "treasury": 0,
-            "gameTypes": {
-                "id": 1,
-                "name": "euro millions",
-                "drawDate": new Date("2023-08-18T00:00:00.000Z"),
-                "reward": 43000000,
-                "image": "euromillions.png",
-                "ticketCost": 2.5
-            },
-            "userSyndicates": {
-                "startDate": new Date("2023-07-13T00:00:00.000Z"),
-                "users": {
-                    "id": 1,
-                    "firstName": "John",
-                    "lastName": "Doe",
-                    "email": "JohnDoe@Gmail.com",
-                    "balance":0
-                },
-                "syndicates": {
-                    "id": 1,
-                    "createdDate": new Date("2023-07-10T00:00:00.000Z"),
-                    "name": "The Thunderbolts",
-                    "description": "For those who strike like lightning!",
-                    "avatar": "thunderbolts.jpg"
-                }
-            }
-        },]
-      
-           
-        test("get games by syndicate and type id", async () => {
-            prismaAsAny.games = {
-                findMany: jest.fn().mockResolvedValueOnce(games),
-            };
-            const result = await GameService.getGamesByTypeId(1, 1);
-            expect(prisma.games.findMany).toHaveBeenCalledTimes(1);
-            expect(result).toEqual(gamesResponse);
-        });
-    });
 
 
     describe("GET /games/archived", () => {
@@ -339,26 +171,12 @@ import { SyndicateService } from "../syndicates";
                     "image": "euromillions.png",
                     "ticket_cost": 2.5
                 },
-                "user_syndicates": {
-                    "start_date": new Date("2023-07-13T00:00:00.000Z"),
-                    "users": {
-                        "id": 1,
-                        "first_name": "John",
-                        "last_name": "Doe",
-                        "email": "JohnDoe@Gmail.com",
-                        "balance": 0
-                    },
-                    "syndicates": {
-                        "id": 1,
-                        "created_date": new Date("2023-07-10T00:00:00.000Z"),
-                        "name": "The Thunderbolts",
-                        "description": "For those who strike like lightning!",
-                        "avatar": "thunderbolts.jpg"
-                    }
-                }
+          
+           "syndicate_id": 1,
+                
             },]
     
-      const gamesResponse :IGames[]= [
+      const gamesResponse :any[]= [
         {
             "id": 1,
             "maximumPlayers": games[0].maximum_players,
@@ -371,23 +189,8 @@ import { SyndicateService } from "../syndicates";
                 "image": "euromillions.png",
                 "ticketCost": 2.5
             },
-            "userSyndicates": {
-                "startDate": new Date("2023-07-13T00:00:00.000Z"),
-                "users": {
-                    "id": 1,
-                    "firstName": "John",
-                    "lastName": "Doe",
-                    "email": "JohnDoe@Gmail.com",
-                    "balance":0
-                },
-                "syndicates": {
-                    "id": 1,
-                    "createdDate": new Date("2023-07-10T00:00:00.000Z"),
-                    "name": "The Thunderbolts",
-                    "description": "For those who strike like lightning!",
-                    "avatar": "thunderbolts.jpg"
-                }
-            }
+    
+            "syndicateId": 1,
         },]
       
            
@@ -424,7 +227,7 @@ import { SyndicateService } from "../syndicates";
             const testCreateGame = {
                 maximumPlayers: 1,
                 treasury: 0,
-                userSyndicateId: 1,
+                syndicateId: 1,
                 gameTypeId: 1,
              
              

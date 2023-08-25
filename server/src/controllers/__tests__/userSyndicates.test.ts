@@ -37,6 +37,7 @@ describe("getUserSyndicateById", () => {
                 "avatar": "thunderbolts.jpg"
             },
             "roles": {
+              "id": 1,
                 "name": "Leader"
             }
         }
@@ -59,6 +60,7 @@ describe("getUserSyndicateById", () => {
                 "avatar": "thunderbolts.jpg"
             },
             "roles": {
+              "id": 1,
                 "name": "Leader"
             }
         }
@@ -143,6 +145,7 @@ it("returns status code `404` if an error occurs", async () => {
                         "avatar": "thunderbolts.jpg"
                     },
                     "roles": {
+                        "id": 1,
                         "name": "Leader"
                     }
                 }
@@ -196,6 +199,7 @@ console.log(response)
                 "avatar": "thunderbolts.jpg"
             },
             "roles": {
+                "id": 1,
                 "name": "Leader"
             }
         }

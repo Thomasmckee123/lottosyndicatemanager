@@ -7,23 +7,39 @@ import { useEffect, useState } from "react";
 import { fetchHomePageSyndicateData } from "../../../services/syndicates";
 import TokenUtils from "../../../integrations/token";
 import Header from "./Header";
+import { Alert, Snackbar } from "@mui/material";
 
 function SyndicateContainer() {
   const [data, setData] = useState<any[]>([]);
   const jwt = TokenUtils.getJWT();
   const userId = jwt.claims.userId;
-  useEffect(() => {
+  const [open, setOpen] = useState(false);
+  const fetchData = () => {
     fetchHomePageSyndicateData(userId)
       .then((response) => {
-        setData(response[0]);
         if (Array.isArray(response)) {
           setData(response);
+        } else {
+          setData([response]);
         }
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
+  };
+  const handleDeleteSyndicate = (idToDelete: any) => {
+    // Filter out the syndicate you want to delete
+    const updatedData = data.filter((syndicate) => syndicate.id !== idToDelete);
+    setData(updatedData);
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+  useEffect(() => {
+    fetchData();
   }, []);
+
   console.log(data);
   return (
     <>
@@ -56,12 +72,25 @@ function SyndicateContainer() {
             <Grid container spacing={2}>
               {data.map((item) => (
                 <Grid item xs={12} sm={6} md={4} key={item.id}>
-                  <SyndicateCard data={item} />
+                  <SyndicateCard
+                    propData={item}
+                    onDelete={handleDeleteSyndicate}
+                  />
                 </Grid>
               ))}
             </Grid>
           </Box>
         </Box>
+        <Snackbar
+          open={open}
+          autoHideDuration={6000}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        >
+          <Alert onClose={handleClose} severity="success">
+            You have left the syndicate!
+          </Alert>
+        </Snackbar>
       </Container>
     </>
   );

@@ -14,32 +14,42 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { NavigationRoutes } from "../../constants";
 import { Link, useLocation } from "react-router-dom";
+import TokenUtils from "../../integrations/token";
 
 const pages = [
-  { title: "Home", path: NavigationRoutes.HOME },
-  { title: "About", path: NavigationRoutes.ABOUT },
-  { title: "account", path: NavigationRoutes.ACCOUNT },
   { title: "View Syndicates", path: NavigationRoutes.VIEWSYDICATES },
-  { title: "log out", path: NavigationRoutes.LOGIN },
-  { title: "profile", path: NavigationRoutes.PROFILE },
+  { title: "My Games", path: NavigationRoutes.GAMEPAGE },
+  { title: "Home", path: NavigationRoutes.HOME },
 ];
 const NonTopBarPages = [
+  { title: "profile", path: NavigationRoutes.PROFILE },
+  { title: "account", path: NavigationRoutes.ACCOUNT },
+  { title: "Archived Games", path: NavigationRoutes.ARCHIVEPAGE },
+  { title: "log out", path: NavigationRoutes.LOGOUT },
+  { title: "Syndicate", path: NavigationRoutes.SYNDICATEBOARDS },
   { title: "Create Syndicate", path: NavigationRoutes.CREATESYNDICATE },
   { title: "Syndicate Reviews", path: NavigationRoutes.REVIEW },
   { title: "Join a game", path: NavigationRoutes.JOINGAME },
   { title: "create a game", path: NavigationRoutes.CREATEGAME },
   { title: "message board", path: NavigationRoutes.BOARDCHAT },
+  { title: "game message", path: NavigationRoutes.GAMEMESSAGE },
   {
     title: "log in",
     path: NavigationRoutes.LOGIN,
   },
+  { title: "sign up", path: NavigationRoutes.SIGNUP },
 
   {
     title: "Inside Synidcate",
     path: NavigationRoutes.INSIDESYNDICATE,
   },
 ];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = [
+  { title: "profile", path: NavigationRoutes.PROFILE },
+  { title: "account", path: NavigationRoutes.ACCOUNT },
+  { title: "Archived Games", path: NavigationRoutes.ARCHIVEPAGE },
+  { title: "log out", path: NavigationRoutes.LOGOUT },
+];
 
 const Navigation = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -73,16 +83,32 @@ const Navigation = () => {
   console.log("All pages: ", allPages);
   console.log("Current path: ", location.pathname);
 
+  const matchPattern = (pattern: any, path: any) => {
+    const patternSegments = pattern.split("/");
+    const pathSegments = path.split("/");
+
+    if (patternSegments.length !== pathSegments.length) return false;
+
+    for (let i = 0; i < patternSegments.length; i++) {
+      if (
+        patternSegments[i] !== pathSegments[i] &&
+        !patternSegments[i].startsWith(":")
+      ) {
+        return false;
+      }
+    }
+
+    return true;
+  };
+
   let currentPage: { title: string; path: string } | undefined;
+
   allPages.forEach((title, path) => {
-    // <- Here path and title are separated
-    console.log(`Comparing ${path} with ${location.pathname}`);
-    if (path === location.pathname) {
-      currentPage = { path, title }; // <- currentPage is reassigned here
-      console.log("Matched page: ", currentPage);
+    if (matchPattern(path, location.pathname)) {
+      currentPage = { path, title };
+      console.log("Matched page:", currentPage);
     }
   });
-
   let title;
   if (currentPage) {
     title = currentPage.title;
@@ -192,6 +218,7 @@ const Navigation = () => {
                 <Avatar alt="Remy Sharp" />
               </IconButton>
             </Tooltip>
+
             <Menu
               sx={{ mt: "45px" }}
               id="menu-appbar"
@@ -208,9 +235,16 @@ const Navigation = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+              {settings.map((setting, index) => (
+                <MenuItem key={index}>
+                  <Link
+                    to={setting.path}
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                    <Box sx={{ textAlign: "center" }}>
+                      <Typography>{setting.title}</Typography>
+                    </Box>
+                  </Link>
                 </MenuItem>
               ))}
             </Menu>

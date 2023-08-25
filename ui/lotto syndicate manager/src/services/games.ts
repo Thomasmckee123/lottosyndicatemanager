@@ -107,7 +107,18 @@ const archiveGame = async (gameTypeId: number) => {
     return null;
   }
 };
+
+
+const fetchGameByGameId = async(gameId: number) => {
+  try {
+    const response = await axios.get(`games/${gameId}`);
+    return response.data;
+  } catch (error) {
+    console.error("failed to get game by id");
+  }
+};
 export {
+  fetchGameByGameId,
   fetchArchives,
   archiveGame,
   fetchGamesBySyndicateId,

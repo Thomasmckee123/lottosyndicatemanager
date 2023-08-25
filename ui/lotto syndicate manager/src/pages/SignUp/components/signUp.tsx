@@ -4,12 +4,21 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../contexts";
 import { NavigationRoutes } from "../../../constants";
 import { signUpUser } from "../../../services/signUp";
+import {
+  Container,
+  Typography,
+  TextField,
+  Button,
+  Snackbar,
+} from "@mui/material";
 
 const Register = () => {
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
+  const [openSuccessSnackbar, setOpenSuccessSnackbar] = useState(false);
+  const [openErrorSnackbar, setOpenErrorSnackbar] = useState(false);
   const { dispatch } = AuthContext.useLogin();
 
   const navigate = useNavigate();
@@ -21,7 +30,8 @@ const Register = () => {
   const handleFirstNameChange = (event: any) => {
     setFirstName(event.target.value);
   };
-  const handleSecondNameChange = (event: any) => {
+
+  const handleLastNameChange = (event: any) => {
     setLastName(event.target.value);
   };
 
@@ -29,15 +39,15 @@ const Register = () => {
     setPassword(event.target.value);
   };
 
-  const Register = async (
-    firstName: string,
-    lastName: string,
-    email: string,
+  const handleRegister = async () => {
+    try {
+      const response = await signUpUser(
+        firstName,
+        lastName,
+        email,
+        password
+      ).then(navigate(NavigationRoutes.LOGIN));
 
-    password: string
-  ) => {
-    const response = await signUpUser(firstName, lastName, email, password);
-    if (response.status === 201) {
       const authDetails = {
         accessToken: response.data.accessToken,
         refreshToken: response.data.refreshToken,
@@ -49,54 +59,80 @@ const Register = () => {
         type: "authentication",
         ...authDetails,
       });
-      navigate(NavigationRoutes.HOMEPAGE);
+
+      setOpenSuccessSnackbar(true); // Open success snackbar
+    } catch (error) {
+      setOpenErrorSnackbar(true); // Open error snackbar
     }
-    return response.data;
   };
 
-  const handleRegister = () => {
-    try {
-      console.log(firstName + " " + lastName + " " + email + " " + password);
-      Register(firstName, lastName, email, password);
-    } catch (err) {
-      console.log(err);
-    }
+  const handleCloseSnackbar = () => {
+    setOpenSuccessSnackbar(false);
+    setOpenErrorSnackbar(false);
   };
 
   return (
-    <div>
-      <header>Register Page</header>
-      <div className="box">
-        <header>The Companion Tool</header>
-        <div className="box">
-          <div className="email">
-            <input
-              placeholder="Enter Email Address"
-              value={email}
-              onChange={handleEmailChange}
-            ></input>
-            <input
-              placeholder="Enter Username"
-              value={firstName}
-              onChange={handleFirstNameChange}
-            ></input>
-            <input
-              placeholder="Enter Username"
-              value={lastName}
-              onChange={handleSecondNameChange}
-            ></input>
-            <input
-              placeholder="Enter Password"
-              value={password}
-              onChange={handlePasswordChange}
-            ></input>
-            <button type="submit" onClick={handleRegister}>
-              Register
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Container maxWidth="sm">
+      <Typography variant="h4" align="center" gutterBottom>
+        Register Page
+      </Typography>
+      <Container maxWidth="xs">
+        <Typography variant="h5" align="center" gutterBottom>
+          Lottery syndicate manager
+        </Typography>
+        <form>
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Email Address"
+            value={email}
+            onChange={handleEmailChange}
+          />
+          <TextField
+            fullWidth
+            margin="normal"
+            label="First Name"
+            value={firstName}
+            onChange={handleFirstNameChange}
+          />
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Last Name"
+            value={lastName}
+            onChange={handleLastNameChange}
+          />
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Password"
+            type="password"
+            value={password}
+            onChange={handlePasswordChange}
+          />
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={handleRegister}
+          >
+            Sign up
+          </Button>
+        </form>
+      </Container>
+      <Snackbar
+        open={openSuccessSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        message="Registration successful!"
+      />
+      <Snackbar
+        open={openErrorSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        message="Registration failed. Please try again."
+      />
+    </Container>
   );
 };
 

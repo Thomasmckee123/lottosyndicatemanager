@@ -9,6 +9,10 @@ import {
   CardMedia,
   Button,
   ButtonGroup,
+  Paper,
+  styled,
+  createTheme,
+  ThemeProvider,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { fetchGamesWePlay } from "../../../services/gameTypes";
@@ -27,7 +31,10 @@ import {
   updateTreasury,
 } from "../../../services/depositAndWithdraw";
 import InsufficientFunds from "./insufficientFunds";
-import { fetchUserGamesByGameId } from "../../../services/userGames";
+import {
+  fetchUserGamesByGameId,
+  updateRole,
+} from "../../../services/userGames";
 import {
   ICustomTab,
   IDecodedJWT,
@@ -37,6 +44,7 @@ import {
   IMember,
   IMemberPerGame,
 } from "../../../interfaces";
+import fetchUserDetails from "../../../services/users";
 
 function GameTypes() {
   const { syndicateId, userSyndicateId } = useParams<{
@@ -54,8 +62,9 @@ function GameTypes() {
   const [gameId, setGameId] = useState<number | null>(null);
   const [usersPerGame, setUsersPerGame] = useState<Record<number, number>>({});
   const [membersPerGame, setMembersPerGame] = useState<IMemberPerGame>([]);
-  const [balanceData, setBalanceData] = useState<IDecodedJWT>();
+  const [balanceData, setBalanceData] = useState<any>();
   const [joinedMessage, setJoinedMessage] = useState("");
+
   const jwt = TokenUtils.getJWT();
   const userId = jwt.claims.userId;
   const handleChange = (
@@ -66,10 +75,18 @@ function GameTypes() {
   };
   useEffect(() => {
     const jwt = TokenUtils.getJWT();
-    setBalanceData(jwt);
   }, []);
 
-  const balance = balanceData?.claims?.balance;
+  const getUserDetails = async () => {
+    const response = await fetchUserDetails(userId);
+    setBalanceData(response.data);
+  };
+
+  const balance = balanceData?.balance!;
+  useEffect(() => {
+    getUserDetails();
+  }, [userId]);
+
   const handleOpenDialog = () => {
     setIsDialogOpen(true);
   };
@@ -95,7 +112,7 @@ function GameTypes() {
       const newBalance = balance! - newTreasury;
 
       if (newBalance > 0) {
-        await joinGame(
+        let response = await joinGame(
           new Date(),
           Number(deposit),
           Number(gameId),
@@ -103,6 +120,7 @@ function GameTypes() {
         );
         await updateBalance(newBalance!);
         await updateTreasury(newTreasury, Number(gameId));
+        return response;
       } else {
         handleOpenFunds();
       }
@@ -258,6 +276,7 @@ function GameTypes() {
       : false;
   };
 
+  const lightTheme = createTheme({ palette: { mode: "light" } });
   return (
     <>
       <InsufficientFunds
@@ -266,9 +285,32 @@ function GameTypes() {
         funds={balance!}
         deposit={Number(deposit)}
       />
-      <Typography variant="h4" component="div" gutterBottom>
-        Games We Play
-      </Typography>
+
+      <ThemeProvider theme={lightTheme}>
+        <Paper
+          elevation={24}
+          sx={{
+            p: 4,
+            height: "30vh",
+            backgroundColor: `darkRed`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Typography
+            variant="h4"
+            component="div"
+            gutterBottom
+            style={{ textAlign: "center" }}
+            color={"white"}
+          >
+            Games We play
+          </Typography>
+        </Paper>
+      </ThemeProvider>
 
       <Grid container spacing={3}>
         {gameTypeData.map((thisGameType) => (
@@ -305,7 +347,6 @@ function GameTypes() {
                   <CountDown
                     drawDate={thisGameType.drawDate}
                     gameId={thisGameType.id}
-                    userSyndicateId={userSyndicateId}
                   />
                 </Typography>
               </CardContent>
@@ -321,7 +362,7 @@ function GameTypes() {
                     handlePlayGame(Number(thisGameType.id));
                   }}
                 >
-                  play in random group
+                  Create a game.
                 </Button>
 
                 <Button fullWidth>play every week</Button>
@@ -331,14 +372,45 @@ function GameTypes() {
         ))}
       </Grid>
 
-      <Typography variant="h4" component="div" gutterBottom mt={5}>
-        Ongoing Games
-      </Typography>
+      <ThemeProvider theme={lightTheme}>
+        <Paper
+          elevation={24}
+          sx={{
+            p: 4,
+            height: "30vh",
+            backgroundColor: `darkRed`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Typography
+            variant="h4"
+            component="div"
+            gutterBottom
+            style={{ textAlign: "center" }}
+            color={"white"}
+          >
+            Games We play
+          </Typography>
+        </Paper>
+      </ThemeProvider>
+
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
           value={value === 0 ? false : value}
           onChange={handleChange}
           aria-label="game tabs"
+          sx={{
+            backgroundColor: "white",
+            maxWidth: "100%",
+            overflowX: "auto",
+            flexWrap: "nowrap",
+          }}
+          variant="scrollable"
+          scrollButtons="auto"
         >
           {gameTypeData.map((tabGameType) => (
             <Tab
@@ -351,44 +423,76 @@ function GameTypes() {
               }}
             />
           ))}
-        </Tabs>
+        </Tabs>{" "}
       </Box>
-      {gameData.map((currentGame) => (
-        <CustomTabPanel
-          value={value}
-          index={currentGame.gameTypes.id}
-          key={currentGame.id}
-        >
-          <Card>
-            <CardContent>
-              <Typography variant="h5" component="div">
-                {currentGame?.gameTypes?.name} {currentGame.id}
-              </Typography>
-              <Typography variant="body1" component="p">
-                Reward: {currentGame?.gameTypes.reward}
-              </Typography>
-              <Typography variant="body1" component="p">
-                Members:{usersPerGame[currentGame.id] || 0}/
-                {currentGame?.maximumPlayers}
-              </Typography>
-              <Typography variant="body1" component="p">
-                Treasury: {currentGame?.treasury}
-              </Typography>
-              <Button
-                variant="contained"
-                color="primary"
-                disabled={matchUserToGame(currentGame.id)}
-                onClick={() => handleJoinClick(currentGame)}
+      {gameData.length > 0 ? (
+        gameData.map((currentGame) => (
+          <CustomTabPanel
+            value={value}
+            index={currentGame.gameTypes.id}
+            key={currentGame.id}
+          >
+            <ThemeProvider theme={lightTheme}>
+              <Paper
+                elevation={24}
+                sx={{
+                  p: 4,
+                  zIndex: -1,
+                  height: "40vh",
+                  backgroundColor: `darkGrey`,
+                  overflowX: "auto",
+                }}
               >
-                {matchUserToGame(currentGame.id)
-                  ? "You have joined this game"
-                  : "Join"}
-              </Button>
-              {joinedMessage}
-            </CardContent>
-          </Card>
-        </CustomTabPanel>
-      ))}
+                <Card>
+                  <CardContent>
+                    <Typography variant="h5" component="div">
+                      {currentGame?.gameTypes?.name} {currentGame.id}
+                    </Typography>
+                    <Typography variant="body1" component="p">
+                      Reward: {currentGame?.gameTypes.reward}
+                    </Typography>
+                    <Typography variant="body1" component="p">
+                      Members:{usersPerGame[currentGame.id] || 0}/
+                      {currentGame?.maximumPlayers}
+                    </Typography>
+                    <Typography variant="body1" component="p">
+                      Treasury: {currentGame?.treasury}
+                    </Typography>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      disabled={matchUserToGame(currentGame.id)}
+                      onClick={() => handleJoinClick(currentGame)}
+                    >
+                      {matchUserToGame(currentGame.id)
+                        ? "You have joined this game"
+                        : "Join"}
+                    </Button>
+                    {joinedMessage}
+                  </CardContent>
+                </Card>
+              </Paper>
+            </ThemeProvider>
+          </CustomTabPanel>
+        ))
+      ) : (
+        <ThemeProvider theme={lightTheme}>
+          <Paper
+            elevation={24}
+            sx={{
+              p: 4,
+              zIndex: -1,
+              height: "40vh",
+              backgroundColor: `darkGrey`,
+              overflowX: "auto",
+            }}
+          >
+            <Typography variant="h5" component="div">
+              No games available.
+            </Typography>
+          </Paper>
+        </ThemeProvider>
+      )}
     </>
   );
 }

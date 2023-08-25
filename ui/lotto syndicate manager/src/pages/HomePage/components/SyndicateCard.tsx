@@ -5,29 +5,55 @@ import CardActions from "@mui/material/CardActions";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
+import { red, green } from "@mui/material/colors";
 import Button from "@mui/material/Button";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Link } from "react-router-dom";
 import { NavigationRoutes } from "../../../constants";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { deleteUserSyndicateBySyndicateId } from "../../../services/members";
+import { useEffect, useState } from "react";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
+import { fetchHomePageSyndicateData } from "../../../services/syndicates";
+import TokenUtils from "../../../integrations/token";
 
-function SyndicateCard({ data }: { data: any }) {
+function SyndicateCard({
+  propData,
+  onDelete,
+}: {
+  propData: any;
+  onDelete: Function;
+}) {
+  function Alert(props: AlertProps) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
+  const jwt = TokenUtils.getJWT();
+  const userId = jwt.claims.userId;
+  const [open, setOpen] = useState(false);
+  const [data, setData] = useState<any>(propData);
+
+  const handleLeaveSyndicate = () => {
+    deleteUserSyndicateBySyndicateId(data.id).then((response) => {
+      setOpen(true);
+      onDelete(data.id);
+    });
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="syndicate">
-            S
-          </Avatar>
-        }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
+          <IconButton onClick={handleLeaveSyndicate}>
+            <DeleteIcon />
           </IconButton>
         }
         title={
           <Typography variant="h6" component="div">
-            {data.syndicates.name}
+            {data?.syndicates.name}
           </Typography>
         }
         subheader={

@@ -11,6 +11,10 @@ import {
   DialogContent,
   DialogTitle,
   TextField,
+  Paper,
+  styled,
+  createTheme,
+  ThemeProvider,
 } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import {
@@ -27,6 +31,7 @@ import {
 import { GameTypes } from "./components/gameTypesPage";
 import TokenUtils from "../../integrations/token";
 import PlayOrView from "./components/playOrViewArchive";
+
 function MessageBoardsPage() {
   const [open, setOpen] = useState(false);
   const [boardName, setBoardName] = useState("");
@@ -40,6 +45,7 @@ function MessageBoardsPage() {
     syndicateId: string;
     userSyndicateId: string;
   }>();
+  const [review, setReview] = useState("");
 
   const handleManageMembersOpen = () => {
     setManageMembersOpen(true);
@@ -67,7 +73,11 @@ function MessageBoardsPage() {
   const handleClose = () => {
     setOpen(false);
   };
-
+  const handleSubmit = () => {
+    // Handle submitting the review
+    console.log(review);
+    handleClose();
+  };
   /**
    * promoting/demoting the users
    * @param roleId
@@ -82,7 +92,9 @@ function MessageBoardsPage() {
     }
     getMembers();
   };
-
+  const handleWriteReviewOpen = () => {
+    setOpen(true);
+  };
   const removeMember = async (userSyndicateId: number) => {
     try {
       await deleteUserSyndicate(userSyndicateId);
@@ -124,143 +136,176 @@ function MessageBoardsPage() {
         console.error("Error fetching data:", error);
       });
   }, [syndicateId]);
+  console.log(relationshipData?.roleId);
+  console.log("data", relationshipData);
   let currentUserRank = relationshipData?.roleId;
+  console.log("current user rank", currentUserRank);
+  const handleReviewChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setReview(event.target.value);
+  };
 
+  const lightTheme = createTheme({ palette: { mode: "light" } });
   return (
-    <Box sx={{ flexGrow: 1, m: 3 }}>
-      <Typography variant="h4" component="div" gutterBottom></Typography>
-
-      {(currentUserRank == 1 || currentUserRank == 2) && (
+    <Box>
+      <Paper
+        sx={{
+          height: "50vh",
+          backgroundImage: `url(${relationshipData?.syndicates?.avatar})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      ></Paper>{" "}
+      <Typography variant="h4" component="h1" color="black"></Typography>
+      <ThemeProvider theme={lightTheme}>
+        <Paper elevation={24} sx={{ p: 4 }}>
+          <Typography
+            variant="h4"
+            component="div"
+            gutterBottom
+            style={{ textAlign: "center" }}
+          >
+            Welcome to {relationshipData?.syndicates?.name}!
+          </Typography>
+        </Paper>
+      </ThemeProvider>{" "}
+      <Box sx={{ flexGrow: 1, m: 3 }}>
         <Box mb={3}>
           <Typography variant="h6" component="div" gutterBottom>
-            Admin Actions
+            Actions
           </Typography>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={handleManageMembersOpen}
-          >
-            Manage Members
-          </Button>
+          {currentUserRank == 1 && (
+            <>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={handleManageMembersOpen}
+              >
+                Manage Members
+              </Button>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={handleWriteReviewOpen}
+              >
+                Write a Review
+              </Button>
+            </>
+          )}
         </Box>
-      )}
 
-      <Dialog
-        open={manageMembersOpen}
-        onClose={handleManageMembersClose}
-        aria-labelledby="manage-members-dialog"
-      >
-        <DialogTitle id="manage-members-dialog">Manage Members</DialogTitle>
-        <DialogContent>
-          {memberData.map((member: any) => (
-            <Box
-              key={member.users.id}
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-              mb={2}
-            >
-              <Typography variant="body1">
-                {member.users.firstName} {member.users.lastName + ": "}{" "}
-                {member.roles.name}
-              </Typography>
-              <Box>
-                {currentUserRank < member.roles.id && (
-                  <>
+        <Dialog
+          open={manageMembersOpen}
+          onClose={handleManageMembersClose}
+          aria-labelledby="manage-members-dialog"
+        >
+          <DialogTitle id="manage-members-dialog">Manage Members</DialogTitle>
+          <DialogContent>
+            {memberData.map((member: any) => (
+              <Box
+                key={member.users.id}
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+                mb={2}
+              >
+                <Typography variant="body1">
+                  {member.users.firstName} {member.users.lastName + ": "}{" "}
+                  {member.roles.name}
+                </Typography>
+                <Box>
+                  {currentUserRank < member.roles.id && (
                     <>
+                      <>
+                        <Button
+                          variant="outlined"
+                          color="primary"
+                          sx={{ mx: 1 }}
+                          onClick={() => update(3, Number(member.id))}
+                        >
+                          Promote
+                        </Button>
+                        <Button
+                          variant="outlined"
+                          color="primary"
+                          sx={{ mx: 1 }}
+                          onClick={() => update(2, Number(member.id))}
+                        >
+                          Demote
+                        </Button>
+                      </>
                       <Button
-                        variant="outlined"
-                        color="primary"
+                        variant="contained"
+                        color="error"
                         sx={{ mx: 1 }}
-                        onClick={() => update(3, Number(member.id))}
+                        onClick={() => deleteUserSyndicate(Number(member.id))}
                       >
-                        Promote
-                      </Button>
-                      <Button
-                        variant="outlined"
-                        color="primary"
-                        sx={{ mx: 1 }}
-                        onClick={() => update(2, Number(member.id))}
-                      >
-                        Demote
+                        Kick Out
                       </Button>
                     </>
-                    <Button
-                      variant="contained"
-                      color="error"
-                      sx={{ mx: 1 }}
-                      onClick={() => deleteUserSyndicate(Number(member.id))}
-                    >
-                      Kick Out
-                    </Button>
-                  </>
-                )}
+                  )}
+                </Box>
               </Box>
-            </Box>
-          ))}
-        </DialogContent>
-      </Dialog>
+            ))}
+          </DialogContent>
+        </Dialog>
 
-      {/* Create Board Dialog */}
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="create-board-dialog"
-      >
-        <DialogTitle id="create-board-dialog">Create Board</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Board Name"
-            type="text"
-            fullWidth
-            value={boardName}
-            onChange={(e) => setBoardName(e.target.value)}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button color="primary">Create</Button>
-        </DialogActions>
-      </Dialog>
-
-      <Typography variant="h4" component="div" gutterBottom></Typography>
-
-      <Grid container spacing={3}>
-        {data &&
-          data.map((board: any) => (
-            <Grid item xs={12} md={6} lg={4} key={board.id}>
-              <Card>
-                <CardContent>
-                  <Typography variant="h5" component="div">
-                    {board.name}
-                  </Typography>
-                  <Link
-                    to={NavigationRoutes.BOARDCHAT.replace(
-                      ":syndicateId",
-                      `${syndicateId}`
-                    )
-                      .replace(":boardId", `${board.id}`)
-                      .replace(
-                        ":userSyndicateId",
-                        `${Number(userSyndicateId)}`
-                      )}
-                  >
-                    <Button variant="contained" color="primary" sx={{ mt: 2 }}>
-                      Enter Board
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-      </Grid>
-      <GameTypes />
-      <PlayOrView />
+        <Dialog open={open} onClose={handleClose}>
+          <DialogTitle>Write a Review</DialogTitle>
+          <DialogContent>
+            <TextField
+              autoFocus
+              margin="dense"
+              label="Review"
+              fullWidth
+              value={review}
+              onChange={handleReviewChange}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={handleSubmit}>Submit</Button>
+          </DialogActions>
+        </Dialog>
+        <Typography variant="h4" component="div" gutterBottom></Typography>
+        <Grid container spacing={3}>
+          {data &&
+            data.map((board: any) => (
+              <Grid item xs={12} md={6} lg={4} key={board.id}>
+                <Card>
+                  <CardContent>
+                    <Typography variant="h5" component="div">
+                      {board.name}
+                    </Typography>
+                    <Link
+                      to={NavigationRoutes.BOARDCHAT.replace(
+                        ":syndicateId",
+                        `${syndicateId}`
+                      )
+                        .replace(":boardId", `${board.id}`)
+                        .replace(
+                          ":userSyndicateId",
+                          `${Number(userSyndicateId)}`
+                        )}
+                    >
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        sx={{ mt: 2 }}
+                      >
+                        Enter Board
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+        </Grid>
+        <GameTypes />
+        <PlayOrView />
+      </Box>
     </Box>
   );
 }

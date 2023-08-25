@@ -84,7 +84,7 @@ const getAll = async () => {
         last_name: user.lastName,
         email: user.email,
         password: hashedPassword,
-        image: user.image,
+        image: "no image selected",
         balance: 0
       },
     });

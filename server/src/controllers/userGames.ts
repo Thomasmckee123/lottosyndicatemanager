@@ -19,7 +19,21 @@ const getUserGamesBySyndicateId = async(req: Request, res: Response) =>{
         return res.sendStatus(500).json("issue getting userGames by Id")
     }
 }
+const getUserGamesByUserGameId = async (req: Request, res: Response) => {
+  try {
+    const userGameId = req.params.userGameId;
+    const gameUsersByUserGameId = await UserGameService.getGamesByUserGameId(Number(userGameId));
 
+    if (!gameUsersByUserGameId) {
+      return res.sendStatus(404);
+    }
+
+    return res.status(200).json(gameUsersByUserGameId);
+  } catch (error) {
+    console.error(error);
+    return res.sendStatus(500);
+  }
+};
 const getUserGamesByGameId = async(req: Request, res: Response) => {
     try {
         const { gameId }  = req.params;
@@ -99,5 +113,25 @@ async function UpdateUserGame(req: Request, res: Response) {
       res.status(500).json("Could not update user.");
     }
   }
-  const UserGameController = {UpdateUserGame, createUserGame, getUserGamesByUserId, getAllUserGames, getUserGamesBySyndicateId, getUserGamesByGameId}
+
+  async function UpdateUserRole(req: Request, res: Response) {
+    try {
+      
+      let gameDetails={
+        userGameId: Number(req.params.userGameId),
+
+        roleId: Number(req.body.roleId),
+   
+       
+        
+  
+      }
+    
+      const updatedUserGame= await UserGameService.updateRole(gameDetails);
+      return res.status(200).json(updatedUserGame);
+    } catch (error) {
+      res.status(500).json("Could not update user.");
+    }
+  }
+  const UserGameController = {getUserGamesByUserGameId, UpdateUserRole, UpdateUserGame, createUserGame, getUserGamesByUserId, getAllUserGames, getUserGamesBySyndicateId, getUserGamesByGameId}
   export{UserGameController}

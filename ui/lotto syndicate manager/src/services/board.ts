@@ -41,7 +41,7 @@ const updateUserRole = async (userSyndicateId: number, roleId: number)=>{
   const updateData ={
     roleId : Number(roleId)
   }
-  const response = await axios.put(`/userSyndicates/updateRole/${userSyndicateId}`,updateData);
+  const response = await axios.put(`/userSyndicates/${userSyndicateId}`,updateData);
   return response.data
 }
 

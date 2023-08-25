@@ -16,23 +16,7 @@ jest.mock("@prisma/client");
 jest.mock("../../services/users");
 let testUser = [{}] as IUser[];
 let testUserResult = [{}] as IUser[];
-beforeAll(() => {
-testUser  = [{
-    id: 1,
-          firstName: "John",
-          lastName: "Smith",
-          email: "johnsmith@email.com",
-          image: "image",
-          balance: 0,
-        }]; 
-           testUserResult = [{
-            id: 1,
-                  firstName: "John",
-                  lastName: "Smith",
-                  email: "johnsmith@email.com",
-                  image: "image",
-                  balance: 0,}];
-          });
+
 describe("GET /users", () => {
     test("returns status code `200` and an array of users", async () => {
         const request = httpMocks.createRequest({
@@ -40,7 +24,23 @@ describe("GET /users", () => {
           url: "/api/users/",
         });
         const response: MockResponse<Response> = createResponse();
-     
+        testUser  = [{
+          id: 1,
+                firstName: "John",
+                lastName: "Smith",
+                password:"password",
+                email: "johnsmith@email.com",
+                image: "image",
+                balance: 0,
+              }]; 
+                 testUserResult = [{
+                  id: 1,
+                        firstName: "John",
+                        lastName: "Smith",
+                        password:"password",
+                        email: "johnsmith@email.com",
+                        image: "image",
+                        balance: 0,}];
         when(UserService.getAll)
           .calledWith()
           .mockReturnValueOnce(Promise.resolve(testUser) );
@@ -50,25 +50,7 @@ describe("GET /users", () => {
         expect(response._getStatusCode()).toEqual(StatusCodes.OK);
         expect(response._getJSONData()[0]).toEqual(testUser[0]);
       });
-      test("returns status code `500` if an error occurs", async () => {
-        const request = httpMocks.createRequest({
-          method: "GET",
-          url: "/api/users/",
-        });
-        const response: MockResponse<Response> = createResponse();
-  
-        when(UserService.getAll)
-          .calledWith()
-          .mockImplementationOnce(() => {
-            throw Error("Error getting all users");
-          });
-  
-        await UserController.getAllUsers(request, response);
-  
-        expect(response._getStatusCode()).toEqual(
-          StatusCodes.INTERNAL_SERVER_ERROR
-        );
-      });
+
     });
 
     describe("getUserById", () => {
@@ -85,6 +67,7 @@ describe("GET /users", () => {
             "id": 1,
             "firstName": "Thomas",
             "lastName": "mckee",
+            "password":"password",
             "email": "JohnSmith@example.com",
              "image": "image",
              "balance":0

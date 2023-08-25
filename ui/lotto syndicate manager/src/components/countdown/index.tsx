@@ -10,7 +10,7 @@ import {
   StyledPaper,
 } from "./styled";
 
-const CountDown: any = ({ drawDate, gameId, userSyndicateId }: any) => {
+const CountDown: any = ({ drawDate, gameId }: any) => {
   const [days, hours, minutes] = useCountdown(drawDate);
   const [isOver, setIsOver] = useState<boolean>(false);
   useEffect(() => {
@@ -55,4 +55,3 @@ const CountDown: any = ({ drawDate, gameId, userSyndicateId }: any) => {
 };
 
 export default CountDown;
-//

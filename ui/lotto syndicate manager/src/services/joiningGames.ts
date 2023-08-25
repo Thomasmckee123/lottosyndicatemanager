@@ -18,7 +18,7 @@ const joinGame = async (
     deposit: Number(deposit),
     gameId: Number(gameId),
     userId: Number(userId),
-    roleId: 3,
+    roleId: 2,
   };
   const response = await axios.post(
     `userGames/games/${gameId}/users/${userId}`,

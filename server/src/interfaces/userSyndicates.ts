@@ -17,6 +17,7 @@
       avatar: string | null,
     };
     roles: {
+      id: number,
       name: string
     };
   }

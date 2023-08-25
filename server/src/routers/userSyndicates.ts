@@ -90,4 +90,5 @@ UserSyndicatesRouter.post(/**
 
 UserSyndicatesRouter.put("/:userSyndicateId",UserSyndicateController.updateUserSyndicate);
 UserSyndicatesRouter.delete("/delete/:userSyndicateId",UserSyndicateController.deleteUserSyndicateById)
+UserSyndicatesRouter.delete("/syndicates/:syndicateId",UserSyndicateController.deleteUserSyndicateBySyndicateId)
 export{UserSyndicatesRouter}

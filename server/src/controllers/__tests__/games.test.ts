@@ -34,24 +34,10 @@ describe("GET /games", () => {
                     "image": "euromillions.png",
                     "ticketCost": 2.5
                 },
-                "userSyndicates": {
-                    "startDate": "2023-07-13T00:00:00.000Z",
-                    "users": {
-                        "id": 1,
-                        "firstName": "John",
-                        "lastName": "Doe",
-                        "email": "JohnDoe@Gmail.com",
-                        "balance": 0
-                    },
-                    "syndicates": {
-                        "id": 1,
-                        "createdDate": "2023-07-10T00:00:00.000Z",
-                        "name": "The Thunderbolts",
-                        "description": "For those who strike like lightning!",
-                        "avatar": "thunderbolts.jpg"
-                    }
+       
+                "syndicateId": 1,
                 }
-            },];
+            ];
         when(GameService.getAll)
           .calledWith()
           .mockReturnValueOnce(Promise.resolve(returnValue));

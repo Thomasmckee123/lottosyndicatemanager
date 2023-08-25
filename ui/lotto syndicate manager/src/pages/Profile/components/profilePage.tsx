@@ -25,6 +25,7 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 
 import Webcam from "react-webcam";
 import FileUpload from "../../../services/fileUpload";
+import { debug } from "console";
 
 const ProfilePage = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -94,12 +95,13 @@ const ProfilePage = () => {
   const captureImage = (): any => {
     const imageSrc = webcamRef.current?.getScreenshot();
     if (imageSrc) {
-      const blob = new Blob([imageSrc], { type: "image/png" });
-      const file = new File([blob], "imageFileName.png", {
-        type: "image/png",
-      });
-      setCapturedImage(file);
-      handleFileUpload(file);
+      fetch(imageSrc)
+        .then((res) => res.blob())
+        .then((blob) => {
+          const file = new File([blob], "profileImage.jpeg");
+          setCapturedImage(file);
+          handleFileUpload(file);
+        });
     }
   };
 
@@ -156,6 +158,14 @@ const ProfilePage = () => {
         {syndicateData.map((syndicate) => (
           <Card key={syndicate.id} style={{ margin: "10px" }}>
             <CardContent>
+              <img
+                src={
+                  syndicate.syndicates.avatar ||
+                  "https://via.placeholder.com/150"
+                }
+                alt={syndicate.syndicates.name}
+                style={{ width: "300px", height: "300px" }}
+              />
               <Typography variant="h6" gutterBottom>
                 {syndicate.syndicates.name}
               </Typography>

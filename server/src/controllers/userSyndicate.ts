@@ -70,9 +70,16 @@ const getUserSyndicateByUserSyndicteId = async(req: Request, res: Response)=>{
     }
     return res.status(200).json("User syndicicate deleted");
   }
-
+async function deleteUserSyndicateBySyndicateId(req: Request, res: Response) {
+  const syndicateId = Number(req.params.syndicateId);
+  const deletedUserSyndicate = await UserSyndicateService.deleteUserSyndicateById(syndicateId);
+  if (!deletedUserSyndicate) {
+    return res.status(500).json("Cannot delete review");
+  }
+  return res.status(200).json("User syndicicate deleted");
+}
   const UserSyndicateController={
-    updateUserSyndicate, deleteUserSyndicateById, createUserSyndicate, getSyndicatesByUserId,getUserSyndicateById, getUserSyndicateByUserSyndicteId
+   deleteUserSyndicateBySyndicateId, updateUserSyndicate, deleteUserSyndicateById, createUserSyndicate, getSyndicatesByUserId,getUserSyndicateById, getUserSyndicateByUserSyndicteId
   }
 
 
