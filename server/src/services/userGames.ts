@@ -260,6 +260,7 @@ const getGamesByUserId = async (userId) => {
             select: {
               id: true,
               name: true,
+              created_date:true,
               description: true,
               avatar: true,
               owner_id: true,
@@ -291,6 +292,7 @@ const getGamesByUserId = async (userId) => {
       syndicates: {
         id: x.games.syndicates.id,
         name: x.games.syndicates.name,
+        createdDate:x.games.syndicates.created_date,
         description: x.games.syndicates.description,
         avatar: x.games.syndicates.avatar,
         ownerId: x.games.syndicates.owner_id,
@@ -355,12 +357,12 @@ async function getGamesByGameId(gameId: number) {
     deposit: x.deposit,
     roleId: x.role_id,
     users:{ 
-      id:x.users.id,
-      firstName:x.users.first_name,
-      lastName:x.users.last_name,
-      email:x.users.email,
-      balance:x.users.balance,
-      image:x.users.image,
+      id: x.users.id,
+      firstName: x.users.first_name,
+      lastName: x.users.last_name,
+      email: x.users.email,
+      balance: x.users.balance,
+      image: x.users.image,
     },
     games: {
       id: x.games.id,

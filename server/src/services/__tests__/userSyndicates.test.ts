@@ -31,6 +31,7 @@ describe("GET /userSyndicates/syndicates/:syndicateId", () => {
             "avatar": "thunderbolts.jpg"
         },
         "roles": {
+            "id": 1,
             "name": "Leader"
         }
     }
@@ -96,6 +97,7 @@ afterEach(()=>{
                         "avatar": "thunderbolts.jpg"
                     },
                     "roles": {
+                        "id": 1,
                         "name": "Leader"
                     }
                 }
@@ -169,12 +171,18 @@ afterEach(()=>{
  
 
 
-          describe("GET /userSyndicates/userSyndicate/:userSyndicateId", () => {
+          describe("GET /userSyndicates/:userSyndicateId", () => {
             const testUserSyndicatesBySyndicateId: any = {
                 "id": 1,
                 "start_date": new Date("2023-07-13T00:00:00.000Z"),
                 "user_id": 1,
-                "syndicate_id": 1,
+                "syndicates": {
+                    "id": 1,
+                    "created_date": new Date("2023-07-10T00:00:00.000Z"),
+                    "name": "The Thunderbolts",
+                    "description": "For those who strike like lightning!",
+                    "avatar": "thunderbolts.jpg"
+                },
                 "role_id": 1
             };
         
@@ -182,7 +190,14 @@ afterEach(()=>{
                 "id": 1,
                 "startDate": new Date("2023-07-13T00:00:00.000Z"),
                 "userId": 1,
-                "syndicateId": 1,
+                "syndicates": {
+                    
+                        "id": 1,
+                        "createdDate": new Date("2023-07-10T00:00:00.000Z"),
+                        "name": "The Thunderbolts",
+                        "description": "For those who strike like lightning!",
+                        "avatar": "thunderbolts.jpg"
+                    },
                 "roleId": 1
             };
         

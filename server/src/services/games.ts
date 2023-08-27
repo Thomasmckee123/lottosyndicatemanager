@@ -97,6 +97,7 @@ async function getGamesByGameId(gameId: number) {
       image: gamesById?.game_types.image,
       ticketCost: gamesById?.game_types.ticket_cost,
     },
+    syndicateId: gamesById.syndicate_id
   };
   return modifiedGames;
 }

@@ -232,13 +232,18 @@ Response : 200 - OK
     "id": 1,
     "first_name": "Lorna",
     "last_name": "McKinley",
+    "password": "qwerty12@",
     "email": "john@example.com",
+    "balance": 2000
+
   },
   {
     "id": 2,
     "first_name": "Jane",
     "last_name": "smith",
+    "password":"qwerty21",
     "email": "jane@example.com",
+    "balance": 200,
     
   }
 ]

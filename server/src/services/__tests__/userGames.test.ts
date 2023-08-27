@@ -8,39 +8,31 @@ jest.mock("@prisma/client");
 
 describe("GET /userGames", () => {
  let testUserGames= [
-        {
+    {
+        "id": 1,
+        "start_date": "2023-07-21T00:00:00.000Z",
+        "deposit": 0,
+        "role_id": 3,
+        "user_id": 1,
+        "games": {
             "id": 1,
-            "start_date": "2023-07-21T00:00:00.000Z",
-            "deposit": 0,
-            "role_id": 3,
-            "user_id": 1,
-            "games": {
+            "maximum_players": 5,
+            "treasury": 0,
+            "game_types": {
                 "id": 1,
-                "maximum_players": 5,
-                "treasury": 0,
-                "game_types": {
-                    "id": 1,
-                    "name": "euro millions"
-                },
-                "user_syndicates": {
-                    "start_date": "2023-07-13T00:00:00.000Z",
-                    "users": {
-                        "id": 1,
-                        "first_name": "John",
-                        "last_name": "Doe",
-                        "email": "JohnDoe@Gmail.com",
-                        "balance": 0
-                    },
-                    "syndicates": {
-                        "id": 1,
-                        "created_date": "2023-07-10T00:00:00.000Z",
-                        "name": "The Thunderbolts",
-                        "description": "For those who strike like lightning!",
-                        "avatar": "thunderbolts.jpg"
-                    }
-                }
+                "name": "euro millions",
+                "draw_date": "2023-09-01T00:00:00.000Z",
+                "image": "https://lottosyndicatebucket.s3.eu-west-1.amazonaws.com/games/euromillions.jpeg"
+            },
+            "syndicates": {
+                "id": 1,
+                "name": "The Thunderbolts",
+                "description": "For those who strike like lightning!",
+                "avatar": "https://lottosyndicatebucket.s3.eu-west-1.amazonaws.com/syndicates/1/background+image+1.jpeg",
+                "owner_id": 1
             }
         }
+    },
     ]
   let testUserGameResponse = [
     {
@@ -55,27 +47,19 @@ describe("GET /userGames", () => {
             "treasury": 0,
             "gameTypes": {
                 "id": 1,
-                "name": "euro millions"
+                "name": "euro millions",
+                "drawDate": "2023-09-01T00:00:00.000Z",
+                "image": "https://lottosyndicatebucket.s3.eu-west-1.amazonaws.com/games/euromillions.jpeg"
             },
-            "userSyndicates": {
-                "startDate": "2023-07-13T00:00:00.000Z",
-                "users": {
-                    "id": 1,
-                    "firstName": "John",
-                    "lastName": "Doe",
-                    "email": "JohnDoe@Gmail.com",
-                    "balance": 0
-                },
-                "syndicates": {
-                    "id": 1,
-                    "createdDate": "2023-07-10T00:00:00.000Z",
-                    "name": "The Thunderbolts",
-                    "description": "For those who strike like lightning!",
-                    "avatar": "thunderbolts.jpg"
-                }
+            "syndicates": {
+                "id": 1,
+                "name": "The Thunderbolts",
+                "description": "For those who strike like lightning!",
+                "avatar": "https://lottosyndicatebucket.s3.eu-west-1.amazonaws.com/syndicates/1/background+image+1.jpeg",
+                "ownerId": 1
             }
         }
-    }
+    },
 ]
        
         test("get User games", async () => {
@@ -95,58 +79,59 @@ describe("GET /userGames", () => {
 
       describe("GET /userGames/syndicates/:syndicateId", () => {
         let testUserGames= [
-               {
-                   "id": 1,
-                   "start_date": "2023-07-21T00:00:00.000Z",
-                   "deposit": 0,
-                   "role_id": 3,
-                   "user_id": 1,
-                   "games": {
-                       "id": 1,
-                       "maximum_players": 5,
-                       "treasury": 0,
-                       "game_types": {
-                           "id": 1,
-                           "name": "euro millions"
-                       },
-                
-                           "syndicates": {
-                               "id": 1,
-                               "created_date": "2023-07-10T00:00:00.000Z",
-                               "name": "The Thunderbolts",
-                               "description": "For those who strike like lightning!",
-                               "avatar": "thunderbolts.jpg"
-                           }
-                       }
-                   }
-               
-           ]
-         let testUserGameResponse =         [ {
-            "id": 1,
-            "start_date": "2023-07-21T00:00:00.000Z",
-            "deposit": 0,
-            "role_id": 3,
-            "user_id": 1,
-            "games": {
+            {
                 "id": 1,
-                "maximum_players": 5,
-                "treasury": 0,
-                "game_types": {
+                "start_date": "2023-07-21T00:00:00.000Z",
+                "deposit": 0,
+                "role_id": 3,
+                "user_id": 1,
+                "games": {
                     "id": 1,
-                    "name": "euro millions"
-                },
-         
+                    "maximum_players": 5,
+                    "treasury": 0,
+                    "game_types": {
+                        "id": 1,
+                        "name": "euro millions",
+                        "draw_date": "2023-09-01T00:00:00.000Z",
+                        "image": "https://lottosyndicatebucket.s3.eu-west-1.amazonaws.com/games/euromillions.jpeg"
+                    },
                     "syndicates": {
                         "id": 1,
-                        "created_date": "2023-07-10T00:00:00.000Z",
                         "name": "The Thunderbolts",
                         "description": "For those who strike like lightning!",
-                        "avatar": "thunderbolts.jpg"
+                        "avatar": "https://lottosyndicatebucket.s3.eu-west-1.amazonaws.com/syndicates/1/background+image+1.jpeg",
+                        "owner_id": 1
                     }
-                
+                }
             }
-        }
-    ]
+        ]
+         let testUserGameResponse =        [
+            {
+                "id": 1,
+                "startDate": "2023-07-21T00:00:00.000Z",
+                "deposit": 0,
+                "roleId": 3,
+                "userId": 1,
+                "games": {
+                    "id": 1,
+                    "maximumPlayers": 5,
+                    "treasury": 0,
+                    "gameTypes": {
+                        "id": 1,
+                        "name": "euro millions",
+                        "drawDate": "2023-09-01T00:00:00.000Z",
+                        "image": "https://lottosyndicatebucket.s3.eu-west-1.amazonaws.com/games/euromillions.jpeg"
+                    },
+                    "syndicates": {
+                        "id": 1,
+                        "name": "The Thunderbolts",
+                        "description": "For those who strike like lightning!",
+                        "avatar": "https://lottosyndicatebucket.s3.eu-west-1.amazonaws.com/syndicates/1/background+image+1.jpeg",
+                        "ownerId": 1
+                    }
+                }
+            }
+        ]
               
                test("get User games by syndicate id", async () => {
                  prismaAsAny.user_games = {
@@ -170,7 +155,11 @@ describe("GET /userGames", () => {
                            "id": 1,
                            "start_date": "2023-07-21T00:00:00.000Z",
                            "deposit": 0,
-                           "role_id": 3,
+                           "roles": {
+
+                            "id": 1,
+                            "name": "admin",
+                           },
                            "user_id": 1,
                            "games": {
                                "id": 1,
@@ -178,15 +167,19 @@ describe("GET /userGames", () => {
                                "treasury": 0,
                                "game_types": {
                                    "id": 1,
-                                   "name": "euro millions"
+                                   "name": "euro millions",
+                                   "draw_date": "2023-09-01T00:00:00.000Z",
+                                      "image": "https://lottosyndicatebucket.s3.eu-west-1.amazonaws.com/games/euromillions.jpeg"
+
                                },
                         
                                    "syndicates": {
                                        "id": 1,
-                                       "created_date": "2023-07-10T00:00:00.000Z",
+                                       "created_date": new Date("2023-07-10T00:00:00.000Z"),
                                        "name": "The Thunderbolts",
                                        "description": "For those who strike like lightning!",
-                                       "avatar": "thunderbolts.jpg"
+                                       "avatar": "thunderbolts.jpg",
+                                       "owner_id": 1
                                    }
                                
                            }
@@ -197,7 +190,11 @@ describe("GET /userGames", () => {
                        "id": 1,
                        "startDate": "2023-07-21T00:00:00.000Z",
                        "deposit": 0,
-                       "roleId": 3,
+                       "roles": {
+
+                        "id": 1,
+                        "name": "admin",
+                       },
                        "userId": 1,
                        "games": {
                            "id": 1,
@@ -205,15 +202,19 @@ describe("GET /userGames", () => {
                            "treasury": 0,
                            "gameTypes": {
                                "id": 1,
-                               "name": "euro millions"
+                               "name": "euro millions",
+                               "drawDate": "2023-09-01T00:00:00.000Z",
+                                    "image": "https://lottosyndicatebucket.s3.eu-west-1.amazonaws.com/games/euromillions.jpeg",
+
                            },
                       
                                "syndicates": {
                                    "id": 1,
-                                   "createdDate": "2023-07-10T00:00:00.000Z",
+                                   "createdDate": new Date("2023-07-10T00:00:00.000Z"),
                                    "name": "The Thunderbolts",
                                    "description": "For those who strike like lightning!",
-                                   "avatar": "thunderbolts.jpg"
+                                   "avatar": "thunderbolts.jpg",
+                                      "ownerId": 1
                                }
                            
                        }
@@ -232,60 +233,74 @@ describe("GET /userGames", () => {
                      });
                
                      describe("GET /userGames/games/:gameId", () => {
-                        let testUserGames= [
-                               {
-                                   "id": 1,
-                                   "start_date": "2023-07-21T00:00:00.000Z",
-                                   "deposit": 0,
-                                   "role_id": 3,
-                                   "user_id": 1,
-                                   "games": {
-                                       "id": 1,
-                                       "maximum_players": 5,
-                                       "treasury": 0,
-                                       "game_types": {
-                                           "id": 1,
-                                           "name": "euro millions",
-                                       },
-                                    
-                                           "syndicates": {
-                                               "id": 1,
-                                               "created_date": "2023-07-10T00:00:00.000Z",
-                                               "name": "The Thunderbolts",
-                                               "description": "For those who strike like lightning!",
-                                               "avatar": "thunderbolts.jpg"
-                                           }
-                                       }
-                                   
-                               }
-                           ]
+                        let testUserGames=[
+                            {
+                                "id": 1,
+                                "start_date": "2023-07-21T00:00:00.000Z",
+                                "deposit": 0,
+                                "role_id": 3,
+                                "users": {
+                                    "id": 1,
+                                    "first_name": "John",
+                                    "last_name": "Doe",
+                                    "email": "JohnDoe@Gmail.com",
+                                    "balance": 0,
+                                    "image": "image"
+                                },
+                                "games": {
+                                    "id": 1,
+                                    "maximum_players": 5,
+                                    "treasury": 0,
+                                    "game_types": {
+                                        "id": 1,
+                                        "name": "euro millions",
+                                        "draw_date": "2023-09-01T00:00:00.000Z",
+                                        "image": "https://lottosyndicatebucket.s3.eu-west-1.amazonaws.com/games/euromillions.jpeg"
+                                    },
+                                    "syndicates": {
+                                        "id": 1,
+                                        "name": "The Thunderbolts",
+                                        "description": "For those who strike like lightning!",
+                                        "avatar": "https://lottosyndicatebucket.s3.eu-west-1.amazonaws.com/syndicates/1/background+image+1.jpeg",
+                                        "owner_id": 1
+                                    }
+                                }
+                            }
+                        ]
                          let testUserGameResponse = [
-                           {
-                               "id": 1,
-                               "startDate": "2023-07-21T00:00:00.000Z",
-                               "deposit": 0,
-                               "roleId": 3,
-                               "userId": 1,
-                               "games": {
-                                   "id": 1,
-                                   "maximumPlayers": 5,
-                                   "treasury": 0,
-                                   "gameTypes": {
-                                       "id": 1,
-                                       "name": "euro millions",
-                                   },
-                                
-                                       "syndicates": {
-                                           "id": 1,
-                                           "createdDate": "2023-07-10T00:00:00.000Z",
-                                           "name": "The Thunderbolts",
-                                           "description": "For those who strike like lightning!",
-                                           "avatar": "thunderbolts.jpg"
-                                       }
-                                   
-                               }
-                           }
-                       ]
+                            {
+                                "id": 1,
+                                "startDate": "2023-07-21T00:00:00.000Z",
+                                "deposit": 0,
+                                "roleId": 3,
+                                "users": {
+                                    "id": 1,
+                                    "firstName": "John",
+                                    "lastName": "Doe",
+                                    "email": "JohnDoe@Gmail.com",
+                                    "balance": 0,
+                                    "image": "image"
+                                },
+                                "games": {
+                                    "id": 1,
+                                    "maximumPlayers": 5,
+                                    "treasury": 0,
+                                    "gameTypes": {
+                                        "id": 1,
+                                        "name": "euro millions",
+                                        "drawDate": "2023-09-01T00:00:00.000Z",
+                                        "image": "https://lottosyndicatebucket.s3.eu-west-1.amazonaws.com/games/euromillions.jpeg"
+                                    },
+                                    "syndicates": {
+                                        "id": 1,
+                                        "name": "The Thunderbolts",
+                                        "description": "For those who strike like lightning!",
+                                        "avatar": "https://lottosyndicatebucket.s3.eu-west-1.amazonaws.com/syndicates/1/background+image+1.jpeg",
+                                        "ownerId": 1
+                                    }
+                                }
+                            }
+                        ]
                               
                                test("get User games by game id", async () => {
                                  prismaAsAny.user_games = {

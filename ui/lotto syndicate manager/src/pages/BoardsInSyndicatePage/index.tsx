@@ -31,6 +31,7 @@ import {
 import { GameTypes } from "./components/gameTypesPage";
 import TokenUtils from "../../integrations/token";
 import PlayOrView from "./components/playOrViewArchive";
+import { writeAReview } from "../../services/review";
 
 function MessageBoardsPage() {
   const [open, setOpen] = useState(false);
@@ -45,7 +46,11 @@ function MessageBoardsPage() {
     syndicateId: string;
     userSyndicateId: string;
   }>();
+  const jwt = TokenUtils.getJWT();
+
+  const userId = jwt?.claims?.userId;
   const [review, setReview] = useState("");
+  const [title, setTitle] = useState("");
 
   const handleManageMembersOpen = () => {
     setManageMembersOpen(true);
@@ -78,6 +83,11 @@ function MessageBoardsPage() {
     console.log(review);
     handleClose();
   };
+
+  const createReview = async (review: string, title: string) => {
+    await writeAReview(Number(syndicateId), Number(userId), title, review);
+  };
+
   /**
    * promoting/demoting the users
    * @param roleId
@@ -258,15 +268,32 @@ function MessageBoardsPage() {
             <TextField
               autoFocus
               margin="dense"
+              label="title"
+              fullWidth
+              value={title}
+              onChange={(event) => setTitle(event.target.value)}
+            />
+          </DialogContent>
+          <DialogContent>
+            <TextField
+              autoFocus
+              margin="dense"
               label="Review"
               fullWidth
               value={review}
-              onChange={handleReviewChange}
+              onChange={(event) => setReview(event.target.value)}
             />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleSubmit}>Submit</Button>
+            <Button
+              onClick={() => {
+                handleSubmit();
+                createReview(review, title);
+              }}
+            >
+              Submit
+            </Button>{" "}
           </DialogActions>
         </Dialog>
         <Typography variant="h4" component="div" gutterBottom></Typography>

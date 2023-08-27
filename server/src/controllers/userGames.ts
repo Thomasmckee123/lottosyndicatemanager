@@ -9,16 +9,21 @@ const getAllUserGames = async (req: Request, res: Response) => {
   { 
    return res.sendStatus(500).json("issue getting userGames by Id")}
   };
-const getUserGamesBySyndicateId = async(req: Request, res: Response) =>{
-    try{
-        const syndicteId = req.params;
-        const gameUsersBySyndicateId = await UserGameService.getGamesBySyndicateId(syndicteId)
-
-        return !gameUsersBySyndicateId ? res.sendStatus(404): res.status(200).json(gameUsersBySyndicateId)
-    }catch{
-        return res.sendStatus(500).json("issue getting userGames by Id")
+  const getUserGamesBySyndicateId = async (req: Request, res: Response) => {
+    try {
+      const syndicateId = req.params.syndicateId;
+      const gameUsersBySyndicateId = await UserGameService.getGamesBySyndicateId(Number(syndicateId));
+  
+      if (!gameUsersBySyndicateId) {
+        return res.sendStatus(404);
+      }
+  
+      return res.status(200).json(gameUsersBySyndicateId);
+    } catch (error) {
+      console.error(error);
+      return res.sendStatus(500);
     }
-}
+  };
 const getUserGamesByUserGameId = async (req: Request, res: Response) => {
   try {
     const userGameId = req.params.userGameId;

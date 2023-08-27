@@ -23,56 +23,39 @@ let testTicketData = [
             "game_types": {
                 "id": 1,
                 "name": "euro millions",
-                "draw_date": "2023-08-18T00:00:00.000Z",
+                "draw_date": "2023-09-01T00:00:00.000Z",
                 "reward": 43000000,
-                "image": "euromillions.png",
+                "image": "https://lottosyndicatebucket.s3.eu-west-1.amazonaws.com/games/euromillions.jpeg",
                 "ticket_cost": 2.5
             },
-            "user_syndicates": {
-                "start_date": "2023-07-13T00:00:00.000Z",
-                "users": {
-                    "id": 1,
-                    "first_name": "John",
-                    "last_name": "Doe",
-                    "email": "JohnDoe@Gmail.com",
-                    "balance": 0
-                }
-            }
+            "syndicate_id": 1
         }
-    }
+    },
 ]
 
-const testTicketResponse = [{
-    "id": 1,
-    "ticketCode": "123456",
-    "totalRewardValue": 0,
-    "ticketStatus": {
-        "id": 3,
-        "name": "pending"
-    },
-    "games": {
+const testTicketResponse = [
+    {
         "id": 1,
-        "treasury": 0,
-        "gameTypes": {
-            "id": 1,
-            "name": "euro millions",
-            "drawDate": "2023-08-18T00:00:00.000Z",
-            "reward": 43000000,
-            "image": "euromillions.png",
-            "ticketCost": 2.5
+        "ticketCode": "123456",
+        "totalRewardValue": 0,
+        "ticketStatus": {
+            "id": 3,
+            "name": "pending"
         },
-        "userSyndicates": {
-            "startDate": "2023-07-13T00:00:00.000Z",
-            "users": {
+        "games": {
+            "id": 1,
+            "treasury": 0,
+            "gameTypes": {
                 "id": 1,
-                "firstName": "John",
-                "lastName": "Doe",
-                "email": "JohnDoe@Gmail.com",
-                "balance": 0
-            }
+                "name": "euro millions",
+                "drawDate": "2023-09-01T00:00:00.000Z",
+                "reward": 43000000,
+                "image": "https://lottosyndicatebucket.s3.eu-west-1.amazonaws.com/games/euromillions.jpeg",
+                "ticketCost": 2.5
+            },
+            "syndicateId": 1
         }
-    }
-}]
+    },]
 
 test("get tickets", async () => {
     prismaAsAny.game_user_game_ticket = {
@@ -89,7 +72,7 @@ test("get tickets", async () => {
 
 
 
-describe('ticketsByGameId', () => {
+describe('GET /tickets/games/id', () => {
 
     let testTicketData = [
         {
@@ -106,57 +89,40 @@ describe('ticketsByGameId', () => {
                 "game_types": {
                     "id": 1,
                     "name": "euro millions",
-                    "draw_date": "2023-08-18T00:00:00.000Z",
+                    "draw_date": "2023-09-01T00:00:00.000Z",
                     "reward": 43000000,
-                    "image": "euromillions.png",
+                    "image": "https://lottosyndicatebucket.s3.eu-west-1.amazonaws.com/games/euromillions.jpeg",
                     "ticket_cost": 2.5
                 },
-                "user_syndicates": {
-                    "start_date": "2023-07-13T00:00:00.000Z",
-                    "users": {
-                        "id": 1,
-                        "first_name": "John",
-                        "last_name": "Doe",
-                        "email": "JohnDoe@Gmail.com",
-                        "balance": 0
-                    }
-                }
+                "syndicate_id": 1
             }
         }
     ]
     
-    const testTicketResponse = [{
-        "id": 1,
-        "ticketCode": "123456",
-        "totalRewardValue": 0,
-        "ticketStatus": {
-            "id": 3,
-            "name": "pending"
-        },
-        "games": {
+    const testTicketResponse = [
+        {
             "id": 1,
-            "treasury": 0,
-            "gameTypes": {
-                "id": 1,
-                "name": "euro millions",
-                "drawDate": "2023-08-18T00:00:00.000Z",
-                "reward": 43000000,
-                "image": "euromillions.png",
-                "ticketCost": 2.5
+            "ticketCode": "123456",
+            "totalRewardValue": 0,
+            "ticketStatus": {
+                "id": 3,
+                "name": "pending"
             },
-            "userSyndicates": {
-                "startDate": "2023-07-13T00:00:00.000Z",
-                "users": {
+            "games": {
+                "id": 1,
+                "treasury": 0,
+                "gameTypes": {
                     "id": 1,
-                    "firstName": "John",
-                    "lastName": "Doe",
-                    "email": "JohnDoe@Gmail.com",
-                    "balance": 0
-                }
+                    "name": "euro millions",
+                    "drawDate": "2023-09-01T00:00:00.000Z",
+                    "reward": 43000000,
+                    "image": "https://lottosyndicatebucket.s3.eu-west-1.amazonaws.com/games/euromillions.jpeg",
+                    "ticketCost": 2.5
+                },
+                "syndicateId": 1
             }
         }
-    }]
-    
+    ]
     test("get tickets byGame ID", async () => {
         prismaAsAny.game_user_game_ticket = {
           findMany: jest.fn().mockResolvedValueOnce(testTicketData),

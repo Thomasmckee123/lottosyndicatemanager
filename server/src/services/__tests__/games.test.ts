@@ -57,36 +57,35 @@ import { SyndicateService } from "../syndicates";
 
 
         const games :any= 
-            {    "id": 1,
-                "maximum_players": 5,
-                "treasury": 0,
-                "game_types": {
-                    "id": 1,
-                    "name": "euro millions",
-                    "draw_date": new Date("2023-08-18T00:00:00.000Z"),
-                    "reward": 43000000,
-                    "image": "euromillions.png",
-                    "ticket_cost": 2.5
-                },
-                "syndicate_id": 1,
-                
-            }
-    
-      const gamesResponse :any= 
         {
             "id": 1,
-            "maximumPlayers": 5,
+            "maximum_players": 5,
             "treasury": 0,
-            "gameTypes": {
+            "game_types": {
                 "id": 1,
                 "name": "euro millions",
-                "drawDate": new Date("2023-08-18T00:00:00.000Z"),
+                "draw_date": "2023-09-01T00:00:00.000Z",
                 "reward": 43000000,
-                "image": "euromillions.png",
-                "ticketCost": 2.5
-            },"syndicateId": 1,
-            
+                "image": "https://lottosyndicatebucket.s3.eu-west-1.amazonaws.com/games/euromillions.jpeg",
+                "ticket_cost": 2.5
+            },
+            "syndicate_id": 1
         }
+      const gamesResponse :any= 
+      {
+        "id": 1,
+        "maximumPlayers": 5,
+        "treasury": 0,
+        "gameTypes": {
+            "id": 1,
+            "name": "euro millions",
+            "drawDate": "2023-09-01T00:00:00.000Z",
+            "reward": 43000000,
+            "image": "https://lottosyndicatebucket.s3.eu-west-1.amazonaws.com/games/euromillions.jpeg",
+            "ticketCost": 2.5
+        },
+        "syndicateId": 1
+    }
       
            
         test("get gameResponse", async () => {

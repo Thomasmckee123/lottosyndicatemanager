@@ -91,7 +91,7 @@ ReviewsRouter.post(/**
 *                 syndicateId:
 *                   type: number
 */
- "/syndicates/:syndicateId/users/:userId(\\d+)",[
+ "/syndicates/:syndicateId(\\d+)/users/:userId(\\d+)",[
     body("title").isString().isLength({ min: 3 }).trim(),
     body("content").isString().isLength({min: 3, max:2000}).trim(),
   ], validate, ReviewsController.createNewReviewOnSyndicate);

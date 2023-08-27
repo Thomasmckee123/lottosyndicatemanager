@@ -10,7 +10,8 @@ import {
   Button,
 } from "@mui/material";
 import { fetchUserGamesByGameId } from "../../../services/userGames";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { NavigationRoutes } from "../../../constants";
 
 const Members = () => {
   const { gameId } = useParams<{ gameId: string }>();
@@ -24,9 +25,11 @@ const Members = () => {
 
   return (
     <>
-      <Button variant="contained" color="primary">
-        back to game
-      </Button>
+      <Link to={NavigationRoutes.GAMEPAGE}>
+        <Button variant="contained" color="primary">
+          back to game
+        </Button>
+      </Link>
       <Container>
         {" "}
         <Typography variant="h4" gutterBottom>

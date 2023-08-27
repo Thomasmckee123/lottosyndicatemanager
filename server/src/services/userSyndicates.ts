@@ -190,6 +190,7 @@ owner_id: true
 }, },
 roles:{
   select:{
+    id:true,
  name: true
   }
 }

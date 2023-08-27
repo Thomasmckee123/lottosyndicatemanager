@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1692923980253" clover="3.2.0">
-  <project timestamp="1692923980253" name="All files">
-    <metrics statements="602" coveredstatements="363" conditionals="64" coveredconditionals="22" methods="131" coveredmethods="96" elements="797" coveredelements="481" complexity="0" loc="602" ncloc="602" packages="4" files="20" classes="20"/>
+<coverage generated="1693061534655" clover="3.2.0">
+  <project timestamp="1693061534655" name="All files">
+    <metrics statements="612" coveredstatements="369" conditionals="64" coveredconditionals="22" methods="135" coveredmethods="97" elements="811" coveredelements="488" complexity="0" loc="612" ncloc="612" packages="4" files="20" classes="20"/>
     <package name="controllers">
       <metrics statements="268" coveredstatements="125" conditionals="40" coveredconditionals="14" methods="42" coveredmethods="19"/>
       <file name="games.ts" path="/Users/thomas.mckee/lottosyndicatemanager/server/src/controllers/games.ts">
@@ -298,7 +298,7 @@
       </file>
     </package>
     <package name="services">
-      <metrics statements="328" coveredstatements="232" conditionals="24" coveredconditionals="8" methods="89" coveredmethods="77"/>
+      <metrics statements="338" coveredstatements="238" conditionals="24" coveredconditionals="8" methods="93" coveredmethods="78"/>
       <file name="boards.ts" path="/Users/thomas.mckee/lottosyndicatemanager/server/src/services/boards.ts">
         <metrics statements="25" coveredstatements="19" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="5"/>
         <line num="2" count="1" type="stmt"/>
@@ -364,43 +364,43 @@
         <line num="60" count="1" type="stmt"/>
         <line num="66" count="1" type="stmt"/>
         <line num="88" count="1" type="stmt"/>
-        <line num="101" count="1" type="stmt"/>
-        <line num="108" count="1" type="stmt"/>
-        <line num="130" count="1" type="stmt"/>
-        <line num="144" count="1" type="stmt"/>
-        <line num="159" count="1" type="stmt"/>
+        <line num="102" count="1" type="stmt"/>
+        <line num="109" count="1" type="stmt"/>
+        <line num="131" count="1" type="stmt"/>
+        <line num="145" count="1" type="stmt"/>
         <line num="160" count="1" type="stmt"/>
-        <line num="163" count="1" type="stmt"/>
-        <line num="170" count="0" type="stmt"/>
-        <line num="197" count="0" type="stmt"/>
-        <line num="212" count="0" type="stmt"/>
-        <line num="228" count="0" type="stmt"/>
+        <line num="161" count="1" type="stmt"/>
+        <line num="164" count="1" type="stmt"/>
+        <line num="171" count="0" type="stmt"/>
+        <line num="198" count="0" type="stmt"/>
+        <line num="213" count="0" type="stmt"/>
         <line num="229" count="0" type="stmt"/>
-        <line num="232" count="0" type="stmt"/>
-        <line num="239" count="1" type="stmt"/>
-        <line num="261" count="1" type="stmt"/>
-        <line num="275" count="1" type="stmt"/>
-        <line num="290" count="1" type="stmt"/>
+        <line num="230" count="0" type="stmt"/>
+        <line num="233" count="0" type="stmt"/>
+        <line num="240" count="1" type="stmt"/>
+        <line num="262" count="1" type="stmt"/>
+        <line num="276" count="1" type="stmt"/>
         <line num="291" count="1" type="stmt"/>
-        <line num="294" count="1" type="stmt"/>
-        <line num="298" count="1" type="stmt"/>
+        <line num="292" count="1" type="stmt"/>
+        <line num="295" count="1" type="stmt"/>
         <line num="299" count="1" type="stmt"/>
         <line num="300" count="1" type="stmt"/>
         <line num="301" count="1" type="stmt"/>
-        <line num="309" count="1" type="stmt"/>
+        <line num="302" count="1" type="stmt"/>
         <line num="310" count="1" type="stmt"/>
-        <line num="312" count="0" type="stmt"/>
+        <line num="311" count="1" type="stmt"/>
         <line num="313" count="0" type="stmt"/>
-        <line num="319" count="1" type="stmt"/>
+        <line num="314" count="0" type="stmt"/>
         <line num="320" count="1" type="stmt"/>
-        <line num="329" count="0" type="stmt"/>
-        <line num="331" count="1" type="stmt"/>
-        <line num="336" count="1" type="stmt"/>
+        <line num="321" count="1" type="stmt"/>
+        <line num="330" count="0" type="stmt"/>
+        <line num="332" count="1" type="stmt"/>
         <line num="337" count="1" type="stmt"/>
-        <line num="346" count="0" type="stmt"/>
-        <line num="348" count="1" type="stmt"/>
-        <line num="351" count="2" type="stmt"/>
-        <line num="361" count="2" type="stmt"/>
+        <line num="338" count="1" type="stmt"/>
+        <line num="347" count="0" type="stmt"/>
+        <line num="349" count="1" type="stmt"/>
+        <line num="352" count="2" type="stmt"/>
+        <line num="362" count="2" type="stmt"/>
       </file>
       <file name="messages.ts" path="/Users/thomas.mckee/lottosyndicatemanager/server/src/services/messages.ts">
         <metrics statements="21" coveredstatements="15" conditionals="0" coveredconditionals="0" methods="8" coveredmethods="7"/>
@@ -521,52 +521,62 @@
         <line num="190" count="2" type="stmt"/>
       </file>
       <file name="userGames.ts" path="/Users/thomas.mckee/lottosyndicatemanager/server/src/services/userGames.ts">
-        <metrics statements="35" coveredstatements="26" conditionals="0" coveredconditionals="0" methods="13" coveredmethods="11"/>
+        <metrics statements="45" coveredstatements="30" conditionals="0" coveredconditionals="0" methods="17" coveredmethods="12"/>
         <line num="2" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
         <line num="38" count="1" type="stmt"/>
-        <line num="63" count="0" type="stmt"/>
-        <line num="64" count="0" type="stmt"/>
-        <line num="67" count="0" type="stmt"/>
-        <line num="75" count="1" type="stmt"/>
-        <line num="76" count="1" type="stmt"/>
-        <line num="112" count="1" type="stmt"/>
-        <line num="137" count="1" type="stmt"/>
-        <line num="138" count="1" type="stmt"/>
-        <line num="141" count="1" type="stmt"/>
-        <line num="149" count="1" type="stmt"/>
-        <line num="150" count="1" type="stmt"/>
-        <line num="185" count="1" type="stmt"/>
-        <line num="210" count="1" type="stmt"/>
-        <line num="211" count="1" type="stmt"/>
-        <line num="214" count="1" type="stmt"/>
+        <line num="63" count="1" type="stmt"/>
+        <line num="64" count="1" type="stmt"/>
+        <line num="67" count="1" type="stmt"/>
+        <line num="77" count="1" type="stmt"/>
+        <line num="78" count="0" type="stmt"/>
+        <line num="114" count="0" type="stmt"/>
+        <line num="139" count="0" type="stmt"/>
+        <line num="140" count="0" type="stmt"/>
+        <line num="143" count="0" type="stmt"/>
+        <line num="157" count="1" type="stmt"/>
+        <line num="158" count="1" type="stmt"/>
+        <line num="194" count="1" type="stmt"/>
         <line num="219" count="1" type="stmt"/>
-        <line num="253" count="1" type="stmt"/>
-        <line num="280" count="1" type="stmt"/>
-        <line num="284" count="1" type="stmt"/>
-        <line num="285" count="1" type="stmt"/>
-        <line num="286" count="1" type="stmt"/>
-        <line num="295" count="1" type="stmt"/>
-        <line num="296" count="1" type="stmt"/>
-        <line num="298" count="0" type="stmt"/>
-        <line num="299" count="0" type="stmt"/>
-        <line num="305" count="0" type="stmt"/>
-        <line num="306" count="0" type="stmt"/>
-        <line num="315" count="0" type="stmt"/>
-        <line num="317" count="0" type="stmt"/>
-        <line num="320" count="1" type="stmt"/>
-        <line num="328" count="1" type="stmt"/>
+        <line num="220" count="1" type="stmt"/>
+        <line num="223" count="1" type="stmt"/>
+        <line num="231" count="1" type="stmt"/>
+        <line num="232" count="1" type="stmt"/>
+        <line num="273" count="1" type="stmt"/>
+        <line num="302" count="1" type="stmt"/>
+        <line num="303" count="1" type="stmt"/>
+        <line num="306" count="1" type="stmt"/>
+        <line num="311" count="1" type="stmt"/>
+        <line num="354" count="1" type="stmt"/>
+        <line num="388" count="1" type="stmt"/>
+        <line num="392" count="1" type="stmt"/>
+        <line num="393" count="1" type="stmt"/>
+        <line num="394" count="1" type="stmt"/>
+        <line num="403" count="1" type="stmt"/>
+        <line num="404" count="1" type="stmt"/>
+        <line num="406" count="0" type="stmt"/>
+        <line num="407" count="0" type="stmt"/>
+        <line num="413" count="0" type="stmt"/>
+        <line num="414" count="0" type="stmt"/>
+        <line num="423" count="0" type="stmt"/>
+        <line num="425" count="0" type="stmt"/>
+        <line num="429" count="0" type="stmt"/>
+        <line num="430" count="0" type="stmt"/>
+        <line num="439" count="0" type="stmt"/>
+        <line num="441" count="0" type="stmt"/>
+        <line num="447" count="1" type="stmt"/>
+        <line num="457" count="1" type="stmt"/>
       </file>
       <file name="userSyndicates.ts" path="/Users/thomas.mckee/lottosyndicatemanager/server/src/services/userSyndicates.ts">
-        <metrics statements="44" coveredstatements="28" conditionals="5" coveredconditionals="1" methods="10" coveredmethods="9"/>
+        <metrics statements="44" coveredstatements="30" conditionals="5" coveredconditionals="1" methods="10" coveredmethods="9"/>
         <line num="2" count="2" type="stmt"/>
         <line num="4" count="2" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
         <line num="28" count="1" type="stmt"/>
-        <line num="42" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="42" count="1" type="cond" truecount="0" falsecount="1"/>
         <line num="43" count="0" type="stmt"/>
-        <line num="45" count="0" type="stmt"/>
+        <line num="45" count="1" type="stmt"/>
         <line num="49" count="2" type="stmt"/>
         <line num="51" count="1" type="stmt"/>
         <line num="85" count="1" type="stmt"/>
@@ -581,29 +591,29 @@
         <line num="157" count="0" type="stmt"/>
         <line num="165" count="1" type="stmt"/>
         <line num="166" count="1" type="stmt"/>
-        <line num="203" count="0" type="stmt"/>
-        <line num="205" count="1" type="stmt"/>
-        <line num="226" count="1" type="stmt"/>
-        <line num="251" count="1" type="cond" truecount="0" falsecount="1"/>
-        <line num="252" count="0" type="stmt"/>
-        <line num="257" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="259" count="1" type="stmt"/>
-        <line num="265" count="1" type="stmt"/>
+        <line num="204" count="0" type="stmt"/>
+        <line num="206" count="1" type="stmt"/>
+        <line num="227" count="1" type="stmt"/>
+        <line num="252" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="253" count="0" type="stmt"/>
+        <line num="258" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="260" count="1" type="stmt"/>
         <line num="266" count="1" type="stmt"/>
-        <line num="275" count="0" type="stmt"/>
-        <line num="277" count="1" type="stmt"/>
-        <line num="281" count="1" type="stmt"/>
-        <line num="283" count="1" type="stmt"/>
-        <line num="289" count="1" type="stmt"/>
-        <line num="292" count="0" type="stmt"/>
+        <line num="267" count="1" type="stmt"/>
+        <line num="276" count="0" type="stmt"/>
+        <line num="278" count="1" type="stmt"/>
+        <line num="282" count="1" type="stmt"/>
+        <line num="284" count="1" type="stmt"/>
+        <line num="290" count="1" type="stmt"/>
         <line num="293" count="0" type="stmt"/>
-        <line num="298" count="0" type="stmt"/>
-        <line num="300" count="0" type="stmt"/>
-        <line num="306" count="0" type="stmt"/>
-        <line num="309" count="0" type="stmt"/>
+        <line num="294" count="0" type="stmt"/>
+        <line num="299" count="0" type="stmt"/>
+        <line num="301" count="0" type="stmt"/>
+        <line num="307" count="0" type="stmt"/>
         <line num="310" count="0" type="stmt"/>
-        <line num="316" count="2" type="stmt"/>
+        <line num="311" count="0" type="stmt"/>
         <line num="317" count="2" type="stmt"/>
+        <line num="318" count="2" type="stmt"/>
       </file>
       <file name="users.ts" path="/Users/thomas.mckee/lottosyndicatemanager/server/src/services/users.ts">
         <metrics statements="49" coveredstatements="28" conditionals="4" coveredconditionals="0" methods="10" coveredmethods="7"/>

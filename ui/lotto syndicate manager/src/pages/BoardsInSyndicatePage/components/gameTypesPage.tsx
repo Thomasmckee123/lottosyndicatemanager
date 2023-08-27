@@ -285,7 +285,6 @@ function GameTypes() {
         funds={balance!}
         deposit={Number(deposit)}
       />
-
       <ThemeProvider theme={lightTheme}>
         <Paper
           elevation={24}
@@ -311,7 +310,6 @@ function GameTypes() {
           </Typography>
         </Paper>
       </ThemeProvider>
-
       <Grid container spacing={3}>
         {gameTypeData.map((thisGameType) => (
           <Grid item xs={12} md={6} lg={4} key={thisGameType.id}>
@@ -371,7 +369,6 @@ function GameTypes() {
           </Grid>
         ))}
       </Grid>
-
       <ThemeProvider theme={lightTheme}>
         <Paper
           elevation={24}
@@ -397,7 +394,6 @@ function GameTypes() {
           </Typography>
         </Paper>
       </ThemeProvider>
-
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
           value={value === 0 ? false : value}
@@ -424,24 +420,24 @@ function GameTypes() {
             />
           ))}
         </Tabs>{" "}
-      </Box>
-      {gameData.length > 0 ? (
-        gameData.map((currentGame) => (
-          <CustomTabPanel
-            value={value}
-            index={currentGame.gameTypes.id}
-            key={currentGame.id}
-          >
-            <ThemeProvider theme={lightTheme}>
-              <Paper
-                elevation={24}
-                sx={{
-                  p: 4,
-                  zIndex: -1,
-                  height: "40vh",
-                  backgroundColor: `darkGrey`,
-                  overflowX: "auto",
-                }}
+      </Box>{" "}
+      <ThemeProvider theme={lightTheme}>
+        <Paper
+          elevation={24}
+          sx={{
+            p: 4,
+            zIndex: -1,
+            height: "40vh",
+            backgroundColor: `darkGrey`,
+            overflowX: "auto",
+          }}
+        >
+          {gameData.length > 0 ? (
+            gameData.map((currentGame) => (
+              <CustomTabPanel
+                value={value}
+                index={currentGame.gameTypes.id}
+                key={currentGame.id}
               >
                 <Card>
                   <CardContent>
@@ -471,28 +467,28 @@ function GameTypes() {
                     {joinedMessage}
                   </CardContent>
                 </Card>
+              </CustomTabPanel>
+            ))
+          ) : (
+            <ThemeProvider theme={lightTheme}>
+              <Paper
+                elevation={24}
+                sx={{
+                  p: 4,
+                  zIndex: -1,
+                  height: "40vh",
+                  backgroundColor: `darkGrey`,
+                  overflowX: "auto",
+                }}
+              >
+                <Typography variant="h5" component="div">
+                  No games available.
+                </Typography>
               </Paper>
             </ThemeProvider>
-          </CustomTabPanel>
-        ))
-      ) : (
-        <ThemeProvider theme={lightTheme}>
-          <Paper
-            elevation={24}
-            sx={{
-              p: 4,
-              zIndex: -1,
-              height: "40vh",
-              backgroundColor: `darkGrey`,
-              overflowX: "auto",
-            }}
-          >
-            <Typography variant="h5" component="div">
-              No games available.
-            </Typography>
-          </Paper>
-        </ThemeProvider>
-      )}
+          )}{" "}
+        </Paper>
+      </ThemeProvider>
     </>
   );
 }
