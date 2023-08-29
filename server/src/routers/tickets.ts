@@ -4,117 +4,245 @@ import { body } from "express-validator";
 import { validate } from "../utils/validation";
 //setting up routers
 const TicketRouter = express.Router();
-
-TicketRouter.get("/"/**
-* @swagger
-* /api/tickets:
-*   get:
-*     summary: Retrieve all tickets.
-*     description: Retrieves a tickets object array.
-*     tags:
-*      - tickets
-*     responses:
-*       200:
-*         description: A valid array of tickets object.
-*         content:
-*           application/json:
-*             schema:
-*               type: array
-*              
-*/, TicketController.getAlltickets);
-TicketRouter.get(
 /**
-* @swagger
-* /api/tickets/games/{id}:
-*   get:
-*     summary: Retrieve all tickets by gameId.
-*     description: Retrieves a user object based on its id.
-*     tags:
-*      - gameTickets
-*     parameters:
-*       - in: path
-*         name: id
-*         required: true
-*         description: Numeric ID of the user to retrieve.
-*         schema:
-*           type: integer
-*     responses:
-*       200:
-*         description: A valid ticket object.
-*         content:
-*           application/json:
-*             schema:
-*               type: array
-*               
-*/"/games/:gameId(\\d+)",TicketController.getTicketsByGameId);
-TicketRouter.post(/**
-* @swagger
-* /api/tickets/syndicates/{syndicateId}/games/{gameId}:
-*   post:
-*     summary: Create a new ticket.
-*     description: Creates a new ticket object.
-*     tags:
-*      - syndicates
-*      - games
-*     parameters:
-*       - in: path
-*         name: syndicateId
-*         description: ID of the syndicate to create a ticket for.
-*         required: true
-*         schema:
-*           type: integer
-*       - in: path
-*         name: gameId
-*         required: true
-*         schema:
-*           type: integer
-*         description: ID of the game to create a ticket for.
-*       - in: body
-*         name: ticketDetails
-*         required: true
-*         content:
-*           schema:
-*             type: object
-*           properties:
-*               ticket_code:
-*                 type: string
-*                 description: ticket_code
-*                 example: "John Graham"
-*               total_reward_value:
-*                 type: number
-*                 description: total_reward_value
-*                 example: 23453  
-*               ticket_status_id:
-*                 type: number
-*                 description: ticket status id  
-*     responses:
-*       201:
-*         description: Created a new ticket.
-*         content:
-*           application/json:
-*             schema:
-*               type: object
-*               properties:
-*                 id:
-*                   type: number
-*                 ticket_code:
-*                   type: string
-*                 total_reward_value:
-*                   type: number
-*                 ticket_status_id:
-*                   type: number
-*                 syndicateId:
-*                   type: number
-*                 gameId:
-*                   type: number
-*/
-
-"/games/:gameId(\\d+)",[
+ * Get all tickets.
+ * 
+ * @return An array of objects containing the details of all tickets.
+ * 
+ * @swagger
+ * /api/tickets:
+ *   get:
+ *     summary: Get all tickets
+ *     description: Get all tickets.
+ *     responses:
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                     description: The ID of the ticket.
+ *                   ticketCode:
+ *                     type: string
+ *                     description: The code of the ticket.
+ *                   totalRewardValue:
+ *                     type: number
+ *                     description: The total reward value of the ticket.
+ *                   ticketStatus:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         description: The ID of the ticket status.
+ *                       name:
+ *                         type: string
+ *                         description: The name of the ticket status.
+ *                   games:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         description: The ID of the game.
+ *                       treasury:
+ *                         type: number
+ *                         description: The treasury of the game.
+ *                       gameTypes:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: integer
+ *                             description: The ID of the game type.
+ *                           name:
+ *                             type: string
+ *                             description: The name of the game type.
+ *                           drawDate:
+ *                             type: string
+ *                             description: The draw date of the game type.
+ *                           reward:
+ *                             type: number
+ *                             description: The reward of the game type.
+ *                           image:
+ *                             type: string
+ *                             description: The image of the game type.
+ *                           ticketCost:
+ *                             type: number
+ *                             description: The ticket cost of the game type.
+ *                       syndicateId:
+ *                         type: integer
+ *                         description: The ID of the syndicate.
+ *       '400':
+ *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: The error message
+ */
+TicketRouter.get("/", TicketController.getAlltickets);
+/**
+ * Get tickets by game ID.
+ * 
+ * @param gameId The ID of the game to get tickets for.
+ * 
+ * @return An array of objects containing the details of all tickets for the specified game.
+ * 
+ * @swagger
+ * /api/tickets/games/{gameId}:
+ *   get:
+ *     summary: Get tickets by game ID
+ *     description: Get all tickets for the specified game.
+ *     parameters:
+ *       - in: path
+ *         name: gameId
+ *         required: true
+ *         description: The ID of the game to get tickets for.
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                     description: The ID of the ticket.
+ *                   ticketCode:
+ *                     type: string
+ *                     description: The code of the ticket.
+ *                   totalRewardValue:
+ *                     type: number
+ *                     description: The total reward value of the ticket.
+ *                   ticketStatus:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         description: The ID of the ticket status.
+ *                       name:
+ *                         type: string
+ *                         description: The name of the ticket status.
+ *                   games:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         description: The ID of the game.
+ *                       treasury:
+ *                         type: number
+ *                         description: The treasury of the game.
+ *                       gameTypes:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: integer
+ *                             description: The ID of the game type.
+ *                           name:
+ *                             type: string
+ *                             description: The name of the game type.
+ *                           drawDate:
+ *                             type: string
+ *                             description: The draw date of the game type.
+ *                           reward:
+ *                             type: number
+ *                             description: The reward of the game type.
+ *                           image:
+ *                             type: string
+ *                             description: The image of the game type.
+ *                           ticketCost:
+ *                             type: number
+ *                             description: The ticket cost of the game type.
+ *                       syndicateId:
+ *                         type: integer
+ *                         description: The ID of the syndicate.
+ *       '400':
+ *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: The error message
+ */
+TicketRouter.get("/games/:gameId(\\d+)",TicketController.getTicketsByGameId);
+/**
+ * Create a new ticket for a game.
+ * 
+ * @param ticket An object containing the details of the ticket to create.
+ * 
+ * @return The code of the newly created ticket.
+ * 
+ * @swagger
+ * /api/tickets:
+ *   post:
+ *     summary: Create a new ticket for a game
+ *     description: Create a new ticket for a game.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               ticketCode:
+ *                 type: string
+ *                 description: The code of the ticket.
+ *               totalRewardValue:
+ *                 type: number
+ *                 description: The total reward value of the ticket.
+ *               ticketStatusId:
+ *                 type: integer
+ *                 description: The ID of the ticket status.
+ *               gameId:
+ *                 type: integer
+ *                 description: The ID of the game.
+ *             required:
+ *               - ticketCode
+ *               - totalRewardValue
+ *               - ticketStatusId
+ *               - gameId
+ *     responses:
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 ticketCode:
+ *                   type: string
+ *                   description: The code of the newly created ticket.
+ *       '400':
+ *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: The error message
+ */
+TicketRouter.post("/games/:gameId(\\d+)",[
     
     body("totalRewardValue").isNumeric(),
     body("ticketStatusId").isNumeric().isLength({min: 1}).trim(),
   ],validate, TicketController.createTickets);
-TicketRouter.put( /**
+/**
 * @swagger
 * /api/tickets/update/{ticketId}:
 *   put:
@@ -149,10 +277,11 @@ TicketRouter.put( /**
 *       200:
 *         description: User Updated
 */
+TicketRouter.put( 
 "/:ticketId(\\d+)",[
-    body("ticket_code").isString().isLength({ min: 3 }),
-    body("total_reward_value").isNumeric().isLength({ min: 3 }).trim(),
-    body("ticket_status_id").isNumeric().isLength({min: 1}).trim(),
+    body("ticketCode").isString().isLength({ min: 3 }),
+    body("totalRewardValue").isNumeric().isLength({ min: 3 }).trim(),
+    body("ticketStatusId").isNumeric().isLength({min: 1}).trim(),
   ],validate, TicketController.updateTicketStatus);
 
 TicketRouter.put( /**

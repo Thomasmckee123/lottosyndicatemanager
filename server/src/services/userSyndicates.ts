@@ -278,6 +278,50 @@ roles:{
     return updateUserSyndicates;
   }
 
+
+
+  /**
+ * Delete a user syndicate with the specified ID.
+ * 
+ * @param userSyndicateId The ID of the user syndicate to delete.
+ * @return An object containing the details of the deleted user syndicate.
+ * 
+ * @throws Error If the user syndicate cannot be deleted.
+ * 
+ * @swagger
+ * /user-syndicates/{userSyndicateId}:
+ *   delete:
+ *     summary: Delete a user syndicate
+ *     description: Delete the user syndicate with the specified ID.
+ *     parameters:
+ *       - in: path
+ *         name: userSyndicateId
+ *         required: true
+ *         description: The ID of the user syndicate to delete.
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                   description: The ID of the deleted user syndicate.
+ *       '400':
+ *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: The error message
+ */
   async function deleteUserSyndicateById(userSyndicateId: number) {
     try {
   

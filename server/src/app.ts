@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { NextFunction } from 'express';
 import {HealthRouter} from './routers/health';
 import { UserRouter } from './routers/users';
 import { SyndicatesRouter } from './routers/syndicates';
@@ -51,5 +51,7 @@ app.use('/api/userSyndicates',UserSyndicatesRouter);
 app.use('/api/gameTypes',GameTypesRouter);
 app.use('/api/userGames',UserGameRouter)
 
-
+// app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+//   res.status(500).send(err);
+// });
 export { app };

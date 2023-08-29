@@ -37,19 +37,6 @@ async function getMessagesByBoardsId(req: Request, res: Response) {
       res.status(500).json("Could not create message");
     }
   }
-  async function createNewGameMessageInBoard(req: Request, res: Response) {
-    try {
-        const gameId = Number(req.params["gameId"]);
-
-        if (isNaN(gameId)) {
-            return res.status(400).json({ error: "Invalid game ID." });
-        }
-
-    } catch (error) {
-        console.error(error); // It's good to log the error for debugging.
-        return res.status(500).json("Could not create game message.");
-    }
-}
 
 
 //deleting messages
@@ -64,5 +51,5 @@ async function getMessagesByBoardsId(req: Request, res: Response) {
     }
     return res.status(200).json(deletedMessage);
   }
-const MessagesController = {createNewGameMessageInBoard, createNewMessageInBoard,getAllMessages,getMessagesByBoardsId, deleteMessageById};
+const MessagesController = {createNewMessageInBoard,getAllMessages,getMessagesByBoardsId, deleteMessageById};
 export {MessagesController};

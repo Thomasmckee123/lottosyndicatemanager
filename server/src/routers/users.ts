@@ -3,96 +3,192 @@ import { UserController } from "../controllers/users";
 import { validate } from '../utils/validation'
 import { body } from "express-validator";
 const UserRouter = express.Router();
-
-UserRouter.get("/", 
 /**
-   * @swagger
-   * /api/users:
-   *   get:
-   *     summary: Retrieve all users.
-   *     description: Retrieves a user object array.
-   *     tags:
-   *      - Users
-   *     responses:
-   *       200:
-   *         description: A valid array of users object.
-   *         content:
-   *           application/json:
-   *             schema:
-   *               type: array
-   *              
-   */
- UserController.getAllUsers);
+ * Get all users.
+ * 
+ * @return An array of objects containing the details of all users.
+ * 
+ * @throws Error If the users cannot be retrieved.
+ * 
+ * @swagger
+ * /api/users:
+ *   get:
+ *     summary: Get all users
+ *     description: Get all users.
+ *     responses:
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                     description: The ID of the user.
+ *                   firstName:
+ *                     type: string
+ *                     description: The first name of the user.
+ *                   lastName:
+ *                     type: string
+ *                     description: The last name of the user.
+ *                   password:
+ *                     type: string
+ *                     description: The password of the user.
+ *                   email:
+ *                     type: string
+ *                     description: The email of the user.
+ *                   image:
+ *                     type: string
+ *                     description: The image URL of the user.
+ *                   balance:
+ *                     type: number
+ *                     description: The balance of the user.
+ *       '400':
+ *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: The error message
+ */
+UserRouter.get("/",  UserController.getAllUsers);
 
-
-UserRouter.get(/**
-* @swagger
-* /api/users/{id}:
-*   get:
-*     summary: Retrieve all users by id.
-*     description: Retrieves a user object based on its id.
-*     tags:
-*      - users
-*     parameters:
-*       - in: path
-*         name: id
-*         required: true
-*         description: Numeric ID of the user to retrieve.
-*         schema:
-*           type: integer
-*     responses:
-*       200:
-*         description: A valid user object.
-*         content:
-*           application/json:
-*             schema:
-*               type: array
-*               
-*/"/:userId(\\d+)", UserController.getUserById); 
 /**
-* @swagger
-* /api/users/update/{userId}:
-*   put:
-*     tags: 
-*       - users 
-*     summary: Updates an existing user
-*     parameters:
-*       - in: path 
-*         name: userId
-*         schema:
-*           type: integer
-*         description: The id of the requested user.
-*       - in: body
-*         name: updateDetails
-*         description: "details to update"
-*         schema:
-*           type: object
-*           properties:
-*            first_name:
-*             type: string
-*             required: false
-*             description: The first name for the user
-*            last_name:
-*             type: string
-*             required: false
-*             description: The last name for the user
-*            email:
-*             type: string
-*             required: false
-*             description: The email for the user
-*             example: example@email.com
-*            password:
-*             type: string
-*             required: false
-*             description: The password for the user
-*             example: password!1
-*           
-*     responses:
-*       400:
-*         description: Bad Request - required values are missing.
-*       200:
-*         description: User Updated
-*/
+ * Get a user by ID.
+ * 
+ * @param userId The ID of the user to retrieve.
+ * @return An object containing the details of the user.
+ * 
+ * @throws Error If the user cannot be retrieved.
+ * 
+ * @swagger
+ * /api/users/{userId}:
+ *   get:
+ *     summary: Get a user by ID
+ *     description: Get the user with the specified ID.
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         description: The ID of the user to retrieve.
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                   description: The ID of the user.
+ *                 firstName:
+ *                   type: string
+ *                   description: The first name of the user.
+ *                 lastName:
+ *                   type: string
+ *                   description: The last name of the user.
+ *                 password:
+ *                   type: string
+ *                   description: The password of the user.
+ *                 email:
+ *                   type: string
+ *                   description: The email of the user.
+ *                 image:
+ *                   type: string
+ *                   description: The image URL of the user.
+ *                 balance:
+ *                   type: number
+ *                   description: The balance of the user.
+ *       '400':
+ *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: The error message
+ */
+UserRouter.get("/:userId(\\d+)", UserController.getUserById); 
+/**
+ * Update user details.
+ * 
+ * @param user An object containing the details of the user to update.
+ * @return An object containing the updated details of the user.
+ * 
+ * @throws Error If the user details cannot be updated.
+ * 
+ * @swagger
+ * /api/users/{userId}:
+ *   put:
+ *     summary: Update user details
+ *     description: Update the details of a user.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               id:
+ *                 type: integer
+ *                 description: The ID of the user to update.
+ *               firstName:
+ *                 type: string
+ *                 description: The first name of the user.
+ *               lastName:
+ *                 type: string
+ *                 description: The last name of the user.
+ *               email:
+ *                 type: string
+ *                 description: The email of the user.
+ *               image:
+ *                 type: string
+ *                 description: The image URL of the user.
+ *     responses:
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                   description: The ID of the user.
+ *                 firstName:
+ *                   type: string
+ *                   description: The first name of the user.
+ *                 lastName:
+ *                   type: string
+ *                   description: The last name of the user.
+ *                 email:
+ *                   type: string
+ *                   description: The email of the user.
+ *                 image:
+ *                   type: string
+ *                   description: The image URL of the user.
+ *       '400':
+ *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: The error message
+ */
 UserRouter.route(
  "/:userId(\\d+)").put(
  [
@@ -109,6 +205,10 @@ UserRouter.route(
      .withMessage("your password should have at least one special character"),
  ],validate,
  UserController.updateUserDetails);
+
+
+
+ 
  UserRouter.route("/photo/:userId").put(UserController.takePhoto);
 /**
 * @swagger

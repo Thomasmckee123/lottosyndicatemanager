@@ -4,112 +4,262 @@ import { body } from "express-validator";
 import { validate } from "../utils/validation";
 
 const MessagesRouter = express.Router();
-MessagesRouter.get("/"/**
-* @swagger
-* /api/messages:
-*   get:
-*     summary: Retrieve all messages.
-*     description: Retrieves a message object array.
-*     tags:
-*      - messages
-*     responses:
-*       200:
-*         description: A valid array of syndicates object.
-*         content:
-*           application/json:
-*             schema:
-*               type: array
-*              
-*/,MessagesController.getAllMessages)
-MessagesRouter.get(/**
-* @swagger
-* /api/messages/board/{id}:
-*   get:
-*     summary: Retrieve all Message on a particular board.
-*     description: reviews based on the syndicate.
-*     tags:
-*      - reviews
-*      - syndicates
-*     parameters:
-*       - in: path
-*         name: id
-*         required: true
-*         description: Numeric ID of the syndicate to retrieve.
-*         schema:
-*           type: integer
-*     responses:
-*       200:
-*         description: A valid ticket object.
-*         content:
-*           application/json:
-*             schema:
-*               type: array
-*               
-*/"/boards/:boardId(\\d+)", MessagesController.getMessagesByBoardsId);
-
-MessagesRouter.post(/**
-* @swagger
-* /api/messages/create/syndicates/{syndicateId}/boards/{boardId}:
-*   post:
-*     summary: Create a new message.
-*     description: Creates a new review object.
-*     tags:
-*       - syndicates
-*       - users
-*     parameters: 
-*      -  in: path
-*         name: syndicateId
-*         description: ID of the syndicate to create a review.
-*         required: true
-*         schema:
-*           type: integer
-*      -  in: path
-*         name: boardId
-*         required: true
-*         schema:
-*           type: integer
-*         description: ID of the board where the mesage is posted
-*      - in: body
-*        name: messageDetails
-*        required: true
-*        description: review details
-*        schema: 
-*           type: object
-*        properties:  
-*                message:
-*                 type: string
-*                 description: message
-*                 example: "hi"
-*                created_date:
-*                 type: date
-*                 description: date of review
-*                 example: 2022/10/2
-*    
-*     responses:
-*       201:
-*         description: Created a new review.
-*         content:
-*           application/json:
-*             schema:
-*               type: object
-*               properties:
-*                 id:
-*                   type: number
-*                 created_date:
-*                   type: string
-*                 format: date-time
-*                 title:
-*                   type: string
-*                 content:
-*                   type: string
-*                 userId:
-*                   type: number
-*                 syndicateId:
-*                   type: number
-*/"/games/:userGameId(\\d+)/boards/:boardId",[
+/**
+ * Get all messages.
+ * 
+ * @return An array of all messages.
+ * 
+ * @swagger
+ * /api/messages:
+ *   get:
+ *     summary: Get all messages
+ *     description: Get all messages.
+ *     responses:
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                     description: The ID of the message.
+ *                   message:
+ *                     type: string
+ *                     description: The content of the message.
+ *                   createdDate:
+ *                     type: string
+ *                     format: date-time
+ *                     description: The date the message was created.
+ *                   boards:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         description: The ID of the board the message is on.
+ *                       name:
+ *                         type: string
+ *                         description: The name of the board the message is on.
+ *                   userGames:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         description: The ID of the user game the message is associated with.
+ *                       deposit:
+ *                         type: number
+ *                         description: The deposit amount for the user game the message is associated with.
+ *                       users:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: integer
+ *                             description: The ID of the user who wrote the message.
+ *                           firstName:
+ *                             type: string
+ *                             description: The first name of the user who wrote the message.
+ *                           lastName:
+ *                             type: string
+ *                             description: The last name of the user who wrote the message.
+ *       '400':
+ *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: The error message
+ */
+MessagesRouter.get("/",MessagesController.getAllMessages)
+/**
+ * Get messages by board ID.
+ * 
+ * @param boardsId The ID of the board to get messages for.
+ * @return An array of messages for the specified board.
+ * 
+ * @swagger
+ * /api/messages/boards/{boardsId}:
+ *   get:
+ *     summary: Get messages by board ID
+ *     description: Get messages by board ID.
+ *     parameters:
+ *       - in: path
+ *         name: boardsId
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: The ID of the board to get messages for.
+ *     responses:
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                     description: The ID of the message.
+ *                   message:
+ *                     type: string
+ *                     description: The content of the message.
+ *                   createdDate:
+ *                     type: string
+ *                     format: date-time
+ *                     description: The date the message was created.
+ *                   boards:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         description: The ID of the board the message is on.
+ *                       name:
+ *                         type: string
+ *                         description: The name of the board the message is on.
+ *                   userGames:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         description: The ID of the user game the message is associated with.
+ *                       deposit:
+ *                         type: number
+ *                         description: The deposit amount for the user game the message is associated with.
+ *                       users:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: integer
+ *                             description: The ID of the user who wrote the message.
+ *                           firstName:
+ *                             type: string
+ *                             description: The first name of the user who wrote the message.
+ *                           lastName:
+ *                             type: string
+ *                             description: The last name of the user who wrote the message.
+ *       '400':
+ *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: The error message
+ */
+MessagesRouter.get("/boards/:boardId(\\d+)", MessagesController.getMessagesByBoardsId);
+/**
+ * Create a new message in a board.
+ * 
+ * @param message The message to create.
+ * @return The date the message was created.
+ * 
+ * @swagger
+ * /api/messages/games/{userGameId}/boards/{boardId}:
+ *   post:
+ *     summary: Create a new message in a board
+ *     description: Create a new message in a board.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               message:
+ *                 type: string
+ *                 description: The content of the message.
+ *               createdDate:
+ *                 type: string
+ *                 format: date-time
+ *                 description: The date the message was created.
+ *               boardId:
+ *                 type: integer
+ *                 description: The ID of the board to create the message in.
+ *               userGameId:
+ *                 type: integer
+ *                 description: The ID of the user game the message is associated with.
+ *     responses:
+ *       '201':
+ *         description: Created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 createdDate:
+ *                   type: string
+ *                   format: date-time
+ *                   description: The date the message was created.
+ *       '400':
+ *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: The error message
+ */
+MessagesRouter.post("/games/:userGameId(\\d+)/boards/:boardId",[
     body("message").isString().isLength({min:3, max: 2000}),
   ],validate, MessagesController.createNewMessageInBoard);
+  /**
+ * Delete a message by ID.
+ * 
+ * @param messageId The ID of the message to delete.
+ * @return The deleted message.
+ * 
+ * @swagger
+ * /api/messages/{messageId}:
+ *   delete:
+ *     summary: Delete a message by ID
+ *     description: Delete a message by ID.
+ *     parameters:
+ *       - in: path
+ *         name: messageId
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: The ID of the message to delete.
+ *     responses:
+ *       '200':
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                   description: The ID of the deleted message.
+ *                 message:
+ *                   type: string
+ *                   description: The content of the deleted message.
+ *                 createdDate:
+ *                   type: string
+ *                   format: date-time
+ *                   description: The date the message was deleted.
+ *       '400':
+ *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: The error message
+ */
 MessagesRouter.put("/delete/:messageId(\\d+)", MessagesController.deleteMessageById);
 
-MessagesRouter.post("/userGames/:userGameId(\\d+)/boards/:boardId(\\d+)/games/:gameId(\\d+)", MessagesController.createNewGameMessageInBoard);
 export { MessagesRouter }; 

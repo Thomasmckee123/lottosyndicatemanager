@@ -1,16 +1,24 @@
 import { Request, Response } from "express";
 import {UserSyndicateService } from "./../services/userSyndicates";
 const getUserSyndicateByUserSyndicteId = async(req: Request, res: Response)=>{
+  try {
     const {userSyndicateId }= req.params;
   
     const userSyndicate = await UserSyndicateService.getUserSyndicateByUserSyndicteId(Number(userSyndicateId))
     return !userSyndicate ? res.sendStatus(404) : res.status(200).json(userSyndicate);
+  } catch (error) {
+    res.status(500).json({ "Cannot access database": error });
+  }
   }
   const getUserSyndicateById = async (req: Request, res: Response) => {
+    try{
     const { syndicateId } = req.params;
   
     const user = await UserSyndicateService.getUserSyndicateBySyndicateId(Number(syndicateId));
     return !user ? res.sendStatus(404) : res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ "Cannot access database": error });
+  }
   };
   async function getSyndicatesByUserId(req: Request, res: Response) {
     try {
@@ -71,12 +79,15 @@ const getUserSyndicateByUserSyndicteId = async(req: Request, res: Response)=>{
     return res.status(200).json("User syndicicate deleted");
   }
 async function deleteUserSyndicateBySyndicateId(req: Request, res: Response) {
+  
   const syndicateId = Number(req.params.syndicateId);
   const deletedUserSyndicate = await UserSyndicateService.deleteUserSyndicateById(syndicateId);
   if (!deletedUserSyndicate) {
     return res.status(500).json("Cannot delete review");
   }
+  
   return res.status(200).json("User syndicicate deleted");
+
 }
   const UserSyndicateController={
    deleteUserSyndicateBySyndicateId, updateUserSyndicate, deleteUserSyndicateById, createUserSyndicate, getSyndicatesByUserId,getUserSyndicateById, getUserSyndicateByUserSyndicteId
