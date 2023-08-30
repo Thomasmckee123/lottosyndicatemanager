@@ -70,7 +70,7 @@ SignupRouter.post( "/",[
       .withMessage("your password should have min and max length between 8-15")
       .matches(/\d/)
       .withMessage("your password should have at least one number")
-      .matches(/[!@#$%^&*(),.?“:{}|<>]/)
+      .matches(/[!@#$%^&*(),.?“:{}|<>£]/)
       .withMessage("your password should have at least one special character"),
   ],
   validate, 

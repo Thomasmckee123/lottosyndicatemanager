@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { AuthContext } from "../../../contexts";
@@ -21,8 +22,7 @@ const Register = () => {
   const [openSuccessSnackbar, setOpenSuccessSnackbar] = useState(false);
   const [openErrorSnackbar, setOpenErrorSnackbar] = useState(false);
   const { dispatch } = AuthContext.useLogin();
-
-  const navigate = useNavigate();
+  const [emailExists, setEmailExists] = useState(false); // State to track if email exists
 
   const handleEmailChange = (event: any) => {
     setEmail(event.target.value);
@@ -39,33 +39,22 @@ const Register = () => {
   const handlePasswordChange = (event: any) => {
     setPassword(event.target.value);
   };
+  const navigate = useNavigate();
 
-  const handleRegister = async () => {
+  const handleRegister = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+
     try {
-      const response = await signUpUser(firstName, lastName, email, password);
+      await signUpUser(firstName, lastName, email, password);
 
-      const authDetails = {
-        accessToken: response.data.accessToken,
-        refreshToken: response.data.refreshToken,
-      };
-      localStorage.setItem("user", JSON.stringify(authDetails));
+      setOpenSuccessSnackbar(true);
 
-      dispatch({
-        type: "authentication",
-        ...authDetails,
-      });
-
-      setOpenSuccessSnackbar(true); // Open success snackbar
+      navigate(NavigationRoutes.LOGIN);
     } catch (error) {
-      setOpenErrorSnackbar(true); // Open error snackbar
+      setOpenErrorSnackbar(true);
+      window.location.reload();
     }
   };
-
-  const handleCloseSnackbar = () => {
-    setOpenSuccessSnackbar(false);
-    setOpenErrorSnackbar(false);
-  };
-
   return (
     <Container maxWidth="sm">
       <Typography variant="h4" align="center" gutterBottom>
@@ -100,35 +89,35 @@ const Register = () => {
           <TextField
             fullWidth
             margin="normal"
-            label="Password"
+            label="Password, minimum 8 characters, 1 uppercase, 1 lowercase, 1 number, 1 special character"
             type="password"
             value={password}
             onChange={handlePasswordChange}
           />
-          <Link to={NavigationRoutes.LOGIN}>
-            <Button
-              fullWidth
-              variant="contained"
-              color="primary"
-              onClick={handleRegister}
-            >
-              Sign up
-            </Button>
-          </Link>
+
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={handleRegister}
+          >
+            Sign up
+          </Button>
+          <Link to={NavigationRoutes.LOGIN}>log on </Link>
         </form>
+        <Snackbar
+          open={openSuccessSnackbar}
+          autoHideDuration={6000}
+          onClose={() => setOpenSuccessSnackbar(false)}
+          message="Successfully registered"
+        />
+        <Snackbar
+          open={openErrorSnackbar}
+          autoHideDuration={6000}
+          onClose={() => setOpenErrorSnackbar(false)}
+          message="Error registering"
+        />
       </Container>
-      <Snackbar
-        open={openSuccessSnackbar}
-        autoHideDuration={6000}
-        onClose={handleCloseSnackbar}
-        message="Registration successful!"
-      />
-      <Snackbar
-        open={openErrorSnackbar}
-        autoHideDuration={6000}
-        onClose={handleCloseSnackbar}
-        message="Registration failed. Please try again."
-      />
     </Container>
   );
 };
