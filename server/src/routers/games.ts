@@ -433,7 +433,9 @@ GamesRouter.get("/archivedGames/:userId", GameController.getArchivedGames);
  *                   type: string
  *                   description: The error message
  */
-GamesRouter.post("/syndicates/:syndicateId/gameTypes/:gameTypesId", GameController.createGames);
+GamesRouter.post("/syndicates/:syndicateId/gameTypes/:gameTypesId",[body("maximumPlayers").isNumeric(), 
+body("treasury").isNumeric()]
+,validate, GameController.createGames);
 /**
  * Update the treasury of a game.
  * 
@@ -672,5 +674,6 @@ GamesRouter.put( "/:gameId(\\d+)",
  *                   type: string
  *                   description: The error message
  */
-GamesRouter.put("/gameTypes/:gameTypeId",GameController.archiveGame)
+GamesRouter.put("/gameTypes/:gameTypeId",[body("maximumPlayers").isNumeric()],
+validate,GameController.archiveGame)
 export { GamesRouter }; 

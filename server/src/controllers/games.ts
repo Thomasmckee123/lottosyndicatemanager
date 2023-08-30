@@ -30,6 +30,7 @@ async function createGames(req: Request, res: Response) {
       gameTypeId: Number(req.params.gameTypesId),
     };
 
+    console.log("newGameId",newGames.syndicateId)
     const createdGame = await GameService.createGameInSyndicate(newGames);
     return res.status(200).json(createdGame);
   } catch (error) {

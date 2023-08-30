@@ -39,6 +39,7 @@ import {
   fetchUserGamesByUserGameId,
   updateRole,
 } from "../../../services/userGames";
+import PercentagesDrawer from "./PercentagesDrawer";
 
 function GameChat() {
   const [openDialog, setOpenDialog] = useState(false);
@@ -120,6 +121,7 @@ function GameChat() {
   return (
     <>
       {" "}
+      <PercentagesDrawer userData={mappedPlayers} />
       <Link
         to={NavigationRoutes.GAMEMEMBERS.replace(
           ":gameId",

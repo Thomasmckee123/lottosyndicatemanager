@@ -11,6 +11,7 @@ interface IGameMember {
 }
 
 interface IMember {
+  users: any;
   id: number;
   startDate: string;
   deposit: number;

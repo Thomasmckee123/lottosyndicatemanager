@@ -1,5 +1,7 @@
 import express from "express";
 import { UserGameController } from "../controllers/userGames";
+import { body } from "express-validator";
+import { validate } from '../utils/validation'
 
 
 const UserGameRouter = express.Router()
@@ -595,7 +597,10 @@ UserGameRouter.get('/users/:userId', UserGameController.getUserGamesByUserId);
  *                   type: string
  *                   description: The error message
  */
-UserGameRouter.post('/games/:gameId/users/:userId',UserGameController.createUserGame);
+UserGameRouter.post('/games/:gameId/users/:userId',[
+    body("startDate").isDate(), 
+    body("deposit").isNumeric()],
+    validate,UserGameController.createUserGame);
 /**
  * Update a user game.
  * 
@@ -658,7 +663,10 @@ UserGameRouter.post('/games/:gameId/users/:userId',UserGameController.createUser
  *                   type: string
  *                   description: The error message
  */
-UserGameRouter.put('/',UserGameController.UpdateUserGame);
+UserGameRouter.put('/',[
+    body("startDate").isDate(), 
+    body("deposit").isNumeric()],
+    validate,UserGameController.UpdateUserGame);
 /**
  * Update the role of a user game.
  * 
@@ -721,7 +729,10 @@ UserGameRouter.put('/',UserGameController.UpdateUserGame);
  *                   type: string
  *                   description: The error message
  */
-UserGameRouter.put('/:userGameId',UserGameController.UpdateUserRole)
+UserGameRouter.put('/:userGameId',[
+    body("startDate").isDate(), 
+    body("deposit").isNumeric()],
+    validate,UserGameController.UpdateUserRole)
 
 
 

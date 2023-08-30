@@ -299,6 +299,7 @@ async function createGameInSyndicate(game: any) {
   try {
     console.log("game" + game);
     console.log("game Type id", game.gameTypeId);
+    console.log("game syndicate id", game.syndicateId);
     const newGame = await prisma.games.create({
       data: {
         maximum_players: Number(game.maximumPlayers),

@@ -1,5 +1,7 @@
 import express from "express";
 import { UserSyndicateController } from "../controllers/userSyndicate";
+import { validate } from "../utils/validation";
+import { body } from "express-validator";
 const UserSyndicatesRouter = express.Router();
 /**
  * Retrieve user syndicates by syndicate ID.
@@ -249,7 +251,10 @@ UserSyndicatesRouter.get("/user/:userId(\\d+)",UserSyndicateController.getSyndic
  *                   type: string
  *                   description: The error message
  */
-UserSyndicatesRouter.post("/:userId(\\d+)/syndicates/:syndicateId(\\d+)/roles/:roleId", UserSyndicateController.createUserSyndicate)
+UserSyndicatesRouter.post("/:userId(\\d+)/syndicates/:syndicateId(\\d+)/roles/:roleId", [
+    
+    body("roleId").isNumeric(),
+  ],validate,UserSyndicateController.createUserSyndicate)
 /**
  * Update the role of a user syndicate with the specified ID.
  * 
@@ -306,7 +311,10 @@ UserSyndicatesRouter.post("/:userId(\\d+)/syndicates/:syndicateId(\\d+)/roles/:r
  *                   type: string
  *                   description: The error message
  */
-UserSyndicatesRouter.put("/:userSyndicateId",UserSyndicateController.updateUserSyndicate);
+UserSyndicatesRouter.put("/:userSyndicateId", [
+  
+body("roleId").isNumeric(),
+],validate,UserSyndicateController.updateUserSyndicate);
 
 /**
  * Delete a user syndicate with the specified ID.

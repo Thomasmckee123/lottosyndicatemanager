@@ -3,6 +3,7 @@ import TicketInput from "./components/inputNumbers";
 import Messages from "./components/messageBoard";
 import { fetchUserGamesByUserGameId } from "../../services/userGames";
 import { useParams } from "react-router-dom";
+import PercentagesDrawer from "./components/PercentagesDrawer";
 
 function Message() {
   const [roleId, setRoleId] = useState<Number>(0);

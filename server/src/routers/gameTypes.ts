@@ -1,7 +1,7 @@
 import express from "express";
 import { body } from "express-validator";
 import GameTypesController from "../controllers/gameTypes";
-
+import { validate } from "../utils/validation";
 const GameTypesRouter = express.Router();
 
 /**
@@ -179,5 +179,5 @@ GameTypesRouter.get('/:gameTypeId',GameTypesController.getGameTypesById);
  *                   type: string
  *                   description: The error message
  */
-GameTypesRouter.put('/:gameTypeId',GameTypesController.updateGameTypeStatus);
+GameTypesRouter.put('/:gameTypeId',[body("drawDate").isDate()],validate,GameTypesController.updateGameTypeStatus);
 export{GameTypesRouter};

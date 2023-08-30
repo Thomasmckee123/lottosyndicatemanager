@@ -32,6 +32,7 @@ import {
 } from "../../../services/depositAndWithdraw";
 import InsufficientFunds from "./insufficientFunds";
 import {
+  fetchUserGames,
   fetchUserGamesByGameId,
   updateRole,
 } from "../../../services/userGames";
@@ -131,11 +132,7 @@ function GameTypes() {
   };
 
   const handleCreateNewGame = async (typeId: number) => {
-    const newGame = await createGame(
-      0,
-      Number(userSyndicateId),
-      Number(typeId)
-    );
+    const newGame = await createGame(0, Number(syndicateId), Number(typeId));
     setGameId(newGame.id);
   };
 
@@ -146,10 +143,12 @@ function GameTypes() {
   const handleMembersInGroupChange = async (gameId: number) => {
     try {
       const response: IMember[] = await fetchmembersInGroup(Number(gameId));
+      console.log("membersPerGame", membersPerGame);
       setMembersPerGame((prevMembersPerGame) => ({
         ...prevMembersPerGame,
         [Number(gameId)]: response,
       }));
+      console.log("membersPerGam1", membersPerGame);
       setUsersPerGame((prevUsersPerGame) => ({
         ...prevUsersPerGame,
         [Number(gameId)]: response.length,
@@ -246,6 +245,7 @@ function GameTypes() {
 
   const handleJoinClick = async (gameToJoin: IGame) => {
     const userGameExists = await fetchUserGamesByGameId(gameToJoin.id);
+    console.log("userGameExists", userGameExists);
     if (userGameExists.length === 0) {
       if (
         typeof usersPerGame[gameToJoin.id] === "number" &&
@@ -269,13 +269,16 @@ function GameTypes() {
   };
 
   const matchUserToGame = (matchGameId: number) => {
+    console.log("membersPerGame", membersPerGame);
+    console.log("matchGameId", matchGameId);
+    console.log("USER ID", userId);
     return membersPerGame[matchGameId]?.find(
-      (member) => member.userId === userId
+      (member) => member.users.id === userId
     )
       ? true
       : false;
   };
-
+  console.log("matchingUsersToGame", matchUserToGame(1));
   const lightTheme = createTheme({ palette: { mode: "light" } });
   return (
     <>
@@ -454,6 +457,7 @@ function GameTypes() {
                     <Typography variant="body1" component="p">
                       Treasury: {currentGame?.treasury}
                     </Typography>
+
                     <Button
                       variant="contained"
                       color="primary"
@@ -464,7 +468,6 @@ function GameTypes() {
                         ? "You have joined this game"
                         : "Join"}
                     </Button>
-                    {joinedMessage}
                   </CardContent>
                 </Card>
               </CustomTabPanel>

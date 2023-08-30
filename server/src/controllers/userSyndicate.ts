@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import {UserSyndicateService } from "./../services/userSyndicates";
+import moment from "moment";
+
 const getUserSyndicateByUserSyndicteId = async(req: Request, res: Response)=>{
   try {
     const {userSyndicateId }= req.params;
@@ -40,7 +42,7 @@ const getUserSyndicateByUserSyndicteId = async(req: Request, res: Response)=>{
     try {
   console.log(req.body)
   const newUserSyndicate = {...req.body,
-    startDate: req.body.startDate,
+    startDate: new Date(req.body.startDate),
     
     userId: Number(req.params.userId),
    userSyndicateId: Number(req.params.syndicateId),
@@ -58,7 +60,9 @@ const getUserSyndicateByUserSyndicteId = async(req: Request, res: Response)=>{
     try {
       const { userSyndicateId } =  req.params; 
      
-      let userSyndicate = req.body;
+      let userSyndicate = {...req.body,
+      userDate : new Date(req.body.startDate),
+    }
       userSyndicate["id"] = Number(userSyndicateId);
       const updatedUser = await UserSyndicateService.updateUserSyndicateDetails(userSyndicate);
       if(!updatedUser){
