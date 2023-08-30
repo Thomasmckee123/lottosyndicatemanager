@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, Link, useNavigate } from "react-router-dom";
 
 import { AuthContext } from "../../../contexts";
 import { NavigationRoutes } from "../../../constants";
@@ -48,7 +48,6 @@ const Register = () => {
         accessToken: response.data.accessToken,
         refreshToken: response.data.refreshToken,
       };
-      navigate(NavigationRoutes.LOGIN);
       localStorage.setItem("user", JSON.stringify(authDetails));
 
       dispatch({
@@ -106,14 +105,16 @@ const Register = () => {
             value={password}
             onChange={handlePasswordChange}
           />
-          <Button
-            fullWidth
-            variant="contained"
-            color="primary"
-            onClick={handleRegister}
-          >
-            Sign up
-          </Button>
+          <Link to={NavigationRoutes.LOGIN}>
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              onClick={handleRegister}
+            >
+              Sign up
+            </Button>
+          </Link>
         </form>
       </Container>
       <Snackbar

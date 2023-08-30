@@ -10,6 +10,7 @@ const signUpUser = async (firstName:string, lastName:string, email:string,passwo
             balance: 0
         }
 const response = await axios.post('signup',signupData)
+navigate(NavigationRoutes.LOGIN);
 return response.data
     }catch(error){
         console.error("error signing up", error)
