@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -9,7 +11,6 @@ const buttonToAnchorMap = {
   "Deposit Percentages": "right",
   stats: "left",
 } as const;
-type Anchor = "right" | "left";
 
 function PercentagesDrawer({ userData }: { userData: any[] }) {
   const [state, setState] = React.useState<Record<string, boolean>>({

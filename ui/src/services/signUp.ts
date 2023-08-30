@@ -2,7 +2,7 @@ import axios from "../integrations/instance";
 
 const signUpUser = async (firstName:string, lastName:string, email:string,password:string)=>{
     try{
-   let   signupData={
+   const signupData={
             firstName:firstName,
             lastName: lastName,
             email: email,

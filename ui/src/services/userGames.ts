@@ -9,7 +9,7 @@ async function fetchUserGamesByUserGameId(userGameId: number){
   }
 
 }
-const fetchUserGames = async (userId: Number) => {
+const fetchUserGames = async (userId: number) => {
     try {
       
       const response = await axios.get(`userGames/users/${Number(userId)}`);

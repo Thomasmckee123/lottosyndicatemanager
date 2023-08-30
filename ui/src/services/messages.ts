@@ -24,7 +24,7 @@ const fetchingMessagesByBoardId = async(boardId: number)=>{
 
 
 // Update createSyndicate function to handle file
-const createMessage = async (message: any, userGameId: number, boardId: number) => {
+const createMessage = async (message: string, userGameId: number, boardId: number) => {
   try{
   const gameData={
     message:message,

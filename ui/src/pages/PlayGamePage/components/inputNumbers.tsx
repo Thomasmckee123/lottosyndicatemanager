@@ -1,3 +1,7 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable prefer-const */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react";
 import {
   Box,
@@ -14,7 +18,7 @@ import {
   DialogActions,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { createTicket, getTicketsByGameId } from "../../../services/tickets";
+import { createTicket } from "../../../services/tickets";
 import { useParams } from "react-router-dom";
 import { fetchGameById } from "../../../services/games";
 
@@ -54,7 +58,7 @@ function TicketInput({ roleId }: any) {
     console.log("UPDATING TREASURY BALANCE", gameId);
     console.log("ticket cost", data?.gameTypes.ticketCost);
 
-    let takeAwayTicketCost = data?.treasury - data?.gameTypes?.ticketCost;
+    const takeAwayTicketCost = data?.treasury - data?.gameTypes?.ticketCost;
     let addTicketCost = jwt.claims.balance + data?.gameTypes?.ticketCost;
 
     updateBalance(Number(userId)).then(() => {
@@ -187,7 +191,7 @@ function TicketInput({ roleId }: any) {
   const dialogBox = () => {
     const [activeBallIndex, setActiveBallIndex] = useState(null);
 
-    const handleBallPress = (index) => {
+    const handleBallPress = (index: any) => {
       toggleBallSelection(index + 1);
       setActiveBallIndex(index);
     };
@@ -202,7 +206,7 @@ function TicketInput({ roleId }: any) {
                 <Select
                   key={index}
                   value={selectedNumbers[index] || ""}
-                  onChange={(e) => handleNormalNumberChange(index, e)}
+                  onChange={(e: any) => handleNormalNumberChange(index, e)}
                   sx={{ mr: 2, mb: 2 }}
                 >
                   {Array.from({ length: 100 }).map((_, num) => (

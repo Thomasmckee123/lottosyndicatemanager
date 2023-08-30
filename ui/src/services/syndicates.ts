@@ -1,6 +1,6 @@
 import axios from "../integrations/instance";
 //getting all the user syndicate data
-const fetchInsideUserSyndicateData = async (syndicateId: Number) => {
+const fetchInsideUserSyndicateData = async (syndicateId: number) => {
   try {
     
     const response = await axios.get(`syndicates/${syndicateId}`);
@@ -52,7 +52,9 @@ const fetchHomePageSyndicateData = async (userId: number) => {
 
 export default fetchAllSyndicateData
 // Update createSyndicate function to handle file
-const createSyndicate = async (name: any, description: any, file:File, ownerId:number) => {
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+
+const createSyndicate = async (name: string, description: string, file:File, ownerId:number) => {
 
   const createData ={
     createdDate: new Date().toDateString(),

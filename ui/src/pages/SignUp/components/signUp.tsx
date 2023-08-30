@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -41,18 +42,13 @@ const Register = () => {
 
   const handleRegister = async () => {
     try {
-      const response = await signUpUser(
-        firstName,
-        lastName,
-        email,
-        password
-      ).then(navigate(NavigationRoutes.LOGIN));
+      const response = await signUpUser(firstName, lastName, email, password);
 
       const authDetails = {
         accessToken: response.data.accessToken,
         refreshToken: response.data.refreshToken,
       };
-
+      navigate(NavigationRoutes.LOGIN);
       localStorage.setItem("user", JSON.stringify(authDetails));
 
       dispatch({

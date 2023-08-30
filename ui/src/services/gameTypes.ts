@@ -23,7 +23,7 @@ const fetchGamesWePlay = async () => {
 const updateDates = async (gameTypeId: number, drawDate: Date)=>{
   console.log("archive Id", gameTypeId)
 
-    let  fixedDrawDate = new Date(drawDate)
+    const fixedDrawDate = new Date(drawDate)
     fixedDrawDate.setDate(fixedDrawDate.getDate()+7)
 console.log("BACK END DRAW DATE", fixedDrawDate)
 console.log(fixedDrawDate)

@@ -15,7 +15,7 @@ const createTicket = async (ticketCode: string, gameId:number) => {
   const getTicketsByGameId =async(gameId: number)=>{
     console.log("function Triggered")
     try{
-let response = await axios(`tickets/games/${gameId}`)
+const response = await axios(`tickets/games/${gameId}`)
 console.log(response)
 return response.data
     }catch(error){

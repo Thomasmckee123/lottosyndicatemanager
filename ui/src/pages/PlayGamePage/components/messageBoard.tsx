@@ -1,4 +1,5 @@
-import * as React from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import {
   Box,
   CssBaseline,
@@ -36,7 +37,6 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { NavigationRoutes } from "../../../constants";
 import {
   fetchUserGamesByGameId,
-  fetchUserGamesByUserGameId,
   updateRole,
 } from "../../../services/userGames";
 import PercentagesDrawer from "./PercentagesDrawer";

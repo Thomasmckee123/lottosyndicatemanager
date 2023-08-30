@@ -1,6 +1,6 @@
 import axios from "../integrations/instance";
 //getting all the user syndicate data
-const fetchUserBySyndicateId = async (syndicateId: Number) => {
+const fetchUserBySyndicateId = async (syndicateId: number) => {
   try {
     
     const response = await axios.get(`userSyndicates/syndicates/${syndicateId}`);

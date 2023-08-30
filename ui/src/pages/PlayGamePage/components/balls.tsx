@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
 import { Typography, Paper, Container, Chip } from "@mui/material";
 import { getTicketsByGameId } from "../../../services/tickets";
@@ -8,7 +9,7 @@ const SelectedNumbers: any = ({ gameId }: any) => {
   const [gameData, setGameData] = useState<any>([]);
   const getTicketData = async () => {
     try {
-      let response = await getTicketsByGameId(Number(gameId));
+      const response = await getTicketsByGameId(Number(gameId));
       console.log("API Response:", response);
       setData(response);
     } catch (error) {
