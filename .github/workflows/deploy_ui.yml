@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - main
-    paths:
-    - 'ui/**'
+    # paths:
+    # - 'ui/**'
 
 defaults:
  run:
@@ -33,4 +33,4 @@ jobs:
         VITE_BASE_URL: ${{ secrets.API_URL }}
       run: npm i && npm run-script build
     - name: updated app to s3
-      run: aws s3 sync build s3://lottosyndicateui/
+      run: aws s3 sync dist s3://lottosyndicateui/
