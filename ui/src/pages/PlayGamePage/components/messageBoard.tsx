@@ -40,6 +40,7 @@ import {
   updateRole,
 } from "../../../services/userGames";
 import PercentagesDrawer from "./PercentagesDrawer";
+import { StyledPaper, StyledPaperTop } from "../styles/styled";
 
 function GameChat() {
   const [openDialog, setOpenDialog] = useState(false);
@@ -81,15 +82,15 @@ function GameChat() {
         } else {
           createNewBoard(Number(gameId));
         }
-        return response[0].id; // Return the boardId for the next .then()
+        return response[0].id;
       })
-
       .then((boardId) => fetchingMessagesByBoardId(Number(boardId)))
       .then((response) => setMessageData(response))
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
   };
+  console.log("Message Data", messageData);
 
   useEffect(() => {
     fetchUserGamesByGameId(Number(gameId)).then((response) => {
@@ -121,22 +122,12 @@ function GameChat() {
   return (
     <>
       {" "}
-      <PercentagesDrawer userData={mappedPlayers} />
-      <Link
-        to={NavigationRoutes.GAMEMEMBERS.replace(
-          ":gameId",
-          `${Number(gameId)}`
-        )}
-      >
-        <Button variant="contained" color="primary">
-          View Members
-        </Button>
-      </Link>
-      <Link to={NavigationRoutes.GAMEPAGE}>
-        <Button variant="contained" color="primary">
-          View Your Games
-        </Button>
-      </Link>
+      <StyledPaperTop>
+        <PercentagesDrawer userData={mappedPlayers} />{" "}
+        <Typography sx={{ color: "white", fontSize: "5rem" }}>
+          {mappedPlayers[0]?.games?.gameTypes?.name}
+        </Typography>
+      </StyledPaperTop>
       <Dialog open={openDialog} onClose={handleCloseDialog}>
         <DialogTitle>Edit Board Name</DialogTitle>
         <DialogContent>
@@ -167,7 +158,14 @@ function GameChat() {
       </Dialog>
       <Box sx={{ pb: 7 }}>
         <CssBaseline />
-        <Card sx={{ my: 3, mx: "auto", maxWidth: 800 }}>
+        <Card
+          sx={{
+            my: 3,
+            mx: "auto",
+            maxWidth: 800,
+            boxShadow: "0px 0px 10px black",
+          }}
+        >
           <CardContent>
             <Grid container alignItems="center" spacing={1}>
               <Grid item xs>
@@ -177,7 +175,7 @@ function GameChat() {
               </Grid>
               <Grid item>
                 <IconButton
-                  color="primary"
+                  sx={{ color: "darkred" }}
                   aria-label="edit title"
                   onClick={handleOpenDialog}
                 >
@@ -192,11 +190,15 @@ function GameChat() {
                 {messageData.map((item, index) => (
                   <ListItem key={`${index}-${item.user}`}>
                     <ListItemAvatar>
-                      <Avatar alt="Profile Picture" />
+                      <Avatar
+                        src={item?.userGames?.users?.image}
+                        alt="Profile Picture"
+                        sx={{ width: "50px", height: "50px" }}
+                      />
                     </ListItemAvatar>
                     <ListItemText
                       primary={item?.createdDate}
-                      {...item?.users?.firstName}
+                      {...item?.userGames?.users?.firstName}
                       secondary={item?.message}
                     />
                   </ListItem>
@@ -213,33 +215,17 @@ function GameChat() {
                   onChange={(e) => handleMessageChange(e.target.value)}
                 />
               </Grid>
-              <Grid item xs={1}>
-                <Tooltip title="Use game emojis">
-                  <IconButton
-                    color="primary"
-                    aria-label="add game emoji"
-                    component="span"
-                  >
-                    <AddIcon />
-                  </IconButton>
-                </Tooltip>
-              </Grid>
-              <Grid item xs={1}>
-                <Tooltip title="Add game reference">
-                  <IconButton
-                    color="primary"
-                    aria-label="add game reference"
-                    component="span"
-                  >
-                    <ChatBubbleOutlineIcon />
-                  </IconButton>
-                </Tooltip>
-              </Grid>
+              <Grid item xs={1}></Grid>
+              <Grid item xs={1}></Grid>
               <Grid item xs={2}>
                 <Button
                   variant="contained"
                   color="error"
-                  sx={{ height: "100%", width: "100%" }}
+                  sx={{
+                    height: "100%",
+                    width: "100%",
+                    backgroundColor: "darkred",
+                  }}
                   onClick={handleSubmitMessage}
                 >
                   Send

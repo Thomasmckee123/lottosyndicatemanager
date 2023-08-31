@@ -287,7 +287,14 @@ function TicketInput({ roleId }: any) {
   };
   return (
     <Box sx={{ pb: 7, mt: 3 }}>
-      <Card sx={{ my: 3, mx: "auto", maxWidth: 800 }}>
+      <Card
+        sx={{
+          my: 3,
+          mx: "auto",
+          maxWidth: 800,
+          boxShadow: "0px 0px 10px black",
+        }}
+      >
         <CardContent>
           <Box sx={{ marginTop: 2 }}>
             <Typography variant="body1" color="text.secondary">
@@ -303,6 +310,7 @@ function TicketInput({ roleId }: any) {
               <Button
                 variant="outlined"
                 disabled={roleId !== 4}
+                sx={{ color: "darkred", borderColor: "darkred" }}
                 onClick={() => {
                   handleOpen();
                   handleInputTicket();
@@ -315,7 +323,11 @@ function TicketInput({ roleId }: any) {
               <Button
                 variant="contained"
                 color="primary"
-                sx={{ height: "100%", width: "100%" }}
+                sx={{
+                  height: "100%",
+                  width: "100%",
+                  backgroundColor: "darkred",
+                }}
                 onClick={handleConfirm}
               >
                 Confirm Numbers

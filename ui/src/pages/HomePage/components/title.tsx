@@ -5,6 +5,7 @@ import TokenUtils from "../../../integrations/token";
 import { useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import fetchUserDetails from "../../../services/users";
+import { CustomBox } from "../styles/styled";
 
 function Title() {
   const [data, setData] = useState<any>();
@@ -32,21 +33,28 @@ function Title() {
       justifyContent="center"
       height="100%"
     >
-      <Typography variant="h4" gutterBottom>
-        Welcome {userData ? `${userData?.data?.firstName}` : "..."}
-      </Typography>
-      <Box>
-        <Link
-          to={NavigationRoutes.CREATESYNDICATE.replace(
-            ":ownerId",
-            `${data?.claims?.userId}`
-          )}
-        >
-          <Button variant="contained" color="primary" startIcon={<AddIcon />}>
-            Create a new syndicate
-          </Button>
-        </Link>
-      </Box>
+      <CustomBox>
+        <Typography variant="h4" gutterBottom>
+          Welcome {userData ? `${userData?.data?.firstName}` : "..."}
+        </Typography>
+        <Box>
+          <Link
+            to={NavigationRoutes.CREATESYNDICATE.replace(
+              ":ownerId",
+              `${data?.claims?.userId}`
+            )}
+          >
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{ backgroundColor: "darkred" }}
+              startIcon={<AddIcon />}
+            >
+              Create a new syndicate
+            </Button>
+          </Link>
+        </Box>
+      </CustomBox>
     </Box>
   );
 }

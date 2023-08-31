@@ -20,7 +20,8 @@ const getAll = async () => {
             select: {
               id: true,
               first_name: true,
-              last_name: true
+              last_name: true,
+              image:true,
             }
           }
         }
@@ -43,6 +44,7 @@ const getAll = async () => {
         id: x.user_games.users.id,
         firstName: x.user_games.users.first_name,
         lastName: x.user_games.users.last_name,
+        image: x.user_games.users.image
       }
     }
   }));
@@ -78,7 +80,8 @@ const getAll = async () => {
                 select: {
                   id: true,
                   first_name: true,
-                  last_name: true
+                  last_name: true,
+                  image:true,
                 }
               }
             }
@@ -101,6 +104,7 @@ const getAll = async () => {
             id: x.user_games.users.id,
             firstName: x.user_games.users.first_name,
             lastName: x.user_games.users.last_name,
+            image:x.user_games.users.image
           }
         }
       }));

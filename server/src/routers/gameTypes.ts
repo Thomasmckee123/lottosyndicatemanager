@@ -179,5 +179,5 @@ GameTypesRouter.get('/:gameTypeId',GameTypesController.getGameTypesById);
  *                   type: string
  *                   description: The error message
  */
-GameTypesRouter.put('/:gameTypeId',[body("drawDate").isDate()],validate,GameTypesController.updateGameTypeStatus);
+GameTypesRouter.put('/:gameTypeId',GameTypesController.updateGameTypeStatus);
 export{GameTypesRouter};

@@ -17,7 +17,6 @@ import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { fetchHomePageSyndicateData } from "../../../services/syndicates";
 import TokenUtils from "../../../integrations/token";
-import { StyledCardHeader } from "../styles/styled";
 
 function SyndicateCard({
   propData,
@@ -46,10 +45,10 @@ function SyndicateCard({
 
   return (
     <Card sx={{ maxWidth: 345 }}>
-      <StyledCardHeader
+      <CardHeader
         avatar={
           <IconButton onClick={handleLeaveSyndicate}>
-            <DeleteIcon sx={{ color: "white" }} />
+            <DeleteIcon />
           </IconButton>
         }
         title={
@@ -58,7 +57,7 @@ function SyndicateCard({
           </Typography>
         }
         subheader={
-          <Typography variant="subtitle2" color="white">
+          <Typography variant="subtitle2" color="text.secondary">
             {data.syndicates.createdDate}
           </Typography>
         }
@@ -70,7 +69,7 @@ function SyndicateCard({
         <img
           src={data.syndicates.avatar || "https://via.placeholder.com/150"}
           alt={data.syndicates.name}
-          style={{ width: "100%", height: "100%" }}
+          style={{ width: "300px", height: "300px" }}
         />
       </CardContent>
       <CardActions>

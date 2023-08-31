@@ -598,7 +598,6 @@ UserGameRouter.get('/users/:userId', UserGameController.getUserGamesByUserId);
  *                   description: The error message
  */
 UserGameRouter.post('/games/:gameId/users/:userId',[
-    body("startDate").isDate(), 
     body("deposit").isNumeric()],
     validate,UserGameController.createUserGame);
 /**
@@ -664,7 +663,6 @@ UserGameRouter.post('/games/:gameId/users/:userId',[
  *                   description: The error message
  */
 UserGameRouter.put('/',[
-    body("startDate").isDate(), 
     body("deposit").isNumeric()],
     validate,UserGameController.UpdateUserGame);
 /**
@@ -729,10 +727,7 @@ UserGameRouter.put('/',[
  *                   type: string
  *                   description: The error message
  */
-UserGameRouter.put('/:userGameId',[
-    body("startDate").isDate(), 
-    body("deposit").isNumeric()],
-    validate,UserGameController.UpdateUserRole)
+UserGameRouter.put('/:userGameId',UserGameController.UpdateUserRole)
 
 
 

@@ -26,6 +26,8 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import Webcam from "react-webcam";
 import FileUpload from "../../../services/fileUpload";
 import { debug } from "console";
+import { StyledPaper } from "../styled/styled";
+import SyndicateCard from "./syndicates";
 
 const ProfilePage = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -91,7 +93,6 @@ const ProfilePage = () => {
   };
 
   const [capturedImage, setCapturedImage] = useState<File | null>(null);
-
   const captureImage = (): any => {
     const imageSrc = webcamRef.current?.getScreenshot();
     if (imageSrc) {
@@ -116,15 +117,27 @@ const ProfilePage = () => {
     takeAPhoto(Number(userId));
     handleClose();
   };
-
+  const handleDeleteSyndicate = (idToDelete: any) => {
+    // Filter out the syndicate you want to delete
+    const updatedData = syndicateData.filter(
+      (syndicate) => syndicate.id !== idToDelete
+    );
+    setSyndicateData(updatedData);
+    setOpen(true);
+  };
   return (
-    <div>
+    <>
       <Card
-        sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          boxShadow: " 0px 0px 10px black",
+        }}
       >
         <CardMedia
           component="img"
-          sx={{ width: 200, height: 200, borderRadius: "50%" }}
+          sx={{ width: "20%", height: "20%", borderRadius: "50%" }}
           image={userData?.image}
           alt={userData?.name}
         />
@@ -154,31 +167,15 @@ const ProfilePage = () => {
           </Box>
         </Box>
       </Card>
-      <div style={{ display: "flex", flexWrap: "wrap" }}>
+
+      <StyledPaper>
         {syndicateData.map((syndicate) => (
-          <Card key={syndicate.id} style={{ margin: "10px" }}>
-            <CardContent>
-              <img
-                src={
-                  syndicate.syndicates.avatar ||
-                  "https://via.placeholder.com/150"
-                }
-                alt={syndicate.syndicates.name}
-                style={{ width: "300px", height: "300px" }}
-              />
-              <Typography variant="h6" gutterBottom>
-                {syndicate.syndicates.name}
-              </Typography>
-              <Typography variant="h6" gutterBottom>
-                {`Role: ${syndicate.roles.name}`}
-              </Typography>
-              <Typography variant="h6" gutterBottom>
-                {`Start Date: ${syndicate.startDate}`}
-              </Typography>
-            </CardContent>
-          </Card>
+          <SyndicateCard
+            propData={syndicate}
+            onDelete={handleDeleteSyndicate}
+          />
         ))}
-      </div>
+      </StyledPaper>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Take a photo</DialogTitle>
         <DialogContent>
@@ -194,7 +191,6 @@ const ProfilePage = () => {
               />
             </>
           )}
-          <FileUpload onUpload={handleFileUpload} />
           <Button onClick={handleUpload}> upload</Button>
         </DialogContent>
         <DialogActions>
@@ -206,7 +202,7 @@ const ProfilePage = () => {
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </>
   );
 };
 

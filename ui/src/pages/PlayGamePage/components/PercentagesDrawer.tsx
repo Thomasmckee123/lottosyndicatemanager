@@ -6,9 +6,12 @@ import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
 import { PieChart } from "@mui/x-charts/PieChart";
 import Typography from "@mui/material/Typography";
+import Members from "./membersList";
+import { StyledPaperTop } from "../styles/styled";
+import { color } from "@mui/system";
 
 const buttonToAnchorMap = {
-  "Deposit Percentages": "right",
+  members: "right",
   stats: "left",
 } as const;
 
@@ -53,17 +56,28 @@ function PercentagesDrawer({ userData }: { userData: any[] }) {
     const calculatedPercentages = calculatePercentages();
     return (
       <Box
-        sx={{ width: 250 }}
+        sx={{ width: 550, backgroundColor: "darkgray", color: "white" }}
         role="presentation"
         onClick={toggleDrawer(buttonName, false)}
         onKeyDown={toggleDrawer(buttonName, false)}
       >
         {buttonName === "stats" && (
           <>
-            <Typography variant="h6" component="div" sx={{ padding: "16px" }}>
-              Deposit Percentages
-            </Typography>
-            <Button onClick={toggleDrawer(buttonName, false)}>Go Back</Button>
+            <StyledPaperTop>
+              <Typography
+                variant="h6"
+                component="div"
+                sx={{ padding: "16px", color: "white" }}
+              >
+                Contributions
+              </Typography>
+            </StyledPaperTop>
+            <Button
+              sx={{ color: "darkRed" }}
+              onClick={toggleDrawer(buttonName, false)}
+            >
+              Go Back
+            </Button>
             <PieChart
               series={[
                 {
@@ -74,9 +88,10 @@ function PercentagesDrawer({ userData }: { userData: any[] }) {
               height={200}
               sx={{
                 zIndex: 1002,
+                color: "white",
               }}
             />
-            <Box sx={{ marginTop: "16px" }}>
+            <Box sx={{ marginTop: "16px", color: "white" }}>
               <Typography variant="h6">User Details:</Typography>
               {calculatedPercentages.map((user, index) => (
                 <Typography key={index}>{user.label}</Typography>
@@ -84,27 +99,44 @@ function PercentagesDrawer({ userData }: { userData: any[] }) {
             </Box>
           </>
         )}
+        {buttonName === "members" && (
+          <>
+            <Members />
+            <Button
+              sx={{ color: "red" }}
+              onClick={toggleDrawer(buttonName, false)}
+            >
+              Go Back
+            </Button>
+          </>
+        )}
       </Box>
     );
   };
 
   return (
-    <div>
+    <Box>
       {Object.keys(buttonToAnchorMap).map((buttonName) => (
         <React.Fragment key={buttonName}>
-          <Button onClick={toggleDrawer(buttonName, true)}>{buttonName}</Button>
+          <Button
+            sx={{ color: "white" }}
+            onClick={toggleDrawer(buttonName, true)}
+          >
+            {buttonName}
+          </Button>
           <Drawer
             anchor={
               buttonToAnchorMap[buttonName as keyof typeof buttonToAnchorMap]
             }
             open={state[buttonName]}
             onClose={toggleDrawer(buttonName, false)}
+            sx={{ backgroundColor: "grey" }}
           >
             {list(buttonName)}
           </Drawer>
         </React.Fragment>
       ))}
-    </div>
+    </Box>
   );
 }
 

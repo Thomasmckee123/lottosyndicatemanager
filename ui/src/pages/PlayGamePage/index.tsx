@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import TicketInput from "./components/inputNumbers";
 import Messages from "./components/messageBoard";
 import { fetchUserGamesByUserGameId } from "../../services/userGames";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { StyledPaper } from "./styles/styled";
+import { Button } from "@mui/material";
+import { NavigationRoutes } from "../../constants";
 
 function Message() {
   const [roleId, setRoleId] = useState<number>(0);
@@ -15,8 +18,19 @@ function Message() {
   }, [userGameId]);
   return (
     <>
-      <Messages />
-      <TicketInput roleId={Number(roleId)} />
+      <Link to={NavigationRoutes.GAMEPAGE}>
+        <Button
+          variant="contained"
+          color="primary"
+          sx={{ backgroundColor: "darkRed" }}
+        >
+          View Your Games
+        </Button>
+      </Link>
+      <StyledPaper>
+        <Messages />
+        <TicketInput roleId={Number(roleId)} />
+      </StyledPaper>
     </>
   );
 }

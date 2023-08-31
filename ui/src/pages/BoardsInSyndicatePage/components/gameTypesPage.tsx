@@ -24,7 +24,7 @@ import {
 import TokenUtils from "../../../integrations/token";
 import { fetchmembersInGroup, joinGame } from "../../../services/joiningGames";
 import DepositDialog from "./deposit";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import CountDown from "../../../components/countdown";
 import {
   updateBalance,
@@ -46,6 +46,7 @@ import {
   IMemberPerGame,
 } from "../../../interfaces";
 import fetchUserDetails from "../../../services/users";
+import { NavigationRoutes } from "../../../constants";
 
 function GameTypes() {
   const { syndicateId, userSyndicateId } = useParams<{
@@ -254,10 +255,12 @@ function GameTypes() {
       ) {
         handleOpenDialog();
         setGameId(gameToJoin.id);
+        await getGames();
       } else {
         console.error("Maximum players reached for this game.", gameToJoin);
         setGameTypeId(gameToJoin.gameTypes.id);
-        handleCreateNewGame(gameToJoin.gameTypes.id);
+        await handleCreateNewGame(gameToJoin.gameTypes.id);
+        await getGames();
         handleOpenDialog();
         setGameId(gameToJoin.id);
       }
@@ -468,6 +471,18 @@ function GameTypes() {
                         ? "You have joined this game"
                         : "Join"}
                     </Button>
+                    {matchUserToGame(currentGame.id) && (
+                      <Link
+                        to={NavigationRoutes.GAMEMESSAGE.replace(
+                          ":userGameId",
+                          `${currentGame.gameTypes.id}`
+                        ).replace(":gameId", `${currentGame.id}`)}
+                      >
+                        <Button variant="contained" color="primary">
+                          Play Game
+                        </Button>
+                      </Link>
+                    )}
                   </CardContent>
                 </Card>
               </CustomTabPanel>

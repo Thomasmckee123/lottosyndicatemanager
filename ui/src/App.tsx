@@ -23,7 +23,6 @@ import Archive from "./pages/archive/index";
 import Profile from "./pages/Profile";
 import Logout from "./pages/Logout";
 import { useEffect } from "react";
-import MembersPage from "./pages/membersOfGame";
 
 function App() {
   const unAuthorisedRoutes = () => {
@@ -67,7 +66,6 @@ function App() {
         <Route path={NavigationRoutes.ACCOUNT} element={<AccountPage />} />
         <Route path={NavigationRoutes.GAMEMESSAGE} element={<Message />} />
         <Route path={NavigationRoutes.PROFILE} element={<Profile />} />
-        <Route path={NavigationRoutes.GAMEMEMBERS} element={<MembersPage />} />
         {/* <Route path="*" element={<Navigate to={"/"} />} /> */}
       </>
     );

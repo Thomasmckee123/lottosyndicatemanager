@@ -1,4 +1,5 @@
 import jwtDecode from "jwt-decode";
+import { NavigationRoutes } from "../constants";
 
 const getAccessToken = () => {
   const user = JSON.parse(localStorage.getItem("user") ?? "{}");
@@ -24,9 +25,13 @@ const removeUser = () => {
   localStorage.removeItem("user");
 };
 
-const isTokenExpired = (token: any) => {
+const isTokenExpired = (token: any, navigate: any) => {
   const jwt = jwtDecode(token) as any;
   const currentTime = new Date().getTime() / 1000;
+  localStorage.removeItem('accessToken');
+  localStorage.removeItem('refreshToken');
+  navigate(NavigationRoutes.LOGIN);
+
   return currentTime > jwt.exp;
 };
 
@@ -41,3 +46,11 @@ const TokenUtils = {
 };
 
 export default TokenUtils;
+
+
+
+
+
+
+
+
