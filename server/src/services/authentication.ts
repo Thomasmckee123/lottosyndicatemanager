@@ -18,7 +18,9 @@ const authenticate = async (email: string, password: string) => {
 
 
 const refresh = async (userId: number) => {
+  console.log("refresh");
   const user = await UserService.getUserById(userId);
+  console.log("got user", user);
   if (user) {
     return await generateTokens(user);
   }
@@ -34,12 +36,12 @@ const generateTokens = (user) => {
         { sub: user.id, claims:{userId: user.id,image:user.image, email: user.email, firstName: user.first_name, balance: user.balance}},
         authConst.ACCESS_TOKEN_SECRET,
         {
-          expiresIn: 3600,
+          expiresIn: 60,
         }
       );
 
       const refreshToken = jwt.sign(
-        { sub: user.userId },
+        { sub: user.id },
         authConst.REFRESH_TOKEN_SECRET,
         {
           expiresIn: 86400,

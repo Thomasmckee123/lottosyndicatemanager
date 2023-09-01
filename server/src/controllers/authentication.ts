@@ -20,7 +20,9 @@ const authenticate = async (req: Request, res: Response) => {
 const refresh = async (req: Request, res: Response) => {
   try {
     const { userId } = res.locals;
-    const authenticationTokens = await AuthService.refresh(userId);
+    console.log("res", res.locals);
+    console.log("userid", userId);
+    const authenticationTokens = await AuthService.refresh(userId)
     res.status(StatusCodes.OK).json(authenticationTokens);
   } catch (err) {
     res.status(StatusCodes.UNAUTHORIZED).json('Could refresh authentication');

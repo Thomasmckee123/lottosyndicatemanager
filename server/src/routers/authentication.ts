@@ -41,4 +41,20 @@ AuthenticationRouter.route('/').post(
   AuthController.authenticate
 );
 
+/**
+ * @swagger
+ * /api/authenticate/refresh:
+ *   get:
+ *     tags: [
+ *       Authenticate
+ *     ]
+ *     summary: if validated return token
+ *     responses:
+ *       200:
+ *         description: OK
+ *       400:
+ *         description: Error
+ */
+AuthenticationRouter.route("/refresh").get(AuthController.refresh);
+
 export { AuthenticationRouter };

@@ -38,6 +38,7 @@ app.use('/api/signup',SignupRouter);
 
 
 app.use('/api/authenticate', AuthenticationRouter);
+
 app.all('*', verifyToken);
 
 app.use('/api/images', ImageRouter)
