@@ -13,6 +13,8 @@ import {
   styled,
   createTheme,
   ThemeProvider,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { fetchGamesWePlay } from "../../../services/gameTypes";
@@ -66,6 +68,7 @@ function GameTypes() {
   const [membersPerGame, setMembersPerGame] = useState<IMemberPerGame>([]);
   const [balanceData, setBalanceData] = useState<any>();
   const [joinedMessage, setJoinedMessage] = useState("");
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const jwt = TokenUtils.getJWT();
   const userId = jwt.claims.userId;
@@ -126,7 +129,6 @@ function GameTypes() {
       } else {
         handleOpenFunds();
       }
-      await getGames();
     } catch (error) {
       console.error("couldn't join game");
     }
@@ -245,29 +247,43 @@ function GameTypes() {
   };
 
   const handleJoinClick = async (gameToJoin: IGame) => {
+    console.log("USer game JOIN RUNNINGT");
     const userGameExists = await fetchUserGamesByGameId(gameToJoin.id);
     console.log("userGameExists", userGameExists);
-    if (userGameExists.length === 0) {
+    console.log("user Id", userId);
+    console.log("arrayUserId", userGameExists[0].users.id);
+    let userIdExists = false;
+    for (let i = 0; i < userGameExists.length; i++) {
+      if (
+        Number(userGameExists[i].users.id) === Number(userId) &&
+        Number(userGameExists[i].games.syndicates.id) !== Number(syndicateId)
+      ) {
+        userIdExists = true;
+        break;
+      }
+    }
+    if (!userIdExists) {
       if (
         typeof usersPerGame[gameToJoin.id] === "number" &&
         gameToJoin.maximumPlayers &&
         Number(usersPerGame[gameToJoin.id]) < Number(gameToJoin.maximumPlayers)
       ) {
         handleOpenDialog();
+
         setGameId(gameToJoin.id);
-        await getGames();
       } else {
         console.error("Maximum players reached for this game.", gameToJoin);
         setGameTypeId(gameToJoin.gameTypes.id);
-        await handleCreateNewGame(gameToJoin.gameTypes.id);
+        console.log("GAMETO JOIN ID", gameToJoin.gameTypes.id);
+        handleCreateNewGame(gameToJoin.gameTypes.id);
         await getGames();
         handleOpenDialog();
         setGameId(gameToJoin.id);
       }
     } else {
-      {
-        setJoinedMessage("you have already joined this game type,");
-      }
+      setJoinedMessage("you have already joined this game type,");
+      setOpenSnackbar(true);
+      console.log(joinedMessage);
     }
   };
 
@@ -283,8 +299,29 @@ function GameTypes() {
   };
   console.log("matchingUsersToGame", matchUserToGame(1));
   const lightTheme = createTheme({ palette: { mode: "light" } });
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
+  };
+
   return (
     <>
+      <>
+        {/* your existing code here */}
+        <Snackbar
+          open={openSnackbar}
+          autoHideDuration={6000}
+          onClose={handleCloseSnackbar}
+        >
+          <Alert severity="warning" sx={{ width: "100%" }}>
+            <Typography variant="h5" component="div">
+              {joinedMessage}
+            </Typography>
+            <Typography variant="body1" component="div">
+              Please select a different syndicate to join.
+            </Typography>
+          </Alert>
+        </Snackbar>
+      </>
       <InsufficientFunds
         open={isFundsOpen}
         onClose={handleCloseFunds}
@@ -327,7 +364,7 @@ function GameTypes() {
               handleJoinGame={handleJoinGame}
             />
 
-            <Card>
+            <Card sx={{ backgroundColor: "darkGrey" }}>
               <CardMedia
                 component="img"
                 height="295"
@@ -358,18 +395,23 @@ function GameTypes() {
                 variant="contained"
                 color="primary"
                 aria-label="join random group buttons"
-                sx={{ display: "flex", mt: 1, mx: 2, mb: 2 }}
+                sx={{
+                  display: "flex",
+                  mt: 1,
+                  mx: 2,
+                  mb: 2,
+                  backgroundColor: "darkred",
+                }}
               >
                 <Button
                   fullWidth
+                  sx={{ backgroundColor: "darkred" }}
                   onClick={() => {
                     handlePlayGame(Number(thisGameType.id));
                   }}
                 >
                   Create a game.
                 </Button>
-
-                <Button fullWidth>play every week</Button>
               </ButtonGroup>
             </Card>
           </Grid>
@@ -464,6 +506,7 @@ function GameTypes() {
                     <Button
                       variant="contained"
                       color="primary"
+                      sx={{ backgroundColor: "darkred" }}
                       disabled={matchUserToGame(currentGame.id)}
                       onClick={() => handleJoinClick(currentGame)}
                     >
@@ -478,7 +521,11 @@ function GameTypes() {
                           `${currentGame.gameTypes.id}`
                         ).replace(":gameId", `${currentGame.id}`)}
                       >
-                        <Button variant="contained" color="primary">
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          sx={{ backgroundColor: "darkRed" }}
+                        >
                           Play Game
                         </Button>
                       </Link>

@@ -18,7 +18,7 @@ import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { fetchHomePageSyndicateData } from "../../../services/syndicates";
 import TokenUtils from "../../../integrations/token";
 import { StyledCardHeader } from "../styles/styled";
-
+import moment from "moment";
 function SyndicateCard({
   propData,
   onDelete,
@@ -59,18 +59,25 @@ function SyndicateCard({
         }
         subheader={
           <Typography variant="subtitle2" color="white">
-            {data.syndicates.createdDate}
+            {moment(data.syndicates.createdDate).format("DD/MM/YYYY")}
           </Typography>
         }
       />
-      <CardContent>
+      <CardContent
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+        }}
+      >
         <Typography variant="body2" color="text.secondary">
           {data.syndicates.description}
         </Typography>
         <img
           src={data.syndicates.avatar || "https://via.placeholder.com/150"}
           alt={data.syndicates.name}
-          style={{ width: "100%", height: "100%" }}
+          style={{ width: "300px", height: "300px" }}
         />
       </CardContent>
       <CardActions>

@@ -8,6 +8,7 @@ import { fetchHomePageSyndicateData } from "../../../services/syndicates";
 import TokenUtils from "../../../integrations/token";
 import Header from "./Header";
 import { Alert, Snackbar } from "@mui/material";
+import { CustomContainer } from "../styles/styled";
 
 function SyndicateContainer() {
   const [data, setData] = useState<any[]>([]);
@@ -47,17 +48,7 @@ function SyndicateContainer() {
 
       <Container maxWidth="xl">
         <Header />
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            minHeight: "90vh",
-            borderRadius: "20px",
-            boxShadow: "0px 0px 20px rgba(0, 0, 0, 0.1)",
-            padding: "20px",
-          }}
-        >
+        <CustomContainer>
           {" "}
           <Box
             sx={{
@@ -80,7 +71,7 @@ function SyndicateContainer() {
               ))}
             </Grid>
           </Box>
-        </Box>
+        </CustomContainer>
         <Snackbar
           open={open}
           autoHideDuration={6000}

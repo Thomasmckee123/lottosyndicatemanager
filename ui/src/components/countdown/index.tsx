@@ -35,7 +35,7 @@ const CountDown: any = ({ drawDate, gameId }: any) => {
     return <p>Time's up!</p>;
   }
   return (
-    <StyledPaper>
+    <StyledPaper sx={{ backgroundColor: "darkRed", color: "white" }}>
       <CountdownContainer container>
         <GridItem>
           <NumberRemaining>{days}</NumberRemaining>
