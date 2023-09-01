@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { InternalAxiosRequestConfig } from "axios";
 import TokenUtils from "./token";
 
 const instance = axios.create({
@@ -8,17 +8,14 @@ const instance = axios.create({
     "Content-Type": "application/json",
   },
 });
-instance.interceptors.request.use(
-  (config) => {
-    const token = TokenUtils.getAccessToken()
-        
-    if (token && config.headers) {
-      config.headers.Authorization = "Bearer " + token;
+export const setBearerToken = (bearer: string) => {
+  instance.interceptors.request.use(
+    (config): InternalAxiosRequestConfig => {
+      if (config.headers) {
+        config.headers.Authorization = `Bearer ${bearer}`;
+      }
+      return config;
     }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
+  );
+};
 export default instance

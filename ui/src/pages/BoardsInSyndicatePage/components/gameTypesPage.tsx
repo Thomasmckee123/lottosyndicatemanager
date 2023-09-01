@@ -125,6 +125,7 @@ function GameTypes() {
         );
         await updateBalance(newBalance!);
         await updateTreasury(newTreasury, Number(gameId));
+        await getGames();
         return response;
       } else {
         handleOpenFunds();
@@ -137,6 +138,7 @@ function GameTypes() {
   const handleCreateNewGame = async (typeId: number) => {
     const newGame = await createGame(0, Number(syndicateId), Number(typeId));
     setGameId(newGame.id);
+    await getGames();
   };
 
   useEffect(() => {
@@ -218,6 +220,7 @@ function GameTypes() {
       if (availableGame) {
         setGameId(availableGame.id);
         handleJoinGame();
+        await getGames();
       } else {
         setGameTypeId(gtypeId);
         handleCreateNewGame(gtypeId);

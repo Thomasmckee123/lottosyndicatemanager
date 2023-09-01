@@ -45,7 +45,7 @@ function SyndicateCard({
   };
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345, boxShadow: "0px 0px 20px black" }}>
       <StyledCardHeader
         avatar={
           <IconButton onClick={handleLeaveSyndicate}>

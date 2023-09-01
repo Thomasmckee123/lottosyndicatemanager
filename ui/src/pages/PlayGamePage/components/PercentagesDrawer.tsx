@@ -24,11 +24,15 @@ function PercentagesDrawer({ userData }: { userData: any[] }) {
   // Calculate deposit percentages
   const calculatePercentages = () => {
     console.log("MAPPED USER DATA FOR SPLITTING BILL", userData);
+    let totalTreasury = 0;
+    for (let i = 0; i < userData.length; i++) {
+      totalTreasury += userData[i].deposit;
+      console.log(userData[i]);
+    }
+    console.log("TOTAL TREASURY", totalTreasury);
     return userData.map((user, index) => {
-      console.log("USER DEPOSIT", user.deposit);
-
       const depositPercentage = //@ts-ignore
-        (Number(user?.deposit) / Number(user?.games?.treasury)) * 100;
+        (Number(user?.deposit) / Number(totalTreasury)) * 100;
       const name = user?.users?.firstName && user?.users?.lastName;
       return {
         id: index,

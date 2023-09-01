@@ -16,12 +16,13 @@ import { Toaster } from "react-hot-toast";
 import { AuthContext } from "../../../contexts";
 import { NavigationRoutes } from "../../../constants";
 import AuthService from "../../../services/auth";
+import useTokens from "../../../hooks/useTokens";
 
 const LogonPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { dispatch } = AuthContext.useLogin();
-
+  const { checkIfValidToken } = useTokens();
   const handleEmailChange = (event: any) => {
     setEmail(event.target.value);
   };
@@ -35,18 +36,19 @@ const LogonPage = () => {
   const Login = async (emailAddress: string, password: string) => {
     const response = await AuthService.authenticate(emailAddress, password);
     if (response.status === 200) {
-      const authDetails = {
-        accessToken: response.data.accessToken,
-        refreshToken: response.data.refreshToken,
-      };
-      console.log("RESPONSE DATA" + JSON.stringify(response));
-      localStorage.setItem("user", JSON.stringify(authDetails));
-      localStorage.setItem("userEmail", JSON.stringify(emailAddress));
-      dispatch({
-        type: "authentication",
-        ...authDetails,
-      });
-      navigate(NavigationRoutes.HOME);
+      // const authDetails = {
+      //   accessToken: response.data.accessToken,
+      //   refreshToken: response.data.refreshToken,
+      // };
+      // console.log("RESPONSE DATA" + JSON.stringify(response));
+      // localStorage.setItem("user", JSON.stringify(authDetails));
+      // localStorage.setItem("userEmail", JSON.stringify(emailAddress));
+      // dispatch({
+      //   type: "authentication",
+      //   ...authDetails,
+      // });
+      // navigate(NavigationRoutes.HOME);
+      checkIfValidToken(response.data);
     }
     return response.data;
   };

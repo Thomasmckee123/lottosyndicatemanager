@@ -28,10 +28,7 @@ const removeUser = () => {
 const isTokenExpired = (token: any, navigate: any) => {
   const jwt = jwtDecode(token) as any;
   const currentTime = new Date().getTime() / 1000;
-  localStorage.removeItem('accessToken');
-  localStorage.removeItem('refreshToken');
-  navigate(NavigationRoutes.LOGIN);
-
+ 
   return currentTime > jwt.exp;
 };
 

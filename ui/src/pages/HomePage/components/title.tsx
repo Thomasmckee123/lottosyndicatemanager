@@ -31,9 +31,9 @@ function Title() {
       flexDirection="column"
       alignItems="center"
       justifyContent="center"
-      height="100%"
+      height="20vh"
     >
-      <CustomBox>
+      <CustomBox sx={{ boxShadow: "0px 0px 20px rgba(0, 0, 0, 0.1)" }}>
         <Typography variant="h4" gutterBottom sx={{ size: "100%" }}>
           Welcome {userData ? `${userData?.data?.firstName}` : "..."}
         </Typography>

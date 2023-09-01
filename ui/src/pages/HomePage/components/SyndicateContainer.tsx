@@ -47,30 +47,27 @@ function SyndicateContainer() {
       <CssBaseline />
 
       <Container maxWidth="xl">
-        <Header />
-        <CustomContainer>
-          {" "}
-          <Box
-            sx={{
-              bgcolor: "gray",
-              width: "100%",
-              height: "90%", // Updated height to 90%
-              overflow: "auto",
-              borderRadius: "20px",
-              padding: "20px",
-            }}
-          >
-            <Grid container spacing={2}>
-              {data.map((item) => (
-                <Grid item xs={12} sm={6} md={4} key={item.id}>
-                  <SyndicateCard
-                    propData={item}
-                    onDelete={handleDeleteSyndicate}
-                  />
-                </Grid>
-              ))}
-            </Grid>
-          </Box>
+        <Header />{" "}
+        <CustomContainer
+          sx={{
+            marginTop: "2vh",
+            backgroundColor: "darkGrey",
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "spaceBetween",
+            alignItems: "center",
+            borderRadius: "5px",
+            boxShadow: "0px 0px 20px black",
+            padding: "20px",
+            height: "60vh",
+            overflow: "auto",
+          }}
+        >
+          {data.map((item) => (
+            <>
+              <SyndicateCard propData={item} onDelete={handleDeleteSyndicate} />
+            </>
+          ))}
         </CustomContainer>
         <Snackbar
           open={open}

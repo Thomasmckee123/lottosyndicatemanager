@@ -22,6 +22,7 @@ import SignUp from "./pages/SignUp/components/signUp";
 import Archive from "./pages/archive/index";
 import Profile from "./pages/Profile";
 import Logout from "./pages/Logout";
+import useTokens from "./hooks/useTokens";
 import { useEffect } from "react";
 
 function App() {
@@ -38,9 +39,7 @@ function App() {
   const authorisedRoutes = () => {
     return (
       <>
-        <Route path="/" element={<HomePage />} />
-
-        <Route path={NavigationRoutes.HOMEPAGE} element={<HomePage />} />
+        <Route path={NavigationRoutes.HOME} element={<HomePage />} />
         <Route
           path={NavigationRoutes.VIEWSYDICATES}
           element={<ViewSyndicates />}
@@ -66,22 +65,23 @@ function App() {
         <Route path={NavigationRoutes.ACCOUNT} element={<AccountPage />} />
         <Route path={NavigationRoutes.GAMEMESSAGE} element={<Message />} />
         <Route path={NavigationRoutes.PROFILE} element={<Profile />} />
-        {/* <Route path="*" element={<Navigate to={"/"} />} /> */}
+        <Route path="*" element={<Navigate to={"/"} />} />
       </>
     );
   };
-
-  const { state } = AuthContext.useLogin();
-  const loggedIn = state.accessToken;
+  const { isAuthorized, checkLocalStorageTokens } = useTokens();
+  // const { state } = AuthContext.useLogin();
+  // const loggedIn = state.accessToken;
   useEffect(() => {
-    console.log("----UPDATED AUTH STATE -----", state);
-  }, [state]);
+    checkLocalStorageTokens();
+  }, []);
+
   return (
     <>
       <Navigation />
       <Routes>
-        {!loggedIn && unAuthorisedRoutes()}
-        {loggedIn && authorisedRoutes()}
+        {!isAuthorized && unAuthorisedRoutes()}
+        {isAuthorized && authorisedRoutes()}
       </Routes>
     </>
   );

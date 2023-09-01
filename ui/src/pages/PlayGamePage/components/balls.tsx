@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Typography, Paper, Container, Chip } from "@mui/material";
 import { getTicketsByGameId } from "../../../services/tickets";
 import { fetchGamesById } from "../../../services/games";
+import { styledNumberPaper } from "../styles/styled";
 
 const SelectedNumbers: any = ({ gameId }: any) => {
   const [data, setData] = useState<any>([]);

@@ -15,6 +15,7 @@ import AdbIcon from "@mui/icons-material/Adb";
 import { NavigationRoutes } from "../../constants";
 import { Link, useLocation } from "react-router-dom";
 import TokenUtils from "../../integrations/token";
+import { AuthContext } from "../../contexts";
 
 const pages = [
   { title: "View Syndicates", path: NavigationRoutes.VIEWSYDICATES },
@@ -52,6 +53,8 @@ const settings = [
 ];
 
 const Navigation = () => {
+  const { state } = AuthContext.useLogin();
+  const loggedIn = state.accessToken;
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -149,35 +152,37 @@ const Navigation = () => {
             >
               <MenuIcon />
             </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
-            >
-              {pages.map(({ title, path }) => (
-                <MenuItem
-                  component={Link}
-                  to={path}
-                  key={title}
-                  onClick={handleCloseNavMenu}
-                >
-                  <Typography textAlign="center">{title}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
+            {loggedIn && (
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{
+                  display: { xs: "block", md: "none" },
+                }}
+              >
+                {pages.map(({ title, path }) => (
+                  <MenuItem
+                    component={Link}
+                    to={path}
+                    key={title}
+                    onClick={handleCloseNavMenu}
+                  >
+                    <Typography textAlign="center">{title}</Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            )}
           </Box>
           <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           <Typography
@@ -198,57 +203,60 @@ const Navigation = () => {
           >
             {title}
           </Typography>
-
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map(({ title, path }) => (
-              <Link to={path} key={title}>
-                <Button
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: "white", display: "block" }}
-                >
-                  {title}
-                </Button>
-              </Link>
-            ))}
-          </Box>
-
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" />
-              </IconButton>
-            </Tooltip>
-
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting, index) => (
-                <MenuItem key={index}>
-                  <Link
-                    to={setting.path}
-                    style={{ textDecoration: "none", color: "inherit" }}
-                  >
-                    <Box sx={{ textAlign: "center" }}>
-                      <Typography>{setting.title}</Typography>
-                    </Box>
+          {loggedIn && (
+            <>
+              <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+                {pages.map(({ title, path }) => (
+                  <Link to={path} key={title}>
+                    <Button
+                      onClick={handleCloseNavMenu}
+                      sx={{ my: 2, color: "white", display: "block" }}
+                    >
+                      {title}
+                    </Button>
                   </Link>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+                ))}
+              </Box>
+
+              <Box sx={{ flexGrow: 0 }}>
+                <Tooltip title="Open settings">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar alt="Remy Sharp" />
+                  </IconButton>
+                </Tooltip>
+
+                <Menu
+                  sx={{ mt: "45px" }}
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
+                >
+                  {settings.map((setting, index) => (
+                    <MenuItem key={index}>
+                      <Link
+                        to={setting.path}
+                        style={{ textDecoration: "none", color: "inherit" }}
+                      >
+                        <Box sx={{ textAlign: "center" }}>
+                          <Typography>{setting.title}</Typography>
+                        </Box>
+                      </Link>
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </Box>
+            </>
+          )}
         </Toolbar>
       </Container>
     </AppBar>

@@ -1,6 +1,6 @@
 const NavigationRoutes = {
   HOME: "/",
-  HOMEPAGE: "/ActualHomePage",
+
   VIEWSYDICATES: "/viewSyndicates",
   INSIDESYNDICATE: "/InsideSyndicate/:syndicateId",
   CREATESYNDICATE: "/CreateSyndicate/:ownerId",

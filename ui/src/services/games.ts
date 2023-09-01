@@ -117,6 +117,7 @@ const fetchGameByGameId = async(gameId: number) => {
     console.error("failed to get game by id");
   }
 };
+
 export {
   fetchGameByGameId,
   fetchArchives,

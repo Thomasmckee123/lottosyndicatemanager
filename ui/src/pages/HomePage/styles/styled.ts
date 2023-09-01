@@ -13,8 +13,8 @@ color:white;`
 export const CustomBox = styled(Box)`
 background-color: dimgrey;
 color: white;
-width: 20%;
-height: 50%;
+width: 30vw;
+height: 18vh;
 
 display: flex;
 flex-direction: column;
@@ -23,16 +23,22 @@ justify-content:center;
 margin-bottom: 1%;
 margin-top: 2%;
 box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+border-radius: 5px
 
 `
+
+
+
 export const CustomContainer = styled(Box)`
-display: "flex";
-align-items: "center";
-justify-content: "center";
-
-border-radius: "20px";
-box-shadow: "0px 0px 20px rgba(0, 0, 0, 0.1)";
-padding: "20px";
-height: 60vh;
-overflow: auto;
-`
+  margin-top: "20vh";
+  background-color: "darkGrey";
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 20px;
+  box-shadow: 0px 0px 20px black;
+  padding: 20px;
+  height: 60vh;
+  overflow: auto;
+`;
