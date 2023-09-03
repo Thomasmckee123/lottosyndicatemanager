@@ -54,7 +54,7 @@ const settings = [
 
 const Navigation = () => {
   const { state } = AuthContext.useLogin();
-  const loggedIn = state.accessToken;
+  const loggedIn = state.isAuthorized;
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );

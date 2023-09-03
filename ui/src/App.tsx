@@ -69,9 +69,9 @@ function App() {
       </>
     );
   };
-  const { isAuthorized, checkLocalStorageTokens } = useTokens();
-  // const { state } = AuthContext.useLogin();
-  // const loggedIn = state.accessToken;
+  const { checkLocalStorageTokens } = useTokens();
+  const { state } = AuthContext.useLogin();
+  const isAuth = state.isAuthorized;
   useEffect(() => {
     checkLocalStorageTokens();
   }, []);
@@ -80,8 +80,8 @@ function App() {
     <>
       <Navigation />
       <Routes>
-        {!isAuthorized && unAuthorisedRoutes()}
-        {isAuthorized && authorisedRoutes()}
+        {!isAuth && unAuthorisedRoutes()}
+        {isAuth && authorisedRoutes()}
       </Routes>
     </>
   );

@@ -17,10 +17,14 @@ function Title() {
   let userId = data?.claims?.userId;
   useEffect(() => {
     console.log("userId", userId);
-    fetchUserDetails(userId).then((response) => {
-      console.log(response);
-      setUserdata(response);
-    });
+    if (userId) {
+      fetchUserDetails(userId)
+        .then((response) => {
+          console.log(response);
+          setUserdata(response);
+        })
+        .catch((err) => console.log(err));
+    }
   }, [userId]);
   console.log("user Data", userData);
   console.log("data", userData?.data?.firstName);

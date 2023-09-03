@@ -1,8 +1,7 @@
-import { UserService } from './users';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import { authConst } from '../constants/auth';
-
+import { UserService } from "./users";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import { authConst } from "../constants/auth";
 
 const authenticate = async (email: string, password: string) => {
   const user = await UserService.getByEmail(email);
@@ -16,27 +15,31 @@ const authenticate = async (email: string, password: string) => {
   throw new Error(`auth failed for ${email}`);
 };
 
-
 const refresh = async (userId: number) => {
-  console.log("refresh");
   const user = await UserService.getUserById(userId);
-  console.log("got user", user);
   if (user) {
     return await generateTokens(user);
   }
   throw new Error(`Could not generate new token.`);
 };
 
-
 const generateTokens = (user) => {
   return new Promise((response, reject) => {
     try {
-    
       const accessToken = jwt.sign(
-        { sub: user.id, claims:{userId: user.id,image:user.image, email: user.email, firstName: user.first_name, balance: user.balance}},
+        {
+          sub: user.id,
+          claims: {
+            userId: user.id,
+            image: user.image,
+            email: user.email,
+            firstName: user.first_name,
+            balance: user.balance,
+          },
+        },
         authConst.ACCESS_TOKEN_SECRET,
         {
-          expiresIn: 60,
+          expiresIn: 3600,
         }
       );
 
