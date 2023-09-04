@@ -37,18 +37,22 @@ const ViewSyndicates = () => {
 
   return (
     <>
-      <StyledPaper sx={{ width: "99%" }}>
+      <StyledPaper sx={{ width: "100%" }}>
         <SearchPaper sx={{ backgroundColor: "grey" }}>
           <SearchInput onSearchChange={setName} />
         </SearchPaper>
         <Paper
           sx={{
-            width: "100%",
-            height: "80%",
+            marginTop: "2vh",
+            backgroundColor: "darkGrey",
             display: "flex",
-            justifyContent: "space-around",
-            backgroundColor: "darkgrey",
-            margin: "2vh",
+            flexWrap: "wrap",
+            justifyContent: "spaceBetween",
+            alignItems: "center",
+            borderRadius: "2px",
+            boxShadow: "0px 0px 20px black",
+            padding: "20px",
+            height: "60vh",
             overflow: "auto",
           }}
         >

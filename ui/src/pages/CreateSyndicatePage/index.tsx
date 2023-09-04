@@ -1,20 +1,32 @@
 import * as React from "react";
 import InputArea from "./components/layout";
-import { Button } from "@mui/material";
+import { Button, Paper } from "@mui/material";
 import { Link } from "react-router-dom";
 
 function CreateSyndicate() {
   return (
     <>
-      <Button
-        component={Link}
-        to="/"
-        variant="contained"
-        sx={{ margin: "1rem", backgroundColor: "darkRed" }}
+      <Paper
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+          flexDirection: "column",
+        }}
       >
-        Go back to homepage
-      </Button>
-      <InputArea />
+        <Button
+          component={Link}
+          to="/"
+          variant="contained"
+          sx={{ margin: "1rem", backgroundColor: "darkRed" }}
+        >
+          Go back to homepage
+        </Button>
+        <div>
+          <InputArea />
+        </div>
+      </Paper>
     </>
   );
 }

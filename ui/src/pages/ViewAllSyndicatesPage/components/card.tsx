@@ -11,7 +11,7 @@ function MediaCard({ data }: { data: any }) {
   if (!data) return null;
 
   return (
-    <Card sx={{ width: "40vh", height: "60vh" }}>
+    <Card sx={{ width: "40vh", height: "40vh", margin: "2vh" }}>
       <CardMedia sx={{ height: 140 }} image={data.avatar} title={data.name} />
       <CardContent>
         <Typography
@@ -21,49 +21,14 @@ function MediaCard({ data }: { data: any }) {
         >
           date: {data.createdDate}
         </Typography>
-        <Typography
-          gutterBottom
-          component="div"
-          sx={{
-            fontSize: {
-              xs: "0.5rem",
-              sm: "0.8rem",
-              md: "1rem",
-              lg: "2rem",
-              xl: "2.5rem",
-            },
-          }}
-        >
+        <Typography gutterBottom component="div">
           {data.name}
         </Typography>
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          sx={{
-            fontSize: {
-              xs: "0.5rem",
-              sm: "0.8rem",
-              md: "1rem",
-              lg: "2rem",
-              xl: "2.5rem",
-            },
-          }}
-        >
+        <Typography variant="body2" color="text.secondary">
           {data.description}
         </Typography>{" "}
         <CardActions sx={{ padding: 0, marginLeft: 0 }}>
-          <Button
-            size="small"
-            sx={{
-              fontSize: {
-                xs: "0.5rem",
-                sm: "0.8rem",
-                md: "1rem",
-                lg: "2rem",
-                xl: "2.5rem",
-              },
-            }}
-          >
+          <Button size="small">
             <Link
               to={NavigationRoutes.INSIDESYNDICATE.replace(
                 ":syndicateId",
@@ -73,18 +38,7 @@ function MediaCard({ data }: { data: any }) {
               View
             </Link>
           </Button>
-          <Button
-            size="small"
-            sx={{
-              fontSize: {
-                xs: "0.5rem",
-                sm: "0.8rem",
-                md: "1rem",
-                lg: "2rem",
-                xl: "2.5rem",
-              },
-            }}
-          >
+          <Button size="small">
             <Link
               to={NavigationRoutes.REVIEW.replace(":syndicateId", `${data.id}`)}
             >

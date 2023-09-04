@@ -135,7 +135,7 @@ function GameChat() {
           userData={mappedPlayers}
           fetchUserData={fetchUserData}
         />{" "}
-        <Typography sx={{ color: "white", fontSize: "5rem" }}>
+        <Typography sx={{ color: "white", size: "80%" }}>
           {mappedPlayers[0]?.games?.gameTypes?.name}
         </Typography>
       </StyledPaperTop>

@@ -28,12 +28,12 @@ const NonTopBarPages = [
   { title: "Archived Games", path: NavigationRoutes.ARCHIVEPAGE },
   { title: "Log out", path: NavigationRoutes.LOGOUT },
   { title: "Syndicate", path: NavigationRoutes.SYNDICATEBOARDS },
-  { title: "Create Syndicate", path: NavigationRoutes.CREATESYNDICATE },
+  { title: "Create", path: NavigationRoutes.CREATESYNDICATE },
   { title: "Syndicate Reviews", path: NavigationRoutes.REVIEW },
   { title: "Join a game", path: NavigationRoutes.JOINGAME },
   { title: "Create a game", path: NavigationRoutes.CREATEGAME },
   { title: "Message board", path: NavigationRoutes.BOARDCHAT },
-  { title: "Game message", path: NavigationRoutes.GAMEMESSAGE },
+  { title: "Game Page", path: NavigationRoutes.GAMEMESSAGE },
   {
     title: "Log in",
     path: NavigationRoutes.LOGIN,
@@ -127,7 +127,8 @@ const Navigation = () => {
           <Box
             component="img"
             sx={{
-              height: 64,
+              height: "10vh",
+              width: "10vw",
             }}
             src={logo}
           />

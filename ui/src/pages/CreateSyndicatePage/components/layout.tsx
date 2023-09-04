@@ -66,23 +66,7 @@ function InputArea() {
         Create a Syndicate
       </Typography>
 
-      <Box
-        component="form"
-        onSubmit={handleSubmit}
-        sx={{
-          position: "absolute",
-          left: "50%",
-          top: "50%",
-          transform: "translate(-50%, -50%)",
-          display: "flex",
-          flexDirection: "column",
-          width: "50%",
-          backgroundColor: "white",
-          borderRadius: "15px",
-          padding: theme.spacing(3),
-          boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-        }}
-      >
+      <Box component="form" onSubmit={handleSubmit}>
         <Grid
           container
           direction="column"
