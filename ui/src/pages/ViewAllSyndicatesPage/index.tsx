@@ -5,6 +5,9 @@ import MediaCard from "./components/card";
 import fetchAllSyndicateData, {
   fetchSyndicateByName,
 } from "../../services/syndicates";
+import { SearchPaper, StyledPaper } from "./styles/styled";
+import SearchBar from "./components/searchBar";
+import { Paper } from "@mui/material";
 
 const ViewSyndicates = () => {
   const [data, setData] = useState<any[]>([]);
@@ -34,15 +37,26 @@ const ViewSyndicates = () => {
 
   return (
     <>
-      <SearchInput onSearchChange={setName} />
-
-      <Grid container spacing={2}>
-        {data.map((item) => (
-          <Grid item xs={4} key={item.id}>
+      <StyledPaper sx={{ width: "99%" }}>
+        <SearchPaper sx={{ backgroundColor: "grey" }}>
+          <SearchInput onSearchChange={setName} />
+        </SearchPaper>
+        <Paper
+          sx={{
+            width: "100%",
+            height: "80%",
+            display: "flex",
+            justifyContent: "space-around",
+            backgroundColor: "darkgrey",
+            margin: "2vh",
+            overflow: "auto",
+          }}
+        >
+          {data.map((item) => (
             <MediaCard data={item} />
-          </Grid>
-        ))}
-      </Grid>
+          ))}
+        </Paper>
+      </StyledPaper>{" "}
     </>
   );
 };

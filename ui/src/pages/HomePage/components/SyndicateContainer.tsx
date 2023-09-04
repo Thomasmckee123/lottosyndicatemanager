@@ -56,7 +56,7 @@ function SyndicateContainer() {
             flexWrap: "wrap",
             justifyContent: "spaceBetween",
             alignItems: "center",
-            borderRadius: "5px",
+            borderRadius: "2px",
             boxShadow: "0px 0px 20px black",
             padding: "20px",
             height: "60vh",

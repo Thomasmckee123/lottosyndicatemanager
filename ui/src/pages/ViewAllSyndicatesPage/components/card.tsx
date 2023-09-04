@@ -11,7 +11,7 @@ function MediaCard({ data }: { data: any }) {
   if (!data) return null;
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ width: "40vh", height: "40vh" }}>
       <CardMedia sx={{ height: 140 }} image={data.avatar} title={data.name} />
       <CardContent>
         <Typography variant="body2" color="text.tiertary">

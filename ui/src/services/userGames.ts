@@ -47,6 +47,16 @@ return response.data;
 
 
 }
+const updateDeposit = async (deposit) =>{
+  try{
+const depositData ={
+  deposit: Number(deposit)
+}
+const response = await axios.put('/',depositData)
+response.data
+  }catch(error){
+    console.error("Error", error)
+  }
+}
 
-
-export {fetchUserGamesByUserGameId, fetchUserGames, fetchUserGamesByGameId, updateRole}
+export {updateDeposit, fetchUserGamesByUserGameId, fetchUserGames, fetchUserGamesByGameId, updateRole}

@@ -18,27 +18,27 @@ import TokenUtils from "../../integrations/token";
 import { AuthContext } from "../../contexts";
 
 const pages = [
-  { title: "View Syndicates", path: NavigationRoutes.VIEWSYDICATES },
-  { title: "My Games", path: NavigationRoutes.GAMEPAGE },
   { title: "Home", path: NavigationRoutes.HOME },
+  { title: "Syndicates", path: NavigationRoutes.VIEWSYDICATES },
+  { title: "My Games", path: NavigationRoutes.GAMEPAGE },
 ];
 const NonTopBarPages = [
-  { title: "profile", path: NavigationRoutes.PROFILE },
-  { title: "account", path: NavigationRoutes.ACCOUNT },
+  { title: "Profile", path: NavigationRoutes.PROFILE },
+  { title: "Account", path: NavigationRoutes.ACCOUNT },
   { title: "Archived Games", path: NavigationRoutes.ARCHIVEPAGE },
-  { title: "log out", path: NavigationRoutes.LOGOUT },
+  { title: "Log out", path: NavigationRoutes.LOGOUT },
   { title: "Syndicate", path: NavigationRoutes.SYNDICATEBOARDS },
   { title: "Create Syndicate", path: NavigationRoutes.CREATESYNDICATE },
   { title: "Syndicate Reviews", path: NavigationRoutes.REVIEW },
   { title: "Join a game", path: NavigationRoutes.JOINGAME },
-  { title: "create a game", path: NavigationRoutes.CREATEGAME },
-  { title: "message board", path: NavigationRoutes.BOARDCHAT },
-  { title: "game message", path: NavigationRoutes.GAMEMESSAGE },
+  { title: "Create a game", path: NavigationRoutes.CREATEGAME },
+  { title: "Message board", path: NavigationRoutes.BOARDCHAT },
+  { title: "Game message", path: NavigationRoutes.GAMEMESSAGE },
   {
-    title: "log in",
+    title: "Log in",
     path: NavigationRoutes.LOGIN,
   },
-  { title: "sign up", path: NavigationRoutes.SIGNUP },
+  { title: "Sign Up", path: NavigationRoutes.SIGNUP },
 
   {
     title: "Inside Synidcate",
@@ -46,10 +46,10 @@ const NonTopBarPages = [
   },
 ];
 const settings = [
-  { title: "profile", path: NavigationRoutes.PROFILE },
-  { title: "account", path: NavigationRoutes.ACCOUNT },
+  { title: "Profile", path: NavigationRoutes.PROFILE },
+  { title: "Account", path: NavigationRoutes.ACCOUNT },
   { title: "Archived Games", path: NavigationRoutes.ARCHIVEPAGE },
-  { title: "log out", path: NavigationRoutes.LOGOUT },
+  { title: "Log Out", path: NavigationRoutes.LOGOUT },
 ];
 
 const Navigation = () => {

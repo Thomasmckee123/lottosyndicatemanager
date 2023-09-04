@@ -32,8 +32,11 @@ function Title() {
       alignItems="center"
       justifyContent="center"
       height="20vh"
+      margin="5vh"
     >
-      <CustomBox sx={{ boxShadow: "0px 0px 20px rgba(0, 0, 0, 0.1)" }}>
+      <CustomBox
+        sx={{ boxShadow: "0px 0px 20px rgba(0, 0, 0, 0.1)", width: "20vw" }}
+      >
         <Typography variant="h4" gutterBottom sx={{ size: "100%" }}>
           Welcome {userData ? `${userData?.data?.firstName}` : "..."}
         </Typography>

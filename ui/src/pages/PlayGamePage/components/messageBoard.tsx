@@ -37,6 +37,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { NavigationRoutes } from "../../../constants";
 import {
   fetchUserGamesByGameId,
+  fetchUserGamesByUserGameId,
   updateRole,
 } from "../../../services/userGames";
 import PercentagesDrawer from "./PercentagesDrawer";
@@ -53,6 +54,8 @@ function GameChat() {
   const { userGameId } = useParams<{ userGameId: string }>();
   const [boardId, setBoardId] = useState<any>();
   const [mappedPlayers, setMappedPlayers] = useState<any[]>([]);
+  const [userGameData, setUserGameData] = useState<any>();
+
   const handleOpenDialog = () => {
     setNewBoardName(data?.name || ""); // initializing with the current board name
     setOpenDialog(true);
@@ -113,6 +116,7 @@ function GameChat() {
   const handleMessageChange = (userInput: string) => {
     setMessage(userInput);
   };
+
   const handleSubmitMessage = async () => {
     if (message) {
       createMessage(message, Number(userGameId), Number(boardId));

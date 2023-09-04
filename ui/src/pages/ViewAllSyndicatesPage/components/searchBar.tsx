@@ -20,7 +20,7 @@ const SearchInput: React.FC<SearchInputProps> = ({ onSearchChange }) => {
 
   return (
     <TextField
-      sx={{ width: "50%" }}
+      sx={{ width: "50%", backgroundColor: "white" }}
       label="Search"
       value={searchTerm}
       onChange={handleSearchChange}

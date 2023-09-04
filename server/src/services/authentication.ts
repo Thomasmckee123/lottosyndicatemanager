@@ -36,7 +36,7 @@ const generateTokens = (user) => {
         { sub: user.id, claims:{userId: user.id,image:user.image, email: user.email, firstName: user.first_name, balance: user.balance}},
         authConst.ACCESS_TOKEN_SECRET,
         {
-          expiresIn: 60,
+          expiresIn: 60000000,
         }
       );
 

@@ -36,7 +36,7 @@ export const CustomContainer = styled(Box)`
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
-  border-radius: 20px;
+  border-radius: 5px;
   box-shadow: 0px 0px 20px black;
   padding: 20px;
   height: 60vh;
