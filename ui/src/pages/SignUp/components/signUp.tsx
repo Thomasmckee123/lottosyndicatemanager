@@ -45,7 +45,7 @@ const Register = () => {
     event.preventDefault();
 
     const response = await signUpUser(firstName, lastName, email, password);
-    if (response === 200) {
+    if (response != 400) {
       setOpenSuccessSnackbar(true);
 
       navigate(NavigationRoutes.LOGIN);
