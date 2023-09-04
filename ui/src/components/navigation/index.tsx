@@ -35,7 +35,7 @@ const NonTopBarPages = [
   { title: "Message board", path: NavigationRoutes.BOARDCHAT },
   { title: "Game Page", path: NavigationRoutes.GAMEMESSAGE },
   {
-    title: "Log in",
+    title: "Sign in",
     path: NavigationRoutes.LOGIN,
   },
   { title: "Sign Up", path: NavigationRoutes.SIGNUP },
