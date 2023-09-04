@@ -58,13 +58,14 @@ const LogonPage = () => {
     return response.data;
   };
 
-  const handleLogin = (event: any) => {
+  const handleLogin = async (event: any) => {
     event?.preventDefault();
     try {
       console.log(email + " " + password);
-      Login(email, password);
+      await Login(email, password);
     } catch (err) {
       console.log(err);
+      setOpenErrorSnackbar(true);
     }
   };
 

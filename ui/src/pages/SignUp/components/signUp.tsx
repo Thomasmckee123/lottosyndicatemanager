@@ -44,15 +44,13 @@ const Register = () => {
   const handleRegister = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
-    try {
-      await signUpUser(firstName, lastName, email, password);
-
+    const response = await signUpUser(firstName, lastName, email, password);
+    if (response === 200) {
       setOpenSuccessSnackbar(true);
 
       navigate(NavigationRoutes.LOGIN);
-    } catch (error) {
+    } else {
       setOpenErrorSnackbar(true);
-      window.location.reload();
     }
   };
   return (
@@ -89,7 +87,7 @@ const Register = () => {
           <TextField
             fullWidth
             margin="normal"
-            label="Password, minimum 8 characters, 1 uppercase, 1 lowercase, 1 number, 1 special character"
+            label="Password, minimum 8 characters, 1 number"
             type="password"
             value={password}
             onChange={handlePasswordChange}
