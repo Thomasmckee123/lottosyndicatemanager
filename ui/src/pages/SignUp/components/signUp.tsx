@@ -115,7 +115,9 @@ const Register = () => {
           open={openErrorSnackbar}
           autoHideDuration={6000}
           onClose={() => setOpenErrorSnackbar(false)}
-          message="Error registering"
+          message={
+            "Error registering, make sure you have a valid email, your password is 8 charachters long, with a number and a special character"
+          }
         />
       </Container>
     </Container>
