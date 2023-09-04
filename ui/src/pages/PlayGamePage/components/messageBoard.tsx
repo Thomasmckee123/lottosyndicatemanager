@@ -26,7 +26,7 @@ import {
   fetchingMessagesByBoardId,
   fetchingMessagesByGameId,
 } from "../../../services/messages";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { createNewBoard, updateBoards } from "../../../services/board";
 import EditIcon from "@mui/icons-material/Edit";
 import Dialog from "@mui/material/Dialog";
@@ -75,6 +75,7 @@ function GameChat() {
 
     handleCloseDialog();
   };
+  const navigate = useNavigate();
 
   const handleGettingMessages = async () => {
     fetchingMessagesByGameId(Number(gameId))
@@ -84,7 +85,9 @@ function GameChat() {
           setData(response[0]);
           setBoardId(response[0].id);
         } else {
-          createNewBoard(Number(gameId));
+          createNewBoard(Number(gameId)).then(() => {
+            navigate(0);
+          });
         }
         return response[0].id;
       })
@@ -114,7 +117,7 @@ function GameChat() {
 
   useEffect(() => {
     handleGettingMessages();
-  }, [gameId]);
+  }, []);
 
   console.log("userGameId", userGameId);
   const handleMessageChange = (userInput: string) => {
