@@ -17,10 +17,13 @@ import { AuthContext } from "../../../contexts";
 import { NavigationRoutes } from "../../../constants";
 import AuthService from "../../../services/auth";
 import useTokens from "../../../hooks/useTokens";
+import { Alert, Snackbar } from "@mui/material";
 
 const LogonPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [openErrorSnackbar, setOpenErrorSnackbar] = useState(false);
+
   const { dispatch } = AuthContext.useLogin();
   const { checkIfValidToken } = useTokens();
   const handleEmailChange = (event: any) => {
@@ -49,6 +52,8 @@ const LogonPage = () => {
       // });
       // navigate(NavigationRoutes.HOME);
       checkIfValidToken(response.data);
+    } else {
+      setOpenErrorSnackbar(true);
     }
     return response.data;
   };
@@ -132,6 +137,15 @@ const LogonPage = () => {
             </Grid>
           </Grid>
         </Box>
+        <Snackbar
+          open={openErrorSnackbar}
+          autoHideDuration={6000}
+          onClose={() => setOpenErrorSnackbar(false)}
+        >
+          <Alert severity="error">
+            Invalid email or password. Please try again.
+          </Alert>
+        </Snackbar>
       </Box>
     </Container>
   );
