@@ -97,6 +97,7 @@ const Register = () => {
             fullWidth
             variant="contained"
             color="primary"
+            sx={{ backgroundColor: "darkred" }}
             onClick={handleRegister}
           >
             Sign up
