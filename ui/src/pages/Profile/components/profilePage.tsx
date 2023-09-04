@@ -161,9 +161,12 @@ const ProfilePage = () => {
             </Typography>
           </CardContent>
           <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
-            <IconButton onClick={handleOpen}>
-              <AddPhotoAlternateIcon />
-            </IconButton>
+            <Button
+              onClick={handleOpen}
+              sx={{ backgroundColor: "darkred", color: "white" }}
+            >
+              Take a Photo
+            </Button>
           </Box>
         </Box>
       </Card>

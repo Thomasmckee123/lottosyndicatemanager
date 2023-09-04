@@ -49,6 +49,7 @@ import {
 } from "../../../interfaces";
 import fetchUserDetails from "../../../services/users";
 import { NavigationRoutes } from "../../../constants";
+import { fetchUserSyndicateByUserSyndicateId } from "../../../services/userSyndicate";
 
 function GameTypes() {
   const { syndicateId, userSyndicateId } = useParams<{
@@ -69,9 +70,8 @@ function GameTypes() {
   const [balanceData, setBalanceData] = useState<any>();
   const [joinedMessage, setJoinedMessage] = useState("");
   const [openSnackbar, setOpenSnackbar] = useState(false);
-
+  const [userId, setUserId] = useState<number>();
   const jwt = TokenUtils.getJWT();
-  const userId = jwt.claims.userId;
   const handleChange = (
     _event: React.ChangeEvent<object>,
     newValue: number
@@ -79,11 +79,15 @@ function GameTypes() {
     setValue(newValue);
   };
   useEffect(() => {
-    const jwt = TokenUtils.getJWT();
+    fetchUserSyndicateByUserSyndicateId(Number(userSyndicateId)).then(
+      (response) => {
+        console.log("GETTING RESPONSEFORUSERID", response);
+        setUserId(response?.data?.userId);
+      }
+    );
   }, []);
-
   const getUserDetails = async () => {
-    const response = await fetchUserDetails(userId);
+    const response = await fetchUserDetails(userId.toString());
     setBalanceData(response.data);
   };
 
@@ -250,11 +254,8 @@ function GameTypes() {
   };
 
   const handleJoinClick = async (gameToJoin: IGame) => {
-    console.log("USer game JOIN RUNNINGT");
     const userGameExists = await fetchUserGamesByGameId(gameToJoin.id);
-    console.log("userGameExists", userGameExists);
-    console.log("user Id", userId);
-    console.log("arrayUserId", userGameExists[0].users.id);
+
     let userIdExists = false;
     for (let i = 0; i < userGameExists.length; i++) {
       if (
