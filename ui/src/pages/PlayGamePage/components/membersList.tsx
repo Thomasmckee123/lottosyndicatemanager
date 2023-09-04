@@ -63,9 +63,6 @@ const Members = () => {
                   </>
                 }
               />
-              <Button variant="contained" color="primary">
-                View Profile
-              </Button>
             </ListItem>
             {index !== users.length - 1 && (
               <Divider variant="inset" component="li" />

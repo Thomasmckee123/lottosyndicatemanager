@@ -24,9 +24,6 @@ function Members({ data }: { data: any }) {
                 start date : {data.startDate}
               </Typography>
             </CardContent>
-            <CardActions>
-              <Button size="small">view</Button>
-            </CardActions>
           </React.Fragment>
         </Card>
       </Box>
