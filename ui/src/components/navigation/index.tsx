@@ -16,7 +16,7 @@ import { NavigationRoutes } from "../../constants";
 import { Link, useLocation } from "react-router-dom";
 import TokenUtils from "../../integrations/token";
 import { AuthContext } from "../../contexts";
-
+import logo from "/logothomas.png";
 const pages = [
   { title: "Home", path: NavigationRoutes.HOME },
   { title: "Syndicates", path: NavigationRoutes.VIEWSYDICATES },
@@ -54,7 +54,7 @@ const settings = [
 
 const Navigation = () => {
   const { state } = AuthContext.useLogin();
-  const loggedIn = state.accessToken;
+  const loggedIn = state.isAuthorized;
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -124,7 +124,13 @@ const Navigation = () => {
     <AppBar position="static" sx={{ backgroundColor: "darkred" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+          <Box
+            component="img"
+            sx={{
+              height: 64,
+            }}
+            src={logo}
+          />
           <Typography
             variant="h6"
             noWrap

@@ -106,7 +106,7 @@ async function UpdateUserGame(req: Request, res: Response) {
       let gameDetails={
         
         deposit: Number(req.body.deposit),
-   
+         id: Number(req.body.userGameId),
        
         
   

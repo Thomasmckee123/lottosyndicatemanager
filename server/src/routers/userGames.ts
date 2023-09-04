@@ -663,7 +663,8 @@ UserGameRouter.post('/games/:gameId/users/:userId',[
  *                   description: The error message
  */
 UserGameRouter.put('/',[
-    body("deposit").isNumeric()],
+    body("deposit").isNumeric(),
+    body("userGameId").isNumeric()],
     validate,UserGameController.UpdateUserGame);
 /**
  * Update the role of a user game.

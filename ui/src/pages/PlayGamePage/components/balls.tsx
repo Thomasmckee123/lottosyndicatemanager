@@ -67,7 +67,7 @@ const SelectedNumbers: any = ({ gameId }: any) => {
                   key={`${item?.id}-${index}`}
                   label={num}
                   color="primary"
-                  style={{ margin: "5px" }}
+                  style={{ margin: "5px", backgroundColor: "darkred" }}
                 />
               ))}
             </div>

@@ -191,6 +191,7 @@ function MessageBoardsPage() {
               <Button
                 variant="contained"
                 color="secondary"
+                sx={{ backgroundColor: "darkRed" }}
                 onClick={handleManageMembersOpen}
               >
                 Manage Members
@@ -198,6 +199,7 @@ function MessageBoardsPage() {
               <Button
                 variant="contained"
                 color="secondary"
+                sx={{ backgroundColor: "darkRed" }}
                 onClick={handleWriteReviewOpen}
               >
                 Write a Review

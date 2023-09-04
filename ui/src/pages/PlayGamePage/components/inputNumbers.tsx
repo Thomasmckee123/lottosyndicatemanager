@@ -298,7 +298,7 @@ function TicketInput({ roleId }: any) {
         <CardContent>
           <Box sx={{ marginTop: 2 }}>
             <Typography variant="body1" color="text.secondary">
-              Treasury:{data?.treasury}
+              Treasury: £{data?.treasury}
             </Typography>
             <Typography variant="h5" color="text.primary"></Typography>
           </Box>

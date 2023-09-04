@@ -94,13 +94,13 @@ const UserGames = () => {
                   <TableHead>
                     <TableRow>
                       <TableCell>{game?.roles?.name}</TableCell>
-                      <TableCell align="right">Action</TableCell>
+                      <TableCell align="right"></TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     <TableRow>
                       <TableCell align="right">
-                        ${game?.games.treasury}
+                        £{game?.games.treasury}
                       </TableCell>
                       <TableCell align="right">
                         <Link
@@ -109,7 +109,11 @@ const UserGames = () => {
                             `${game.id}`
                           ).replace(":gameId", `${game?.games?.id}`)}
                         >
-                          <Button variant="contained" color="primary">
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            sx={{ backgroundColor: "darkRed" }}
+                          >
                             Enter Chat
                           </Button>
                         </Link>

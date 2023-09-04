@@ -47,12 +47,14 @@ return response.data;
 
 
 }
-const updateDeposit = async (deposit) =>{
+
+const updateDeposit = async (deposit, userGameId) =>{
   try{
 const depositData ={
-  deposit: Number(deposit)
+  deposit: Number(deposit),
+  userGameId: Number(userGameId)
 }
-const response = await axios.put('/',depositData)
+const response = await axios.put('userGames/',depositData)
 response.data
   }catch(error){
     console.error("Error", error)

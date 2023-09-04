@@ -17,25 +17,39 @@ import { useEffect, useState } from "react";
 import { Alert, Input, Snackbar } from "@mui/material";
 import TokenUtils from "../../../integrations/token";
 import fetchUserDetails from "../../../services/users";
-import { useParams } from "react-router-dom";
-import { fetchUserGamesByUserGameId } from "../../../services/userGames";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  fetchUserGamesByUserGameId,
+  updateDeposit,
+} from "../../../services/userGames";
 
 const buttonToAnchorMap = {
   members: "right",
   stats: "left",
 } as const;
 
-function PercentagesDrawer({ userData }) {
+function PercentagesDrawer({ userData, fetchUserData }) {
   const [state, setState] = useState<Record<string, boolean>>({
     stats: false,
     members: false,
   });
-  const { userGameId } = useParams<{ userGameId: string }>();
-
+  const navigate = useNavigate();
+  const { userGameId, gameId } = useParams<{
+    userGameId: string;
+    gameId: string;
+  }>();
   const [userGameData, setUserGameData] = useState<any>();
   const [deposit, setDeposit] = useState<number>();
   const [userDepositData, setUserDepositData] = useState<any>();
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const jwt = TokenUtils.getJWT();
+  const userId = jwt.claims.userId;
+  useEffect(() => {
+    fetchUserDetails(userId).then((response) => {
+      setUserDepositData(response);
+    });
+  }, []);
+
   useEffect(() => {
     fetchUserGamesByUserGameId(Number(userGameId)).then((response) => {
       console.log("USER GAME RESPONSE", response);
@@ -81,12 +95,21 @@ function PercentagesDrawer({ userData }) {
       setState({ ...state, [buttonName]: open });
     };
   const handleDeposit = async (deposit: number) => {
-    const userBalance = Number(userDepositData.balance);
-    const finalDeposit = userBalance - deposit;
-    updateBalance(Number(finalDeposit));
-    const updateDeposit = deposit + userGameData.deposit;
-    updateDeposit(Number(updateDeposit)).then(() => {
+    console.log(userDepositData, "USER DEPOSIT BALANCE ");
+    const userBalance = Number(userDepositData?.data?.balance);
+
+    const finalBalance = userBalance - deposit;
+    updateBalance(Number(finalBalance));
+
+    console.log("USER GAME DATA-------", userGameData, deposit);
+    const updatedDeposit = deposit + Number(userGameData[0].deposit);
+    console.log("UD", updatedDeposit);
+    updateDeposit(Number(updatedDeposit), userGameData[0].id).then(() => {
       setSnackbarOpen(true);
+    });
+    let treasury = Number(userGameData[0].games?.treasury) + deposit;
+    updateTreasury(treasury, Number(gameId)).then(() => {
+      fetchUserData();
     });
   };
   const list = (buttonName: string) => {
@@ -118,10 +141,7 @@ function PercentagesDrawer({ userData }) {
                 Contributions
               </Typography>
             </StyledPaperTop>
-            <Button
-              sx={{ color: "darkRed" }}
-              onClick={toggleDrawer(buttonName, false)}
-            >
+            <Button sx={{ color: "darkRed" }} onClick={() => navigate(0)}>
               Go Back
             </Button>
             <PieChart
@@ -148,6 +168,7 @@ function PercentagesDrawer({ userData }) {
             <Button
               variant="contained"
               color="primary"
+              sx={{ backgroundColor: "darkred" }}
               onClick={(event) => {
                 event.stopPropagation();
                 handleDeposit(Number(deposit));

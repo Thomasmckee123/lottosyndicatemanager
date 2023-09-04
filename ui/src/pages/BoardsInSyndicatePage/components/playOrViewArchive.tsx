@@ -21,12 +21,13 @@ function PlayOrView() {
         }}
       >
         <Typography variant="h5" color="textSecondary">
-          Choose an Action
+          Game Options
         </Typography>
         <div style={{ display: "flex", gap: "20px" }}>
           <Button
             variant="contained"
             color="primary"
+            sx={{ backgroundColor: "darkRed" }}
             component={Link}
             to={NavigationRoutes.ARCHIVEPAGE}
           >
@@ -35,6 +36,7 @@ function PlayOrView() {
           <Button
             variant="contained"
             color="secondary"
+            sx={{ backgroundColor: "darkRed" }}
             component={Link}
             to={NavigationRoutes.GAMEPAGE}
           >

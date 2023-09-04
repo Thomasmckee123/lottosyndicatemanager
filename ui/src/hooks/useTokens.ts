@@ -1,31 +1,30 @@
 import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../contexts"; 
+import { AuthContext } from "../contexts";
 import { useState } from "react";
 import { NavigationRoutes } from "../constants";
-import instance,{setBearerToken} from "../integrations/instance";
+import instance, { setBearerToken } from "../integrations/instance";
 interface IClaims {
-    userId: number;
-    image: string;
-    email: string;
-    balance: number;
-  }
-  interface IAccessToken {
-    iat: number;
-    exp: number;
-    sub: number;
-    claims: IClaims;
-  }
+  userId: number;
+  image: string;
+  email: string;
+  balance: number;
+}
+interface IAccessToken {
+  iat: number;
+  exp: number;
+  sub: number;
+  claims: IClaims;
+}
 interface IUseTokens {
   checkIfValidToken: (tokens: any) => Promise<void>;
-  isAuthorized: boolean;
   checkLocalStorageTokens: () => void;
   clearLocalStorageTokens: () => void;
 }
 
 const useTokens = (): IUseTokens => {
-    const [isAuthorized, setIsAuthorized] = useState(false)
-    const navigate = useNavigate();
+  const { setIsAuthorized } = AuthContext.useLogin();
+  const navigate = useNavigate();
 
   const checkIfValidToken = async (tokens: any) => {
     const decodedAccess = jwt_decode<IAccessToken>(tokens.accessToken);
@@ -36,15 +35,15 @@ const useTokens = (): IUseTokens => {
     const nowDate = new Date();
 
     if (accessTokenDate > nowDate) {
-        const authDetails = {
-            accessToken: tokens.accessToken,
-            refreshToken: tokens.refreshToken,
-          };
-          localStorage.setItem("user", JSON.stringify(authDetails));
-
+      const authDetails = {
+        accessToken: tokens.accessToken,
+        refreshToken: tokens.refreshToken,
+      };
+      localStorage.setItem("user", JSON.stringify(authDetails));
+      console.log("setting bearer token", tokens.accessToken);
       setBearerToken(tokens.accessToken);
+      console.log("setting is auth true");
       setIsAuthorized(true);
-      navigate(NavigationRoutes.HOME);
     }
     if (accessTokenDate < nowDate && refreshTokenDate > nowDate) {
       const config = {
@@ -58,9 +57,8 @@ const useTokens = (): IUseTokens => {
         refreshToken: resp.data.refreshToken,
       };
       localStorage.setItem("user", JSON.stringify(authDetails));
+      setBearerToken(authDetails.accessToken);
       setIsAuthorized(true);
-
-      navigate(NavigationRoutes.HOME);
     }
     if (accessTokenDate < nowDate && refreshTokenDate < nowDate) {
       setIsAuthorized(false);
@@ -85,12 +83,11 @@ const useTokens = (): IUseTokens => {
     localStorage.removeItem("user");
     localStorage.removeItem("userEmail");
     setIsAuthorized(false);
-    navigate(NavigationRoutes.LOGIN);
+    navigate(0);
   };
 
   return {
     checkIfValidToken,
-    isAuthorized,
     checkLocalStorageTokens,
     clearLocalStorageTokens,
   };

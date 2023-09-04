@@ -4,9 +4,11 @@ interface AuthContextProps {
   state: {
     accessToken: string;
     refreshToken: string;
+    isAuthorized: boolean;
   };
   dispatch: React.Dispatch<any>;
   handleLogout: () => void;
+  setIsAuthorized: (isAuthorized: boolean) => void;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -18,10 +20,17 @@ function authReducer(state: any, action: any) {
         ...state,
         accessToken: action.accessToken,
         refreshToken: action.refreshToken,
+        isAuthorized: false,
       };
     }
     case "logout": {
-      return {};
+      return { ...state, isAuthorized: false };
+    }
+    case "setIsAuthorized": {
+      return {
+        ...state,
+        isAuthorized: action.isAuthorized,
+      };
     }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
@@ -48,7 +57,13 @@ function AuthProvider({ children }: any) {
     localStorage.removeItem("userEmail");
   };
 
-  const value = { state, dispatch, handleLogout };
+  const value = {
+    state,
+    dispatch,
+    handleLogout,
+    setIsAuthorized: (isAuthorized: boolean) =>
+      dispatch({ type: "setIsAuthorized", isAuthorized }),
+  };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

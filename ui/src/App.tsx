@@ -23,7 +23,7 @@ import Archive from "./pages/archive/index";
 import Profile from "./pages/Profile";
 import Logout from "./pages/Logout";
 import useTokens from "./hooks/useTokens";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
   const unAuthorisedRoutes = () => {
@@ -69,21 +69,25 @@ function App() {
       </>
     );
   };
-  const { isAuthorized, checkLocalStorageTokens } = useTokens();
-  // const { state } = AuthContext.useLogin();
-  // const loggedIn = state.accessToken;
+  const { checkLocalStorageTokens } = useTokens();
+  const { state } = AuthContext.useLogin();
+  const isAuth = state.isAuthorized;
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     checkLocalStorageTokens();
+    setIsLoading(false);
   }, []);
 
   return (
-    <>
-      <Navigation />
-      <Routes>
-        {!isAuthorized && unAuthorisedRoutes()}
-        {isAuthorized && authorisedRoutes()}
-      </Routes>
-    </>
+    !isLoading && (
+      <>
+        <Navigation />
+        <Routes>
+          {!isAuth && unAuthorisedRoutes()}
+          {isAuth && authorisedRoutes()}
+        </Routes>
+      </>
+    )
   );
 }
 

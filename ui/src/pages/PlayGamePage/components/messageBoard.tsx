@@ -42,6 +42,7 @@ import {
 } from "../../../services/userGames";
 import PercentagesDrawer from "./PercentagesDrawer";
 import { StyledPaper, StyledPaperTop } from "../styles/styled";
+import moment from "moment";
 
 function GameChat() {
   const [openDialog, setOpenDialog] = useState(false);
@@ -95,11 +96,14 @@ function GameChat() {
   };
   console.log("Message Data", messageData);
 
-  useEffect(() => {
+  const fetchUserData = () => {
     fetchUserGamesByGameId(Number(gameId)).then((response) => {
       console.log("RESPONSE", response);
       setMappedPlayers(response);
     });
+  };
+  useEffect(() => {
+    fetchUserData();
   }, [gameId]);
 
   if (mappedPlayers.length > 0) {
@@ -127,7 +131,10 @@ function GameChat() {
     <>
       {" "}
       <StyledPaperTop>
-        <PercentagesDrawer userData={mappedPlayers} />{" "}
+        <PercentagesDrawer
+          userData={mappedPlayers}
+          fetchUserData={fetchUserData}
+        />{" "}
         <Typography sx={{ color: "white", fontSize: "5rem" }}>
           {mappedPlayers[0]?.games?.gameTypes?.name}
         </Typography>
@@ -201,7 +208,9 @@ function GameChat() {
                       />
                     </ListItemAvatar>
                     <ListItemText
-                      primary={item?.createdDate}
+                      primary={moment(item?.createdDate).format(
+                        "MMMM Do YYYY, h:mm:ss a"
+                      )}
                       {...item?.userGames?.users?.firstName}
                       secondary={item?.message}
                     />

@@ -336,7 +336,7 @@ function GameTypes() {
           elevation={24}
           sx={{
             p: 4,
-            height: "30vh",
+            height: "10vh",
             backgroundColor: `darkRed`,
             backgroundSize: "cover",
             backgroundPosition: "center",
@@ -425,7 +425,7 @@ function GameTypes() {
           elevation={24}
           sx={{
             p: 4,
-            height: "30vh",
+            height: "10vh",
             backgroundColor: `darkRed`,
             backgroundSize: "cover",
             backgroundPosition: "center",
@@ -441,7 +441,7 @@ function GameTypes() {
             style={{ textAlign: "center" }}
             color={"white"}
           >
-            Games We play
+            Join A Game
           </Typography>
         </Paper>
       </ThemeProvider>
