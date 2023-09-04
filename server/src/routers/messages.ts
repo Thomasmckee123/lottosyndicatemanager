@@ -211,7 +211,7 @@ MessagesRouter.get("/boards/:boardId(\\d+)", MessagesController.getMessagesByBoa
  *                   description: The error message
  */
 MessagesRouter.post("/games/:userGameId(\\d+)/boards/:boardId",[
-    body("message").isString().isLength({min:3, max: 2000}),
+    body("message").isString().isLength({min:1, max: 200}),
   ],validate, MessagesController.createNewMessageInBoard);
   /**
  * Delete a message by ID.
