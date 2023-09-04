@@ -6,20 +6,18 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
 import { NavigationRoutes } from "../../../constants/navigationRoutes";
-
+import moment from "moment";
 function MediaCard({ data }: { data: any }) {
   if (!data) return null;
 
   return (
-    <Card sx={{ width: "40vh", height: "50vh", margin: "2vh" }}>
+    <Card
+      sx={{ width: "40vh", height: "40vh", margin: "2vh", overflow: "auto" }}
+    >
       <CardMedia sx={{ height: 140 }} image={data.avatar} title={data.name} />
-      <CardContent>
-        <Typography
-          variant="body2"
-          color="text.tiertary"
-          sx={{ fontSize: "0.8rem" }}
-        >
-          date: {data.createdDate}
+      <CardContent sx={{ height: "100%", width: "100%" }}>
+        <Typography variant="body2" color="text.tiertary">
+          date: {moment(data.createdDate).format("D MMMM YYYY, h:mm:ss a")}
         </Typography>
         <Typography gutterBottom component="div">
           {data.name}
