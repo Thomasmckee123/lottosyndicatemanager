@@ -41,7 +41,13 @@ function Title() {
       <CustomBox
         sx={{ boxShadow: "0px 0px 20px rgba(0, 0, 0, 0.1)", width: "20vw" }}
       >
-        <Typography variant="h4" gutterBottom sx={{ size: "100%" }}>
+        <Typography
+          variant="h4"
+          gutterBottom
+          sx={{
+            fontSize: "100%",
+          }}
+        >
           Welcome {userData ? `${userData?.data?.firstName}` : "..."}
         </Typography>
         <Box>

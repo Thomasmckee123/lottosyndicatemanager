@@ -13,8 +13,8 @@ color:white;`
 export const CustomBox = styled(Box)`
 background-color: dimgrey;
 color: white;
-width: 30vw;
-height: 18vh;
+width: 60vw;
+
 
 display: flex;
 flex-direction: column;
