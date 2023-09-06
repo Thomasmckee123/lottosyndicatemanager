@@ -1,4 +1,5 @@
 import express, {Request, Response, NextFunction } from 'express';
+import 'express-async-errors';
 import {HealthRouter} from './routers/health';
 import { UserRouter } from './routers/users';
 import { SyndicatesRouter } from './routers/syndicates';
