@@ -31,7 +31,7 @@ jobs:
     - name: Build and push image to Lightsail
       id: build-image
       run: |
-        docker build --build-arg API_DB_URL="${{ secrets.API_DB_URL }}"  --build-arg AWS_ACCESS_KEY_ID="${{ secrets.AWS_ACCESS_KEY_ID }}" --build-arg AWS_SECRET_ACCESS_KEY="${{ secrets.AWS_SECRET_ACCESS_KEY_ID }}" -t lotto-syndicate-api:latest .
+        docker build --build-arg API_DB_URL="${{ secrets.API_DB_URL }}"  --build-arg AWS_ACCESS_KEY_ID="${{ secrets.AWS_ACCESS_KEY_ID }}" --build-arg AWS_SECRET_ACCESS_KEY="${{ secrets.AWS_SECRET_ACCESS_KEY }}" -t lotto-syndicate-api:latest .
         aws lightsail push-container-image --region eu-west-1 --service-name lottosyndicate-service-1 --label lotto-syndicate-api --image lotto-syndicate-api:latest
     - name: Deploy Service
       run: |
