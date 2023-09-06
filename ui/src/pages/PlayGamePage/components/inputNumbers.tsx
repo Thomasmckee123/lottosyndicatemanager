@@ -19,7 +19,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { createTicket } from "../../../services/tickets";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { fetchGameById } from "../../../services/games";
 
 import SelectedNumbers from "./balls";
@@ -54,10 +54,6 @@ function TicketInput({ roleId }: any) {
   const userId = jwt.claims.userId;
 
   const handleupdateUserBalance = () => {
-    console.log("UPDATING USER BALANCE USER ID", userId);
-    console.log("UPDATING TREASURY BALANCE", gameId);
-    console.log("ticket cost", data?.gameTypes.ticketCost);
-
     const takeAwayTicketCost = data?.treasury - data?.gameTypes?.ticketCost;
     let addTicketCost = jwt.claims.balance + data?.gameTypes?.ticketCost;
 
@@ -65,6 +61,7 @@ function TicketInput({ roleId }: any) {
       updateTreasury(Number(takeAwayTicketCost), Number(gameId));
     });
   };
+  const navigate = useNavigate();
   console.log("Role ID in ticket input", roleId);
   const handleNumberChange = (ballIndex: number, dropdownIndex: number, e) => {
     const newValue = e.target.value; // Assuming e.target.value contains the selected number.
@@ -182,7 +179,9 @@ function TicketInput({ roleId }: any) {
 
   const handleNumberInputs = async (ticketCode: any) => {
     if (data?.treasury >= data?.gameTypes?.ticketCost) {
-      createTicket(ticketCode, Number(gameId));
+      createTicket(ticketCode, Number(gameId)).then(() => {
+        navigate(0);
+      });
     } else {
       setOpenPopup(true);
     }
@@ -319,20 +318,7 @@ function TicketInput({ roleId }: any) {
                 Select Numbers
               </Button>
             </Grid>
-            <Grid item xs={4}>
-              <Button
-                variant="contained"
-                color="primary"
-                sx={{
-                  height: "100%",
-                  width: "100%",
-                  backgroundColor: "darkred",
-                }}
-                onClick={handleConfirm}
-              >
-                Confirm Numbers
-              </Button>
-            </Grid>
+            <Grid item xs={4}></Grid>
           </Grid>
         </CardContent>
       </Card>

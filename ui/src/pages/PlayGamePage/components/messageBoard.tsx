@@ -217,6 +217,10 @@ function GameChat() {
                       {...item?.userGames?.users?.firstName}
                       secondary={item?.message}
                     />
+                    <ListItemText>
+                      {item?.userGames?.users?.firstName}{" "}
+                      {item?.userGames?.users?.lastName}
+                    </ListItemText>
                   </ListItem>
                 ))}
               </List>

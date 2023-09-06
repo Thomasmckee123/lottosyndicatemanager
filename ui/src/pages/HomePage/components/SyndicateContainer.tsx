@@ -7,8 +7,10 @@ import { useEffect, useState } from "react";
 import { fetchHomePageSyndicateData } from "../../../services/syndicates";
 import TokenUtils from "../../../integrations/token";
 import Header from "./Header";
-import { Alert, Snackbar } from "@mui/material";
+import { Alert, Button, Snackbar } from "@mui/material";
 import { CustomContainer } from "../styles/styled";
+import { NavigationRoutes } from "../../../constants";
+import { Link } from "react-router-dom";
 
 function SyndicateContainer() {
   const [data, setData] = useState<any[]>([]);
@@ -63,11 +65,30 @@ function SyndicateContainer() {
             overflow: "auto",
           }}
         >
-          {data.map((item) => (
-            <>
+          {data.length > 0 ? (
+            data.map((item) => (
               <SyndicateCard propData={item} onDelete={handleDeleteSyndicate} />
-            </>
-          ))}
+            ))
+          ) : (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100%",
+              }}
+            >
+              <Link to={NavigationRoutes.VIEWSYDICATES}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  sx={{ backgroundColor: "darkRed" }}
+                >
+                  Join Syndicates
+                </Button>
+              </Link>
+            </Box>
+          )}
         </CustomContainer>
         <Snackbar
           open={open}
