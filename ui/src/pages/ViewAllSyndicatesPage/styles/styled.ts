@@ -8,7 +8,7 @@ const StyledPaper = styled(Paper)`
 `;
 const SearchPaper = styled(Paper)`
 width: 100%;
-background-color: grey;
+background-color: darkRed;
 height: 20%;
 display: flex;
 justify-content: center;

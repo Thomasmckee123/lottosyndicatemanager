@@ -24,6 +24,9 @@ import Profile from "./pages/Profile";
 import Logout from "./pages/Logout";
 import useTokens from "./hooks/useTokens";
 import { useEffect, useState } from "react";
+import { NormalTicketInput } from "./pages/NormalTicketInput";
+import { ViewTicketsPage } from "./pages/TicketsPage";
+import { GameStats } from "./pages/SyndicateGameStats/GameStats";
 
 function App() {
   const unAuthorisedRoutes = () => {
@@ -65,6 +68,18 @@ function App() {
         <Route path={NavigationRoutes.ACCOUNT} element={<AccountPage />} />
         <Route path={NavigationRoutes.GAMEMESSAGE} element={<Message />} />
         <Route path={NavigationRoutes.PROFILE} element={<Profile />} />
+        <Route
+          path={NavigationRoutes.TICKETINPUT}
+          element={<NormalTicketInput />}
+        />
+        <Route
+          path={NavigationRoutes.VIEWTICKETSPAGE}
+          element={<ViewTicketsPage />}
+        />
+        <Route
+          path={NavigationRoutes.SYNDICATEGAMEMESSAGE}
+          element={<GameStats />}
+        />
         <Route path="*" element={<Navigate to={"/"} />} />
       </>
     );

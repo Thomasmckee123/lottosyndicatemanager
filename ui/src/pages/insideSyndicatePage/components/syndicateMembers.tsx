@@ -9,6 +9,7 @@ import { fetchUserBySyndicateId } from "../../../services/members";
 
 import TokenUtils from "../../../integrations/token";
 import Members from "./Members";
+import { Paper } from "@mui/material";
 
 function SyndicateMembers() {
   const { syndicateId } = useParams<{ syndicateId: string }>();
@@ -34,19 +35,23 @@ function SyndicateMembers() {
 
   return (
     <>
-      <Typography variant="h2" gutterBottom>
-        Members
-      </Typography>
-      <Box display="flex" justifyContent="center">
-        <Grid container spacing={10} justifyContent="center">
-          {Array.isArray(data) &&
-            data.map((item) => (
-              <Grid item xs={4}>
-                <Members data={item} />
-              </Grid>
-            ))}
-        </Grid>
-      </Box>
+      <Paper sx={{ backgroundColor: "darkRed", color: "white" }}>
+        <Box sx={{ display: "flex", justifyContent: "center", my: 4 }}>
+          <Typography variant="h2" gutterBottom>
+            Members
+          </Typography>
+        </Box>
+        <Box display="flex" justifyContent="center">
+          <Grid container spacing={10} justifyContent="center">
+            {Array.isArray(data) &&
+              data.map((item) => (
+                <Grid item xs={4}>
+                  <Members data={item} />
+                </Grid>
+              ))}
+          </Grid>
+        </Box>
+      </Paper>
     </>
   );
 }

@@ -25,19 +25,20 @@ function CoverImage() {
 
   const [data, setData] = useState<any>(null);
   const [joinedMessage, setJoinedMessage] = useState("");
+  const [joined, setJoined] = useState<boolean>(false);
   const { syndicateId } = useParams<{ syndicateId: string }>();
-
+  const [userSyndicateId, setUserSyndicateId] = useState<number>();
   const userSyndicateCheck = async () => {
     try {
       const firstresponse = await fetchHomePageSyndicateData(Number(userId));
       console.log("FIRST RESPONSE: ", firstresponse);
-
       const targetSyndicate = firstresponse.find(
         (synd: any) =>
           synd.syndicates.id == syndicateId && synd.users.id == userId
       );
       console.log("TARGET SYNDICATE:", targetSyndicate);
       if (targetSyndicate) {
+        setUserSyndicateId(targetSyndicate.syndicates.id);
         return true;
       }
     } catch (error) {
@@ -50,15 +51,17 @@ function CoverImage() {
     try {
       const isUserMember = await userSyndicateCheck();
       if (!isUserMember) {
-        await createUserSyndicate(
+        let response = await createUserSyndicate(
           new Date(),
           Number(userId),
           Number(syndicateId),
           Number(roleId)
         );
         setJoinedMessage("Successfully joined!");
+        setJoined(true);
       } else {
         setJoinedMessage("You have already joined");
+        setJoined(true);
       }
     } catch (error) {
       console.error("Error handling submit:", error);
@@ -95,16 +98,39 @@ function CoverImage() {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary" onClick={handleSubmit}>
-          Request to Join
+        <Button
+          variant="contained"
+          sx={{ backgroundColor: "darkred" }}
+          color="primary"
+          onClick={handleSubmit}
+          disabled={joined}
+        >
+          {joined ? "You have already joined" : "Request to Join"}
         </Button>
-        <Typography variant="body2" color="red">
-          {joinedMessage}
-        </Typography>
+        {joined && (
+          <Button
+            variant="contained"
+            sx={{ backgroundColor: "darkred" }}
+            color="primary"
+            component={Link}
+            to={NavigationRoutes.SYNDICATEBOARDS.replace(
+              `:syndicateId`,
+              `${syndicateId}`
+            ).replace(`:userSyndicateId`, `${userSyndicateId}`)}
+          >
+            Enter Syndicate
+          </Button>
+        )}
+
         <Link
           to={NavigationRoutes.REVIEW.replace(`:syndicateId`, `${syndicateId}`)}
         >
-          <Button size="small" color="primary">
+          <Button
+            variant="contained"
+            size="small"
+            color="primary"
+            sx={{ backgroundColor: "darkred" }}
+          >
             Reviews
           </Button>
         </Link>

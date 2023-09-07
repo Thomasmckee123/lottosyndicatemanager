@@ -44,6 +44,15 @@ const NonTopBarPages = [
     title: "Inside Synidcate",
     path: NavigationRoutes.INSIDESYNDICATE,
   },
+  { title: "Syndicate Game", path: NavigationRoutes.SYNDICATEGAMEMESSAGE },
+  {
+    title: "ticket Numbers",
+    path: NavigationRoutes.VIEWTICKETSPAGE,
+  },
+  {
+    title: "Input Tickets",
+    path: NavigationRoutes.TICKETINPUT,
+  },
 ];
 const settings = [
   { title: "Profile", path: NavigationRoutes.PROFILE },

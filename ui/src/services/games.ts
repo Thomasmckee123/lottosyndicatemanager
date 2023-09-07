@@ -22,13 +22,17 @@ const fetchGamesById = async (gameId: number) => {
   }
 };
 
+
+
 const fetchGamesByTypeID = async (gTypeId: number, syndicateId: number) => {
   try {
     console.log("fetching games by type ", gTypeId);
     const response = await axios.get(
       `games/gameTypes/${gTypeId}/syndicates/${syndicateId}`
     );
-    return response.data;
+    
+      return response.data
+  
   } catch (error) {
     console.error("There was an error getting the games by id:", error);
   }
@@ -93,7 +97,26 @@ const createGame = async (
   console.log("RESPONSE DATA", response);
   return response.data;
 };
+const createNormalGame = async (
+   gameTypeId: number,
+  syndicateId: number,
+ 
+ 
+) => {
+  const gameData = {
+    maximumPlayers: 100000000000000,
+    treasury: 0,
+  };
 
+  console.log("SYNDICATE ID IIIIIII",syndicateId);
+  console.log("GAMETYPEIDDDDDDD",gameTypeId);
+  const response = await axios.post(
+    `games/syndicates/${Number(syndicateId)}/gameTypes/${Number(gameTypeId)}`,
+    gameData
+  );
+  console.log("RESPONSE DATA", response);
+  return response.data;
+};
 const archiveGame = async (gameTypeId: number) => {
   try {
     const gameData = {
@@ -128,4 +151,6 @@ export {
   fetchGameTypeByID,
   fetchGamesByTypeID,
   fetchGameById,
+  createNormalGame,
+ 
 };

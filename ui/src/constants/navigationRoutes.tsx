@@ -22,5 +22,11 @@ const NavigationRoutes = {
   PROFILE: "/profile",
   LOGOUT: "/logout",
   GAMEMEMBERS: "/gameMembers/:gameId",
+  TICKETINPUT:
+    "/syndicates/:syndicateId/userSyndicates/:userSyndicateId/games/:gameId/roles/:roleId",
+  VIEWTICKETSPAGE:
+    "/syndicates/:syndicateId/userSyndicates/:userSyndicateId/games/:gameId",
+  SYNDICATEGAMEMESSAGE:
+    "/syndicates/:syndicateId/userSyndicates/:userSyndicateId/userGames/:userGameId/games/:gameId",
 };
 export { NavigationRoutes };

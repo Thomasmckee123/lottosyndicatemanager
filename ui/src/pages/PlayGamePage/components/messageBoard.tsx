@@ -134,11 +134,13 @@ function GameChat() {
     <>
       {" "}
       <StyledPaperTop>
+        {" "}
         <PercentagesDrawer
           userData={mappedPlayers}
           fetchUserData={fetchUserData}
         />{" "}
-        <Typography sx={{ color: "white", size: "80%" }}>
+        <Typography variant="h4" sx={{ color: "white" }}>
+          {" "}
           {mappedPlayers[0]?.games?.gameTypes?.name}
         </Typography>
       </StyledPaperTop>

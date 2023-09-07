@@ -35,12 +35,10 @@ function Title() {
       flexDirection="column"
       alignItems="center"
       justifyContent="center"
-      height="20vh"
-      margin="5vh"
+      height="80vh"
+      width="100%"
     >
-      <CustomBox
-        sx={{ boxShadow: "0px 0px 20px rgba(0, 0, 0, 0.1)", width: "20vw" }}
-      >
+      <CustomBox sx={{ boxShadow: "0px 0px 20px rgba(0, 0, 0, 0.1)" }}>
         <Typography
           variant="h4"
           gutterBottom
@@ -60,7 +58,12 @@ function Title() {
             <Button
               variant="contained"
               color="primary"
-              sx={{ backgroundColor: "darkred" }}
+              sx={{
+                backgroundColor: "darkred",
+                height: "20vh",
+                width: "20vw",
+                fontSize: "1rem",
+              }}
               startIcon={<AddIcon />}
             >
               Create a new syndicate

@@ -1,3 +1,11 @@
+
+
+CREATE TABLE
+    user_types(
+        id SERIAL NOT NULL CONSTRAINT user_types_pk PRIMARY KEY,
+        name VARCHAR(255) NOT NULL
+    );
+
 CREATE TABLE
     users(
         id SERIAL NOT NULL CONSTRAINT users_pk PRIMARY KEY,
@@ -6,9 +14,10 @@ CREATE TABLE
         image VARCHAR(255) NOT NULL,
         password VARCHAR(255) NOT NULL,
         email VARCHAR(255) NOT NULL,
-        balance FLOAT NOT NULL
-      
+        balance FLOAT NOT NULL,
+        user_type_id INTEGER NOT NULL CONSTRAINT fk_user_user_types REFERENCES user_types(id)
     );
+
 
 CREATE TABLE
     syndicates(

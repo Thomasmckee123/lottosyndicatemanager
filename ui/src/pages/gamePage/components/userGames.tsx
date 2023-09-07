@@ -1,26 +1,24 @@
-import React from "react";
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Button,
   Container,
+  Typography,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  TableContainer,
   Paper,
   Table,
-  TableBody,
-  TableCell,
-  TableContainer,
   TableHead,
   TableRow,
-  Typography,
+  TableCell,
+  TableBody,
+  Button,
 } from "@mui/material";
-
-import { useEffect, useState } from "react";
-import { fetchUserGames } from "../../../services/userGames";
-import TokenUtils from "../../../integrations/token";
-import { NavigationRoutes } from "../../../constants";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import CountDown from "../../../components/countdown";
+import { NavigationRoutes } from "../../../constants";
+import TokenUtils from "../../../integrations/token";
+import { fetchUserGames } from "../../../services/userGames";
 
 const UserGames = () => {
   const [data, setData] = useState<any[]>([]);
@@ -44,6 +42,8 @@ const UserGames = () => {
   const handleChange = (panel: string) => (event: any, isExpanded: boolean) => {
     setExpanded(isExpanded ? panel : false);
   };
+  console.log(data);
+  const filteredData = data.filter((game) => game.games.maximumPlayers < 200);
 
   return (
     <Container>
@@ -51,7 +51,7 @@ const UserGames = () => {
         Your Games
       </Typography>
 
-      {data.map((game: any) => (
+      {filteredData.map((game: any) => (
         <Accordion
           key={game?.id}
           expanded={expanded === `panel${game?.id}`}

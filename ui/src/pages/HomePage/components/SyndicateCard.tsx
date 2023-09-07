@@ -20,9 +20,11 @@ import TokenUtils from "../../../integrations/token";
 import { StyledCardHeader } from "../styles/styled";
 import moment from "moment";
 function SyndicateCard({
+  role,
   propData,
   onDelete,
 }: {
+  role: number;
   propData: any;
   onDelete: Function;
 }) {
@@ -43,14 +45,16 @@ function SyndicateCard({
   const handleClose = () => {
     setOpen(false);
   };
-
+  console.log("ROLEEEEE", role);
   return (
     <Card sx={{ maxWidth: 345, boxShadow: "0px 0px 20px black" }}>
       <StyledCardHeader
         avatar={
-          <IconButton onClick={handleLeaveSyndicate}>
-            <DeleteIcon sx={{ color: "white" }} />
-          </IconButton>
+          role !== 2 && (
+            <IconButton onClick={handleLeaveSyndicate}>
+              <DeleteIcon sx={{ color: "white" }} />
+            </IconButton>
+          )
         }
         title={
           <Typography variant="h6" component="div">
@@ -97,7 +101,7 @@ function SyndicateCard({
             ).replace(":userSyndicateId", `${data.id}`)}
             style={{ color: "inherit", textDecoration: "none", width: "100%" }}
           >
-            Enter
+            {role === 2 ? "Manage Syndicate" : "Enter"}
           </Link>
         </Button>
       </CardActions>

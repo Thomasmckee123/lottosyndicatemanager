@@ -142,8 +142,16 @@ model users {
   password               String                   @db.VarChar(255)
   email                  String                   @db.VarChar(255)
   balance                Float
+  user_type_id           Int
   syndicates             syndicates[]
   user_games             user_games[]
   user_syndicate_reviews user_syndicate_reviews[]
   user_syndicates        user_syndicates[]
+  user_types             user_types               @relation(fields: [user_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_user_types")
+}
+
+model user_types {
+  id    Int     @id(map: "user_types_pk") @default(autoincrement())
+  name  String  @db.VarChar(255)
+  users users[]
 }

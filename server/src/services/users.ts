@@ -12,12 +12,18 @@ const getAll = async () => {
       email: true,
       image: true,
       balance: true,
+      user_types: {
+        select:{
+        id: true,
+        name: true
+      }
+      }
     },
   });
   if(!allUsers){
     return null
   }
-  let getAllUsers: IUser[] = allUsers
+  let getAllUsers: any[] = allUsers
     .filter((user) => user.first_name !== "DELETEDUSER")
     .map((x) => ({
       id: x.id,
@@ -26,7 +32,11 @@ const getAll = async () => {
       password: x.password,
       email: x.email,
       image: x.image,
-      balance: Number(x.balance)
+      balance: Number(x.balance),
+      userTypes:{
+       id: x.user_types.id,
+       name: x.user_types.name
+      }
     }));
   return getAllUsers;
 };
@@ -47,12 +57,18 @@ const getAll = async () => {
         email: true,
         image: true,
         balance:true,
+        user_types: {
+          select:{
+          id: true,
+          name: true
+        }
+        }
       },
     });
     if (!usersById) {
       return null;
   }
-    const returnedValue: IUser = {
+    const returnedValue = {
      id: Number(usersById?.id),
     firstName: usersById?.first_name,
     lastName: usersById?.last_name,
@@ -60,6 +76,10 @@ const getAll = async () => {
     email: usersById?.email,
     image: usersById?.image,
     balance: Number(usersById?.balance),
+    userTypes: {
+      id: usersById.user_types.id,
+      name: usersById.user_types.name,
+    }
     };
     if(!returnedValue){
       return null;
@@ -85,7 +105,8 @@ const getAll = async () => {
         email: user.email,
         password: hashedPassword,
         image: "no image selected",
-        balance: 0
+        balance: 0,
+        user_type_id: user.userTypeId
       },
     });
       return newUser.email;
@@ -139,13 +160,18 @@ const getAll = async () => {
         image: true,
         password: true,
         balance: true,
+        user_types: {select:{
+          id: true,
+          name: true,
+        }
+        }
       },
       
     });
     if(users.length === 0){
       return null
     }
-    const returnedValue: IUser = {
+    const returnedValue = {
       id: Number(users[0]?.id),
      firstName: users[0]?.first_name,
      lastName: users[0]?.last_name,
@@ -153,6 +179,10 @@ const getAll = async () => {
      email: users[0]?.email,
      image: users[0]?.image,
      balance: Number(users[0]?.balance),
+     userTypes:{
+      id: users[0]?.user_types.id,
+      name: users[0]?.user_types.id,
+     }
      };
     
  
@@ -174,11 +204,7 @@ const getAll = async () => {
          balance: balance
         },
       });
- return updateBalance
-    
-     
-      console.error("cannot update balance")
-    
+ return updateBalance    
    
   }
 

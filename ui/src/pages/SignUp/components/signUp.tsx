@@ -12,8 +12,12 @@ import {
   TextField,
   Button,
   Snackbar,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
-
+import { SelectChangeEvent } from "@mui/material";
 const Register = () => {
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -23,11 +27,14 @@ const Register = () => {
   const [openErrorSnackbar, setOpenErrorSnackbar] = useState(false);
   const { dispatch } = AuthContext.useLogin();
   const [emailExists, setEmailExists] = useState(false); // State to track if email exists
+  const [userType, setUserType] = useState("");
 
   const handleEmailChange = (event: any) => {
     setEmail(event.target.value);
   };
-
+  const handleUserTypeChange = (event: SelectChangeEvent<string>) => {
+    setUserType(event.target.value);
+  };
   const handleFirstNameChange = (event: any) => {
     setFirstName(event.target.value);
   };
@@ -44,7 +51,13 @@ const Register = () => {
   const handleRegister = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
-    const response = await signUpUser(firstName, lastName, email, password);
+    const response = await signUpUser(
+      firstName,
+      lastName,
+      email,
+      password,
+      Number(userType)
+    );
     if (response != 400) {
       setOpenSuccessSnackbar(true);
 
@@ -63,6 +76,18 @@ const Register = () => {
           Lottery syndicate manager
         </Typography>
         <form>
+          <FormControl fullWidth margin="normal">
+            <InputLabel id="user-type-label">User Type</InputLabel>
+            <Select
+              labelId="user-type-label"
+              id="user-type"
+              value={userType}
+              onChange={handleUserTypeChange}
+            >
+              <MenuItem value={1}>Player</MenuItem>
+              <MenuItem value={2}>Syndicate manager</MenuItem>
+            </Select>
+          </FormControl>
           <TextField
             fullWidth
             margin="normal"

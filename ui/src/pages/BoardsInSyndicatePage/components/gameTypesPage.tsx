@@ -15,11 +15,13 @@ import {
   ThemeProvider,
   Snackbar,
   Alert,
+  IconButton,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { fetchGamesWePlay } from "../../../services/gameTypes";
 import {
   createGame,
+  createNormalGame,
   fetchGameById,
   fetchGamesByTypeID,
 } from "../../../services/games";
@@ -50,13 +52,14 @@ import {
 import fetchUserDetails from "../../../services/users";
 import { NavigationRoutes } from "../../../constants";
 import { fetchUserSyndicateByUserSyndicateId } from "../../../services/userSyndicate";
-
-function GameTypes() {
+import GameDropDown from "./gameDropDown";
+import CloseIcon from "@mui/icons-material/Close";
+function GameTypes(currentUserRank: { currentUserRank: any }) {
+  console.log("CURRENT USER RANK", currentUserRank);
   const { syndicateId, userSyndicateId } = useParams<{
     syndicateId: string;
     userSyndicateId: string;
   }>();
-
   const [value, setValue] = useState(0);
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [isFundsOpen, setIsFundsOpen] = useState<boolean>(false);
@@ -71,6 +74,9 @@ function GameTypes() {
   const [joinedMessage, setJoinedMessage] = useState("");
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [userId, setUserId] = useState<number>();
+  const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
+  const [snackbarMessage, setSnackbarMessage] = useState<string>("");
+
   const jwt = TokenUtils.getJWT();
   const handleChange = (
     _event: React.ChangeEvent<object>,
@@ -78,6 +84,29 @@ function GameTypes() {
   ) => {
     setValue(newValue);
   };
+  console.log(currentUserRank, "CURRENTUSERRANKKKKKKKKK");
+  const greyButtonIfGameMade = async (gameTypeId: number) => {
+    const response = await fetchGamesByTypeID(gameTypeId, Number(syndicateId));
+    const hasGame = response.length > 0;
+    console.log(`Game Type ID: ${gameTypeId}, Has Game: ${hasGame}`);
+    return hasGame;
+  };
+  const handleCreateGame = async (gameTypeId: number) => {
+    const hasGame = await greyButtonIfGameMade(gameTypeId);
+    if (hasGame) {
+      // Display error snackbar
+      setSnackbarMessage("Game already created!");
+    } else {
+      // Create game
+      createNormalGame(Number(gameTypeId), Number(syndicateId)).then(() => {
+        getGames();
+        // Display success snackbar
+        setSnackbarMessage("Game created successfully!");
+      });
+    }
+    setSnackbarOpen(true);
+  };
+
   useEffect(() => {
     fetchUserSyndicateByUserSyndicateId(Number(userSyndicateId)).then(
       (response) => {
@@ -90,7 +119,6 @@ function GameTypes() {
     const response = await fetchUserDetails(userId.toString());
     setBalanceData(response.data);
   };
-
   const balance = balanceData?.balance!;
   useEffect(() => {
     getUserDetails();
@@ -197,7 +225,10 @@ function GameTypes() {
           gameTypeId,
           Number(syndicateId)
         );
-        setGameData(response);
+        const filteredResponse = response.filter(
+          (game) => game.maximumPlayers < 20
+        );
+        setGameData(filteredResponse);
       } catch (error) {
         console.error("Error fetching games:", error);
       }
@@ -344,6 +375,7 @@ function GameTypes() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            marginBottom: "2%",
           }}
         >
           <Typography
@@ -359,66 +391,113 @@ function GameTypes() {
       </ThemeProvider>
       <Grid container spacing={3}>
         {gameTypeData.map((thisGameType) => (
-          <Grid item xs={12} md={6} lg={4} key={thisGameType.id}>
-            <DepositDialog
-              open={isDialogOpen}
-              onClose={handleCloseDialog}
-              deposit={deposit}
-              setDeposit={setDeposit}
-              handleJoinGame={handleJoinGame}
-            />
-
-            <Card sx={{ backgroundColor: "darkGrey" }}>
-              <CardMedia
-                component="img"
-                height="295"
-                image={thisGameType.image}
-                alt={thisGameType.name}
-                sx={{ objectFit: "cover" }}
+          <>
+            <Grid item xs={12} md={6} lg={4} key={thisGameType.id}>
+              <GameDropDown
+                userId={userId}
+                title={`Play - ${thisGameType.name}`}
+                gameTypeId={Number(thisGameType.id)}
+                syndicateId={Number(syndicateId)}
+                roleId={Number(currentUserRank.currentUserRank)}
+                userSyndicateId={Number(userSyndicateId)}
               />
-              <CardContent>
-                <Typography variant="h5" component="div">
-                  {thisGameType.name}
-                  {thisGameType.id}
-                </Typography>
-                <Typography variant="body1" component="p">
-                  Reward:{" "}
-                  {currencyFormatter
-                    .format(thisGameType.reward)
-                    .replace(".00", "")}
-                </Typography>
-                <Typography variant="body1" component="div">
-                  Countdown:
-                  <CountDown
-                    drawDate={thisGameType.drawDate}
-                    gameId={thisGameType.id}
-                  />
-                </Typography>
-              </CardContent>
-              <ButtonGroup
-                variant="contained"
-                color="primary"
-                aria-label="join random group buttons"
-                sx={{
-                  display: "flex",
-                  mt: 1,
-                  mx: 2,
-                  mb: 2,
-                  backgroundColor: "darkred",
-                }}
-              >
-                <Button
-                  fullWidth
-                  sx={{ backgroundColor: "darkred" }}
-                  onClick={() => {
-                    handlePlayGame(Number(thisGameType.id));
+              <DepositDialog
+                open={isDialogOpen}
+                onClose={handleCloseDialog}
+                deposit={deposit}
+                setDeposit={setDeposit}
+                handleJoinGame={handleJoinGame}
+              />
+
+              <Card sx={{ backgroundColor: "darkGrey" }}>
+                <CardMedia
+                  component="img"
+                  height="295"
+                  image={thisGameType.image}
+                  alt={thisGameType.name}
+                  sx={{ objectFit: "cover" }}
+                />
+                <CardContent>
+                  <Typography variant="h5" component="div">
+                    {thisGameType.name}
+                  </Typography>
+                  <Typography variant="body1" component="p">
+                    Jackpot:{" "}
+                    {currencyFormatter
+                      .format(thisGameType.reward)
+                      .replace(".00", "")}
+                  </Typography>
+                  <Typography variant="body1" component="div">
+                    <CountDown
+                      drawDate={thisGameType.drawDate}
+                      gameId={thisGameType.id}
+                    />
+                  </Typography>
+                </CardContent>
+                <ButtonGroup
+                  variant="contained"
+                  color="primary"
+                  aria-label="join random group buttons"
+                  sx={{
+                    display: "flex",
+                    mt: 1,
+                    mx: 2,
+                    mb: 2,
+                    backgroundColor: "darkred",
                   }}
                 >
-                  Create a game.
-                </Button>
-              </ButtonGroup>
-            </Card>
-          </Grid>
+                  {currentUserRank &&
+                  (Number(currentUserRank.currentUserRank) === 1 ||
+                    Number(currentUserRank.currentUserRank) === 3) ? (
+                    <>
+                      <Button
+                        fullWidth
+                        sx={{ backgroundColor: "darkred" }}
+                        onClick={() => {
+                          handlePlayGame(Number(thisGameType.id));
+                        }}
+                      >
+                        Create a mini game.
+                      </Button>
+                      <Button
+                        fullWidth
+                        sx={{ backgroundColor: "darkred" }}
+                        onClick={() => {
+                          handleCreateGame(thisGameType.id);
+                        }}
+                        onClickCapture={() =>
+                          console.log(
+                            `Game Type ID: ${
+                              thisGameType.id
+                            }, Disabled: ${greyButtonIfGameMade(
+                              thisGameType.id
+                            )}`
+                          )
+                        }
+                      >
+                        Create a normal game.
+                      </Button>
+                      <Snackbar
+                        open={snackbarOpen}
+                        autoHideDuration={3000}
+                        onClose={() => setSnackbarOpen(false)}
+                        message={snackbarMessage}
+                        action={
+                          <IconButton
+                            size="small"
+                            color="inherit"
+                            onClick={() => setSnackbarOpen(false)}
+                          >
+                            <CloseIcon fontSize="small" />
+                          </IconButton>
+                        }
+                      />
+                    </>
+                  ) : null}
+                </ButtonGroup>
+              </Card>
+            </Grid>
+          </>
         ))}
       </Grid>
       <ThemeProvider theme={lightTheme}>
@@ -433,6 +512,7 @@ function GameTypes() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            marginTop: "2%",
           }}
         >
           <Typography
@@ -442,7 +522,7 @@ function GameTypes() {
             style={{ textAlign: "center" }}
             color={"white"}
           >
-            Join A Game
+            Join A mini Game
           </Typography>
         </Paper>
       </ThemeProvider>

@@ -116,7 +116,12 @@ function PercentagesDrawer({ userData, fetchUserData }) {
     const calculatedPercentages = calculatePercentages();
     return (
       <Box
-        sx={{ width: 550, backgroundColor: "darkgray", color: "white" }}
+        sx={{
+          width: 550,
+          backgroundColor: "darkgray",
+          color: "white",
+          height: "100%",
+        }}
         role="presentation"
         onClick={toggleDrawer(buttonName, false)}
         onKeyDown={toggleDrawer(buttonName, false)}
@@ -133,11 +138,7 @@ function PercentagesDrawer({ userData, fetchUserData }) {
               </Alert>
             </Snackbar>
             <StyledPaperTop>
-              <Typography
-                variant="h6"
-                component="div"
-                sx={{ padding: "16px", color: "white" }}
-              >
+              <Typography variant="h6" component="div" sx={{ color: "white" }}>
                 Contributions
               </Typography>
             </StyledPaperTop>
@@ -152,6 +153,7 @@ function PercentagesDrawer({ userData, fetchUserData }) {
               ]}
               width={400}
               height={200}
+              colors={["darkRed", "grey", "darkblue", "yellow", "white"]}
               sx={{
                 zIndex: 1002,
                 color: "white",

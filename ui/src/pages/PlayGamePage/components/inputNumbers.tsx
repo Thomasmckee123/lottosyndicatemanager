@@ -54,12 +54,14 @@ function TicketInput({ roleId }: any) {
   const userId = jwt.claims.userId;
 
   const handleupdateUserBalance = () => {
-    const takeAwayTicketCost = data?.treasury - data?.gameTypes?.ticketCost;
-    let addTicketCost = jwt.claims.balance + data?.gameTypes?.ticketCost;
+    if (Number(data.treasury > 0)) {
+      const takeAwayTicketCost = data?.treasury - data?.gameTypes?.ticketCost;
+      let addTicketCost = jwt.claims.balance + data?.gameTypes?.ticketCost;
 
-    updateBalance(Number(userId)).then(() => {
-      updateTreasury(Number(takeAwayTicketCost), Number(gameId));
-    });
+      updateBalance(Number(userId)).then(() => {
+        updateTreasury(Number(takeAwayTicketCost), Number(gameId));
+      });
+    }
   };
   const navigate = useNavigate();
   console.log("Role ID in ticket input", roleId);
@@ -308,7 +310,7 @@ function TicketInput({ roleId }: any) {
             <Grid item xs={8}>
               <Button
                 variant="outlined"
-                disabled={roleId !== 4}
+                disabled={Number(roleId) !== 4}
                 sx={{ color: "darkred", borderColor: "darkred" }}
                 onClick={() => {
                   handleOpen();

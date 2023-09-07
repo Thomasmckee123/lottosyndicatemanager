@@ -35,6 +35,7 @@ const generateTokens = (user) => {
             email: user.email,
             firstName: user.first_name,
             balance: user.balance,
+            
           },
         },
         authConst.ACCESS_TOKEN_SECRET,

@@ -2,6 +2,7 @@ import * as React from "react";
 import InputArea from "./components/layout";
 import { Button, Paper } from "@mui/material";
 import { Link } from "react-router-dom";
+import { NavigationRoutes } from "../../constants";
 
 function CreateSyndicate() {
   return (
@@ -17,11 +18,11 @@ function CreateSyndicate() {
       >
         <Button
           component={Link}
-          to="/"
+          to={NavigationRoutes.VIEWSYDICATES}
           variant="contained"
           sx={{ margin: "1rem", backgroundColor: "darkRed" }}
         >
-          Go back to homepage
+          View your syndicates
         </Button>
         <div>
           <InputArea />

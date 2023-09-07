@@ -133,7 +133,7 @@ const SelectedNumbers: any = ({ gameId }: any) => {
                   <Chip
                     label={`Ball ${ballIndex + 1}`}
                     style={{
-                      backgroundColor: "#3f51b5",
+                      backgroundColor: "darkRed",
                       color: "white",
                       fontWeight: "bold",
                     }}

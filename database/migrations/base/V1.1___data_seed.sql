@@ -1,7 +1,10 @@
-INSERT INTO users (first_name, last_name, image, password, email,balance) VALUES 
-('John', 'Doe', 'image','h4x0r123', 'JohnDoe@Gmail.com',0),
-('Jane', 'Smith', 'image','al0ha123', 'JaneSmith@Gmail.com',0),
-('Charlie', 'Brown', 'image','peanut123', 'CharlieBrown@Gmail.com',0);
+INSERT INTO user_types(name)VALUES
+('player'),
+('syndicate manager');
+INSERT INTO users (first_name, last_name, image, password, email,balance, user_type_id) VALUES 
+('John', 'Doe', 'image','h4x0r123', 'JohnDoe@Gmail.com',0,1),
+('Jane', 'Smith', 'image','al0ha123', 'JaneSmith@Gmail.com',0,2),
+('Charlie', 'Brown', 'image','peanut123', 'CharlieBrown@Gmail.com',0,1);
 
 INSERT INTO syndicates (created_date, name, description, avatar, owner_id) VALUES 
 ('2023-07-10', 'The Thunderbolts', 'For those who strike like lightning!', 'https://lottosyndicatebucket.s3.eu-west-1.amazonaws.com/syndicates/1/background+image+1.jpeg', 1),

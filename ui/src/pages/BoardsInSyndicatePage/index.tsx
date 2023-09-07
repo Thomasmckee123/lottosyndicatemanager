@@ -332,7 +332,7 @@ function MessageBoardsPage() {
               </Grid>
             ))}
         </Grid>
-        <GameTypes />
+        <GameTypes currentUserRank={currentUserRank} />
         <PlayOrView />
       </Box>
     </Box>

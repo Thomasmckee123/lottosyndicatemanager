@@ -10,7 +10,7 @@ const StyledPaper = styled(Paper)`
 
 const StyledPaperTop = styled(Paper)`
 background-color: darkred;
-padding-bottom: 10%;
+padding-bottom: 4%;
 display: flex;
 flex-direction: column;
 align-items: center;

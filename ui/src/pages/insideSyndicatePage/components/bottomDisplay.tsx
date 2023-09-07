@@ -6,6 +6,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import { fetchGamesWePlay } from "../../../services/gameTypes";
+import CountDown from "../../../components/countdown";
 
 function GameCard({ data }: { data: any }) {
   const displayDate = new Date(Date.parse(data.drawDate)).toLocaleDateString();
@@ -15,7 +16,7 @@ function GameCard({ data }: { data: any }) {
       <Card sx={{ maxWidth: 345, m: 2 }}>
         <CardMedia
           component="img"
-          height="140"
+          height="300"
           image={data?.image}
           alt={data?.name}
         />
@@ -27,8 +28,9 @@ function GameCard({ data }: { data: any }) {
             {data?.name}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            ticket Cost: {data?.ticketCost} draw date: {displayDate}
+            ticket Cost: £ {data?.ticketCost}
           </Typography>
+          <CountDown drawDate={data.drawDate} gameId={data.id} />
         </CardContent>
       </Card>
     </Grid>

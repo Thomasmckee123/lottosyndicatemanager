@@ -12,7 +12,8 @@ import { CustomContainer } from "../styles/styled";
 import { NavigationRoutes } from "../../../constants";
 import { Link } from "react-router-dom";
 
-function SyndicateContainer() {
+function SyndicateContainer({ role }: { role: number }) {
+  console.log("role", role);
   const [data, setData] = useState<any[]>([]);
   const jwt = TokenUtils.getJWT();
   const userId = jwt.claims.userId;
@@ -67,7 +68,11 @@ function SyndicateContainer() {
         >
           {data.length > 0 ? (
             data.map((item) => (
-              <SyndicateCard propData={item} onDelete={handleDeleteSyndicate} />
+              <SyndicateCard
+                role={role}
+                propData={item}
+                onDelete={handleDeleteSyndicate}
+              />
             ))
           ) : (
             <Box
@@ -78,15 +83,27 @@ function SyndicateContainer() {
                 height: "100%",
               }}
             >
-              <Link to={NavigationRoutes.VIEWSYDICATES}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  sx={{ backgroundColor: "darkRed" }}
-                >
-                  Join Syndicates
-                </Button>
-              </Link>
+              {role == 1 ? (
+                <Link to={NavigationRoutes.VIEWSYDICATES}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    sx={{ backgroundColor: "darkRed" }}
+                  >
+                    Join Syndicates
+                  </Button>
+                </Link>
+              ) : role == 2 ? (
+                <Link to={NavigationRoutes.CREATESYNDICATE}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    sx={{ backgroundColor: "darkRed" }}
+                  >
+                    Create Syndicates
+                  </Button>
+                </Link>
+              ) : null}
             </Box>
           )}
         </CustomContainer>
