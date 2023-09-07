@@ -16,6 +16,7 @@ import {
   Select,
   MenuItem,
   DialogActions,
+  Paper,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { createTicket } from "../../../services/tickets";
@@ -325,9 +326,29 @@ function TicketInput({ roleId }: any) {
         </CardContent>
       </Card>
       {dialogBox()}
+      <Box
+        sx={{
+          pb: 7,
+          mt: 3,
+          display: "flex",
+          justifyContent: "center",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        {/* your content here */}
 
-      <SelectedNumbers gameId={gameId} />
-
+        <Paper
+          sx={{
+            backgroundColor: "darkRed",
+            height: "40vh",
+            width: "70%",
+            overflow: "auto",
+          }}
+        >
+          <SelectedNumbers gameId={gameId} />
+        </Paper>
+      </Box>
       {WaitingPopup()}
     </Box>
   );

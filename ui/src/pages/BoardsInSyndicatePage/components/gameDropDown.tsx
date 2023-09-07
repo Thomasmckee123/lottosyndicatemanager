@@ -70,7 +70,7 @@ export default function GameDropDown({
   const [userGameId, setUserGameId] = useState<number>();
   const [userGameData, setUserGameData] = useState<any[]>([]);
   const [gameDataId, setGameDataID] = useState<number>();
-  const [verified, setVerified] = useState<boolean>(false);
+  const [verified, setVerified] = useState<boolean>(true);
   const handleOpen = () => {
     setOpen(true);
   };
@@ -201,10 +201,11 @@ export default function GameDropDown({
   }, [gameTypeId]);
   console.log("DATA", data);
   useEffect(() => {
-    if (Number(roleId) !== 1 || Number(roleId) != 3) {
-      setVerified(true);
+    console.log("ROLEID", roleId);
+    if (Number(roleId) === 2) {
+      setVerified(false);
     }
-  }, []);
+  }, [roleId]);
   return (
     <>
       {/* Render your dropdown component here */}
@@ -299,7 +300,7 @@ export default function GameDropDown({
                   <Button
                     variant="contained"
                     color="secondary"
-                    disabled={verified}
+                    disabled={!verified}
                     sx={{ marginRight: "1rem", backgroundColor: "darkred" }}
                   >
                     Input Tickets

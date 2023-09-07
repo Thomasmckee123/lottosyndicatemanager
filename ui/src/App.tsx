@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import HomePage from "./pages/HomePage";
@@ -9,8 +10,6 @@ import InsideSyndicate from "./pages/insideSyndicatePage/Index";
 import CreateSyndicate from "./pages/CreateSyndicatePage";
 
 import ReviewPage from "./pages/ReviewsPage";
-
-//import BoardChat from "./pages/messageBoardPage/Index";
 
 import { AuthContext } from "./contexts";
 import Login from "./pages/LoginPage/components/login";

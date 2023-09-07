@@ -1,8 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */ 
 import jwt_decode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts";
-import { useState } from "react";
-import { NavigationRoutes } from "../constants";
 import instance, { setBearerToken } from "../integrations/instance";
 interface IClaims {
   userId: number;

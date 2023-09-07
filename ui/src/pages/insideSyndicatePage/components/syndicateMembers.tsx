@@ -16,10 +16,6 @@ function SyndicateMembers() {
   const [data, setData] = useState<any[]>([]);
 
   useEffect(() => {
-    const jwt = TokenUtils.getJWT();
-    setData(jwt);
-    console.log(syndicateId);
-
     fetchUserBySyndicateId(Number(syndicateId))
       .then((response) => {
         if (Array.isArray(response)) {
