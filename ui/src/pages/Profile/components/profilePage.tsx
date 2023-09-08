@@ -123,7 +123,6 @@ const ProfilePage = () => {
       (syndicate) => syndicate.id !== idToDelete
     );
     setSyndicateData(updatedData);
-    setOpen(true);
   };
   return (
     <>
