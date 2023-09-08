@@ -13,7 +13,6 @@ function Message() {
 
   useEffect(() => {
     fetchUserGamesByUserGameId(Number(userGameId)).then((response) => {
-      console.log("RESPONSE", response);
       setRoleId(response[0].roleId);
     });
   }, [userGameId]);

@@ -15,7 +15,6 @@ import DescriptionInput from "./DescriptionInput";
 import NameInput from "./NameInput";
 
 function InputArea() {
-  const theme = useTheme();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState<File | null>(null); // Initial state is null

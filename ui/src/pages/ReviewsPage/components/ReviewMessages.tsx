@@ -25,9 +25,7 @@ function ReviewMessages() {
   useEffect(() => {
     fetchReviewsBySyndicateId(Number(syndicateId))
       .then((response) => {
-        console.log("Returned Response:", response);
         setMessages(response);
-        console.log(messages);
       })
       .catch((error) => {
         console.error("Error fetching reviews:", error);

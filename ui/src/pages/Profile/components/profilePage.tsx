@@ -2,11 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import {
   Card,
   CardContent,
-  Grid,
   Box,
-  Avatar,
   Typography,
-  IconButton,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -21,17 +18,13 @@ import {
   takeAPhoto,
   uploadImage,
 } from "../../../services/profile";
-import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 
 import Webcam from "react-webcam";
-import FileUpload from "../../../services/fileUpload";
-import { debug } from "console";
 import { StyledPaper } from "../styled/styled";
 import SyndicateCard from "./syndicates";
+import { useNavigate } from "react-router-dom";
 
 const ProfilePage = () => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [photoUrl, setPhotoUrl] = useState<string | null>(null);
   const [userData, setUserData] = useState<any>({});
   const [syndicateData, setSyndicateData] = useState<any[]>([]);
   const [open, setOpen] = useState(false);
@@ -41,6 +34,7 @@ const ProfilePage = () => {
   const userId = jwt.claims.userId;
   const webcamRef = useRef<Webcam & HTMLVideoElement>(null);
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchProfileData(userId)
@@ -59,11 +53,6 @@ const ProfilePage = () => {
         console.error("Error fetching syndicate data:", error);
       });
   }, [userId]);
-
-  const capture = (): any => {
-    const imageSrc = webcamRef.current?.getScreenshot();
-    return imageSrc;
-  };
 
   const handleOpen = () => {
     navigator.mediaDevices
@@ -115,6 +104,7 @@ const ProfilePage = () => {
   const handleUpload = () => {
     uploadImage(userId, uploadedFile!);
     takeAPhoto(Number(userId));
+    navigate(0);
     handleClose();
   };
   const handleDeleteSyndicate = (idToDelete: any) => {

@@ -39,9 +39,7 @@ const useTokens = (): IUseTokens => {
         refreshToken: tokens.refreshToken,
       };
       localStorage.setItem("user", JSON.stringify(authDetails));
-      console.log("setting bearer token", tokens.accessToken);
       setBearerToken(tokens.accessToken);
-      console.log("setting is auth true");
       setIsAuthorized(true);
     }
     if (accessTokenDate < nowDate && refreshTokenDate > nowDate) {

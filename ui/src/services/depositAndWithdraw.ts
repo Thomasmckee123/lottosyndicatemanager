@@ -1,7 +1,6 @@
 import axios from "../integrations/instance";
 
 const updateBalance = async (balance: number) => {
-  console.log("balance ", balance);
   const updateData = {
     balance: balance,
   };
@@ -14,9 +13,7 @@ const updateTreasury = async (treasury: number, gameId: number) => {
     const treasuryData = {
       treasury: Number(treasury),
     };
-    console.log("treasury data   ", treasuryData);
-    console.log("gameId", gameId);
-
+   
     const response = await axios.put(`games/${gameId}`, treasuryData);
     return response.data;
   } catch (error) {

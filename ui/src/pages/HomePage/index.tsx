@@ -14,18 +14,15 @@ const HomePage = () => {
   }, []);
   let userId = data?.claims?.userId;
   useEffect(() => {
-    console.log("userId", userId);
     if (userId) {
       fetchUserDetails(userId)
         .then((response) => {
-          console.log(response);
           setUserdata(response);
         })
         .catch((err) => console.log(err));
     }
   }, [userId]);
   const role = Number(userData?.data?.userTypes?.id);
-  console.log(role);
 
   return (
     <>

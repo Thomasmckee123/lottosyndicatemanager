@@ -18,7 +18,6 @@ const CountDown: any = ({ drawDate, gameId }: any) => {
       if (days <= 0 && hours <= 0 && minutes <= 0) {
         setIsOver(true); // Assuming setIsOver is synchronous
         try {
-          console.log("FRONT END DRAW DATE", drawDate);
           updateDates(Number(gameId), drawDate);
           await archiveGame(gameId);
           fetchGamesWePlay();

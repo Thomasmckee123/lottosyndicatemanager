@@ -2,7 +2,6 @@ import * as React from "react";
 import { Button, TextField } from "@mui/material";
 import FileUpload from "../../../services/fileUpload";
 import { useState } from "react";
-import { uploadSyndicateImage } from "../../../services/syndicates";
 
 interface Props {
   value: File | null;

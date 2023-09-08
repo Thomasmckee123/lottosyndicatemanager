@@ -19,7 +19,6 @@ function GamePage() {
         console.error("Error fetching data:", error);
       });
   }, [userId]);
-  console.log(data);
 
   const filteredData = data.filter((game) => game.games.maximumPlayers < 200);
   return (

@@ -31,12 +31,10 @@ function CoverImage() {
   const userSyndicateCheck = async () => {
     try {
       const firstresponse = await fetchHomePageSyndicateData(Number(userId));
-      console.log("FIRST RESPONSE: ", firstresponse);
       const targetSyndicate = firstresponse.find(
         (synd: any) =>
           synd.syndicates.id == syndicateId && synd.users.id == userId
       );
-      console.log("TARGET SYNDICATE:", targetSyndicate);
       if (targetSyndicate) {
         setUserSyndicateId(targetSyndicate.syndicates.id);
         return true;

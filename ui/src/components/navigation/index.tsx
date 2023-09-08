@@ -12,10 +12,10 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
+
 import { NavigationRoutes } from "../../constants";
 import { Link, useLocation } from "react-router-dom";
-import TokenUtils from "../../integrations/token";
+
 import { AuthContext } from "../../contexts";
 import logo from "/logothomas.png";
 const pages = [
@@ -87,14 +87,10 @@ const Navigation = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  console.log("Pages: ", pages);
-  console.log("NonTopBarPages: ", NonTopBarPages);
 
   const allPages = new Map(
     [...pages, ...NonTopBarPages].map((i) => [i.path, i.title])
   );
-  console.log("All pages: ", allPages);
-  console.log("Current path: ", location.pathname);
 
   const matchPattern = (pattern: any, path: any) => {
     const patternSegments = pattern.split("/");
@@ -119,7 +115,6 @@ const Navigation = () => {
   allPages.forEach((title, path) => {
     if (matchPattern(path, location.pathname)) {
       currentPage = { path, title };
-      console.log("Matched page:", currentPage);
     }
   });
   let title;
@@ -128,7 +123,6 @@ const Navigation = () => {
   } else {
     title = "unknown page";
   }
-  console.log("Final title: ", title);
 
   return (
     <AppBar position="static" sx={{ backgroundColor: "darkred" }}>

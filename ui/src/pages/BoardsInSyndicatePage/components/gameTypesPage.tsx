@@ -10,7 +10,6 @@ import {
   Button,
   ButtonGroup,
   Paper,
-  styled,
   createTheme,
   ThemeProvider,
   Snackbar,
@@ -28,21 +27,16 @@ import {
 import TokenUtils from "../../../integrations/token";
 import { fetchmembersInGroup, joinGame } from "../../../services/joiningGames";
 import DepositDialog from "./deposit";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import CountDown from "../../../components/countdown";
 import {
   updateBalance,
   updateTreasury,
 } from "../../../services/depositAndWithdraw";
 import InsufficientFunds from "./insufficientFunds";
-import {
-  fetchUserGames,
-  fetchUserGamesByGameId,
-  updateRole,
-} from "../../../services/userGames";
+import { fetchUserGamesByGameId } from "../../../services/userGames";
 import {
   ICustomTab,
-  IDecodedJWT,
   IGame,
   IGameMember,
   IGameType,
@@ -55,7 +49,6 @@ import { fetchUserSyndicateByUserSyndicateId } from "../../../services/userSyndi
 import GameDropDown from "./gameDropDown";
 import CloseIcon from "@mui/icons-material/Close";
 function GameTypes(currentUserRank: { currentUserRank: any }) {
-  console.log("CURRENT USER RANK", currentUserRank);
   const { syndicateId, userSyndicateId } = useParams<{
     syndicateId: string;
     userSyndicateId: string;
@@ -76,22 +69,21 @@ function GameTypes(currentUserRank: { currentUserRank: any }) {
   const [userId, setUserId] = useState<number>();
   const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
   const [snackbarMessage, setSnackbarMessage] = useState<string>("");
-
-  const jwt = TokenUtils.getJWT();
+  const navigate = useNavigate();
   const handleChange = (
     _event: React.ChangeEvent<object>,
     newValue: number
   ) => {
     setValue(newValue);
   };
-  console.log(currentUserRank, "CURRENTUSERRANKKKKKKKKK");
+
   const greyButtonIfGameMade = async (gameTypeId: number) => {
     const response = await fetchGamesByTypeID(gameTypeId, Number(syndicateId));
     const filteredResponse = response.filter(
       (game) => game.maximumPlayers > 200
     );
     const hasGame = filteredResponse.length > 0;
-    console.log(`Game Type ID: ${gameTypeId}, Has Game: ${hasGame}`);
+
     return hasGame;
   };
   const handleCreateGame = async (gameTypeId: number) => {
@@ -101,11 +93,11 @@ function GameTypes(currentUserRank: { currentUserRank: any }) {
       setSnackbarMessage("Game already created!");
     } else {
       // Create game
-      createNormalGame(Number(gameTypeId), Number(syndicateId)).then(() => {
-        getGames();
-        // Display success snackbar
-        setSnackbarMessage("Game created successfully!");
-      });
+      createNormalGame(Number(gameTypeId), Number(syndicateId));
+      await getGames();
+      navigate(0);
+      // Display success snackbar
+      setSnackbarMessage("Game created successfully!");
     }
     setSnackbarOpen(true);
   };
@@ -113,7 +105,6 @@ function GameTypes(currentUserRank: { currentUserRank: any }) {
   useEffect(() => {
     fetchUserSyndicateByUserSyndicateId(Number(userSyndicateId)).then(
       (response) => {
-        console.log("GETTING RESPONSEFORUSERID", response);
         setUserId(response?.data?.userId);
       }
     );
@@ -183,12 +174,12 @@ function GameTypes(currentUserRank: { currentUserRank: any }) {
   const handleMembersInGroupChange = async (gameId: number) => {
     try {
       const response: IMember[] = await fetchmembersInGroup(Number(gameId));
-      console.log("membersPerGame", membersPerGame);
+
       setMembersPerGame((prevMembersPerGame) => ({
         ...prevMembersPerGame,
         [Number(gameId)]: response,
       }));
-      console.log("membersPerGam1", membersPerGame);
+
       setUsersPerGame((prevUsersPerGame) => ({
         ...prevUsersPerGame,
         [Number(gameId)]: response.length,
@@ -312,7 +303,7 @@ function GameTypes(currentUserRank: { currentUserRank: any }) {
       } else {
         console.error("Maximum players reached for this game.", gameToJoin);
         setGameTypeId(gameToJoin.gameTypes.id);
-        console.log("GAMETO JOIN ID", gameToJoin.gameTypes.id);
+
         handleCreateNewGame(gameToJoin.gameTypes.id);
         await getGames();
         handleOpenDialog();
@@ -321,21 +312,17 @@ function GameTypes(currentUserRank: { currentUserRank: any }) {
     } else {
       setJoinedMessage("you have already joined this game type,");
       setOpenSnackbar(true);
-      console.log(joinedMessage);
     }
   };
 
   const matchUserToGame = (matchGameId: number) => {
-    console.log("membersPerGame", membersPerGame);
-    console.log("matchGameId", matchGameId);
-    console.log("USER ID", userId);
     return membersPerGame[matchGameId]?.find(
       (member) => member.users.id === userId
     )
       ? true
       : false;
   };
-  console.log("matchingUsersToGame", matchUserToGame(1));
+
   const lightTheme = createTheme({ palette: { mode: "light" } });
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);

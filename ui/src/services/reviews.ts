@@ -4,7 +4,6 @@ import axios from "../integrations/instance";
 const fetchReviewsBySyndicateId = async(syndicateId: number) =>{
 try{
     const response = await axios.get(`reviews/syndicates/${syndicateId}`);
-console.log("REVIEWS RESPONSE DATA", response.data)
     return response.data;
     
 }catch(error){

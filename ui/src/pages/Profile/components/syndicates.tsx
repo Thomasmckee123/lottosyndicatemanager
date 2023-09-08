@@ -2,20 +2,15 @@ import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
-import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import { red, green } from "@mui/material/colors";
 import Button from "@mui/material/Button";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Link } from "react-router-dom";
 import { NavigationRoutes } from "../../../constants";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { deleteUserSyndicateBySyndicateId } from "../../../services/members";
-import { useEffect, useState } from "react";
-import Snackbar from "@mui/material/Snackbar";
+import { useState } from "react";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
-import { fetchHomePageSyndicateData } from "../../../services/syndicates";
 import TokenUtils from "../../../integrations/token";
 
 function SyndicateCard({

@@ -21,12 +21,10 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+
 import { fetchGameById, fetchGamesByTypeID } from "../../../services/games";
 import CountDown from "../../../components/countdown";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { NavigationRoutes } from "../../../constants";
 import DepositDialog from "./deposit";
 import { joinGame } from "../../../services/joiningGames";
@@ -58,8 +56,6 @@ export default function GameDropDown({
   userSyndicateId,
   userId,
 }: TopDrawerProps) {
-  console.log("ROLEID", roleId);
-  console.log("GAMETYPEID FOR DROP DOWN", gameTypeId);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [isticketInput, setisTicketInput] = useState<boolean>(false);
   const [gameData, setGameData] = useState<any[]>([]);
@@ -86,12 +82,6 @@ export default function GameDropDown({
   };
 
   const getNormalGames = async () => {
-    console.log(
-      "getNormalGames called with gameTypeId:",
-      gameTypeId,
-      "and syndicateId:",
-      syndicateId
-    );
     await fetchGamesByTypeID(gameTypeId, syndicateId).then((response) => {
       const filteredResponse = response.filter(
         (game) => game.maximumPlayers > 20
@@ -123,12 +113,10 @@ export default function GameDropDown({
     }
   }
 
-  console.log("OUTSIDEGAMEDATAID", gameDataId);
   useEffect(() => {
     fetchUserGames(Number(userId)).then((response) => {
-      console.log("RESPONSE....aaaaasssss", response);
       setUserGameData(response);
-      console.log("GAMEDATAID", gameDataId);
+
       for (let i = 0; i < response.length; i++) {
         if (response[i].games.id == gameDataId) {
           setUserGameId(response[i].id);
@@ -144,7 +132,7 @@ export default function GameDropDown({
   const handleJoinGame = async () => {
     const allGamesForType = await fetchUserGamesByGameId(Number(data[0]?.id));
     let alreadyThere = false;
-    console.log("checking members", allGamesForType);
+
     for (let i = 0; i < allGamesForType.length; i++) {
       if (allGamesForType[i].users.id == userId) {
         alreadyThere = true;
@@ -154,7 +142,7 @@ export default function GameDropDown({
     const currentTreasury = await getCurrentTreasury(Number(data[0].id));
     const newTreasury = currentTreasury + Number(deposit);
     const newBalance = Number(balance!) - Number(deposit);
-    console.log(balance, newBalance, "AAAAAAAAAAAAAAAAAAAAAAAA");
+
     if (newBalance > 0) {
       let response;
       if (!alreadyThere) {
@@ -218,12 +206,9 @@ export default function GameDropDown({
   };
 
   useEffect(() => {
-    console.log("CALLING FUNCTION");
     getNormalGames();
   }, [gameTypeId]);
-  console.log("DATA", data);
   useEffect(() => {
-    console.log("ROLEID", roleId);
     if (Number(roleId) === 2) {
       setVerified(false);
     }

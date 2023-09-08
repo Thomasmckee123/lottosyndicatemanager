@@ -65,7 +65,6 @@ function TicketInput({ roleId }: any) {
     }
   };
   const navigate = useNavigate();
-  console.log("Role ID in ticket input", roleId);
   const handleNumberChange = (ballIndex: number, dropdownIndex: number, e) => {
     const newValue = e.target.value; // Assuming e.target.value contains the selected number.
 
@@ -97,7 +96,6 @@ function TicketInput({ roleId }: any) {
   useEffect(() => {
     fetchGameById(Number(gameId)).then((response) => {
       setData(response);
-      console.log("set Game Id", response.gameTypes.id);
     });
   }, [gameId]);
 
@@ -171,8 +169,6 @@ function TicketInput({ roleId }: any) {
     const ticketCodeString = validNumbers.join("-");
 
     setTicketCode(ticketCodeString);
-
-    console.log("Ticket Code:", ticketCodeString);
 
     // Call the function to send the ticket code
     handleNumberInputs(ticketCodeString).then(() => handleupdateUserBalance());
@@ -276,7 +272,6 @@ function TicketInput({ roleId }: any) {
               onClick={() => {
                 handleConfirm();
 
-                console.log(data?.treasury);
                 handleNumberInputs(ticketCode?.toString());
               }}
             >

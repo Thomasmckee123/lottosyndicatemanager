@@ -18,7 +18,7 @@ const fetchGamesById = async (gameId: number) => {
     const response = await axios.get(`games/${gameId}`);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -26,7 +26,6 @@ const fetchGamesById = async (gameId: number) => {
 
 const fetchGamesByTypeID = async (gTypeId: number, syndicateId: number) => {
   try {
-    console.log("fetching games by type ", gTypeId);
     const response = await axios.get(
       `games/gameTypes/${gTypeId}/syndicates/${syndicateId}`
     );
@@ -40,7 +39,6 @@ const fetchGamesByTypeID = async (gTypeId: number, syndicateId: number) => {
 
 const fetchGameTypeByID = async (gTypeId: number) => {
   try {
-    console.log("fetching games by type ", gTypeId);
     const response = await axios.get(`games/gameTypes/${gTypeId}`);
     return response.data;
   } catch (error) {
@@ -68,7 +66,6 @@ const createGame = async (
   syndicateId: number,
   gameTypeId: number
 ) => {
-  console.log(treasury);
   let maximumPlayers;
   if (Number(gameTypeId) == 1) {
     maximumPlayers = 5;
@@ -88,13 +85,11 @@ const createGame = async (
     treasury: 0,
   };
 
-  console.log(syndicateId);
-  console.log(gameTypeId);
+
   const response = await axios.post(
     `games/syndicates/${Number(syndicateId)}/gameTypes/${Number(gameTypeId)}`,
     gameData
   );
-  console.log("RESPONSE DATA", response);
   return response.data;
 };
 const createNormalGame = async (
@@ -108,13 +103,11 @@ const createNormalGame = async (
     treasury: 0,
   };
 
-  console.log("SYNDICATE ID IIIIIII",syndicateId);
-  console.log("GAMETYPEIDDDDDDD",gameTypeId);
+ 
   const response = await axios.post(
     `games/syndicates/${Number(syndicateId)}/gameTypes/${Number(gameTypeId)}`,
     gameData
   );
-  console.log("RESPONSE DATA", response);
   return response.data;
 };
 const archiveGame = async (gameTypeId: number) => {
@@ -126,7 +119,6 @@ const archiveGame = async (gameTypeId: number) => {
     return response.data;
   } catch (error) {
     console.error(error);
-    console.log("problem with request");
     return null;
   }
 };

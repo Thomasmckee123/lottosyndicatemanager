@@ -4,7 +4,7 @@ import { Button } from "@mui/material";
 import { NavigationRoutes } from "../../constants";
 
 export function NormalTicketInput() {
-  const { roleId, syndicateId, userSyndicateId } = useParams<{
+  const { syndicateId, userSyndicateId } = useParams<{
     roleId: string;
     syndicateId: string;
     userSyndicateId: string;

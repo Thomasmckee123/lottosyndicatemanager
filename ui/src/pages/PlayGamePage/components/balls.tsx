@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { Typography, Paper, Container, Chip } from "@mui/material";
 import { getTicketsByGameId } from "../../../services/tickets";
 import { fetchGamesById } from "../../../services/games";
-import { styledNumberPaper } from "../styles/styled";
 
 const SelectedNumbers: any = ({ gameId }: any) => {
   const [data, setData] = useState<any>([]);
@@ -11,7 +10,6 @@ const SelectedNumbers: any = ({ gameId }: any) => {
   const getTicketData = async () => {
     try {
       const response = await getTicketsByGameId(Number(gameId));
-      console.log("API Response:", response);
       setData(response);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -22,10 +20,7 @@ const SelectedNumbers: any = ({ gameId }: any) => {
   }, [gameId]);
 
   useEffect(() => {
-    console.log("gameId", gameId);
-
     fetchGamesById(Number(gameId)).then((response) => {
-      console.log("API Response:", response);
       setGameData(response);
     });
   }, [gameId]);

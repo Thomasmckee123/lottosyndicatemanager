@@ -12,13 +12,11 @@ import {
   DialogTitle,
   TextField,
   Paper,
-  styled,
   createTheme,
   ThemeProvider,
 } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import {
-  createNewBoard,
   fetchBoardsBySyndicateId,
   fetchUserRelationship,
   updateUserRole,
@@ -35,13 +33,11 @@ import { writeAReview } from "../../services/review";
 
 function MessageBoardsPage() {
   const [open, setOpen] = useState(false);
-  const [boardName, setBoardName] = useState("");
   const [manageMembersOpen, setManageMembersOpen] = useState(false);
   const [memberData, setMemberData] = useState([]);
   const [relationshipData, setRelationshipData] = useState<any>(null);
   const [data, setData] = useState<any>(null);
   const [role, setRole] = useState<any>(0);
-  const [balanceData, setBalanceData] = useState<any>(null);
   const { syndicateId, userSyndicateId } = useParams<{
     syndicateId: string;
     userSyndicateId: string;
@@ -60,7 +56,6 @@ function MessageBoardsPage() {
   };
   const getMembers = () => {
     fetchUserBySyndicateId(Number(syndicateId)).then((response) => {
-      console.log("Raw Response:", response);
       if (typeof response === "string") {
         response = JSON.parse(response);
       }
@@ -80,7 +75,7 @@ function MessageBoardsPage() {
   };
   const handleSubmit = () => {
     // Handle submitting the review
-    console.log(review);
+
     handleClose();
   };
 
@@ -98,7 +93,7 @@ function MessageBoardsPage() {
       await updateUserRole(userSyndicateId, roleId);
       setRole(roleId);
     } catch (error) {
-      console.log("error updating role");
+      console.error("error updating role");
     }
     getMembers();
   };
@@ -118,10 +113,8 @@ function MessageBoardsPage() {
    * getting the user's role
    */
   function userRole() {
-    console.log(userSyndicateId);
     fetchUserRelationship(Number(userSyndicateId))
       .then((response) => {
-        console.log(response);
         setRelationshipData(response);
       })
       .catch((error) => {
@@ -129,9 +122,7 @@ function MessageBoardsPage() {
       });
   }
   useEffect(() => {
-    console.log(relationshipData);
     if (relationshipData) {
-      console.log(relationshipData.roleId);
     }
   }, [relationshipData]);
 
@@ -139,17 +130,13 @@ function MessageBoardsPage() {
     userRole();
     fetchBoardsBySyndicateId(Number(syndicateId))
       .then((response) => {
-        console.log(response);
         setData(response);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
   }, [syndicateId]);
-  console.log(relationshipData?.roleId);
-  console.log("data", relationshipData);
   let currentUserRank = relationshipData?.roleId;
-  console.log("current user rank", currentUserRank);
   const handleReviewChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setReview(event.target.value);
   };

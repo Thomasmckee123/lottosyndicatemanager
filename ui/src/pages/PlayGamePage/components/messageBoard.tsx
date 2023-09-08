@@ -16,17 +16,15 @@ import {
   Divider,
   Typography,
   IconButton,
-  Tooltip,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import AddIcon from "@mui/icons-material/Add";
-import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
+
 import {
   createMessage,
   fetchingMessagesByBoardId,
   fetchingMessagesByGameId,
 } from "../../../services/messages";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { createNewBoard, updateBoards } from "../../../services/board";
 import EditIcon from "@mui/icons-material/Edit";
 import Dialog from "@mui/material/Dialog";
@@ -34,14 +32,13 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { NavigationRoutes } from "../../../constants";
+
 import {
   fetchUserGamesByGameId,
-  fetchUserGamesByUserGameId,
   updateRole,
 } from "../../../services/userGames";
 import PercentagesDrawer from "./PercentagesDrawer";
-import { StyledPaper, StyledPaperTop } from "../styles/styled";
+import { StyledPaperTop } from "../styles/styled";
 import moment from "moment";
 
 function GameChat() {
@@ -55,7 +52,6 @@ function GameChat() {
   const { userGameId } = useParams<{ userGameId: string }>();
   const [boardId, setBoardId] = useState<any>();
   const [mappedPlayers, setMappedPlayers] = useState<any[]>([]);
-  const [userGameData, setUserGameData] = useState<any>();
 
   const handleOpenDialog = () => {
     setNewBoardName(data?.name || ""); // initializing with the current board name
@@ -80,7 +76,6 @@ function GameChat() {
   const handleGettingMessages = async () => {
     fetchingMessagesByGameId(Number(gameId))
       .then((response) => {
-        console.log("RESPONSE", response);
         if (response[0]) {
           setData(response[0]);
           setBoardId(response[0].id);
@@ -97,11 +92,9 @@ function GameChat() {
         console.error("Error fetching data:", error);
       });
   };
-  console.log("Message Data", messageData);
 
   const fetchUserData = () => {
     fetchUserGamesByGameId(Number(gameId)).then((response) => {
-      console.log("RESPONSE", response);
       setMappedPlayers(response);
     });
   };
@@ -111,7 +104,6 @@ function GameChat() {
 
   if (mappedPlayers.length > 0) {
     const firstUserGameId = mappedPlayers[0].id;
-    console.log("firstUserGameId", firstUserGameId);
     updateRole(Number(firstUserGameId));
   }
 
@@ -119,7 +111,6 @@ function GameChat() {
     handleGettingMessages();
   }, []);
 
-  console.log("userGameId", userGameId);
   const handleMessageChange = (userInput: string) => {
     setMessage(userInput);
   };

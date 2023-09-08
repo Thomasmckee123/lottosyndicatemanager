@@ -14,7 +14,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ onUpload }) => {
       setSelectedFile(file);
       onUpload(file);
     } else {
-      console.log("Invalid file format. Please select an image file.");
+      console.error("Invalid file format. Please select an image file.");
     }
   };
 

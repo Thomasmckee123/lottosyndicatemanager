@@ -1,5 +1,3 @@
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
@@ -17,11 +15,9 @@ function Header() {
   }, []);
   let userId = data?.claims?.userId;
   useEffect(() => {
-    console.log("userId", userId);
     if (userId) {
       fetchUserDetails(userId)
         .then((response) => {
-          console.log(response);
           setUserdata(response);
         })
         .catch((err) => console.log(err));

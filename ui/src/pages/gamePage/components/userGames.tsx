@@ -13,12 +13,10 @@ import {
   TableBody,
   Button,
 } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import CountDown from "../../../components/countdown";
 import { NavigationRoutes } from "../../../constants";
-import TokenUtils from "../../../integrations/token";
-import { fetchUserGames } from "../../../services/userGames";
 
 const UserGames = ({ filteredData }: any) => {
   const [expanded, setExpanded] = useState<string | false>(false);

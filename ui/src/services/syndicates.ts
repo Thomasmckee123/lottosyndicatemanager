@@ -66,7 +66,6 @@ const createSyndicate = async (name: string, description: string, file:File, own
 
     
     const response = await axios.post(`/syndicates/users/${ownerId}`, createData);
-    console.log("CreationOfSyndicate", response.data)
     uploadSyndicateImage(Number(response.data), file)
    // addSyndicateImage(Number(response.data)) 
     return response.data;

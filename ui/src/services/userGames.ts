@@ -13,7 +13,6 @@ const fetchUserGames = async (userId: number) => {
     try {
       
       const response = await axios.get(`userGames/users/${Number(userId)}`);
-     console.log("Response",response)
       return response.data;
   
     } catch (error) {
@@ -22,9 +21,7 @@ const fetchUserGames = async (userId: number) => {
     }}
 const fetchUserGamesByGameId = async(gameId: number) =>{
   try{
-    console.log("USER GAME GAME ID", gameId)
     const response = await axios.get(`userGames/games/${gameId}`)
-    console.log("USER GAME RESPONSE", response)
     return response.data
     
   }catch(error){

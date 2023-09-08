@@ -52,23 +52,16 @@ function PercentagesDrawer({ userData, fetchUserData }) {
 
   useEffect(() => {
     fetchUserGamesByUserGameId(Number(userGameId)).then((response) => {
-      console.log("USER GAME RESPONSE", response);
       setUserGameData(response);
     });
   }, [userGameId]);
-  console.log("USER GAME DATA", userGameData);
-
-  console.log("------USERGAMEDATA", userGameData);
 
   // Calculate deposit percentages
   const calculatePercentages = () => {
-    console.log("MAPPED USER DATA FOR SPLITTING BILL", userData);
     let totalTreasury = 0;
     for (let i = 0; i < userData.length; i++) {
       totalTreasury += userData[i].deposit;
-      console.log(userData[i]);
     }
-    console.log("TOTAL TREASURY", totalTreasury);
     return userData.map((user, index) => {
       const depositPercentage = //@ts-ignore
         (Number(user?.deposit) / Number(totalTreasury)) * 100;
@@ -80,22 +73,19 @@ function PercentagesDrawer({ userData, fetchUserData }) {
       };
     });
   };
-  console.log("CALCULATED PERCENTAGES", calculatePercentages());
   const toggleDrawer =
     (buttonName: string, open: boolean) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {
       setState({ ...state, [buttonName]: open });
     };
   const handleDeposit = async (deposit: number) => {
-    console.log(userDepositData, "USER DEPOSIT BALANCE ");
     const userBalance = Number(userDepositData?.data?.balance);
 
     const finalBalance = userBalance - deposit;
     updateBalance(Number(finalBalance));
 
-    console.log("USER GAME DATA-------", userGameData, deposit);
     const updatedDeposit = deposit + Number(userGameData[0].deposit);
-    console.log("UD", updatedDeposit);
+
     updateDeposit(Number(updatedDeposit), userGameData[0].id).then(() => {
       setSnackbarOpen(true);
     });

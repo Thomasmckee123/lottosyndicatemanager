@@ -15,7 +15,6 @@ const SearchInput: React.FC<SearchInputProps> = ({ onSearchChange }) => {
 
   const performSearch = () => {
     onSearchChange(searchTerm);
-    console.log("Searching for: " + searchTerm);
   };
 
   return (

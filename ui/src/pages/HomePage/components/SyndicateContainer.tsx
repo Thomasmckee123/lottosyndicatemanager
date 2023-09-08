@@ -1,7 +1,6 @@
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
 import SyndicateCard from "./SyndicateCard";
 import { useEffect, useState } from "react";
 import { fetchHomePageSyndicateData } from "../../../services/syndicates";
@@ -13,7 +12,6 @@ import { NavigationRoutes } from "../../../constants";
 import { Link } from "react-router-dom";
 
 function SyndicateContainer({ role }: { role: number }) {
-  console.log("role", role);
   const [data, setData] = useState<any[]>([]);
   const jwt = TokenUtils.getJWT();
   const userId = jwt.claims.userId;
@@ -44,7 +42,6 @@ function SyndicateContainer({ role }: { role: number }) {
     fetchData();
   }, []);
 
-  console.log(data);
   return (
     <>
       <CssBaseline />

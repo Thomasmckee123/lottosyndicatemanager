@@ -4,7 +4,6 @@ import axios from "../integrations/instance";
 const fetchProfileData = async(userId: number) =>{
     try{
         const response = await axios.get(`users/${userId}`);
-    console.log("REVIEWS RESPONSE DATA", response.data)
         return response.data;
         
     }catch(error){

@@ -4,7 +4,6 @@ const fetchUserBySyndicateId = async (syndicateId: number) => {
   try {
     
     const response = await axios.get(`userSyndicates/syndicates/${syndicateId}`);
-   console.log("Memeber DATA", response.data);
     return response.data;
 
   } catch (error) {

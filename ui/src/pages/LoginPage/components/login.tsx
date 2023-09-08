@@ -39,18 +39,6 @@ const LogonPage = () => {
   const Login = async (emailAddress: string, password: string) => {
     const response = await AuthService.authenticate(emailAddress, password);
     if (response.status === 200) {
-      // const authDetails = {
-      //   accessToken: response.data.accessToken,
-      //   refreshToken: response.data.refreshToken,
-      // };
-      // console.log("RESPONSE DATA" + JSON.stringify(response));
-      // localStorage.setItem("user", JSON.stringify(authDetails));
-      // localStorage.setItem("userEmail", JSON.stringify(emailAddress));
-      // dispatch({
-      //   type: "authentication",
-      //   ...authDetails,
-      // });
-      // navigate(NavigationRoutes.HOME);
       checkIfValidToken(response.data);
     } else {
       setOpenErrorSnackbar(true);
@@ -61,7 +49,6 @@ const LogonPage = () => {
   const handleLogin = async (event: any) => {
     event?.preventDefault();
     try {
-      console.log(email + " " + password);
       await Login(email, password);
     } catch (err) {
       console.log(err);
