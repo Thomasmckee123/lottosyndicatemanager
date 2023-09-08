@@ -127,7 +127,7 @@ const Register = () => {
           >
             Sign up
           </Button>
-          <Link to={NavigationRoutes.LOGIN}>log on </Link>
+          <Link to={NavigationRoutes.LOGIN}>Sign In </Link>
         </form>
         <Snackbar
           open={openSuccessSnackbar}
