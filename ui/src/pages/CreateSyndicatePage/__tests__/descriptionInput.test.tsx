@@ -4,11 +4,10 @@ import DescriptionInput from "../components/DescriptionInput";
 import { TextField } from "@mui/material";
 
 describe("descriptionInput", () => {
-  it("renders the logo", () => {
+  it("renders description input", () => {
     const setValue = vi.fn();
     render(<DescriptionInput value={"description"} setValue={setValue} />);
-    expect(screen.getByTestId("description-input-box")).contains(
-      <TextField></TextField>
-    );
+
+    expect(screen.getByRole("textbox")).toBeTruthy();
   });
 });

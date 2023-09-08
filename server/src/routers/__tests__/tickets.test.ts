@@ -65,10 +65,10 @@ describe("/tickets", () => {
       describe("PUT /update", () => {
         it("it will respond with json containing a list of userGames by game Id", async () => {
             const updatedTicket = {
-                 ticket_code: "1111",
-                    total_reward_value: 33222,
-                    ticket_status_id: 2,
-                    game_id: 2,
+                 ticketCode: "1111",
+                    totalRewardValue: 33222,
+                    ticketStatusId: 2,
+                    gameId: 2,
               };
             await request(app)
                 .put("/api/tickets/1")

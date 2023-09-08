@@ -1,0 +1,260 @@
+<html><head><meta charset="utf-8"/><title>API Tests: Integration</title><style type="text/css">html,
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+body {
+  padding: 2rem 1rem;
+  font-size: 0.85rem;
+}
+.jesthtml-content {
+  margin: 0 auto;
+  max-width: 70rem;
+}
+header {
+  display: flex;
+  align-items: center;
+}
+#title {
+  margin: 0;
+  flex-grow: 1;
+}
+#logo {
+  height: 4rem;
+}
+#timestamp {
+  color: #777;
+  margin-top: 0.5rem;
+}
+
+/** SUMMARY */
+#summary {
+  color: #333;
+  margin: 2rem 0;
+  display: flex;
+  font-family: monospace;
+  font-size: 1rem;
+}
+#summary > div {
+  margin-right: 2rem;
+  background: #eee;
+  padding: 1rem;
+  min-width: 15rem;
+}
+#summary > div:last-child {
+  margin-right: 0;
+}
+@media only screen and (max-width: 720px) {
+  #summary {
+    flex-direction: column;
+  }
+  #summary > div {
+    margin-right: 0;
+    margin-top: 2rem;
+  }
+  #summary > div:first-child {
+    margin-top: 0;
+  }
+}
+
+.summary-total {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+.summary-passed {
+  color: #4f8a10;
+  border-left: 0.4rem solid #4f8a10;
+  padding-left: 0.5rem;
+}
+.summary-failed,
+.summary-obsolete-snapshots {
+  color: #d8000c;
+  border-left: 0.4rem solid #d8000c;
+  padding-left: 0.5rem;
+}
+.summary-pending {
+  color: #9f6000;
+  border-left: 0.4rem solid #9f6000;
+  padding-left: 0.5rem;
+}
+.summary-empty {
+  color: #999;
+  border-left: 0.4rem solid #999;
+}
+
+.test-result {
+  padding: 1rem;
+  margin-bottom: 0.25rem;
+}
+.test-result:last-child {
+  border: 0;
+}
+.test-result.passed {
+  background-color: #dff2bf;
+  color: #4f8a10;
+}
+.test-result.failed {
+  background-color: #ffbaba;
+  color: #d8000c;
+}
+.test-result.pending {
+  background-color: #ffdf61;
+  color: #9f6000;
+}
+
+.test-info {
+  display: flex;
+  justify-content: space-between;
+}
+.test-suitename {
+  width: 20%;
+  text-align: left;
+  font-weight: bold;
+  word-break: break-word;
+}
+.test-title {
+  width: 40%;
+  text-align: left;
+  font-style: italic;
+}
+.test-status {
+  width: 20%;
+  text-align: right;
+}
+.test-duration {
+  width: 10%;
+  text-align: right;
+  font-size: 0.75rem;
+}
+
+.failureMessages {
+  padding: 0 1rem;
+  margin-top: 1rem;
+  border-top: 1px dashed #d8000c;
+}
+.failureMessages.suiteFailure {
+  border-top: none;
+}
+.failureMsg {
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+
+.suite-container {
+  margin-bottom: 2rem;
+}
+.suite-container > input[type="checkbox"] {
+  position: absolute;
+  left: -100vw;
+}
+.suite-container label {
+  display: block;
+}
+.suite-container .suite-tests {
+  overflow-y: hidden;
+  height: 0;
+}
+.suite-container > input[type="checkbox"]:checked ~ .suite-tests {
+  height: auto;
+  overflow: visible;
+}
+.suite-info {
+  padding: 1rem;
+  background-color: #eee;
+  color: #777;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+.suite-info:hover {
+  background-color: #ddd;
+  cursor: pointer;
+}
+.suite-info .suite-path {
+  word-break: break-all;
+  flex-grow: 1;
+  font-family: monospace;
+  font-size: 1rem;
+}
+.suite-info .suite-time {
+  margin-left: 0.5rem;
+  padding: 0.2rem 0.3rem;
+  font-size: 0.75rem;
+}
+.suite-info .suite-time.warn {
+  background-color: #d8000c;
+  color: #fff;
+}
+.suite-info:before {
+  content: "\2303";
+  display: inline-block;
+  margin-right: 0.5rem;
+  transform: rotate(0deg);
+}
+.suite-container > input[type="checkbox"]:checked ~ label .suite-info:before {
+  transform: rotate(180deg);
+}
+
+/* CONSOLE LOGS */
+.suite-consolelog {
+  margin-bottom: 0.25rem;
+  padding: 1rem;
+  background-color: #efefef;
+}
+.suite-consolelog-header {
+  font-weight: bold;
+}
+.suite-consolelog-item {
+  padding: 0.5rem;
+}
+.suite-consolelog-item pre {
+  margin: 0.5rem 0;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+.suite-consolelog-item-origin {
+  color: #777;
+  font-weight: bold;
+}
+.suite-consolelog-item-message {
+  color: #000;
+  font-size: 1rem;
+  padding: 0 0.5rem;
+}
+
+/* OBSOLETE SNAPSHOTS */
+.suite-obsolete-snapshots {
+  margin-bottom: 0.25rem;
+  padding: 1rem;
+  background-color: #ffbaba;
+  color: #d8000c;
+}
+.suite-obsolete-snapshots-header {
+  font-weight: bold;
+}
+.suite-obsolete-snapshots-item {
+  padding: 0.5rem;
+}
+.suite-obsolete-snapshots-item pre {
+  margin: 0.5rem 0;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+.suite-obsolete-snapshots-item-message {
+  color: #000;
+  font-size: 1rem;
+  padding: 0 0.5rem;
+}
+</style></head><body><div class="jesthtml-content"><header><h1 id="title">API Tests: Integration</h1></header><div id="metadata-container"><div id="timestamp">Started: 2023-09-08 19:23:54</div><div id="summary"><div id="suite-summary"><div class="summary-total">Suites (11)</div><div class="summary-passed ">11 passed</div><div class="summary-failed  summary-empty">0 failed</div><div class="summary-pending  summary-empty">0 pending</div></div><div id="test-summary"><div class="summary-total">Tests (44)</div><div class="summary-passed ">44 passed</div><div class="summary-failed  summary-empty">0 failed</div><div class="summary-pending  summary-empty">0 pending</div></div></div></div><div id="suite-1" class="suite-container"><input id="collapsible-0" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-0"><div class="suite-info"><div class="suite-path">/Users/thomas.mckee/lottosyndicatemanager/server/src/routers/__tests__/userGames.test.ts</div><div class="suite-time warn">8.352s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">/userGames &gt; GET /userGames</div><div class="test-title">respond with json containing a list of users</div><div class="test-status">passed</div><div class="test-duration">0.105s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">GET /userGames/{gameId}</div><div class="test-title">respond with json containing a list of userGames by game Id</div><div class="test-status">passed</div><div class="test-duration">0.036s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">GET /userGames/{userId}</div><div class="test-title">respond with json containing a list of userGames by game Id</div><div class="test-status">passed</div><div class="test-duration">0.031s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">POST /userGames/games/1/users/1</div><div class="test-title">respond with json containing a list of userGames by game Id</div><div class="test-status">passed</div><div class="test-duration">0.06s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">PUT /update</div><div class="test-title">respond with json containing a list of userGames by game Id</div><div class="test-status">passed</div><div class="test-duration">0.027s</div></div></div></div></div><div id="suite-2" class="suite-container"><input id="collapsible-1" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-1"><div class="suite-info"><div class="suite-path">/Users/thomas.mckee/lottosyndicatemanager/server/src/routers/__tests__/tickets.test.ts</div><div class="suite-time">1.259s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">/tickets &gt; GET /tickets</div><div class="test-title">respond with json containing a list of users</div><div class="test-status">passed</div><div class="test-duration">0.076s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">/tickets &gt; GET /tickets/gameId</div><div class="test-title">respond with json containing a list of users</div><div class="test-status">passed</div><div class="test-duration">0.039s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">/tickets &gt; POST /tickets/games/1/users/1</div><div class="test-title">respond with error 400 bad request</div><div class="test-status">passed</div><div class="test-duration">0.039s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">/tickets</div><div class="test-title">respond with 200 </div><div class="test-status">passed</div><div class="test-duration">0.028s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">PUT /update</div><div class="test-title">it will respond with json containing a list of userGames by game Id</div><div class="test-status">passed</div><div class="test-duration">0.026s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">PUT /update</div><div class="test-title">it will respond with a 200 bad request</div><div class="test-status">passed</div><div class="test-duration">0.016s</div></div></div></div></div><div id="suite-3" class="suite-container"><input id="collapsible-2" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-2"><div class="suite-info"><div class="suite-path">/Users/thomas.mckee/lottosyndicatemanager/server/src/routers/__tests__/userSyndicate.test.ts</div><div class="suite-time">1.171s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">/userSyndicates &gt; /userSyndicates/syndicates/:syndicateId &gt; GET /userSyndicates</div><div class="test-title">respond with json containing a list of userSyndicates</div><div class="test-status">passed</div><div class="test-duration">0.114s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">/userSyndicates &gt; /userSyndicates/user/:userId &gt; GET /userSyndicates</div><div class="test-title">respond with json containing a list of UserSyndicates</div><div class="test-status">passed</div><div class="test-duration">0.059s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">/userSyndicates &gt; /userSyndicates/:userSyndicateId &gt; GET /userSyndicates</div><div class="test-title">respond with json containing a list of userSyndicates</div><div class="test-status">passed</div><div class="test-duration">0.048s</div></div></div></div></div><div id="suite-4" class="suite-container"><input id="collapsible-3" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-3"><div class="suite-info"><div class="suite-path">/Users/thomas.mckee/lottosyndicatemanager/server/src/routers/__tests__/syndicates.test.ts</div><div class="suite-time">1.466s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">/syndicates &gt; GET /syndicates</div><div class="test-title">respond with json containing a list of syndicates</div><div class="test-status">passed</div><div class="test-duration">0.075s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">/syndicates &gt; GET /syndicates/syndicateId</div><div class="test-title">respond with json containing a list of syndicates</div><div class="test-status">passed</div><div class="test-duration">0.026s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">/syndicates &gt; GET /syndicates/name/:name</div><div class="test-title">respond with json containing a list of syndicates</div><div class="test-status">passed</div><div class="test-duration">0.027s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">/syndicates &gt; GET /syndicates/name/:name &gt; POST /syndicates/users/:userId</div><div class="test-title">respond with 200 for successful response</div><div class="test-status">passed</div><div class="test-duration">0.049s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">/syndicates &gt; GET /syndicates/name/:name &gt; POST /syndicates/users/:userId</div><div class="test-title">respond with 400 for unsuccessful response</div><div class="test-status">passed</div><div class="test-duration">0.023s</div></div></div></div></div><div id="suite-5" class="suite-container"><input id="collapsible-4" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-4"><div class="suite-info"><div class="suite-path">/Users/thomas.mckee/lottosyndicatemanager/server/src/routers/__tests__/boards.test.ts</div><div class="suite-time">1.931s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">/boards &gt; GET /boards</div><div class="test-title">respond with json containing a list of reviews</div><div class="test-status">passed</div><div class="test-duration">0.159s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">/boards &gt; GET /boards/games/:gameId</div><div class="test-title">respond with json containing a list of reviews</div><div class="test-status">passed</div><div class="test-duration">0.091s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">/boards &gt; POST /boards</div><div class="test-title">respond with 200 containing list of reviews</div><div class="test-status">passed</div><div class="test-duration">0.116s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">/boards &gt; PUT /boards</div><div class="test-title">respond with 200 containing list of reviews</div><div class="test-status">passed</div><div class="test-duration">0.119s</div></div></div></div></div><div id="suite-6" class="suite-container"><input id="collapsible-5" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-5"><div class="suite-info"><div class="suite-path">/Users/thomas.mckee/lottosyndicatemanager/server/src/routers/__tests__/signup.test.ts</div><div class="suite-time">1.151s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">POST /signup/</div><div class="test-title">respond with 200, successful request</div><div class="test-status">passed</div><div class="test-duration">0.054s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">POST /signup/</div><div class="test-title">respond with 200, successful request</div><div class="test-status">passed</div><div class="test-duration">0.015s</div></div></div></div></div><div id="suite-7" class="suite-container"><input id="collapsible-6" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-6"><div class="suite-info"><div class="suite-path">/Users/thomas.mckee/lottosyndicatemanager/server/src/routers/__tests__/games.test.ts</div><div class="suite-time">1.477s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">/games &gt; GET /games</div><div class="test-title">respond with json containing a list of reviews</div><div class="test-status">passed</div><div class="test-duration">0.087s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">/games &gt; GET /games/gameTypes/:id/syndicates/:id</div><div class="test-title">respond with json containing a list of reviews</div><div class="test-status">passed</div><div class="test-duration">0.068s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">/games &gt; GET /games/syndicates/:id</div><div class="test-title">respond with json containing a list of reviews</div><div class="test-status">passed</div><div class="test-duration">0.073s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">/games &gt; GET /games/archivedGames/:userId</div><div class="test-title">respond with json containing a list of reviews</div><div class="test-status">passed</div><div class="test-duration">0.059s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">/games &gt; GET /games/archivedGames/:userId</div><div class="test-title">respond with json containing a list of reviews</div><div class="test-status">passed</div><div class="test-duration">0.068s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">/games &gt; PUT /games</div><div class="test-title">respond with 200 containing list of reviews</div><div class="test-status">passed</div><div class="test-duration">0.108s</div></div></div></div></div><div id="suite-8" class="suite-container"><input id="collapsible-7" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-7"><div class="suite-info"><div class="suite-path">/Users/thomas.mckee/lottosyndicatemanager/server/src/routers/__tests__/gameTypes.test.ts</div><div class="suite-time">1.163s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">/gameTypes &gt; GET /gameTypes</div><div class="test-title">respond with json containing a list of reviews</div><div class="test-status">passed</div><div class="test-duration">0.065s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">/gameTypes &gt; GET /gameTypes/:id</div><div class="test-title">respond with json containing a list of reviews</div><div class="test-status">passed</div><div class="test-duration">0.018s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">PUT /gameTypes/:id</div><div class="test-title">respond with json containing a list of userGames by game Id</div><div class="test-status">passed</div><div class="test-duration">0.035s</div></div></div></div></div><div id="suite-9" class="suite-container"><input id="collapsible-8" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-8"><div class="suite-info"><div class="suite-path">/Users/thomas.mckee/lottosyndicatemanager/server/src/routers/__tests__/messages.test.ts</div><div class="suite-time">1.855s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">/reviews &gt; GET /messages</div><div class="test-title">respond with json containing a list of reviews</div><div class="test-status">passed</div><div class="test-duration">0.192s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">/reviews &gt; GET /messages</div><div class="test-title">respond with json containing a list of reviews</div><div class="test-status">passed</div><div class="test-duration">0.213s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">/reviews &gt; POST /messages</div><div class="test-title">respond with 200 containing list of reviews</div><div class="test-status">passed</div><div class="test-duration">0.163s</div></div></div></div></div><div id="suite-10" class="suite-container"><input id="collapsible-9" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-9"><div class="suite-info"><div class="suite-path">/Users/thomas.mckee/lottosyndicatemanager/server/src/routers/__tests__/reviews.test.ts</div><div class="suite-time">1.325s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">/reviews &gt; GET /reviews</div><div class="test-title">respond with json containing a list of reviews</div><div class="test-status">passed</div><div class="test-duration">0.086s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">/reviews &gt; POST /reviews/syndicates/1/users/1</div><div class="test-title">respond with 400 containing list of reviews</div><div class="test-status">passed</div><div class="test-duration">0.043s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">/reviews &gt; POST /reviews/syndicates/1/users/1</div><div class="test-title">respond with 400 containing list of reviews</div><div class="test-status">passed</div><div class="test-duration">0.038s</div></div></div></div></div><div id="suite-11" class="suite-container"><input id="collapsible-10" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-10"><div class="suite-info"><div class="suite-path">/Users/thomas.mckee/lottosyndicatemanager/server/src/routers/__tests__/users.test.ts</div><div class="suite-time">1.285s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">/users &gt; GET /users</div><div class="test-title">respond with json containing a list of users</div><div class="test-status">passed</div><div class="test-duration">0.085s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">/users &gt; GET /users/{userId}</div><div class="test-title">respond with json containing a single user found by id</div><div class="test-status">passed</div><div class="test-duration">0.025s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">/users &gt; PUT /users/:id</div><div class="test-title">respond with 400 for missing data</div><div class="test-status">passed</div><div class="test-duration">0.038s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">/users &gt; PUT /users/:id</div><div class="test-title">respond with 204 with user updated successfully</div><div class="test-status">passed</div><div class="test-duration">0.038s</div></div></div></div></div></div></body></html>

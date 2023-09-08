@@ -24,7 +24,7 @@ const DescriptionInput: React.FC<Props> = ({ value, setValue }) => {
     >
       <div>
         <TextField
-          id="outlined-multiline-static"
+          id="description-input"
           label="Description"
           multiline
           rows={4}

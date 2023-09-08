@@ -181,7 +181,7 @@ const getAll = async () => {
      balance: Number(users[0]?.balance),
      userTypes:{
       id: users[0]?.user_types.id,
-      name: users[0]?.user_types.id,
+      name: users[0]?.user_types.name,
      }
      };
     

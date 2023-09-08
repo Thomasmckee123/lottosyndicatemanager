@@ -68,6 +68,7 @@ describe("/userGames", () => {
                 .set("Accept", "application/json")
                 .expect("Content-type", /json/).send({ 
                    
+                    userGameId: 1,
                     deposit: 1111,
                    
                  })   

@@ -4,7 +4,16 @@ const config = {
     clearMocks: true,
     testTimeout: 1500,
     testEnvironment: 'node',
-    preset: 'ts-jest',
+    preset: 'ts-jest', reporters: [
+      'default',
+      [
+        './node_modules/jest-html-reporter',
+        {
+          pageTitle: 'API Tests: Integration',
+          outputPath: './api-test-integration-report.html',
+        },
+      ],
+    ],
   };
   
 export default config;

@@ -1,0 +1,260 @@
+<html><head><meta charset="utf-8"/><title>API Tests: Unit</title><style type="text/css">html,
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+body {
+  padding: 2rem 1rem;
+  font-size: 0.85rem;
+}
+.jesthtml-content {
+  margin: 0 auto;
+  max-width: 70rem;
+}
+header {
+  display: flex;
+  align-items: center;
+}
+#title {
+  margin: 0;
+  flex-grow: 1;
+}
+#logo {
+  height: 4rem;
+}
+#timestamp {
+  color: #777;
+  margin-top: 0.5rem;
+}
+
+/** SUMMARY */
+#summary {
+  color: #333;
+  margin: 2rem 0;
+  display: flex;
+  font-family: monospace;
+  font-size: 1rem;
+}
+#summary > div {
+  margin-right: 2rem;
+  background: #eee;
+  padding: 1rem;
+  min-width: 15rem;
+}
+#summary > div:last-child {
+  margin-right: 0;
+}
+@media only screen and (max-width: 720px) {
+  #summary {
+    flex-direction: column;
+  }
+  #summary > div {
+    margin-right: 0;
+    margin-top: 2rem;
+  }
+  #summary > div:first-child {
+    margin-top: 0;
+  }
+}
+
+.summary-total {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+.summary-passed {
+  color: #4f8a10;
+  border-left: 0.4rem solid #4f8a10;
+  padding-left: 0.5rem;
+}
+.summary-failed,
+.summary-obsolete-snapshots {
+  color: #d8000c;
+  border-left: 0.4rem solid #d8000c;
+  padding-left: 0.5rem;
+}
+.summary-pending {
+  color: #9f6000;
+  border-left: 0.4rem solid #9f6000;
+  padding-left: 0.5rem;
+}
+.summary-empty {
+  color: #999;
+  border-left: 0.4rem solid #999;
+}
+
+.test-result {
+  padding: 1rem;
+  margin-bottom: 0.25rem;
+}
+.test-result:last-child {
+  border: 0;
+}
+.test-result.passed {
+  background-color: #dff2bf;
+  color: #4f8a10;
+}
+.test-result.failed {
+  background-color: #ffbaba;
+  color: #d8000c;
+}
+.test-result.pending {
+  background-color: #ffdf61;
+  color: #9f6000;
+}
+
+.test-info {
+  display: flex;
+  justify-content: space-between;
+}
+.test-suitename {
+  width: 20%;
+  text-align: left;
+  font-weight: bold;
+  word-break: break-word;
+}
+.test-title {
+  width: 40%;
+  text-align: left;
+  font-style: italic;
+}
+.test-status {
+  width: 20%;
+  text-align: right;
+}
+.test-duration {
+  width: 10%;
+  text-align: right;
+  font-size: 0.75rem;
+}
+
+.failureMessages {
+  padding: 0 1rem;
+  margin-top: 1rem;
+  border-top: 1px dashed #d8000c;
+}
+.failureMessages.suiteFailure {
+  border-top: none;
+}
+.failureMsg {
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+
+.suite-container {
+  margin-bottom: 2rem;
+}
+.suite-container > input[type="checkbox"] {
+  position: absolute;
+  left: -100vw;
+}
+.suite-container label {
+  display: block;
+}
+.suite-container .suite-tests {
+  overflow-y: hidden;
+  height: 0;
+}
+.suite-container > input[type="checkbox"]:checked ~ .suite-tests {
+  height: auto;
+  overflow: visible;
+}
+.suite-info {
+  padding: 1rem;
+  background-color: #eee;
+  color: #777;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+.suite-info:hover {
+  background-color: #ddd;
+  cursor: pointer;
+}
+.suite-info .suite-path {
+  word-break: break-all;
+  flex-grow: 1;
+  font-family: monospace;
+  font-size: 1rem;
+}
+.suite-info .suite-time {
+  margin-left: 0.5rem;
+  padding: 0.2rem 0.3rem;
+  font-size: 0.75rem;
+}
+.suite-info .suite-time.warn {
+  background-color: #d8000c;
+  color: #fff;
+}
+.suite-info:before {
+  content: "\2303";
+  display: inline-block;
+  margin-right: 0.5rem;
+  transform: rotate(0deg);
+}
+.suite-container > input[type="checkbox"]:checked ~ label .suite-info:before {
+  transform: rotate(180deg);
+}
+
+/* CONSOLE LOGS */
+.suite-consolelog {
+  margin-bottom: 0.25rem;
+  padding: 1rem;
+  background-color: #efefef;
+}
+.suite-consolelog-header {
+  font-weight: bold;
+}
+.suite-consolelog-item {
+  padding: 0.5rem;
+}
+.suite-consolelog-item pre {
+  margin: 0.5rem 0;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+.suite-consolelog-item-origin {
+  color: #777;
+  font-weight: bold;
+}
+.suite-consolelog-item-message {
+  color: #000;
+  font-size: 1rem;
+  padding: 0 0.5rem;
+}
+
+/* OBSOLETE SNAPSHOTS */
+.suite-obsolete-snapshots {
+  margin-bottom: 0.25rem;
+  padding: 1rem;
+  background-color: #ffbaba;
+  color: #d8000c;
+}
+.suite-obsolete-snapshots-header {
+  font-weight: bold;
+}
+.suite-obsolete-snapshots-item {
+  padding: 0.5rem;
+}
+.suite-obsolete-snapshots-item pre {
+  margin: 0.5rem 0;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+.suite-obsolete-snapshots-item-message {
+  color: #000;
+  font-size: 1rem;
+  padding: 0 0.5rem;
+}
+</style></head><body><div class="jesthtml-content"><header><h1 id="title">API Tests: Unit</h1></header><div id="metadata-container"><div id="timestamp">Started: 2023-09-08 19:10:07</div><div id="summary"><div id="suite-summary"><div class="summary-total">Suites (18)</div><div class="summary-passed ">18 passed</div><div class="summary-failed  summary-empty">0 failed</div><div class="summary-pending  summary-empty">0 pending</div></div><div id="test-summary"><div class="summary-total">Tests (80)</div><div class="summary-passed ">80 passed</div><div class="summary-failed  summary-empty">0 failed</div><div class="summary-pending  summary-empty">0 pending</div></div></div></div><div id="suite-1" class="suite-container"><input id="collapsible-0" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-0"><div class="suite-info"><div class="suite-path">/Users/thomas.mckee/lottosyndicatemanager/server/src/services/__tests__/userSyndicates.test.ts</div><div class="suite-time warn">35.429s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">GET /userSyndicates/syndicates/:syndicateId</div><div class="test-title">get all userSyndicatesById</div><div class="test-status">passed</div><div class="test-duration">0.077s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">GET /userSyndicates/users/:userId</div><div class="test-title">get all userSyndicatesByUserId</div><div class="test-status">passed</div><div class="test-duration">0.009s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">/POST /userSyndicate</div><div class="test-title">should create a new user Syndicate</div><div class="test-status">passed</div><div class="test-duration">0.046s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">GET /userSyndicates/:userSyndicateId</div><div class="test-title">get userSyndicate by ID</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">PUT /updateRole/:userSyndicateId</div><div class="test-title">should get update user by id</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">deleteUserSyndicatesById</div><div class="test-title">should delete the user Syndicate by ID</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div></div></div><div id="suite-2" class="suite-container"><input id="collapsible-1" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-1"><div class="suite-info"><div class="suite-path">/Users/thomas.mckee/lottosyndicatemanager/server/src/services/__tests__/boards.test.ts</div><div class="suite-time warn">35.669s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">GET /boards/:id</div><div class="test-title">get gameResponse</div><div class="test-status">passed</div><div class="test-duration">0.056s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">GET /boards/:id</div><div class="test-title">get gameResponse</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">/POST /createBoards</div><div class="test-title">should create a new review</div><div class="test-status">passed</div><div class="test-duration">0.036s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">PUT /update/:boardId</div><div class="test-title">should get update the board by id</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">DELETE/ deleteBoardById</div><div class="test-title">should delete the review by ID</div><div class="test-status">passed</div><div class="test-duration">0.194s</div></div></div></div></div><div id="suite-3" class="suite-container"><input id="collapsible-2" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-2"><div class="suite-info"><div class="suite-path">/Users/thomas.mckee/lottosyndicatemanager/server/src/services/__tests__/userGames.test.ts</div><div class="suite-time warn">35.671s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">GET /userGames</div><div class="test-title">get User games</div><div class="test-status">passed</div><div class="test-duration">0.013s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">GET /userGames/syndicates/:syndicateId</div><div class="test-title">get User games by syndicate id</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">GET /userGames/users/:userId</div><div class="test-title">get User games by user id</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">GET /userGames/games/:gameId</div><div class="test-title">get User games by game id</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">/POST userGames/createUserGame/games/:gameId/users/:userId</div><div class="test-title">should create a new user Syndicate</div><div class="test-status">passed</div><div class="test-duration">0.147s</div></div></div></div></div><div id="suite-4" class="suite-container"><input id="collapsible-3" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-3"><div class="suite-info"><div class="suite-path">/Users/thomas.mckee/lottosyndicatemanager/server/src/services/__tests__/syndicates.test.ts</div><div class="suite-time warn">35.764s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">GET /syndicates</div><div class="test-title">get all syndicates</div><div class="test-status">passed</div><div class="test-duration">0.025s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">GET /syndicates/:id</div><div class="test-title">get syndicate by id</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">GET /syndicates/:name</div><div class="test-title">get all syndicates</div><div class="test-status">passed</div><div class="test-duration">0.006s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">POST /syndicates</div><div class="test-title">create syndicate</div><div class="test-status">passed</div><div class="test-duration">0.004s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">PUT /syndicates/:id</div><div class="test-title">update syndicate</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">DELETE /syndicates/:id</div><div class="test-title">delete syndicate</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div></div></div><div id="suite-5" class="suite-container"><input id="collapsible-4" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-4"><div class="suite-info"><div class="suite-path">/Users/thomas.mckee/lottosyndicatemanager/server/src/services/__tests__/games.test.ts</div><div class="suite-time warn">35.925s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">GET /games</div><div class="test-title">get gameResponse</div><div class="test-status">passed</div><div class="test-duration">0.03s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">GET /games/:id</div><div class="test-title">get gameResponse</div><div class="test-status">passed</div><div class="test-duration">0.007s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">GET /games/:syndicateId</div><div class="test-title">get games by syndicate id</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">GET /games/archived</div><div class="test-title">get games by syndicate and type id</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">PUT /update/:gameId</div><div class="test-title">should get update user by id</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">/POST /game</div><div class="test-title">should create a new game</div><div class="test-status">passed</div><div class="test-duration">0.196s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">/update/archive</div><div class="test-title">archive game</div><div class="test-status">passed</div><div class="test-duration">0s</div></div></div></div></div><div id="suite-6" class="suite-container"><input id="collapsible-5" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-5"><div class="suite-info"><div class="suite-path">/Users/thomas.mckee/lottosyndicatemanager/server/src/controllers/__tests__/syndicates.test.ts</div><div class="suite-time warn">36.171s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">GET /syndicates</div><div class="test-title">returns status code `200` and an array of users</div><div class="test-status">passed</div><div class="test-duration">0.029s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">createUserSyndicate</div><div class="test-title">returns status code `200` if user syndciate is successfully created</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">updateUserDetails</div><div class="test-title">returns status code `200` if user is successfully created</div><div class="test-status">passed</div><div class="test-duration">0.004s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">updateUserDetails</div><div class="test-title">returns status code `400` if an error occurs</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div></div></div><div id="suite-7" class="suite-container"><input id="collapsible-6" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-6"><div class="suite-info"><div class="suite-path">/Users/thomas.mckee/lottosyndicatemanager/server/src/controllers/__tests__/messages.test.ts</div><div class="suite-time warn">36.177s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">GET /messages</div><div class="test-title">returns status code `200` and an array of games</div><div class="test-status">passed</div><div class="test-duration">0.068s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">getReviewsByBoardsId</div><div class="test-title">returns status code `200` and an array of reviews by syndicates</div><div class="test-status">passed</div><div class="test-duration">0.004s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">getReviewsByBoardsId</div><div class="test-title">returns status code `400` if invalid userId</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">getReviewsByBoardsId</div><div class="test-title">returns status code `500` if an error occurs</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">createreviews</div><div class="test-title">returns status code `200` if message is successfully created</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div></div></div><div id="suite-8" class="suite-container"><input id="collapsible-7" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-7"><div class="suite-info"><div class="suite-path">/Users/thomas.mckee/lottosyndicatemanager/server/src/controllers/__tests__/userSyndicates.test.ts</div><div class="suite-time warn">36.224s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">getUserSyndicateById</div><div class="test-title">returns status code `200` and a userSyndicate</div><div class="test-status">passed</div><div class="test-duration">0.029s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">getUserSyndicateById</div><div class="test-title">returns status code `404` if an error occurs</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">getUserSyndicateById &gt; createUserSyndicate</div><div class="test-title">returns status code `200` if user syndciate is successfully created</div><div class="test-status">passed</div><div class="test-duration">0.184s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">getSyndicatesById</div><div class="test-title">returns status code `200` and an array of syndicates</div><div class="test-status">passed</div><div class="test-duration">0.004s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">getSyndicatesById</div><div class="test-title">returns status code `400` if invalid userId</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">getSyndicatesById</div><div class="test-title">returns status code `500` if an error occurs</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div></div></div><div id="suite-9" class="suite-container"><input id="collapsible-8" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-8"><div class="suite-info"><div class="suite-path">/Users/thomas.mckee/lottosyndicatemanager/server/src/controllers/__tests__/tickets.test.ts</div><div class="suite-time warn">36.287s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">GET /tickets</div><div class="test-title">returns status code `200` and an array of tickets</div><div class="test-status">passed</div><div class="test-duration">0.125s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">GET /tickets</div><div class="test-title">returns status code `404` if not found</div><div class="test-status">passed</div><div class="test-duration">0.01s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">getTicketsByGameId</div><div class="test-title">returns status code `200` and an array of tickets</div><div class="test-status">passed</div><div class="test-duration">0.097s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">getTicketsByGameId</div><div class="test-title">returns status code `400` if invalid userId</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">getTicketsByGameId</div><div class="test-title">returns status code `500` if an error occurs</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">updateTicketDetails</div><div class="test-title">returns status code `200` if user is successfully created</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div></div></div><div id="suite-10" class="suite-container"><input id="collapsible-9" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-9"><div class="suite-info"><div class="suite-path">/Users/thomas.mckee/lottosyndicatemanager/server/src/services/__tests__/users.test.ts</div><div class="suite-time warn">36.22s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">GET /users</div><div class="test-title">get all users</div><div class="test-status">passed</div><div class="test-duration">0.014s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">GET /users/:userId</div><div class="test-title">get user by id</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">PUT /users/:userId</div><div class="test-title">should get update user by id</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">getUserByEmail</div><div class="test-title">should return a user with their email</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">PUT /users/delete:id</div><div class="test-title">should get delete user by id</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div></div></div><div id="suite-11" class="suite-container"><input id="collapsible-10" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-10"><div class="suite-info"><div class="suite-path">/Users/thomas.mckee/lottosyndicatemanager/server/src/controllers/__tests__/users.test.ts</div><div class="suite-time warn">36.431s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">GET /users</div><div class="test-title">returns status code `200` and an array of users</div><div class="test-status">passed</div><div class="test-duration">0.065s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">getUserById</div><div class="test-title">returns status code `200` and an array of users</div><div class="test-status">passed</div><div class="test-duration">0.004s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">getUserById</div><div class="test-title">returns status code `404` if an error occurs</div><div class="test-status">passed</div><div class="test-duration">0.006s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">updateUserDetails</div><div class="test-title">returns status code `200` if user is successfully created</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">updateUserDetails</div><div class="test-title">returns status code `400` if an error occurs</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div></div></div><div id="suite-12" class="suite-container"><input id="collapsible-11" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-11"><div class="suite-info"><div class="suite-path">/Users/thomas.mckee/lottosyndicatemanager/server/src/services/__tests__/gameTypes.test.ts</div><div class="suite-time">0.753s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">GET /gameTypes</div><div class="test-title">get GameTypes</div><div class="test-status">passed</div><div class="test-duration">0.004s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">GET /gameTypes/:id</div><div class="test-title">get GameTypes</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">/update/archive</div><div class="test-title">update game types</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div></div></div><div id="suite-13" class="suite-container"><input id="collapsible-12" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-12"><div class="suite-info"><div class="suite-path">/Users/thomas.mckee/lottosyndicatemanager/server/src/services/__tests__/tickets.test.ts</div><div class="suite-time">0.748s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">Tickets Service</div><div class="test-title">get tickets</div><div class="test-status">passed</div><div class="test-duration">0.005s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">GET /tickets/games/id</div><div class="test-title">get tickets byGame ID</div><div class="test-status">passed</div><div class="test-duration">0.011s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">PUT /update/:ticketId</div><div class="test-title">should get update user by id</div><div class="test-status">passed</div><div class="test-duration">0s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">delete tickets by id</div><div class="test-title">should delete the ticket by ID</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div></div></div><div id="suite-14" class="suite-container"><input id="collapsible-13" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-13"><div class="suite-info"><div class="suite-path">/Users/thomas.mckee/lottosyndicatemanager/server/src/controllers/__tests__/reviews.test.ts</div><div class="suite-time">0.934s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">getReviewsBySyndicateId</div><div class="test-title">returns status code `200` and an array of reviews by syndicates</div><div class="test-status">passed</div><div class="test-duration">0.022s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">getReviewsBySyndicateId</div><div class="test-title">returns status code `400` if invalid userId</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">getReviewsBySyndicateId</div><div class="test-title">returns status code `500` if an error occurs</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">createreviews</div><div class="test-title">returns status code `200` if user syndicate is successfully created</div><div class="test-status">passed</div><div class="test-duration">0.002s</div></div></div></div></div><div id="suite-15" class="suite-container"><input id="collapsible-14" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-14"><div class="suite-info"><div class="suite-path">/Users/thomas.mckee/lottosyndicatemanager/server/src/services/__tests__/messages.test.ts</div><div class="suite-time">0.526s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">GET /messages</div><div class="test-title">get Messages</div><div class="test-status">passed</div><div class="test-duration">0.01s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">GET /messages/:boardId</div><div class="test-title">get Messages by board id</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">/POST /createMessage</div><div class="test-title">should create a new review</div><div class="test-status">passed</div><div class="test-duration">0.038s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">/put/deleteMessage</div><div class="test-title">should delete a message</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div></div></div><div id="suite-16" class="suite-container"><input id="collapsible-15" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-15"><div class="suite-info"><div class="suite-path">/Users/thomas.mckee/lottosyndicatemanager/server/src/services/__tests__/reviews.test.ts</div><div class="suite-time">0.574s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">GET /reviews by syndicate id</div><div class="test-title">get reviews by syndicate id</div><div class="test-status">passed</div><div class="test-duration">0.028s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">/POST /createReview</div><div class="test-title">should create a new review</div><div class="test-status">passed</div><div class="test-duration">0.003s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">deleteReviewsById</div><div class="test-title">should delete the review by ID</div><div class="test-status">passed</div><div class="test-duration">0.001s</div></div></div></div></div><div id="suite-17" class="suite-container"><input id="collapsible-16" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-16"><div class="suite-info"><div class="suite-path">/Users/thomas.mckee/lottosyndicatemanager/server/src/controllers/__tests__/games.test.ts</div><div class="suite-time">0.924s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">GET /games</div><div class="test-title">returns status code `200` and an array of games</div><div class="test-status">passed</div><div class="test-duration">0.044s</div></div></div></div></div><div id="suite-18" class="suite-container"><input id="collapsible-17" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-17"><div class="suite-info"><div class="suite-path">/Users/thomas.mckee/lottosyndicatemanager/server/src/controllers/__tests__/signup.test.ts</div><div class="suite-time">1.372s</div></div></label><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">signUp</div><div class="test-title">returns status code `200` if user syndicate is successfully created</div><div class="test-status">passed</div><div class="test-duration">0.006s</div></div></div></div></div></div></body></html>
