@@ -53,48 +53,118 @@ I will use the MoSCoW prioritization technique for managing the requirements, M 
 
 
 •	All users must be able to view all the syndicates they are apart of
+
+
 •	All users must be able to create lottery syndicates as a syndicate manager
+
+
 •	Players must be able to join syndicates
+
+
 •	Players must have access to all the different game types provided by the national lottery
+
+
 •	players must be able to play games and deposit money into a pot/treasury
+
+
 •	syndicate managers must be able to create games that players can join 
+
+
 •	all users must be able to enter their games and chat with other players
+
+
 •	syndicate managers must be able to enter tickets and have the cost of each ticket enter their balance
+
+
 •	all users must be able to view how much they have deposited and how much they should receive from the reward.
+
+
 
 
 ### Should have
 .•	players and big players should be able to deposit more money into a game after initial deposit
+
+
 •	big players must be able to join games with limited players, and higher necessary deposits
+
+
 •	users should be able to join and leave a syndicate
+
+
 •	a syndicate manager should be able to remove players from the syndicate
+
+
 •	a syndicate manager should be able to promote and demote players
+
+
 •	all users should be able to view a countdown, that in a real world sense would be in sync with the actual draws
+
+
 •	all users should be able to take a profile photo, for extra verification
+
+
 •	players should be able to join one of each game type in each syndicate.
+
+
 •	All users should be able to effectively use this on a mobile and a computer
+
+
 •	All users should have an easy experience navigating this application. 
+
+
 •	All users should be able to select different types of tickets for different games, for example some games have balls.
+
+
 •	All users should be able to view any archived games
+
+
 •	All users should be able to access this application from a specific domain name
+
+
 •	All the users personal data must be hashed so no one can get access to sensitive information
 
 ### Could have
 .•	players could be able to easily delete their profile
+
+
 •	Players and big players could be able to leave a game and withdraw their funds safely
+
+
 •	Players could be able to set up  a direct debit system to automatically play games with a fixed deposit weekly(standing order).
+
+
 •	Players, big players and syndicate managers could be able to become friends with other users and communicate with them on a direct message basis
+
+
 •	Syndicate managers could be able to invite other users to join a particular syndicate
+
+
 •	Big Players could be able to invite other users to play a game by generating an invite code
+
+
 •	Players could be able to deposit and withdraw up to a specific time period, then their funds would be locked in
+
+
 •	Players could be able to view other players profiles, and see what syndicates they are a part of
+
+
 
 ### Will not have
 .•	The application wont have a simulation of the actual lottery, to demonstrate what happens when the game is won  
+
+
 •	The application wont use any form of age verification to make sure people are legally buying lottery tickets 
+
+
 •	The application wont have any real money, this is because it would require permission from a bank.  
+
+
 •	The application wont have any actual way to verify the lottery tickets because it is out of scope, but ideally if the project was to be used it would need this 
+
+
 •	The application wont have real time lottery information, it will be a simulation 
+
+
 •	The application wont have a forgot password function  
 
 ```mermaid
