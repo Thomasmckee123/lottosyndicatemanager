@@ -44,8 +44,14 @@ I will use the MoSCoW prioritization technique for managing the requirements, M 
 
 ### Must have
 •	All users must be able to log in to the application
+
+
 •	All users must be able to sign up to the application as a syndicate manager
+
+
 •	All users must be able to sign up to the application as a player
+
+
 •	All users must be able to view all the syndicates they are apart of
 •	All users must be able to create lottery syndicates as a syndicate manager
 •	Players must be able to join syndicates
