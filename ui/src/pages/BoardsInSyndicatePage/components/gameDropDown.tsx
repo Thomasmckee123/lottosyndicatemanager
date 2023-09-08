@@ -40,7 +40,6 @@ import {
   fetchUserGames,
   fetchUserGamesByGameId,
 } from "../../../services/userGames";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 interface TopDrawerProps {
   title: string;
