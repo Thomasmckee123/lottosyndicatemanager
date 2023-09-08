@@ -34,186 +34,163 @@ Additional problems become evident when reviewing large syndicates like the Lott
 I will use the MoSCoW prioritization technique for managing the requirements, M - must have, S- Should have, C- Could have, W- Will not have.
 
 ### Must have
+•	All users must be able to log in to the application
+•	All users must be able to sign up to the application as a syndicate manager
+•	All users must be able to sign up to the application as a player
+•	All users must be able to view all the syndicates they are apart of
+•	All users must be able to create lottery syndicates as a syndicate manager
+•	Players must be able to join syndicates
+•	Players must have access to all the different game types provided by the national lottery
+•	players must be able to play games and deposit money into a pot/treasury
+•	syndicate managers must be able to create games that players can join 
+•	all users must be able to enter their games and chat with other players
+•	syndicate managers must be able to enter tickets and have the cost of each ticket enter their balance
+•	all users must be able to view how much they have deposited and how much they should receive from the reward.
 
-.A user must be able to log on
-
-
-.A user must be able to customise their own profile  
-
-.A user must be able to use the camera to take photos
-
-.A user must be able to create their own syndicate
-
-.A moderator must be able to make their syndicate private or public
-
-.A moderator  must be able to customise their syndicate
-
-.A moderator must be able to  invite members to their syndicate .
-
-.A user must be able to search for syndicates to join
-
-.A user must be able to request to join private syndicates
-
-.A user must be able to join public syndicates
-
-.A user must be able to communicate with other syndicate members
-
-.A member must be able to contribute towards a draw
-
-.A user must be able to join multiple syndicates
-
-.A member must contribute a limit set by the moderator
-
-.A member must be able to opt in or out of draws
-
-.A member must be able to leave a group
-
-.A user must be able to leave reviews 
-
-.A user must be able to access this application on the web or their phone
-
-.A user must be able to view any syndicate's reviews 
 
 ### Should have
-.A moderator should be able to customise their syndicate’s rules
-
-.A user must be able to receive the percentage of what they contributed to the tickets from the rewards
-
-.A user should be able to vote whether to carry on holding the winnings to buy more tickets, or receive winnings
-
-.A moderator should be able to promote users to different positions within their syndicate
-
-.A user should have access, and be able to search for live lotto results
-
-.A member must only be able to review a group, after a week, and contributing to a draw
+.•	players and big players should be able to deposit more money into a game after initial deposit
+•	big players must be able to join games with limited players, and higher necessary deposits
+•	users should be able to join and leave a syndicate
+•	a syndicate manager should be able to remove players from the syndicate
+•	a syndicate manager should be able to promote and demote players
+•	all users should be able to view a countdown, that in a real world sense would be in sync with the actual draws
+•	all users should be able to take a profile photo, for extra verification
+•	players should be able to join one of each game type in each syndicate.
+•	All users should be able to effectively use this on a mobile and a computer
+•	All users should have an easy experience navigating this application. 
+•	All users should be able to select different types of tickets for different games, for example some games have balls.
+•	All users should be able to view any archived games
+•	All users should be able to access this application from a specific domain name
+•	All the users personal data must be hashed so no one can get access to sensitive information
 
 ### Could have
-.A syndicate will record their win loss history, and total profits
-
-.A user will be able to view their win/loss history and total profits
-
-.A member could be able to enter another chat, with anyone who bought tickets
-
-.A member could be able to live stream the lottery results within that chat
-
-.A user could have to produce identification in order to verify their login details
-
-.A member could receive a copy of the lotto tickets bought
-
-.A user could download the application on their phone
-
-.A user could be able to set up automatic payments to particular draws
+.•	players could be able to easily delete their profile
+•	Players and big players could be able to leave a game and withdraw their funds safely
+•	Players could be able to set up  a direct debit system to automatically play games with a fixed deposit weekly(standing order).
+•	Players, big players and syndicate managers could be able to become friends with other users and communicate with them on a direct message basis
+•	Syndicate managers could be able to invite other users to join a particular syndicate
+•	Big Players could be able to invite other users to play a game by generating an invite code
+•	Players could be able to deposit and withdraw up to a specific time period, then their funds would be locked in
+•	Players could be able to view other players profiles, and see what syndicates they are a part of
 
 ### Will not have
-.The system won’t have it’s own payment method, it will need to use stripe
+.•	The application wont have a simulation of the actual lottery, to demonstrate what happens when the game is won  
+•	The application wont use any form of age verification to make sure people are legally buying lottery tickets 
+•	The application wont have any real money, this is because it would require permission from a bank.  
+•	The application wont have any actual way to verify the lottery tickets because it is out of scope, but ideally if the project was to be used it would need this 
+•	The application wont have real time lottery information, it will be a simulation 
+•	The application wont have a forgot password function  
 
-.The system won’t give out rewards for the groups with highest win rates
-##  domain model diagram
-erDiagram
-    Users }|--|{ Syndicate : places
-    Syndicate }|--|{ payment : requires
-    Syndicate ||--|{ draw : contains
-   Users ||--|{ payment : requires
-    Syndicate ||--|{ game : uses
-    game ||--|{ draw:contains
-    draw ||--|{ gameChat: uses
-    draw ||--|{ payment: requires
-    Syndicate ||--|{ Board: contains
-
-
-
-## ER diagram
 ```mermaid
 erDiagram
-users ||--|{ user_syndicate_reviews : ""
-users ||--|{ user_syndicates : ""
-users ||--|{ syndicates : ""
-syndicates ||--|{ user_syndicate_reviews : ""
-syndicates||--|{user_syndicates : ""
-syndicates ||--|{boards : ""
-roles ||--|{ user_syndicates : ""
-games ||--|{ game_user_syndicates_ticket: ""
-user_syndicates ||--|{ game_user_syndicates_ticket: ""
-game_user_syndicates_ticket||--|{ ticket_status: ""
-user_syndicates ||--|{ board_message: ""
-user_syndicates ||--|{ games: ""
-boards ||--|{ board_message : "" 
-
-
-
-users{
-int id PK
-string first_name 
-string last_name
-string password
-string email
-
-}
-
-user_syndicate_reviews{
-    int id PK
-    date created_date 
-    string title 
-    string content
-    int user_id FK
-    int syndicate_id FK
-
-}
-user_syndicates{
-    int id PK
-    date start_date
-    int user_id FK
-    int syndicate_id FK
-    int role_id FK
-}
-
-roles{
-    int id PK
-    string name
-}
-
-syndicates{
-    int id PK
-    date created_date
-    string name 
-    string description
-    string avatar
-    int owner_id
-}
-games{
-    int id PK
-    string name 
-    date draw_date
-    float reward
-    string required_ticket_number
-    int user_syndicate_id
+   erDiagram
+    user_types {
+        int id PK
+        varchar(255) name 
+    }
+    users {
+        int id PK
+        varchar(255) first_name
+        varchar(255) last_name
+        varchar(255) image
+        varchar(255) password
+        varchar(255) email
+        float balance
+        int user_type_id FK
+    }
+    syndicates {
+        int id PK
+        date created_date
+        varchar(255) name
+        text description
+        varchar(255) avatar
+        int owner_id FK
+    }
+    user_syndicate_reviews {
+        int id PK
+        date created_date
+        varchar(255) title
+        text content
+        int user_id FK
+        int syndicate_id FK
+    }
+    roles {
+        int id PK
+        varchar(255) name
+    }
+    user_syndicates {
+        int id PK
+        date start_date
+        int user_id FK
+        int syndicate_id FK
+        int role_id FK
+    }
+    game_types {
+        int id PK
+        varchar(255) name
+        date draw_date
+        float reward
+        varchar(255) image
+        float ticket_cost
+    }
+    games {
+        int id PK
+        float maximum_players
+        float treasury
+        int syndicate_id FK
+        int game_type_id FK
+    }
+    user_games {
+        int id PK
+        date start_date
+        float deposit
+        int role_id FK
+        int game_id FK
+        int user_id FK
+    }
+    ticket_status {
+        int id PK
+        varchar(255) name
+    }
+    game_user_game_ticket {
+        int id PK
+        varchar(255) ticket_code
+        float total_reward_value
+        int ticket_status_id FK
+        int game_id FK
+    }
+    boards {
+        int id PK
+        varchar(255) name
+        int game_id FK
+    }
+    board_message {
+        int id PK
+        text message
+        date created_date
+        int board_id FK
+        int user_game_id FK
+    }
     
-}
-game_user_syndicates_ticket{
-    int id PK
-    int ticket_code
-    float total_reward_value
-    int ticket_status_id FK
-    int user_syndicate_id FK
-    int game_id FK
-}
-boards{
-    int id PK
-    string name 
-    int syndicate_id 
-}
-board_message{
-    int id PK
-    text message
-    date created_date
-    int board_id FK
-    int user_syndicate_id FK
-}
+    user_types ||--o{ users : user_type_id
+    users ||--o{ syndicates : owner_id
+    users ||--o{ user_syndicate_reviews : user_id
+    syndicates ||--o{ user_syndicate_reviews : syndicate_id
+    users ||--o{ user_syndicates : user_id
+    syndicates ||--o{ user_syndicates : syndicate_id
+    roles ||--o{ user_syndicates : role_id
+    syndicates ||--o{ games : syndicate_id
+    game_types ||--o{ games : game_type_id
+    users ||--o{ user_games : user_id
+    games ||--o{ user_games : game_id
+    roles ||--o{ user_games : role_id
+    ticket_status ||--o{ game_user_game_ticket : ticket_status_id
+    games ||--o{ game_user_game_ticket : game_id
+    games ||--o{ boards : game_id
+    boards ||--o{ board_message : board_id
+    user_games ||--o{ board_message : user_game_id
 
-ticket_status{
-    int id PK
-    string name 
-}
 ```
 ## API design
 ### users
