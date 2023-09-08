@@ -94,7 +94,12 @@ function SyndicateContainer({ role }: { role: number }) {
                   </Button>
                 </Link>
               ) : role == 2 ? (
-                <Link to={NavigationRoutes.CREATESYNDICATE}>
+                <Link
+                  to={NavigationRoutes.CREATESYNDICATE.replace(
+                    ":ownerId",
+                    `${userId}`
+                  )}
+                >
                   <Button
                     variant="contained"
                     color="primary"
