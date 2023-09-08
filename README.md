@@ -168,7 +168,7 @@ I will use the MoSCoW prioritization technique for managing the requirements, M 
 •	The application wont have a forgot password function  
 
 
-```mermaid
+ ```mermaid
 erDiagram
    erDiagram
     user_types {
