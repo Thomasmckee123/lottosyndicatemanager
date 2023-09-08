@@ -17,7 +17,9 @@ describe("GET /users", () => {
       last_name: "Doe",
       email: "JohnDoe@Gmail.com",
       image: "image",
-      balance: 0
+      balance: 0,
+      user_types:{ id: 1,
+        name: "user",}
   
           }];
           const testResponse = [{
@@ -27,7 +29,9 @@ describe("GET /users", () => {
             lastName: "Doe",
             email: "JohnDoe@Gmail.com",
             image: "image",
-            balance: 0
+            balance: 0,
+            userTypes:{ id: 1,
+              name: "user",}
         
                 }];
       
@@ -53,15 +57,24 @@ describe("GET /users", () => {
         "email": "johnsmith@email.com",
         "image": "image",
         "balance": 0,
+        "user_types": {
+
+            "id": 1,
+            "name": "user"
+        }
+        
       }
-    const testUserResult:IUser = {
+    const testUserResult:any = {
           id: testUser?.id,
           firstName:testUser?.first_name,
           lastName:testUser?.last_name,
           password:testUser?.password,
           email:testUser?.email,
           image:testUser?.image,
-          balance:testUser?.balance
+          balance:testUser?.balance,
+          userTypes:{
+             id: testUser?.id,
+            name: "user",}
 
          }
 test("get user by id", async () => {
@@ -114,16 +127,24 @@ expect(result).toEqual(testUserResult);
         "email": "johnsmith@email.com",
         "image": "image",
         "balance": 0,
+        "user_typs:": {
+        "id": "1",
+        "name": "user"}
+      
               }];
 
-              const testUserEmailResult:IUser = {
+              const testUserEmailResult:any = {
                 id: testUseremail[0]?.id,
                 firstName:testUseremail[0]?.first_name,
                 lastName:testUseremail[0]?.last_name,
                 password:testUseremail[0]?.password,
                 email:testUseremail[0]?.email,
                 image:testUseremail[0]?.image,
-                balance:testUseremail[0]?.balance
+                balance:testUseremail[0]?.balance,
+                userTypes:{
+                    id: testUseremail[0]?.id,
+                    name: "user",}
+                
                }
 
 

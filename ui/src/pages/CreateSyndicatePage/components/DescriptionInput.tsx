@@ -10,6 +10,7 @@ interface Props {
 const DescriptionInput: React.FC<Props> = ({ value, setValue }) => {
   return (
     <Box
+      data-testid="description-input-box"
       component="form"
       sx={{
         "& .MuiTextField-root": {

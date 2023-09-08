@@ -20,37 +20,15 @@ import { NavigationRoutes } from "../../../constants";
 import TokenUtils from "../../../integrations/token";
 import { fetchUserGames } from "../../../services/userGames";
 
-const UserGames = () => {
-  const [data, setData] = useState<any[]>([]);
-  const jwt = TokenUtils.getJWT();
-  let userId = jwt?.claims?.userId;
-
-  useEffect(() => {
-    fetchUserGames(Number(userId))
-      .then((response) => {
-        setData(response);
-        return response;
-      })
-
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }, [userId]);
-
+const UserGames = ({ filteredData }: any) => {
   const [expanded, setExpanded] = useState<string | false>(false);
 
   const handleChange = (panel: string) => (event: any, isExpanded: boolean) => {
     setExpanded(isExpanded ? panel : false);
   };
-  console.log(data);
-  const filteredData = data.filter((game) => game.games.maximumPlayers < 200);
 
   return (
     <Container>
-      <Typography variant="h4" gutterBottom>
-        Your Games
-      </Typography>
-
       {filteredData.map((game: any) => (
         <Accordion
           key={game?.id}

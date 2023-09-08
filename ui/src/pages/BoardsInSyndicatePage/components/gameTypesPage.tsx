@@ -87,7 +87,10 @@ function GameTypes(currentUserRank: { currentUserRank: any }) {
   console.log(currentUserRank, "CURRENTUSERRANKKKKKKKKK");
   const greyButtonIfGameMade = async (gameTypeId: number) => {
     const response = await fetchGamesByTypeID(gameTypeId, Number(syndicateId));
-    const hasGame = response.length > 0;
+    const filteredResponse = response.filter(
+      (game) => game.maximumPlayers > 200
+    );
+    const hasGame = filteredResponse.length > 0;
     console.log(`Game Type ID: ${gameTypeId}, Has Game: ${hasGame}`);
     return hasGame;
   };
@@ -407,6 +410,7 @@ function GameTypes(currentUserRank: { currentUserRank: any }) {
                 deposit={deposit}
                 setDeposit={setDeposit}
                 handleJoinGame={handleJoinGame}
+                minDeposit={20}
               />
 
               <Card sx={{ backgroundColor: "darkGrey" }}>

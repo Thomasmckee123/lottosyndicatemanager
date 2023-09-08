@@ -14,8 +14,8 @@ import { IUser } from '../../interfaces';
 
 jest.mock("@prisma/client");  
 jest.mock("../../services/users");
-let testUser = [{}] as IUser[];
-let testUserResult = [{}] as IUser[];
+let testUser = [{}] as any[];
+let testUserResult = [{}] as any[];
 
 describe("GET /users", () => {
     test("returns status code `200` and an array of users", async () => {
@@ -24,15 +24,18 @@ describe("GET /users", () => {
           url: "/api/users/",
         });
         const response: MockResponse<Response> = createResponse();
-        testUser  = [{
+        const testUser = [{
+    
           id: 1,
-                firstName: "John",
-                lastName: "Smith",
-                password:"password",
-                email: "johnsmith@email.com",
-                image: "image",
-                balance: 0,
-              }]; 
+          first_name: "John",
+          last_name: "Doe",
+          email: "JohnDoe@Gmail.com",
+          image: "image",
+          balance: 0,
+          user_types:{ id: 1,
+            name: "user",}
+      
+              }];
                  testUserResult = [{
                   id: 1,
                         firstName: "John",
@@ -40,7 +43,10 @@ describe("GET /users", () => {
                         password:"password",
                         email: "johnsmith@email.com",
                         image: "image",
-                        balance: 0,}];
+                        balance: 0,   
+                        userTypes:{ id: 1,
+                          name: "user",}
+                    }];
         when(UserService.getAll)
           .calledWith()
           .mockReturnValueOnce(Promise.resolve(testUser) );
@@ -70,7 +76,9 @@ describe("GET /users", () => {
             "password":"password",
             "email": "JohnSmith@example.com",
              "image": "image",
-             "balance":0
+             "balance":0,
+             "userTypes":{ "id": 1,
+             " name": "user",}
           };
           when(UserService.getUserById)
             .calledWith(1)

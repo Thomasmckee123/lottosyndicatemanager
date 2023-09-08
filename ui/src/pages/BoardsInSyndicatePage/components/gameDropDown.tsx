@@ -3,17 +3,21 @@ import {
   AppBar,
   Box,
   Button,
+  Checkbox,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
   Drawer,
+  FormControlLabel,
   IconButton,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
+  Slider,
+  TextField,
   Toolbar,
   Typography,
 } from "@mui/material";
@@ -22,7 +26,7 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import { fetchGameById, fetchGamesByTypeID } from "../../../services/games";
 import CountDown from "../../../components/countdown";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { NavigationRoutes } from "../../../constants";
 import DepositDialog from "./deposit";
 import { joinGame } from "../../../services/joiningGames";
@@ -71,6 +75,9 @@ export default function GameDropDown({
   const [userGameData, setUserGameData] = useState<any[]>([]);
   const [gameDataId, setGameDataID] = useState<number>();
   const [verified, setVerified] = useState<boolean>(true);
+  const [data, setData] = useState<any[]>([]);
+  const [standingOrderOpen, setStandingOrderOpen] = useState<boolean>(false);
+  let navigate = useNavigate();
   const handleOpen = () => {
     setOpen(true);
   };
@@ -143,13 +150,12 @@ export default function GameDropDown({
       if (allGamesForType[i].users.id == userId) {
         alreadyThere = true;
       }
-      // Do something with the game object
     }
 
     const currentTreasury = await getCurrentTreasury(Number(data[0].id));
     const newTreasury = currentTreasury + Number(deposit);
-    const newBalance = Number(balance!) - Number(newTreasury);
-
+    const newBalance = Number(balance!) - Number(deposit);
+    console.log(balance, newBalance, "AAAAAAAAAAAAAAAAAAAAAAAA");
     if (newBalance > 0) {
       let response;
       if (!alreadyThere) {
@@ -163,6 +169,7 @@ export default function GameDropDown({
       await updateBalance(newBalance!);
       await updateTreasury(newTreasury, Number(data[0].id));
       await getGames();
+      navigate(0);
       return response;
     } else {
       handleOpen();
@@ -185,14 +192,30 @@ export default function GameDropDown({
   const handleDepositClose = () => {
     setDepositOpen(false);
   };
+  const handlePercentageChange = (event, newValue) => {
+    setPercentage(newValue);
+  };
 
   const handleDepositConfirm = () => {
     handleJoinGame();
     setDepositOpen(false);
   };
-  const [data, setData] = useState<any[]>([]);
+
   const handleDrawerClose = () => {
     setIsDrawerOpen(false);
+  };
+  const [directDebitOpen, setDirectDebitOpen] = useState(false);
+
+  const handleDirectDebitChange = (event) => {
+    setUseDirectDebit(event.target.checked);
+    setStandingOrderOpen(event.target.checked);
+    if (event.target.checked) {
+      setDirectDebitOpen(true);
+    }
+  };
+
+  const handleDirectDebitClose = () => {
+    setDirectDebitOpen(false);
   };
 
   useEffect(() => {
@@ -206,6 +229,9 @@ export default function GameDropDown({
       setVerified(false);
     }
   }, [roleId]);
+  const [useDirectDebit, setUseDirectDebit] = useState(false);
+  const [percentage, setPercentage] = useState(0);
+
   return (
     <>
       {/* Render your dropdown component here */}
@@ -215,6 +241,7 @@ export default function GameDropDown({
         deposit={deposit}
         setDeposit={setDeposit}
         handleJoinGame={handleDepositConfirm}
+        minDeposit={0}
       />
       <InsufficientFunds
         open={open}
@@ -230,13 +257,62 @@ export default function GameDropDown({
             aria-label="menu"
             onClick={handleDrawerOpen}
           >
-            <PlayArrowIcon />
+            <Button variant="contained" sx={{ backgroundColor: "darkred" }}>
+              Play
+            </Button>
           </IconButton>
+
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             {title}
           </Typography>
+          {!verified ? (
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={useDirectDebit}
+                  onChange={handleDirectDebitChange}
+                  name="useDirectDebit"
+                />
+              }
+              label="standing order"
+            />
+          ) : (
+            <>
+              <Typography id="percentage-slider" gutterBottom>
+                Percentage Take: {percentage}%
+              </Typography>
+              <Slider
+                sx={{ width: "20%", color: "darkred" }}
+                aria-labelledby="percentage-slider"
+                value={percentage}
+                onChange={handlePercentageChange}
+                step={1}
+                marks
+                min={0}
+                max={100}
+              />
+            </>
+          )}
         </Toolbar>
       </AppBar>
+      <Dialog open={directDebitOpen} onClose={handleDirectDebitClose}>
+        <DialogTitle>Standing order</DialogTitle>
+        <DialogContent>
+          <DialogContent>
+            <TextField
+              label="standing order"
+              variant="outlined"
+              type="number"
+              fullWidth
+              inputProps={{ min: 0 }}
+            />
+          </DialogContent>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDirectDebitClose}>Cancel</Button>
+          <Button onClick={handleDirectDebitClose}>Submit</Button>
+        </DialogActions>
+      </Dialog>
       <>
         <Drawer anchor="top" open={isDrawerOpen} onClose={handleDrawerClose}>
           {data?.length > 0 ? (
@@ -278,6 +354,7 @@ export default function GameDropDown({
                   <Button
                     variant="contained"
                     color="secondary"
+                    disabled={verified}
                     sx={{ marginRight: "1rem", backgroundColor: "darkred" }}
                   >
                     View Ticket Numbers
@@ -292,7 +369,7 @@ export default function GameDropDown({
                     .replace(":gameId", `${data[0]?.id}`)
                     .replace(":roleId", `${roleId}`)}
                   onClick={(e) => {
-                    if (verified) {
+                    if (!verified) {
                       e.preventDefault();
                     }
                   }}
@@ -309,6 +386,7 @@ export default function GameDropDown({
                 <Button
                   variant="contained"
                   color="secondary"
+                  disabled={verified}
                   sx={{ backgroundColor: "darkred" }}
                   onClick={handleDepositOpen}
                 >

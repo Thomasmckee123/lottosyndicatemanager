@@ -41,7 +41,7 @@ const generateTokens = (user) => {
         authConst.ACCESS_TOKEN_SECRET,
         {
 
-          expiresIn: 360000000000,
+          expiresIn: 3600,
 
         }
       );

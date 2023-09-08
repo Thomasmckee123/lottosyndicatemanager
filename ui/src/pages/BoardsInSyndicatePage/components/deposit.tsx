@@ -14,6 +14,7 @@ interface DepositDialogProps {
   deposit: number | null;
   setDeposit: (value: number | null) => void;
   handleJoinGame: () => void;
+  minDeposit: number;
 }
 
 const DepositDialog: React.FC<DepositDialogProps> = ({
@@ -22,6 +23,7 @@ const DepositDialog: React.FC<DepositDialogProps> = ({
   deposit,
   setDeposit,
   handleJoinGame,
+  minDeposit,
 }) => (
   <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
     <DialogTitle id="form-dialog-title">Deposit</DialogTitle>
@@ -34,8 +36,9 @@ const DepositDialog: React.FC<DepositDialogProps> = ({
         id="name"
         label="Deposit Amount"
         type="number"
-        value={deposit || ""}
+        value={deposit}
         onChange={(e) => setDeposit(Number(e.target.value))}
+        inputProps={{ min: minDeposit }}
         fullWidth
       />
     </DialogContent>

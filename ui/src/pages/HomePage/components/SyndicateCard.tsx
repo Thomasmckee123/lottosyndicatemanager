@@ -47,7 +47,13 @@ function SyndicateCard({
   };
   console.log("ROLEEEEE", role);
   return (
-    <Card sx={{ maxWidth: 345, boxShadow: "0px 0px 20px black" }}>
+    <Card
+      sx={{
+        maxWidth: 345,
+        boxShadow: "0px 0px 20px black",
+        marginBottom: "2%",
+      }}
+    >
       <StyledCardHeader
         avatar={
           role !== 2 && (
