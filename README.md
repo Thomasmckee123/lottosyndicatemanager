@@ -167,6 +167,7 @@ I will use the MoSCoW prioritization technique for managing the requirements, M 
 
 •	The application wont have a forgot password function  
 
+
 ```mermaid
 erDiagram
    erDiagram
@@ -275,8 +276,8 @@ erDiagram
     games ||--o{ boards : game_id
     boards ||--o{ board_message : board_id
     user_games ||--o{ board_message : user_game_id
-
 ```
+
 ## API design
 ### users
 #### getting all the info on all the users
