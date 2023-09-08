@@ -1,11 +1,20 @@
 # syndicate lotto manager application
 ## Overview
 
-This application serves as a manager for various lottery syndicates. It allows users to create syndicates and establish their own rules such as defining minimum and maximum contributions, setting the syndicate as public or private, outlining how funds are distributed percentage-wise, and determining the contribution cutoff date. Users also have the option to enable or disable voting within the syndicate, voting will be used for important descisions, for example keeping the winnings in a pool to buy more lotto tickets, or splitting the winnings.
+This application serves as a manager for various lottery syndicates. It allows users to log in as a lottery syndicate manager, create a syndicate, cutomise their syndicate.
+inside that syndicate the users are able to create games, and minigames.
 
-Once a user creates a syndicate, it becomes accessible for other users to join or request membership. The syndicate owner, who also acts as the moderator, retains the right to invite other users. They can also play various roles, including promoting syndicate members to higher levels of authority, further enhancing the interactive dynamics of the group, and if necessary, removing members.
+It allows users to log on as a player, search for different syndicates and deposit money into these games
 
-users of this application have the ability to join or request to join multiple syndicates, subject to the group rules. They can opt in or out of contributing to draws and decide on the amount they wish to invest in a particular draw. Rewards are then distributed according to their respective contributions.
+it allows the lottery syndicate manager to buy tickets with the pooled money in the treasury
+
+it allows the user to to take profile phots
+
+it allows the user to chat with other users involved in the syndicate
+
+there are also archived games.
+
+
 
 Key features of the application include:
 
