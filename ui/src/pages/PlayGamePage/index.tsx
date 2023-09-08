@@ -10,12 +10,14 @@ import { NavigationRoutes } from "../../constants";
 function Message() {
   const [roleId, setRoleId] = useState<number>(0);
   const { userGameId } = useParams<{ userGameId: string }>();
+
   useEffect(() => {
     fetchUserGamesByUserGameId(Number(userGameId)).then((response) => {
       console.log("RESPONSE", response);
       setRoleId(response[0].roleId);
     });
   }, [userGameId]);
+
   return (
     <>
       <Link to={NavigationRoutes.GAMEPAGE}>

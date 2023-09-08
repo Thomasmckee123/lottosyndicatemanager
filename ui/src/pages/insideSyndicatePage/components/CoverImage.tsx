@@ -107,20 +107,6 @@ function CoverImage() {
         >
           {joined ? "You have already joined" : "Request to Join"}
         </Button>
-        {joined && (
-          <Button
-            variant="contained"
-            sx={{ backgroundColor: "darkred" }}
-            color="primary"
-            component={Link}
-            to={NavigationRoutes.SYNDICATEBOARDS.replace(
-              `:syndicateId`,
-              `${syndicateId}`
-            ).replace(`:userSyndicateId`, `${userSyndicateId}`)}
-          >
-            Enter Syndicate
-          </Button>
-        )}
 
         <Link
           to={NavigationRoutes.REVIEW.replace(`:syndicateId`, `${syndicateId}`)}
