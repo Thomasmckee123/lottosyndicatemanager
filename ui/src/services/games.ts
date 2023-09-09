@@ -115,7 +115,7 @@ const archiveGame = async (gameTypeId: number) => {
     const gameData = {
       maximumPlayers: 0,
     };
-    const response = await axios.put(`games/archive/${gameTypeId}`, gameData);
+    const response = await axios.put(`games/${gameTypeId}`, gameData);
     return response.data;
   } catch (error) {
     console.error(error);
