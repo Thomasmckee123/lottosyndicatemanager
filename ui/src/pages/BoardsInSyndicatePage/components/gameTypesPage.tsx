@@ -112,6 +112,7 @@ function GameTypes(currentUserRank: { currentUserRank: any }) {
   const getUserDetails = async () => {
     const response = await fetchUserDetails(userId.toString());
     setBalanceData(response.data);
+    console.log("BALANCE DATA", response.data);
   };
   const balance = balanceData?.balance!;
   useEffect(() => {
@@ -140,7 +141,7 @@ function GameTypes(currentUserRank: { currentUserRank: any }) {
     try {
       const currentTreasury = await getCurrentTreasury(Number(gameId));
       const newTreasury = currentTreasury + Number(deposit);
-      const newBalance = balance! - newTreasury;
+      const newBalance = balance! - deposit;
 
       if (newBalance > 0) {
         let response = await joinGame(
