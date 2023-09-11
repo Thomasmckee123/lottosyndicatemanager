@@ -169,7 +169,7 @@ I will use the MoSCoW prioritization technique for managing the requirements, M 
 
 
  ```mermaid
-erDiagram
+
    erDiagram
     user_types {
         int id PK
