@@ -39,6 +39,41 @@ Timely payment from individual participants is another significant issue plaguin
 
 Additional problems become evident when reviewing large syndicates like the Lotter. Participants often express concerns about ticket security. Once you pay, the syndicate owns the ticket, leaving room for potential denials of your rightful claim.
 
+## to run locally
+enter the lottosyndicatemanager file
+
+
+type cd database 
+
+
+type the commands npm i     
+
+
+then type docker compose up
+
+new terminal 
+
+
+cd server
+
+
+npm i
+
+
+npm run start
+
+
+new terminal
+
+
+cd ui
+
+npm i
+
+npm run dev
+
+
+
 ## Requirements
 I will use the MoSCoW prioritization technique for managing the requirements, M - must have, S- Should have, C- Could have, W- Will not have.
 
