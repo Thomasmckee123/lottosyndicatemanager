@@ -6,7 +6,7 @@ import { AuthController } from '../controllers/authentication';
 const AuthenticationRouter = express.Router();
 /**
  * @swagger
- * /authenticate:
+ * /api/authenticate:
  *   post:
  *     tags: [
  *       authenticate
@@ -18,7 +18,7 @@ const AuthenticationRouter = express.Router();
  *           schema:
  *             type: object
  *             properties:
- *               email_address:
+ *               emailAddress:
  *                 type: string
  *                 required: true
  *                 description: The email address for the user

@@ -30,6 +30,7 @@ const createMessage = async (message: string, userGameId: number, boardId: numbe
     message:message,
     createdDate: new Date()
   }
+  
     const response = await axios.post(`/messages/games/${userGameId}/boards/${boardId}`, gameData);
     return response.data;
   }catch(error){

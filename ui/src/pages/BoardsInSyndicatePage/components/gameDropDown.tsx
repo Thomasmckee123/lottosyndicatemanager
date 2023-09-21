@@ -85,7 +85,7 @@ export default function GameDropDown({
     await fetchGamesByTypeID(gameTypeId, syndicateId).then((response) => {
       const filteredResponse = response.filter(
         (game) => game.maximumPlayers > 20
-      ); // <-- added closing parenthesis here
+      ); 
       setData(filteredResponse);
       setGameDataID(filteredResponse[0]?.id);
     });

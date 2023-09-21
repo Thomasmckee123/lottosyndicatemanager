@@ -117,6 +117,7 @@ function GameChat() {
 
   const handleSubmitMessage = async () => {
     if (message) {
+      
       createMessage(message, Number(userGameId), Number(boardId));
       handleGettingMessages();
     }
