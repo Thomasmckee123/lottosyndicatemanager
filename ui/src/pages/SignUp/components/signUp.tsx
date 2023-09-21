@@ -60,6 +60,7 @@ const Register = () => {
     );
     if (response != 400) {
       setOpenSuccessSnackbar(true);
+      navigate(NavigationRoutes.LOGIN);
     } else {
       setOpenErrorSnackbar(true);
     }

@@ -13,7 +13,7 @@ const signUpUser = async (firstName:string, lastName:string, email:string,passwo
 const response = await axios.post('signup',signupData)
 return response.data
     }catch(error){
-        console.error("error signing up", error)
+        return 400
     }
 } 
 
