@@ -60,6 +60,7 @@ const Register = () => {
     );
     if (response != 400) {
       setOpenSuccessSnackbar(true);
+
       navigate(NavigationRoutes.LOGIN);
     } else {
       setOpenErrorSnackbar(true);
@@ -132,7 +133,7 @@ const Register = () => {
           open={openSuccessSnackbar}
           autoHideDuration={6000}
           onClose={() => setOpenSuccessSnackbar(false)}
-          message="Successfully registered, press the sign in button to sign in"
+          message="Successfully registered, please press the signup button to sign up"
         />
         <Snackbar
           open={openErrorSnackbar}
